@@ -1,0 +1,3 @@
+displayName = Awful Garbage Mod
+author = Antibody
+version = 0.1
