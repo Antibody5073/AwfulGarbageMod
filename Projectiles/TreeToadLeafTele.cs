@@ -13,13 +13,13 @@ namespace AwfulGarbageMod.Projectiles
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Leaf"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+			// DisplayName.SetDefault("Leaf"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
 		}
 
 		public override void SetDefaults()
 		{
-            Projectile.width = 7;
-            Projectile.height = 11;
+            Projectile.width = 8;
+            Projectile.height = 8;
             Projectile.aiStyle = 1;
             Projectile.friendly = false;
             Projectile.hostile = true;
@@ -29,29 +29,35 @@ namespace AwfulGarbageMod.Projectiles
             Projectile.tileCollide = false;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Main.expertMode)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -6).RotatedBy(MathHelper.ToRadians(10)), Mod.Find<ModProjectile>("TreeToadLeafExpert").Type, 17, 0, Projectile.owner);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -6).RotatedBy(MathHelper.ToRadians(-10)), Mod.Find<ModProjectile>("TreeToadLeafExpert").Type, 17, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 5), Mod.Find<ModProjectile>("TreeToadLeafExpert").Type, 17, 0, Projectile.owner);
 
             }
             else 
             {
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 6), Mod.Find<ModProjectile>("TreeToadLeaf").Type, 17, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 5), Mod.Find<ModProjectile>("TreeToadLeaf").Type, 17, 0, Projectile.owner);
             }
+        }
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.BrokenArmor, 1800);
         }
 
         public override void AI()
         {
-            Projectile.damage = 6;
+            DrawOffsetX = -3;
+            DrawOriginOffsetY = -4;
+            Projectile.damage = 8;
             if (Main.expertMode)
             {
-                Projectile.damage = 5;
+                Projectile.damage = 7;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 4;
+                    Projectile.damage = 6;
                 }
             }
             Projectile.aiStyle = 0;

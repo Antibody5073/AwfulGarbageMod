@@ -1,5 +1,6 @@
-using AwfulGarbageMod.Items.BossSummons;
+using AwfulGarbageMod.Items.Consumables;
 using AwfulGarbageMod.NPCs.Boss;
+using AwfulGarbageMod.NPCs.Town;
 using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -32,6 +33,7 @@ namespace AwfulGarbageMod.ModIntegration
             DoBossChecklistIntegration();
 
             // We can integrate with other mods here by following the same pattern. Some modders may prefer a ModSystem for each mod they integrate with, or some other design.
+           // DoMusicDisplayIntegration();
         }
 
         private void DoCensusIntegration()
@@ -45,16 +47,20 @@ namespace AwfulGarbageMod.ModIntegration
                 return;
             }
 
-            // The "TownNPCCondition" method allows us to write out the spawn condition (which is coded via CanTownNPCSpawn), it requires an NPC type and a message
-            //  // int npcType = ModContent.NPCType<Content.NPCs.ExamplePerson>();
-
-            // The message makes use of chat tags to make the item appear directly, making it more fancy
-            // // string message = $"Have either an Example Item [i:{ModContent.ItemType<Content.Items.ExampleItem>()}] or an Example Block [i:{ModContent.ItemType<Content.Items.Placeable.ExampleBlock>()}] in your inventory";
-
-            // Finally, call the desired method
-            // // censusMod.Call("TownNPCCondition", npcType, message);
-
+            censusMod.Call("TownNPCCondition", ModContent.NPCType<HaijiSenri>(), ModContent.GetInstance<HaijiSenri>().GetLocalization("Census.SpawnCondition").WithFormatArgs());
             // Additional calls can be made here for other Town NPCs in our mod
+        }
+
+        private void DoMusicDisplayIntegration()
+        {
+            if (!ModLoader.TryGetMod("MusicDisplay", out Mod display))
+            {
+                return;
+            }
+
+            display.Call("AddMusic", (short)MusicLoader.GetMusicSlot(Mod, "Assets/Music/TreeToadTheme"), "Antibody - Nightmare of Insects", "Awful Garbage Mod");
+            display.Call("AddMusic", (short)MusicLoader.GetMusicSlot(Mod, "Assets/Music/SeseTheme"), "Antibody - Carcass and Cadaver", "Awful Garbage Mod");
+            display.Call("AddMusic", (short)MusicLoader.GetMusicSlot(Mod, "Assets/Music/EotSTheme"), "Antibody - Peering Through Clouds", "Awful Garbage Mod");
         }
 
         private void DoBossChecklistIntegration()
@@ -69,7 +75,7 @@ namespace AwfulGarbageMod.ModIntegration
 
             // For some messages, mods might not have them at release, so we need to verify when the last iteration of the method variation was first added to the mod, in this case 1.3.1
             // Usually mods either provide that information themselves in some way, or it's found on the github through commit history/blame
-            if (bossChecklistMod.Version < new Version(1, 3, 1))
+            if (bossChecklistMod.Version < new Version(1, 6))
             {
                 return;
             }
@@ -77,62 +83,170 @@ namespace AwfulGarbageMod.ModIntegration
             // The "AddBoss" method requires many parameters, defined separately below:
 
             // The name used for the title of the page
-            string bossName = "Tree Toad";
-
-            // The NPC type of the boss
-            int bossType = ModContent.NPCType<TreeToad>();
+            string internalName = "TreeToad";
 
             // Value inferred from boss progression, see the wiki for details
-            float weight = 0.1f;
+            float weight = -1f;
 
             // Used for tracking checklist progress
             Func<bool> downed = () => DownedBossSystem.downedTreeToad;
 
-            // If the boss should show up on the checklist in the first place and when (here, always)
-            Func<bool> available = () => true;
-
-            // "collectibles" like relic, trophy, mask, pet
-            List<int> collection = new List<int>()
-            {
-                //ModContent.ItemType<Content.Items.Placeable.Furniture.MinionBossRelic>(),
-                //ModContent.ItemType<Content.Pets.MinionBossPet.MinionBossPetItem>(),
-                //ModContent.ItemType<Content.Items.Placeable.Furniture.MinionBossTrophy>(),
-                //ModContent.ItemType<Content.Items.Armor.Vanity.MinionBossMask>()
-            };
+            // The NPC type of the boss
+            int bossType = ModContent.NPCType<NPCs.Boss.TreeToad>();
 
             // The item used to summon the boss with (if available)
-            int summonItem = ModContent.ItemType<InsectOnAStick>();
+            int spawnItem = ModContent.ItemType<Items.Consumables.InsectOnAStick>();
 
-            // Information for the player so he knows how to encounter the boss
-            string spawnInfo = $"Use a [i:{summonItem}] on the surface.";
-
-            // The boss does not have a custom despawn message, so we omit it
-            string despawnInfo = null;
+            // "collectibles" like relic, trophy, mask, pet
+            List<int> collectibles = new List<int>()
+            {
+                ModContent.ItemType<Items.Placeable.Boss.TreeToadRelic>(),
+                ModContent.ItemType<Items.Placeable.Boss.TreeToadTrophy>()
+            };
 
             // By default, it draws the first frame of the boss, omit if you don't need custom drawing
             // But we want to draw the bestiary texture instead, so we create the code for that to draw centered on the intended location
-            var customBossPortrait = (SpriteBatch sb, Rectangle rect, Color color) =>
-            {
-                // Texture2D texture = ModContent.Request<Texture2D>("ExampleMod/Assets/Textures/Bestiary/MinionBoss_Preview").Value;
-                // Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
-                // sb.Draw(texture, centered, color);
-            };
+           
 
             bossChecklistMod.Call(
-                "AddBoss",
+                "LogBoss",
                 Mod,
-                bossName,
-                bossType,
+                internalName,
                 weight,
                 downed,
-                available,
-                collection,
-                summonItem,
-                spawnInfo,
-                despawnInfo,
-                customBossPortrait
+                bossType,
+                new Dictionary<string, object>()
+                {
+                    ["spawnItems"] = spawnItem,
+                    ["collectibles"] = collectibles,
+                    // Other optional arguments as needed are inferred from the wiki
+                }
             );
 
+
+            internalName = "SeseKitsugai";
+
+            // Value inferred from boss progression, see the wiki for details
+            weight = 2.001f;
+
+            // Used for tracking checklist progress
+            downed = () => DownedBossSystem.downedSeseKitsugai;
+
+            // The NPC type of the boss
+            bossType = ModContent.NPCType<NPCs.Boss.SeseKitsugai>();
+
+            // The item used to summon the boss with (if available)
+            spawnItem = ModContent.ItemType<Items.Consumables.PileOfFakeBones>();
+
+            // "collectibles" like relic, trophy, mask, pet
+            collectibles = new List<int>()
+            {
+                ModContent.ItemType<Items.Placeable.Boss.SeseKitsugaiRelic>(),
+                ModContent.ItemType<Items.Placeable.Boss.SeseKitsugaiTrophy>()
+            };
+
+            // By default, it draws the first frame of the boss, omit if you don't need custom drawing
+            // But we want to draw the bestiary texture instead, so we create the code for that to draw centered on the intended location
+
+
+            bossChecklistMod.Call(
+                "LogBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                    ["spawnItems"] = spawnItem,
+                    ["collectibles"] = collectibles,
+                    // Other optional arguments as needed are inferred from the wiki
+                }
+            );
+
+
+
+            internalName = "EyeOfTheStorm";
+
+            // Value inferred from boss progression, see the wiki for details
+            weight = 3.3301f;
+
+            // Used for tracking checklist progress
+            downed = () => DownedBossSystem.downedEyeOfTheStorm;
+
+            // The NPC type of the boss
+            bossType = ModContent.NPCType<NPCs.Boss.EyeOfTheStorm>();
+
+            // The item used to summon the boss with (if available)
+            spawnItem = ModContent.ItemType<Items.Consumables.FoggyLens>();
+
+            // "collectibles" like relic, trophy, mask, pet
+            collectibles = new List<int>()
+            {
+                ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormRelic>(),
+                ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormTrophy>()
+            };
+
+            // By default, it draws the first frame of the boss, omit if you don't need custom drawing
+            // But we want to draw the bestiary texture instead, so we create the code for that to draw centered on the intended location
+
+
+            bossChecklistMod.Call(
+                "LogBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                    ["spawnItems"] = spawnItem,
+                    ["collectibles"] = collectibles,
+                    // Other optional arguments as needed are inferred from the wiki
+                }
+            );
+
+            
+
+            internalName = "Frigidius";
+
+            // Value inferred from boss progression, see the wiki for details
+            weight = 3.9999f;
+
+            // Used for tracking checklist progress
+            downed = () => DownedBossSystem.downedFrigidius;
+
+            // The NPC type of the boss
+            bossType = ModContent.NPCType<NPCs.Boss.FrigidiusHead>();
+
+            // The item used to summon the boss with (if available)
+            spawnItem = ModContent.ItemType<Items.FrigidPointer>();
+
+            // "collectibles" like relic, trophy, mask, pet
+            collectibles = new List<int>()
+            {
+                ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormRelic>(),
+                ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormTrophy>()
+            };
+
+            // By default, it draws the first frame of the boss, omit if you don't need custom drawing
+            // But we want to draw the bestiary texture instead, so we create the code for that to draw centered on the intended location
+
+
+            bossChecklistMod.Call(
+                "LogBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                    ["spawnItems"] = spawnItem,
+                    ["collectibles"] = collectibles,
+                    // Other optional arguments as needed are inferred from the wiki
+                }
+            );
             // Other bosses or additional Mod.Call can be made here.
         }
     }

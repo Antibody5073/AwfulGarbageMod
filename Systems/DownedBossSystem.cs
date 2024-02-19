@@ -15,17 +15,30 @@ namespace AwfulGarbageMod.Systems
     public class DownedBossSystem : ModSystem
     {
         public static bool downedTreeToad = false;
+        public static bool downedSeseKitsugai = false;
+        public static bool downedEyeOfTheStorm = false;
+        public static bool downedFrigidius = false;
+
+
         // public static bool downedOtherBoss = false;
 
         public override void OnWorldLoad()
         {
             downedTreeToad = false;
+            downedSeseKitsugai = false;
+            downedEyeOfTheStorm = false;
+            downedFrigidius = false;
+
             // downedOtherBoss = false;
         }
 
         public override void OnWorldUnload()
         {
-            downedTreeToad= false;
+            downedTreeToad = false;
+            downedSeseKitsugai = false;
+            downedEyeOfTheStorm = false;
+            downedFrigidius = false;
+
             // downedOtherBoss = false;
         }
 
@@ -37,7 +50,18 @@ namespace AwfulGarbageMod.Systems
             {
                 tag["downedTreeToad"] = true;
             }
-
+            if (downedSeseKitsugai)
+            {
+                tag["downedSeseKitsugai"] = true;
+            }
+            if (downedEyeOfTheStorm)
+            {
+                tag["downedEyeOfTheStorm"] = true;
+            }
+            if (downedFrigidius)
+            {
+                tag["downedFrigidius"] = true;
+            }
             // if (downedOtherBoss) {
             //	tag["downedOtherBoss"] = true;
             // }
@@ -46,6 +70,10 @@ namespace AwfulGarbageMod.Systems
         public override void LoadWorldData(TagCompound tag)
         {
             downedTreeToad = tag.ContainsKey("downedTreeToad");
+            downedSeseKitsugai = tag.ContainsKey("downedSeseKitsugai");
+            downedEyeOfTheStorm = tag.ContainsKey("downedEyeOfTheStorm");
+            downedFrigidius = tag.ContainsKey("downedFrigidius");
+
             // downedOtherBoss = tag.ContainsKey("downedOtherBoss");
         }
 
@@ -54,7 +82,10 @@ namespace AwfulGarbageMod.Systems
             // Order of operations is important and has to match that of NetReceive
             var flags = new BitsByte();
             flags[0] = downedTreeToad;
-            // flags[1] = downedOtherBoss;
+            flags[1] = downedSeseKitsugai;
+            flags[2] = downedEyeOfTheStorm;
+            flags[3] = downedFrigidius;
+            // flags[4] = downedOtherBoss;
             writer.Write(flags);
 
             /*
@@ -105,7 +136,11 @@ namespace AwfulGarbageMod.Systems
         {
             // Order of operations is important and has to match that of NetSend
             BitsByte flags = reader.ReadByte();
-            downedTreeToad = flags[0];
+            downedTreeToad = flags[0]; 
+            downedSeseKitsugai = flags[1]; 
+            downedEyeOfTheStorm = flags[2];
+            downedFrigidius = flags[3];
+
             // downedOtherBoss = flags[1];
 
             // As mentioned in NetSend, BitBytes can contain up to 8 values. If you have more, be sure to read the additional data:

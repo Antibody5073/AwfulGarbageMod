@@ -1,1 +1,40 @@
-Awful Garbage Mod is a mod I have created to just add whatever I wanted. It is the first Terraria mod I have ever created.
+[b]This mod does not support multiplayer[/b]
+This mod also adds a structure and some ore, so a new world is recommended (though you can manually generate them on the spot using an item if needed)
+
+Awful Garbage Mod is a mod I have created to just add whatever I want into Terraria, it is also the first Terraria mod I have ever created. While I have "plans" for the mod, they mostly just exist so I feel like I am making progress.
+
+Currently adds 260+ items and 10 NPCs, mostly in pre-Hardmode. This includes: 
+121 weapons
+A new type of magic weapon, Scepters, which create orbital projectiles that grant buffs while orbiting. Taking damage releases all orbiting projectiles.
+10 tools
+9 armor sets + 1 helmet for a vanilla set
+78 accessories
+
+4 bosses + 1 boss minion
+4 enemies
+1 town NPC
+
+This mod balance changes a few vanilla items, this can be managed in the configs
+
+Has support/cross mod content for:
+Boss Checklist
+Census
+Stram's Classes (This includes: 1 armor set, 9 weapons)
+
+Coders: 
+Antibody
+
+Spriters: 
+Kevimipenem
+
+Music: 
+Antibody
+JynX(For making the original music for the Len'en bosses, the music for those bosses in this mod are remixes)
+
+Other:
+This mod has a lot of Len'en related content, especially Len'en 3: Reactivate majestical imperial
+Some items in this mod are from the game Necesse
+Some items are Touhou references
+Some items are Marble Siege references
+
+Join the discord server: https://discord.gg/KAQqJe5v9F

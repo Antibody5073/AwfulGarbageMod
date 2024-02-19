@@ -13,7 +13,7 @@ namespace AwfulGarbageMod.Projectiles
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Water Stream"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+			// DisplayName.SetDefault("Water Stream"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
 		}
 
 		public override void SetDefaults()
@@ -23,6 +23,9 @@ namespace AwfulGarbageMod.Projectiles
 			Projectile.friendly = true;
 			Projectile.penetrate = 5;
 			Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+
         }
 
         public override void AI()

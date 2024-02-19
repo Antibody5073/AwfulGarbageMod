@@ -14,8 +14,8 @@ namespace AwfulGarbageMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bone Skewer Bleed"); // Buff display name
-            Description.SetDefault("Losing life"); // Buff description
+            // DisplayName.SetDefault("Bone Skewer Bleed"); // Buff display name
+            // Description.SetDefault("Losing life"); // Buff description
             Main.debuff[Type] = true;
         }
 

@@ -1,0 +1,3061 @@
+Mods: {
+	AwfulGarbageMod: {
+		DamageClasses: {
+			KnifeDamageClass.DisplayName: ranged (knife) damage
+			ScepterDamageClass.DisplayName: magic (scepter) damage
+			FlailDamageClass.DisplayName: melee (flail) damage
+		}
+
+		Keybinds.ArmorSetAbility.DisplayName: Armor Set Ability
+
+		Buffs: {
+			BoneSkewerBleed: {
+				DisplayName: Bone Skewer Bleed
+				Description: Losing life
+			}
+
+			CloudChainBuff: {
+				DisplayName: Mods.AwfulGarbageMod.BuffName.CloudChainBuff
+				Description: Mods.AwfulGarbageMod.BuffDescription.CloudChainBuff
+			}
+
+			MeteorGeodeCooldown: {
+				DisplayName: Meteor Geode Cooldown
+				Description: Can't summon meteors from the sky
+			}
+
+			RottingMinionBuff: {
+				DisplayName: Consumed
+				Description: Reduced defense by 3, take 8% more damage
+			}
+
+			ScorpionTailBuff: {
+				DisplayName: Mods.AwfulGarbageMod.BuffName.ScorpionTailBuff
+				Description: Mods.AwfulGarbageMod.BuffDescription.ScorpionTailBuff
+			}
+
+			ThundercrackBuff: {
+				DisplayName: Mods.AwfulGarbageMod.BuffName.ThundercrackBuff
+				Description: Mods.AwfulGarbageMod.BuffDescription.ThundercrackBuff
+			}
+
+			ToadsTongueBuff: {
+				DisplayName: Mods.AwfulGarbageMod.BuffName.ToadsTongueBuff
+				Description: Mods.AwfulGarbageMod.BuffDescription.ToadsTongueBuff
+			}
+
+			VeinCooldown: {
+				DisplayName: Vein Armor Set Bonus Cooldown
+				Description: Can't burst blood from enemies
+			}
+
+			LeafScepterBuff: {
+				DisplayName: Leaves
+				Description: Orbiting leaves
+			}
+
+			OcularScepterBuff: {
+				DisplayName: Servant of Cthulhu
+				Description: Orbiting servants of Cthulhu
+			}
+
+			SlimeScepterBuff: {
+				DisplayName: Slimeballs
+				Description: Orbiting slimeballs
+			}
+
+			VitalScepterBuff: {
+				DisplayName: Life Crystals
+				Description: Orbiting life crystals
+			}
+
+			CloudBangasaMinionBuff: {
+				DisplayName: Cloud Bangasa
+				Description: '''"And I'm e~ver so... uh, unhappy...?"'''
+			}
+
+			HammerOfClayMinionBuff: {
+				DisplayName: Doguu Warrior
+				Description: '''"Attack Haniwa"'''
+			}
+
+			PileOfActualBonesMinionBuff: {
+				DisplayName: Sese Kitsugai
+				Description: '''"Yep, they're still ignoring me..."'''
+			}
+
+			SatelliteParasolMinionBuff: {
+				DisplayName: Satellite Parasol
+				Description: '''"Wait, you really want to fight? You won't run? Uh, wait-"'''
+			}
+
+			ChirumiruBuff: {
+				DisplayName: The Chirumiru Effect
+				Description: Your brain is expanding!
+				DeathMessage: "{0}'s brain expanded too much."
+			}
+
+			CactusShellCooldown: {
+				DisplayName: Cactus Shell Cooldown
+				Description: Can't shoot cactus spines
+			}
+
+			AsteroidBeltBuff: {
+				DisplayName: Asteroid Belt Buff
+				Description: Orbiting asteroids
+			}
+
+			CursedCandleStaffMinionBuff: {
+				DisplayName: Water Candle Minion
+				Description: Water candles float above your head
+			}
+
+			WaterflameBuff: {
+				DisplayName: Waterflame Buff
+				Description: Burning wet
+			}
+
+			FlareScepterBuff: {
+				DisplayName: Flare Scepter Buff
+				Description: Orbiting flares
+			}
+
+			UnholyStaffMinionBuff: {
+				DisplayName: Demon Minion
+				Description: The demon will fight for you
+			}
+
+			EyeLasherBuff: {
+				DisplayName: Eye Lasher Buff
+				Description: Mods.AwfulGarbageMod.Buffs.EyeLasherBuff.Description
+			}
+
+			StrawberryJamBuff: {
+				DisplayName: Strawberry Jam Buff
+				Description: Massively increased life regeneration
+			}
+
+			MyceliumBuff: {
+				DisplayName: Mycelium Buff
+				Description: Mods.AwfulGarbageMod.Buffs.MyceliumBuff.Description
+			}
+
+			EmeraldDefenseBuff: {
+				DisplayName: Emerald Defense Buff
+				Description: Mods.AwfulGarbageMod.Buffs.EmeraldDefenseBuff.Description
+			}
+
+			ScepterCapacityBuff: {
+				DisplayName: Scepter Capacity Buff
+				Description: All scepters have 1 extra maximum projectile
+			}
+
+			ArmorAbilityCooldown: {
+				DisplayName: Armor Ability Cooldown
+				Description: Can not use armor abilities
+			}
+
+			HarujionPetalBuff: {
+				SpiritEnergy: Spirit Energy: {0}/{1}
+				DisplayName: Harujion Petal
+				Description: Mods.AwfulGarbageMod.Buffs.HarujionPetalBuff.Description
+			}
+
+			ReachBuff: {
+				DisplayName: Reach Buff
+				Description: Block placement range, tool range, and item grab range increased
+			}
+
+			ThundercrackBuff2: {
+				DisplayName: Thundercrack Buff2
+				Description: Mods.AwfulGarbageMod.Buffs.ThundercrackBuff2.Description
+			}
+
+			NecroscepterBuff: {
+				DisplayName: Necroscepter Buff
+				Description: Orbiting skulls
+			}
+
+			GoldenChainBuff: {
+				DisplayName: Golden Chain Buff
+				Description: Mods.AwfulGarbageMod.Buffs.GoldenChainBuff.Description
+			}
+
+			FrigidArmorBuff2: {
+				DmgAmt: Melee damage is increased by {0}%
+				DisplayName: Absorbed Ice Chunks
+				Description: ok
+			}
+
+			FrigidArmorBuff1: {
+				DisplayName: Ice Protection
+				Description: ok
+				DmgResAmt: Reduces damage taken by {0}%
+			}
+
+			NonMagicBuff1: {
+				DisplayName: Non-Magic Damage Bonus
+				Description: Increases non-magic damage by 10%
+			}
+
+			NonMeleeBuff1: {
+				DisplayName: Non-Melee Damage Bonus
+				Description: Increases non-melee damage by 10%
+			}
+
+			NonRangedBuff1: {
+				DisplayName: Non-Ranged Damage Bonus
+				Description: Increases non-ranged damage by 10%
+			}
+
+			NonSummonBuff1: {
+				DisplayName: Non-Summon Damage Bonus
+				Description: Increases non-summon damage by 10%
+			}
+
+			BloodChainBuff: {
+				DisplayName: Blood Chain Buff
+				Description: Mods.AwfulGarbageMod.Buffs.BloodChainBuff.Description
+			}
+
+			SwarmScepterBuff: {
+				DisplayName: Swarm Scepter Buff
+				Description: Orbiting bees
+			}
+
+			SanguineRegenerationBuff: {
+				DisplayName: Sanguine Regeneration Buff
+				Description: Increased life and mana regeneration
+			}
+
+			EgestedPoisonBuff: {
+				DisplayName: Egested Poison Buff
+				Description: Mods.AwfulGarbageMod.Buffs.EgestedPoisonBuff.Description
+			}
+
+			NonRogueBuff1: {
+				DisplayName: Non Rogue Buff
+				Description: Increases non-rogue damage by 10%
+			}
+
+			AridSpeedBuff: {
+				DisplayName: Arid Speed Buff
+				Description: 35% increased movement speed and friction
+			}
+
+			SnowScepterBuff: {
+				DisplayName: Snow Scepter Buff
+				Description: Mods.AwfulGarbageMod.Buffs.SnowScepterBuff.Description
+			}
+
+			StoneScepterBuff: {
+				DisplayName: Stone Scepter Buff
+				Description: Mods.AwfulGarbageMod.Buffs.StoneScepterBuff.Description
+			}
+
+			ViciousScepterBuff: {
+				DisplayName: Vicious Scepter Buff
+				Description: Mods.AwfulGarbageMod.Buffs.ViciousScepterBuff.Description
+			}
+
+			VileScepterBuff: {
+				DisplayName: Vile Scepter Buff
+				Description: Mods.AwfulGarbageMod.Buffs.VileScepterBuff.Description
+			}
+		}
+
+		Projectiles: {
+			StormLightningProj.DisplayName: Lightning
+			AcornStaffProj.DisplayName: Acorn
+			CloudBlasterProj.DisplayName: Cloud
+			CloudBlasterRain.DisplayName: Rain
+			CloudstrikeProj.DisplayName: Wind
+			GreatBiteProj.DisplayName: Tooth
+			LeafScepterOrbit.DisplayName: Leaf
+			LeafScepterProj.DisplayName: Leaf
+			NaturalSpellProj.DisplayName: Leaf
+			OcularScepterOrbit.DisplayName: Servant of Cthulhu
+			OcularScepterProj.DisplayName: Servant of Cthulhu
+			PerfectFreezeProj.DisplayName: Perfect Freeeeeeeeeeeeeeeeeeeeze
+			ShatterTomeProj.DisplayName: Icicle
+			ShatterTomeSplit.DisplayName: Shard
+			ShellProj.DisplayName: Shell Shard
+			SlimeScepterOrbit.DisplayName: Slimeball
+			SlimeScepterProj.DisplayName: Slimeball
+			SprinklerProj.DisplayName: Water
+			StarkickerProj.DisplayName: Stardust
+			StormForecastProj.DisplayName: Lightning
+			StormSpellProj.DisplayName: Lightning
+			SylvanTomeProj.DisplayName: Leaf
+			ToothpickTomeProj.DisplayName: Bone Toothpick
+			VitalScepterOrbit.DisplayName: Life Crystal
+			VitalScepterProj.DisplayName: Life Crystal
+			BackboneProj.DisplayName: Bone Shard
+			BlingStringProj.DisplayName: Bling String Proj
+			BoneSkewerProj.DisplayName: Bone Skewer
+			CirrusProj.DisplayName: Cirrus Proj
+			CloudCleaverProj.DisplayName: Shockwave
+			DarkStarProj.DisplayName: Dark Star
+			HellslashExplosion.DisplayName: Fireball
+			HellslashProj.DisplayName: Fireball
+			IceSpiritPikeProj.DisplayName: Ice Spirit Pike
+			IceSpiritPikeSpiritProj.DisplayName: Spirit
+			InfernalBladeExplosion.DisplayName: Fireball
+			InfernalBladeProj.DisplayName: Fireball
+			LeafBladeProj.DisplayName: Leaf
+			OrganicGreatswordProj.DisplayName: Leaf
+			SkysBaneProj.DisplayName: Shockwave
+			SunshineProj.DisplayName: Sunshine
+			SunshineSpearProj.DisplayName: Sunshine Spear
+			TheEyeOfTheStormProj.DisplayName: The Eye Of The Storm
+			TheEyeOfTheStormProjLightning.DisplayName: Lightning
+			TsunamiThrowProj.DisplayName: Tsunami Throw
+			BlinkrootBowProj.DisplayName: Blinkroot Arrow
+			CactusBowProj.DisplayName: Cactus Spine
+			FossilFirearmProj.DisplayName: Fossil Bullet
+			FrostBowShard.DisplayName: Shard
+			GlockSlime.DisplayName: Glock Slime
+			GlockSplatter.DisplayName: Glock Slime
+			HeavenlyBurstDummy.DisplayName: a
+			IlluminantRifleProj.DisplayName: Bullet
+			LightningBurstDummy.DisplayName: a
+			LightningBurstProj.DisplayName: Electric Arrow
+			SlimeSplatterSharkSlime.DisplayName: Slime
+			SlimeSplatterSharkSplatter.DisplayName: Slime
+			SlimyKnivesProj.DisplayName: Slimy Knife
+			SporeBowProj.DisplayName: Spore Arrow
+			SporeBowSpore.DisplayName: Mushroom Spore
+			CloudBangasaMinion.DisplayName: Cloud Bangasa Minion
+			CloudBangasaProj.DisplayName: Rain
+			CloudChainProj.DisplayName: Cloud Chain Proj
+			HammerOfClayMinion.DisplayName: Hammer Of Clay Minion
+			PileOfActualBonesMinion.DisplayName: Pile Of Actual Bones Minion
+			PileOfActualBonesProjectile.DisplayName: Crossbone
+			SatelliteParasolMinion.DisplayName: Satellite Parasol Minion
+			SatelliteParasolProj.DisplayName: Snow
+			ScorpionTailProj.DisplayName: Scorpion Tail Proj
+			ThundercrackProj.DisplayName: Thundercrack Proj
+			ToadsTongueProj.DisplayName: Toads Tongue Proj
+			CarcassCadaverHitbox.DisplayName: CarcassCadaverHitbox
+			CarcassCadaverProj.DisplayName: CarcassCadaverProj
+			CarcassCadaverVisual.DisplayName: bruh
+			EoTSCloud1.DisplayName: Cloud
+			EoTSCloud2.DisplayName: Cloud
+			EoTSLightningStrike.DisplayName: Lightning
+			EoTSLightningTele.DisplayName: Laser
+			EoTSSnow.DisplayName: Snow
+			EoTSWallCloud.DisplayName: Cloud
+			EoTSWall.DisplayName: Lightning Wall
+			EoTSWater1.DisplayName: Water
+			EoTSWater2.DisplayName: Water
+			GeodeMeteor.DisplayName: Blood
+			IceSpiritBeam.DisplayName: Ice Beam
+			IceSpiritTelegraph.DisplayName: Telegraph
+			NecropotenceProj.DisplayName: Bone Toothpick
+			RottingMinion.DisplayName: Rotting Minion
+			SeseBoneProj.DisplayName: Bone
+			SeseBoneProj2.DisplayName: Bone
+			SeseBoneProjVisual.DisplayName: Bone
+			SeseBulletProj.DisplayName: Danmaku
+			SeseNonGravProj.DisplayName: Danmaku
+			SeseSpinProj.DisplayName: Danmaku
+			SeseWallProj.DisplayName: Bone Wall
+			SeseWallProjVisual.DisplayName: bruh
+			ThundercrackLightning.DisplayName: Lightning
+			TreeToadLeaf.DisplayName: Leaf
+			TreeToadLeafExpert.DisplayName: Leaf
+			TreeToadLeafGrav.DisplayName: Leaf
+			TreeToadLeafTele.DisplayName: Leaf
+			TreeToadTelegraph.DisplayName: Telegraph
+			VeinBlood.DisplayName: Blood
+			WaterStreamMelee.DisplayName: Water Stream
+			WaterStreamRanged.DisplayName: Water Stream
+			PoisonPelletProj.DisplayName: Poison Pellet
+			TreeToadOrb.DisplayName: Tree Toad Orb
+			TreeToadOrbTele.DisplayName: lol how did you die to this
+			SpiritPelletProj.DisplayName: Spirit Pellet
+			PhloemProj.DisplayName: Phloem Proj
+			VilespitCannonProj.DisplayName: Vile Spit
+			NeuralMessengerProj.DisplayName: Neural Arrow
+			BloodBoltProj.DisplayName: Blood Bolt
+			CactusShellProj.DisplayName: Cactus Spine
+			TyphoonThrowProj.DisplayName: Typhoon Throw
+			AquathreaderProj.DisplayName: Aquathreader
+			ScaleShardStormProj.DisplayName: Scale Shard Storm
+			TissueStormProj.DisplayName: Tissue Storm
+			RudhiraProj.DisplayName: Blood Arrow
+			AsteroidBeltOrbit.DisplayName: Asteroid Belt Orbit
+			AsteroidBeltProj.DisplayName: Asteroid Belt Proj
+			FrigidPointerProj.DisplayName: Frigid Pointer Proj
+			BagOfFrozenKnivesProj.DisplayName: Bag Of Frozen Knives Proj
+			BagOfPoisonedKnivesProj.DisplayName: Bag Of Poisoned Knives Proj
+			BagOfFrozenPoisonedKnivesProj.DisplayName: Bag Of Frozen Poisoned Knives Proj
+			FractureKnifeProj.DisplayName: Fracture Knife Proj
+			CursedCandleStaffMinion.DisplayName: Cursed Candle Staff Minion
+			CursedCandleStaffProj.DisplayName: Cursed Candle Staff Proj
+			SunbladesProj.DisplayName: Sunblades Proj
+			FlareScepterOrbit.DisplayName: Flare Scepter Orbit
+			FlareScepterProj.DisplayName: Flare Scepter Proj
+			UnholyStaffMinion.DisplayName: Unholy Staff Minion
+			UnholyStaffProj.DisplayName: Unholy Staff Proj
+			HeatTippedToothpickTomeProj.DisplayName: Heat Tipped Toothpick Tome Proj
+			SandkickerProj.DisplayName: Sandkicker Proj
+			EyeLasherProj.DisplayName: Eye Lasher Proj
+			ImperceptibleProj.DisplayName: Imperceptible Proj
+			MyceliumProj.DisplayName: Mycelium Proj
+			AmethystGemcornStaffProj.DisplayName: Amethyst Gemcorn Staff Proj
+			TopazGemcornStaffProj.DisplayName: Topaz Gemcorn Staff Proj
+			TopazGemcornStaffProj2.DisplayName: Topaz Gemcorn Staff Proj2
+			EmeraldGemcornStaffProj.DisplayName: Emerald Gemcorn Staff Proj
+			SapphireGemcornStaffProj.DisplayName: Sapphire Gemcorn Staff Proj
+			AmberGemcornStaffProj.DisplayName: Amber Gemcorn Staff Proj
+			RubyGemcornStaffProj.DisplayName: Ruby Gemcorn Staff Proj
+			RubyGemcornStaffProj2.DisplayName: Ruby Gemcorn Staff Proj2
+			DiamondGemcornStaffProj.DisplayName: Diamond Gemcorn Staff Proj
+			GeodeGemcornStaffProj.DisplayName: Geode Gemcorn Staff Proj
+			FrigidiumSpearProj.DisplayName: Frigidium Spear Proj
+			FrigidiumSpearProj2.DisplayName: Frigidium Spear Proj2
+			HarujionLocatorProj.DisplayName: Harujion Locator Proj
+			TrashSlashProj.DisplayName: Trash Slash Proj
+			RecyclerProj.DisplayName: Recycler Proj
+			IceBolt.DisplayName: Ice Bolt
+			IceShardFrigidius.DisplayName: Ice Shard Frigidius
+			IceSpiritFrigidius.DisplayName: Ice Spirit Frigidius
+			EruptionProj.DisplayName: Eruption Proj
+			ShiningKnivesProj.DisplayName: Shining Knives Proj
+			HoneycombKnivesProj.DisplayName: Honeycomb Knives Proj
+			BloodyJawsProj.DisplayName: Bloody Jaws Proj
+			WormBiteProj.DisplayName: Worm Bite Proj
+			NecroscepterOrbit.DisplayName: Necroscepter Orbit
+			NecroscepterProj.DisplayName: Necroscepter Proj
+			GoldenChainProj.DisplayName: Golden Chain Proj
+			FrigidArrowProj.DisplayName: Frigid Arrow Proj
+			FrigidArrowProj2.DisplayName: Frigid Arrow Proj2
+			FrigidiumArmorProj.DisplayName: Frigidium Armor Proj
+			IceShardFrigidiusTelegraph.DisplayName: Ice Shard Frigidius Telegraph
+			FrigidiumKnivesProj.DisplayName: Frigidium Knives Proj
+			FrostFlareBoomerangProjIcicle.DisplayName: Frost Flare Boomerang Proj Icicle
+			FrostFlareBoomerangProjFlame.DisplayName: Frost Flare Boomerang Proj Flame
+			FrostFlareBoomerangProj.DisplayName: Frost Flare Boomerang Proj
+			SweetBeatdownProj.DisplayName: Sweet Beatdown Proj
+			SweetBeatdownProj2.DisplayName: Sweet Beatdown Proj2
+			BloodChainProj.DisplayName: Blood Chain Proj
+			SwarmScepterOrbit.DisplayName: Swarm Scepter Orbit
+			Sunblades2Proj.DisplayName: Sunblades2 Proj
+			FractureKnife2Proj.DisplayName: Fracture Knife2 Proj
+			Imperceptible2Proj.DisplayName: Imperceptible2 Proj
+			TreeChopperProj.DisplayName: Tree Chopper Proj
+			TreeChopperProj2.DisplayName: Tree Chopper Proj2
+			SkeletossProj.DisplayName: Skeletoss Proj
+			SkyDaggerProj.DisplayName: Sky Dagger Proj
+			SkyDaggerProj2.DisplayName: Sky Dagger Proj2
+			StormDaggerProj.DisplayName: Storm Dagger Proj
+			StormDaggerProj2.DisplayName: Storm Dagger Proj2
+			DaggerOfEgestedPoisonProj.DisplayName: Dagger Of Egested Poison Proj
+			FrigidJavelinProj.DisplayName: Frigid Javelin Proj
+			FrigidJavelinProj2.DisplayName: Frigid Javelin Proj2
+			GlacialEyeProj.DisplayName: Glacial Eye Proj
+			CryoCleaverProj.DisplayName: Cryo Cleaver Proj
+			CryoCleaverProj2.DisplayName: Cryo Cleaver Proj2
+			ChaosFlameProj.DisplayName: Chaos Flame Proj
+			PyrochainProj.DisplayName: Pyrochain Proj
+			PyrochainProjHitbox.DisplayName: Pyrochain Proj Hitbox
+			SlimyFlailProj.DisplayName: Slimy Flail Proj
+			GrassBasherProj.DisplayName: Grass Basher Proj
+			DoubleWhammyProj.DisplayName: Double Whammy Proj
+			IcebreakerProj.DisplayName: Icebreaker Proj
+			ShadeVortexProj.DisplayName: Shade Vortex Proj
+			ShadeVortexProj2.DisplayName: Shade Vortex Proj2
+			TetheredEyeProj.DisplayName: Tethered Eye Proj
+			ShootingStarProj.DisplayName: Shooting Star Proj
+			HostileBoHProj.DisplayName: Hostile Bo H Proj
+			VilethornSpawner.DisplayName: Vilethorn Spawner
+			VilethornHostileBase.DisplayName: Vilethorn Hostile Base
+			VilethornHostileTip.DisplayName: Vilethorn Hostile Tip
+			BucketOfTrashProj.DisplayName: Bucket Of Trash Proj
+			HostileForkProj.DisplayName: Hostile Fork Proj
+			CrimsonRodHostileCloud.DisplayName: Crimson Rod Hostile Cloud
+			CrimsonRodHostileProjectile.DisplayName: Crimson Rod Hostile Projectile
+			TsugumiSpinProj.DisplayName: Tsugumi Spin Proj
+			TsugumiGravProj.DisplayName: Tsugumi Grav Proj
+			TsugumiOrbitProj.DisplayName: Tsugumi Orbit Proj
+			TsugumiAccelProj.DisplayName: Tsugumi Accel Proj
+			TsugumiRangeProj.DisplayName: Tsugumi Range Proj
+			TsugumiGroundProj.DisplayName: Tsugumi Ground Proj
+			BarbedWireFlailProj.DisplayName: Barbed Wire Flail Proj
+			BarbedWireFlailProjHitbox.DisplayName: Barbed Wire Flail Proj Hitbox
+			SigilOfShadowsSporeProj.DisplayName: Sigil Of Shadows Spore Proj
+			KitchenKnifeProj.DisplayName: Kitchen Knife Proj
+			Anatomy101Proj.DisplayName: Anatomy101 Proj
+			SnowScepterOrbit.DisplayName: Snow Scepter Orbit
+			SnowScepterProj.DisplayName: Snow Scepter Proj
+			StoneScepterOrbit.DisplayName: Stone Scepter Orbit
+			StoneScepterProj.DisplayName: Stone Scepter Proj
+			ViciousScepterOrbit.DisplayName: Vicious Scepter Orbit
+			ViciousScepterProj.DisplayName: Vicious Scepter Proj
+			VileScepterOrbit.DisplayName: Vile Scepter Orbit
+			VileScepterProj.DisplayName: Vile Scepter Proj
+			DiamondCuttersProj.DisplayName: Diamond Cutters Proj
+			ThiefsKnifeProj.DisplayName: Thiefs Knife Proj
+			BloodstainedKnifeProj.DisplayName: Bloodstained Knife Proj
+			BloodstainedKnifeProj2.DisplayName: Bloodstained Knife Proj2
+			CobaltKnivesProj.DisplayName: Cobalt Knives Proj
+			PalladiumKnivesProj.DisplayName: Palladium Knives Proj
+			PalladiumKnivesProjDummy.DisplayName: Palladium Knives Proj Dummy
+		}
+
+		Items: {
+			BioluminescentCharm: {
+				DisplayName: Mushroom Charm
+				Tooltip:
+					'''
+					8% increased movement speed
+					Melee crits deal 10 more damage
+					'''
+			}
+
+			BottledAmalgamationOfMushrooms: {
+				DisplayName: Amalgamation of Mushrooms
+				Tooltip:
+					'''
+					50 increased maximum life and mana
+					15% increased max movement speed and acceleration
+					'''
+			}
+
+			CloudRelic: {
+				DisplayName: Cloud Relic
+				Tooltip: 5% increased summon damage and movement speed
+			}
+
+			ContactLens: {
+				DisplayName: Contact Lens
+				Tooltip:
+					'''
+					15% increased critical strike damage
+					This means that critical strikes deal 215% of the original damage instead of 200%
+					'''
+				StramEffect: Rogue weapons gain 7.5% critical strike damage instead
+			}
+
+			CorruptedPendant: {
+				DisplayName: Corrupted Pendant
+				Tooltip:
+					'''
+					15% increased ranged velocity
+					2% increased ranged crit chance
+					Ranged crits have a 20% chance to inflict cursed flame
+					'''
+			}
+
+			CrimsonPendant: {
+				DisplayName: Crimson Pendant
+				Tooltip:
+					'''
+					15% increased ranged velocity
+					2% increased ranged crit chance
+					Ranged crits have a 20% chance to inflict ichor
+					'''
+			}
+
+			DualismRing: {
+				DisplayName: Dualism Ring
+				Tooltip:
+					'''
+					16% increased magic damage when not moving horizontally
+					21% reduced mana cost when not moving vertically
+					3% increased magic crit chance
+					"Aside from the pepperoni-pizza smell, it's perfect!"
+					'''
+			}
+
+			FeatherPendant: {
+				DisplayName: Feather Pendant
+				Tooltip:
+					'''
+					20% increased ranged velocity
+					3% increased ranged crit chance
+					'''
+			}
+
+			GlowingMushroomFlask: {
+				DisplayName: Glowing Mushroom Flask
+				Tooltip: 50 increased max mana
+			}
+
+			IceCrystalGeode: {
+				DisplayName: Ice Crystal Geode
+				Tooltip:
+					'''
+					2 defense
+					Melee damage has a low chance to inflict Frostburn
+					'''
+			}
+
+			IceCrystalRing: {
+				DisplayName: Ice Crystal Ring
+				Tooltip:
+					'''
+					25% reduced mana cost when not moving vertically
+					2% increased magic crit chance
+					'''
+			}
+
+			LightningRing: {
+				DisplayName: Lightning Ring
+				Tooltip:
+					'''
+					Mana potions are automatically consumed
+					Disable visibility to disable auto-drinking mana potions
+					Mana sickness wears off twice as fast
+					Drinking a mana potion will electrify you for two seconds
+					Mana potions restore 20% more mana
+					5% reduced mana usage
+					'''
+			}
+
+			MagmastoneRing: {
+				DisplayName: Magmastone Ring
+				Tooltip:
+					'''
+					20% increased magic damage when not moving horizontally
+					2% increased magic crit chance
+					'''
+			}
+
+			MandibleGlove: {
+				DisplayName: Mandible Gauntlet
+				Tooltip:
+					'''
+					1 defense
+					8% increased melee speed
+					'''
+			}
+
+			MeatShield: {
+				DisplayName: Meat Shield
+				Tooltip:
+					'''
+					2 defense
+					Increases health healed by potions the lower your health, up to a max of 30% extra health below 15% health
+					'''
+			}
+
+			MeteoriteGeode: {
+				DisplayName: Meteorite Geode
+				Tooltip:
+					'''
+					Melee damage summons a small meteor chunk from the sky
+					Meteors summoned by sword strikes deal 25% more damage
+					Has a two second cooldown
+					'''
+			}
+
+			MushroomFlask: {
+				DisplayName: Mushroom Flask
+				Tooltip: 50 increased max HP
+			}
+
+			MyceliumGauntlet: {
+				DisplayName: Mycelium Gauntlet
+				Tooltip:
+					'''
+					1 defense
+					16% increased melee speed
+					6% increased movement speed
+					Melee crits deal 8 more damage
+					'''
+			}
+
+			NecroAegis: {
+				DisplayName: Necro Aegis
+				Tooltip:
+					'''
+					79 damage
+					8 defense
+					Increases defense the lower your health, up to a max of 20 defense below 30% health
+					Increases health healed by potions the lower your health, up to a max of 30% extra health below 15% health
+					Grants immunity to knockback, most debuffs, and fire blocks
+					Increases life regeneration
+					Taking damage causes you to release powerful bone toothpicks
+					"You're a bad guy! The Pelvis of Justice, Sese, shall punish you!"
+					'''
+			}
+
+			Necropotence: {
+				DisplayName: Necropotence
+				Tooltip:
+					'''
+					34 damage
+					3 defense
+					Taking damage causes you to release bone toothpicks
+					Stacking with its' upgrades increases toothpick damage
+					"Argh, fine! I'll hit you with this and turn you into a couple of cremated reliquaries!"
+					'''
+			}
+
+			ObsidianMeatShield: {
+				DisplayName: Obsidian Meat Shield
+				Tooltip:
+					'''
+					3 defense
+					Increases health healed by potions the lower your health, up to a max of 30% extra health below 15% health
+					Grants immunity to knockback and fire blocks
+					Increases life regen
+					'''
+			}
+
+			ObsidianShadeShield: {
+				DisplayName: Obsidian Shade Shield
+				Tooltip:
+					'''
+					4 defense
+					Increases defense the lower your health, up to a max of 15 defense below 30% health
+					Grants immunity to knockback and fire blocks
+					Increases life regeneration
+					'''
+			}
+
+			PoisonPendant: {
+				DisplayName: Poison Pendant
+				Tooltip:
+					'''
+					1 defense
+					5% increased ranged crit chance
+					Increases armor penetration by 5
+					Taking damage releases bees and douses the user in honey
+					Disable visibility to remove bees
+					Ranged weapons have a chance to inflict poison
+					'''
+			}
+
+			ScaledShadeShield: {
+				DisplayName: Scaled Shade Shield
+				Tooltip:
+					'''
+					3 defense
+					Increases defense the lower your health, up to a max of 15 defense below 30% health
+					'''
+			}
+
+			SpiderCharm: {
+				DisplayName: Spider Charm
+				Tooltip:
+					'''
+					Increases max number of minions
+					18% decreased summon damage
+					'''
+			}
+
+			SpiderPendant: {
+				DisplayName: Spider Pendant
+				Tooltip:
+					'''
+					1 defense
+					4% increased ranged crit chance
+					Ranged weapons have a chance to inflict poison
+					'''
+			}
+
+			StormyCharm: {
+				DisplayName: Stormy Charm
+				Tooltip:
+					'''
+					Increases max number of minions and sentries by 1
+					12% decreased summon damage
+					8% increased movement speed
+					'''
+			}
+
+			ToadEyes: {
+				DisplayName: Toad Eyes
+				Tooltip:
+					'''
+					6% increased crit chance
+					4% further increased crit chance when staying still
+					'''
+			}
+
+			ToadFocus: {
+				DisplayName: Toad Focus
+				Tooltip:
+					'''
+					4% increased crit chance
+					4% further increased crit chance when staying still
+					12% increased critical strike damage
+					This means that critical strikes deal 212% of the original damage instead of 200%
+					'''
+				StramEffect: Rogue weapons gain 6% critical strike damage instead
+			}
+
+			ViciousMushroomFlask: {
+				DisplayName: Vicious Mushroom Flask
+				Tooltip: 15% increased max movement speed
+			}
+
+			VileMushroomFlask: {
+				DisplayName: Vile Mushroom Flask
+				Tooltip: 15% increased movement acceleration
+			}
+
+			StonePellet: {
+				DisplayName: Stone Pellet
+				Tooltip: Low damage, easy to obtain bullet
+			}
+
+			AerogelBreastplate: {
+				DisplayName: Aerogel Breastplate
+				Tooltip: Increases ranged damage by 12% while in the air
+			}
+
+			AerogelHelmet: {
+				DisplayName: Aerogel Mask
+				Tooltip: 20% increased ranged velocity
+			}
+
+			AerogelLeggings: {
+				DisplayName: Aerogel Greaves
+				Tooltip:
+					'''
+					Increases movement speed by 10%
+					Increases ranged crit chance by 5%
+					'''
+			}
+
+			FrozenSpiritBreastplate: {
+				DisplayName: Frozen Spirit Breastplate
+				Tooltip: Increases melee armor penetration by 4
+			}
+
+			FrozenSpiritHelmet: {
+				DisplayName: Frozen Spirit Helmet
+				Tooltip: 7% increased melee crit chance
+			}
+
+			FrozenSpiritLeggings: {
+				DisplayName: Frozen Spirit Greaves
+				Tooltip: Increases movement and melee speed by 10%
+			}
+
+			MyceliumBreastplate: {
+				DisplayName: Mycelium Robes
+				Tooltip: Increases magic damage by 8%
+			}
+
+			MyceliumHelmet: {
+				DisplayName: Mycelium Hood
+				Tooltip: 80 increased max mana
+			}
+
+			MyceliumLeggings: {
+				DisplayName: Mycelium Greaves
+				Tooltip:
+					'''
+					Increases jump height
+					Increases magic crit chance by 5%
+					'''
+			}
+
+			RottingBreastplate: {
+				DisplayName: Rotting Robes
+				Tooltip:
+					'''
+					40 reduced maximum health
+					Increases maximum number of minions by 1
+					'''
+			}
+
+			RottingHelmet: {
+				DisplayName: Rotting Mask
+				Tooltip:
+					'''
+					20 reduced maximum health
+					Increases summon damage by 2
+					'''
+			}
+
+			RottingLeggings: {
+				DisplayName: Rotting Greaves
+				Tooltip:
+					'''
+					20 reduced maximum health
+					20% increased movement speed
+					'''
+			}
+
+			StormBreastplate: {
+				DisplayName: Storm Breastplate
+				Tooltip: Increases ranged crit chance by 8%
+			}
+
+			StormHeadgear: {
+				DisplayName: Storm Headgear
+				Tooltip:
+					'''
+					15% increased ranged velocity
+					12% increased bullet damage
+					'''
+			}
+
+			StormHelmet: {
+				DisplayName: Storm Helmet
+				Tooltip:
+					'''
+					15% increased ranged velocity
+					12% increased arrow damage
+					'''
+			}
+
+			StormLeggings: {
+				DisplayName: Storm Greaves
+				Tooltip: Increases movement speed by 15% and grants a built-in usage of Cloud in a Bottle
+			}
+
+			VeinBreastplate: {
+				DisplayName: Vein Breastplate
+				Tooltip:
+					'''
+					20 increased maximum health
+					Increases maximum number of minions by 1
+					'''
+			}
+
+			VeinHelmet: {
+				DisplayName: Vein Mask
+				Tooltip:
+					'''
+					20 increased maximum health
+					Increases summon damage by 1
+					'''
+			}
+
+			VeinLeggings: {
+				DisplayName: Vein Greaves
+				Tooltip:
+					'''
+					20 increased maximum health
+					Increases summon damage by 1
+					'''
+			}
+
+			EyeOfTheStormBag: {
+				DisplayName: Treasure Bag (Eye of the Storm)
+				Tooltip: ""
+			}
+
+			FoggyLens: {
+				DisplayName: Storm Lens
+				Tooltip:
+					'''
+					Calls forth the observer lurking within the storms
+					Is not consumed upon usage
+					'''
+			}
+
+			InsectOnAStick: {
+				DisplayName: Insect on a Stick
+				Tooltip: Will attract a great forest-dwelling amphibian
+			}
+
+			PileOfFakeBones: {
+				DisplayName: Pile of Fake Bones
+				Tooltip: Will attract a grave-robbing corpse looking for their own bones
+			}
+
+			SeseKitsugaiBag: {
+				DisplayName: Treasure Bag (Sese Kitsugai)
+				Tooltip: ""
+			}
+
+			TreeToadBag: {
+				DisplayName: Treasure Bag (Tree Toad)
+				Tooltip: ""
+			}
+
+			FrostShard: {
+				DisplayName: Frost Shard
+				Tooltip: '''"Doesn't seem to melt"'''
+			}
+
+			TreeToadRelic: {
+				DisplayName: Tree Toad Relic
+				Tooltip: ""
+			}
+
+			SpiderLeg: {
+				DisplayName: Spider Leg
+				Tooltip: '''"Tastes delicious"'''
+			}
+
+			SpiritItem: {
+				DisplayName: Spirit Item
+				Tooltip: '''"However, this gives me an extremely good pretext for stea-- *COUGH* receiving a great deal of money."'''
+			}
+
+			StormEssence: {
+				DisplayName: Storm Essence
+				Tooltip: Essential for upgrading cloud gear
+			}
+
+			SuwaHat: {
+				DisplayName: Suwako Hat
+				Tooltip: Frog
+			}
+
+			AcornStaff: {
+				DisplayName: Acorn Staff
+				Tooltip: Hitting an ememy restores all used mana
+			}
+
+			CloudBlaster: {
+				DisplayName: Rainmaker
+				Tooltip: Shoots a cloud that leaves a trail of rain
+			}
+
+			Cloudstrike: {
+				DisplayName: Cloudstrike
+				Tooltip: Shoots a gust of wind that temporarily slows down on enemy hits
+			}
+
+			GreatBite: {
+				DisplayName: Great Bite
+				Tooltip: Creates shark teeth near the player
+			}
+
+			LeafScepter: {
+				DisplayName: Leaf Scepter
+				Tooltip:
+					'''
+					Summons orbital leaves that provide 1% critical strike chance each, taking damage releases them outward. 
+					Reduces max mana by 8 and non-magic damage by 5% for each active orbital.
+					'''
+				ScepterMax: Has a maximum of {0} orbiting leaves.
+			}
+
+			NaturalSpell: {
+				DisplayName: Natural Spell
+				Tooltip: Shoots a dense cluster of leaves that scatter upon enemy hit
+			}
+
+			OcularScepter: {
+				DisplayName: Ocular Scepter
+				Tooltip:
+					'''
+					Summons orbital Servants of Cthulhu that provide 3 defense each, taking damage releases them outward. 
+					Released servants home in on nearby enemies. 
+					Reduces max mana by 15 and non-magic damage by 8% for each active orbital.
+					'''
+				ScepterMax: Has a maximum of {0} orbiting servants of Cthulhu.
+			}
+
+			PerfectFreeze: {
+				DisplayName: Perfect Freeze
+				Tooltip:
+					'''
+					Left click to shoot non-damaging projectiles, stopping mana regeneration
+					Projectiles can not be shot while low on mana
+					Right click to consume mana and freeze the projectiles in place and give them damage
+					Right click again to scatter frozen projectiles
+					Some scattered projectiles are aimed towards the cursor or a nearby enemy
+					Penetrates 9 enemy armor
+					"I'll deep-freeze you with some English beef!!"
+					'''
+			}
+
+			ShatterTome: {
+				DisplayName: Shatter Tome
+				Tooltip:
+					'''
+					Shoots a shattering icicle 
+					Shards have armor piercing capabilities
+					'''
+			}
+
+			ShellShardStorm: {
+				DisplayName: Shell Shard Storm
+				Tooltip:
+					'''
+					Shoots many shell shards 
+					Shards have armor piercing capabilities
+					'''
+			}
+
+			SlimeScepter: {
+				DisplayName: Slime Scepter
+				Tooltip:
+					'''
+					Summons orbital slimeballs that provide 2 defense each, taking damage releases them outward. 
+					Reduces max mana by 5 and non-magic damage by 8% for each active orbital.
+					'''
+				ScepterMax: Has a maximum of {0} orbiting slimeballs.
+			}
+
+			Sprinkler: {
+				DisplayName: Sprinkler
+				Tooltip: ""
+			}
+
+			Starkicker: {
+				DisplayName: Starkicker
+				Tooltip: Shoots lingering stardust
+			}
+
+			StormForecast: {
+				DisplayName: Storm Forecast
+				Tooltip:
+					'''
+					Rapidly shoots erratic lightning bolts
+					Significantly less effective at longer ranges
+					'''
+			}
+
+			StormSpell: {
+				DisplayName: Storm Spell
+				Tooltip:
+					'''
+					Casts a lightning bolt that jumps between up to 6 nearby enemies
+					Direct hits ignore some defense
+					'''
+			}
+
+			SylvanTome: {
+				DisplayName: Sylvan Tome
+				Tooltip: Shoots leaves of varying velocity
+			}
+
+			ToothpickTome: {
+				DisplayName: Toothpick Tome
+				Tooltip:
+					'''
+					Summons falling bone toothpicks from the sky 
+					"No, no! It's called excavation!"
+					'''
+			}
+
+			Toothpick: {
+				DisplayName: Toothpick
+				Tooltip:
+					'''
+					As powerful as the Molten Pickaxe
+					"Not for your teeth"
+					'''
+			}
+
+			VitalScepter: {
+				DisplayName: Vital Scepter
+				Tooltip:
+					'''
+					Summons orbital life crystals that provide 20 max life each, taking damage releases them outward. 
+					Reduces max mana by 25 and non-magic damage by 10% for each active orbital.
+					'''
+				ScepterMax: Has a maximum of {0} orbiting life crystals.
+			}
+
+			Backbone: {
+				DisplayName: Backbone
+				Tooltip:
+					'''
+					Launches bone shards upwards on impact 
+					"I've got a strong backbone, you know?"
+					'''
+			}
+
+			BlingString: {
+				DisplayName: Bling String
+				Tooltip: Strike enemies to gain range
+			}
+
+			BoneSkewer: {
+				DisplayName: Bone Skewer
+				Tooltip:
+					'''
+					Inflicts a stacking bleed 
+					"I'll be taking YOUR heads this time!"
+					'''
+			}
+
+			Cirrus: {
+				DisplayName: Cirrus
+				Tooltip: Strike enemies to gain damage and yoyo speed, up to double
+			}
+
+			CloudCleaver: {
+				DisplayName: Cloud Cleaver
+				Tooltip: Launches a cloud wave that speeds up on enemy hits
+			}
+
+			DarkStar: {
+				DisplayName: Dark Star
+				Tooltip:
+					'''
+					Throw dark stars which have instant return trips
+					Stacks up to three
+					'''
+			}
+
+			Hellslash: {
+				DisplayName: Hellslash
+				Tooltip:
+					'''
+					Shoots an exploding fireball every other swing
+					"Gimme a sword to sword things with"
+					'''
+			}
+
+			IceSpiritPike: {
+				DisplayName: Ice Spirit Pike
+				Tooltip: Shoots a homing spirit every third use
+			}
+
+			InfernalBlade: {
+				DisplayName: Infernal Blade
+				Tooltip: Shoots an exploding fireball every other swing
+			}
+
+			LeafBlade: {
+				DisplayName: Leaf Blade
+				Tooltip: Shoots leaves every other swing
+			}
+
+			OrganicGreatsword: {
+				DisplayName: Organic Greatsword
+				Tooltip: Shoots leaves every other swing
+			}
+
+			SkysBane: {
+				DisplayName: Sky's Bane
+				Tooltip: Launches a lightning wave that speeds up on enemy hits and can slightly move through tiles
+			}
+
+			SunshineSpear: {
+				DisplayName: Sunshine Spear
+				Tooltip: Striking an enemy summons sunlight from above
+			}
+
+			TheEyeOfTheStorm: {
+				DisplayName: The Eye of the Storm
+				Tooltip:
+					'''
+					Zaps nearby enemies with lightning
+					Striking enemies with the yoyo itself increases zap range and damage, up to double
+					Penetrates some enemy armor
+					'''
+			}
+
+			TidalSlicer: {
+				DisplayName: Tidal Slicer
+				Tooltip:
+					'''
+					Shoots water every other swing 
+					Small chance to shoot three
+					'''
+			}
+
+			TsunamiThrow: {
+				DisplayName: Tsunami Throw
+				Tooltip: Bursts into water on enemy impact
+			}
+
+			ArachnidsString: {
+				DisplayName: Arachnid's String
+				Tooltip: Periodically shoots arrows in 8 directions
+			}
+
+			BlinkrootBow: {
+				DisplayName: Blinkroot Bow
+				Tooltip: Consumes 5 mana if the player has enough. If mana is consumed, arrows turn into special arrows that bounce toward nearby enemies.
+			}
+
+			CactusBow: {
+				DisplayName: Cactus Bow
+				Tooltip: Chance to shoot a poisonous needle
+			}
+
+			FossilFirearm: {
+				DisplayName: Fossil Firearm
+				Tooltip: Converts normal bullets into accelerating and piercing fossil bullets
+			}
+
+			FrostBow: {
+				DisplayName: Frost Bow
+				Tooltip: Shoots an inaccurate, short-ranged ice shard along with an arrow
+			}
+
+			GelatinousGlock: {
+				DisplayName: Gelatinous Glock
+				Tooltip: Normal bullets turn into splattering slime
+			}
+
+			HeavenlyBurst: {
+				DisplayName: Heavenly Burst
+				Tooltip: Hold down the attack button to charge up the bow, increasing arrows shot to a max of 5 charges(8 arrows)
+			}
+
+			HydroString: {
+				DisplayName: Hydro String
+				Tooltip: Shoots two streams of water along with an arrow
+			}
+
+			IlluminantRifle: {
+				DisplayName: Moon Sniper
+				Tooltip: Normal bullets turn into luminite bullets
+			}
+
+			LightningBurst: {
+				DisplayName: Lightning Burst
+				Tooltip:
+					'''
+					Hold down the attack button to charge up the bow, increasing arrows shot to a max of 6 charges(13 arrows)
+					At maximum charge, the center three arrows are converted into Electric arrows that fly fast and pierce
+					'''
+			}
+
+			OceanicPistol: {
+				DisplayName: Oceanic Pistol
+				Tooltip: Normal bullets gain damage and turn into a water stream
+			}
+
+			SlimeSplatterShark: {
+				DisplayName: Slime Splatter Shark
+				Tooltip:
+					'''
+					Normal bullets turn into splattering slime
+					Fires bullets extremely quickly
+					'''
+			}
+
+			SlimyKnives: {
+				DisplayName: Slimy Knives
+				Tooltip: Throw 2-3 knives at a time that stick into blocks
+			}
+
+			SpineString: {
+				DisplayName: Spine String
+				Tooltip:
+					'''
+					Arrows fired gain 1 penetration and move incredibly fast
+					Regular arrows are not affected by gravity
+					"We're gonna exterminate youuu!"
+					'''
+			}
+
+			SporeBow: {
+				DisplayName: Spore Bow
+				Tooltip: Sometimes shoots a mushroom spore arrow
+			}
+
+			CloudBangasa: {
+				DisplayName: Cloud Bangasa
+				Tooltip:
+					'''
+					Summons a cloud to rain on enemies
+					Not too effective against moving targets
+					"Mind explaining why you're preparing to attack me?"
+					'''
+			}
+
+			CloudChain: {
+				DisplayName: Cloud Chain
+				Tooltip:
+					'''
+					Enemies struck by summons take 8% increased damage
+					1 summon tag damage
+					'''
+			}
+
+			HammerOfClay: {
+				DisplayName: Hammer of Clay
+				Tooltip: '''"It's a hammer-shaped bottle opener, gyah!"'''
+			}
+
+			PileOfActualBones: {
+				DisplayName: Pile of Actual Bones
+				Tooltip:
+					'''
+					Summons Sese to fight for you
+					Repeated summons increase Sese's damage
+					"Pay attention to meeee! I'm so lonely!"
+					'''
+			}
+
+			SatelliteParasol: {
+				DisplayName: Satellite Parasol
+				Tooltip:
+					'''
+					Summons a cloud to snow on enemies
+					Not too effective against moving targets
+					"That sounds like it'd be heavy..."
+					'''
+			}
+
+			Thundercrack: {
+				DisplayName: Thundercrack
+				Tooltip:
+					'''
+					Strikes enemies hit by summons with lightning that deals 120% of the summon's damage
+					This effect must be refreshed after a minion strikes the enemy
+					2 summon tag damage
+					'''
+			}
+
+			ToadsTongue: {
+				DisplayName: Toad's Tongue
+				Tooltip:
+					'''
+					3 summon tag damage
+					Enemies struck by summons take 50% increased knockback
+					Summon tag effect lasts longer than normal
+					Performs well against crowds
+					Inflicts Wet
+					'''
+			}
+
+			TreeToadTrophy: {
+				Tooltip: ""
+				DisplayName: Tree Toad Trophy
+			}
+
+			SeseKitsugaiRelic: {
+				DisplayName: Sese Kitsugai Relic
+				Tooltip: ""
+			}
+
+			SeseKitsugaiTrophy: {
+				DisplayName: Sese Kitsugai Trophy
+				Tooltip: ""
+			}
+
+			EyeOfTheStormTrophy: {
+				Tooltip: ""
+				DisplayName: Eye Of The Storm Trophy
+			}
+
+			EyeOfTheStormRelic: {
+				Tooltip: ""
+				DisplayName: Eye Of The Storm Relic
+			}
+
+			Fraxeture: {
+				DisplayName: Fraxeture
+				Tooltip: '''"Ehehe, it was Sese's to begin with, so it's A-okay!"'''
+			}
+
+			Bonecrush: {
+				DisplayName: Bonecrush
+				Tooltip: '''"Also effective at crushing the skull of your foe"'''
+			}
+
+			Skeletool: {
+				DisplayName: Skeletool
+				Tooltip:
+					'''
+					"The all-purpose skeletool"
+					Right click to switch between pickaxe-axe and hammer-axe
+					Can mine Mythril and Orichalcum
+					Can destroy Demon Altars in hardmode
+					'''
+			}
+
+			SacredSkeletool: {
+				DisplayName: Sacred Skeletool
+				Tooltip:
+					'''
+					"The all-purpose skeletool in its' most powerful form"
+					Right click to switch between pickaxe-axe and hammer-axe
+					More powerful than the Luminite tools
+					'''
+			}
+
+			PolarClaw: {
+				Tooltip: ""
+				DisplayName: Polar Claw
+			}
+
+			PoisonPellet: {
+				DisplayName: Poison Pellet
+				Tooltip:
+					'''
+					Pierces five enemies
+					Inflicts poison on the first enemy struck
+					Projectile damage is reduced by 30% after striking the first enemy
+					'''
+			}
+
+			SpiritPellet: {
+				DisplayName: Spirit Pellet
+				Tooltip:
+					'''
+					Either pierces one enemy or bounces once
+					Projectile damage is reduced by 40% after penetrating one enemy
+					Projectile damage is reduced by 25% after bouncing
+					Homes in on nearby enemies after piercing or bouncing
+					Can not hit enemies the projectile already pierced through
+					'''
+			}
+
+			Phloem: {
+				DisplayName: Phloem
+				Tooltip:
+					'''
+					Fire a spread of piercing leaves every fifth shot
+					Ignores 5 enemy armor
+					'''
+			}
+
+			WitheredLeaf: {
+				Tooltip: Increases movement friction by 50% but decreases maximum movement speed by 12%
+				DisplayName: Withered Leaf
+			}
+
+			VilespitCannon: {
+				Tooltip: Converts musket balls into homing vile spit that deals 20% less damage
+				DisplayName: Vilespit Cannon
+			}
+
+			NeuralMessenger: {
+				DisplayName: Neural Messenger
+				Tooltip:
+					'''
+					Fires two arrows in rapid succession
+					Converts wooden arrows into Neural arrows which chase the mouse pointer
+					'''
+			}
+
+			FrozenPetals: {
+				DisplayName: Frozen Petals
+				Tooltip:
+					'''
+					Increases max mana by 20
+					Reduces all non-damage scepter stat penalties by 12%
+					'''
+			}
+
+			PetrifiedRose: {
+				DisplayName: Petrified Rose
+				Tooltip:
+					'''
+					Reduces magic damage by 10% and mana cost by 12%
+					Slightly increases mana regeneration rate
+					'''
+			}
+
+			BloomingMarrow: {
+				DisplayName: Blooming Marrow
+				Tooltip:
+					'''
+					Increases defense by 1 for every orbiting scepter projectile
+					Maximum defense increase is 16
+					'''
+			}
+
+			ManaBouquet: {
+				DisplayName: Mana Bouquet
+				Tooltip:
+					'''
+					Enables auto-drinking mana potions
+					Increases maximum mana by 20 and maximum scpeter projectiles by 1
+					Slightly increases mana regeneration rate
+					Reduces mana usage, reduces scepter max stat penalties, and increases scepter damage by 10%
+					Increases defense by 1 for every orbiting scepter projectile
+					Maximum defense increase is 18
+					'''
+			}
+
+			Chirumiru: {
+				DisplayName: Chirumiru
+				Tooltip: '''"It makes you smarter!"'''
+			}
+
+			ChirumiruCan: {
+				DisplayName: Chirumiru Can
+				Tooltip: ""
+			}
+
+			BloodBolt: {
+				DisplayName: Blood Bolt
+				Tooltip:
+					'''
+					Shoots a homing, bouncing blood bolt
+					"Wrong game"
+					'''
+			}
+
+			VeinJuice: {
+				DisplayName: Vein Juice
+				Tooltip: '''"Blood" was too boring'''
+			}
+
+			BloodVolley: {
+				DisplayName: Blood Volley
+				Tooltip:
+					'''
+					Shoots a spread of blood bolts
+					"Wrong game"
+					'''
+			}
+
+			VenomGland: {
+				DisplayName: Venom Gland
+				Tooltip: Taking damage briefly inflicts Venom on nearby enemies
+			}
+
+			CactusShell: {
+				DisplayName: Cactus Shell
+				Tooltip:
+					'''
+					25 damage
+					2 defense
+					Taking damage shoots a spread of cactus spines towards the cursor
+					Has a cooldown of two seconds
+					'''
+			}
+
+			ThornyShackle: {
+				DisplayName: Thorny Shackle
+				Tooltip:
+					'''
+					2 defense
+					Reflects 50% of contact damage
+					'''
+			}
+
+			ShellOfRetribution: {
+				DisplayName: Shell of Retribution
+				Tooltip:
+					'''
+					25 damage
+					3 defense
+					Taking damage shoots a spread of cactus spines towards the cursor and briefly 
+					inflicts Venom on nearby enemies
+					Has a cooldown of two seconds
+					Reflects 50% of contact damage
+					"Press the Trinket Ability hotkey to block 60% of da... Oh wait, wrong game"
+					'''
+			}
+
+			TidesTurn: {
+				Tooltip: Shoots a water stream every other swing
+				DisplayName: Tide's Turn
+			}
+
+			TyphoonThrow: {
+				Tooltip: Striking an enemy releases a Razorblade Typhoon that ignores 20 enemy defense
+				DisplayName: Typhoon Throw
+			}
+
+			SaltwaterSpray: {
+				Tooltip:
+					'''
+					Fires bullets rapidly and inaccurately
+					Normal bullets gain damage and turn into a water stream
+					'''
+				DisplayName: Saltwater Spray
+			}
+
+			Aquathreader: {
+				DisplayName: Aquathreader
+				Tooltip:
+					'''
+					Fires two water streams that move in a helix pattern along with an arrow
+					Water streams ignore 10 enemy defense
+					Most arrow types fired are not affected by gravity
+					'''
+			}
+
+			ScaleShardStorm: {
+				DisplayName: Scale Shard Storm
+				Tooltip:
+					'''
+					Rapidly and accurately fire scale shards
+					Ignores 24 enemy defense
+					'''
+			}
+
+			TissueStorm: {
+				DisplayName: Tissue Storm
+				Tooltip:
+					'''
+					Shoots flesh chunks quickly and inaccurately
+					Ignores 8 enemy defense
+					'''
+			}
+
+			BloodOrb: {
+				DisplayName: Blood Orb
+				Tooltip:
+					'''
+					Increases summon damage by 8%
+					Each minion slot used reduces maximum HP by 30, but increases life 
+					regeneration by 0.5 hp/second
+					'''
+			}
+
+			TreeToadMusicBox: {
+				DisplayName: Music Box (Tree Toad)
+				Tooltip: Plays "Nightmare of Insects" by Antibody
+			}
+
+			EyeOfTheStormMusicBox: {
+				DisplayName: Music Box (Eye of the Storm)
+				Tooltip: Plays "Peering Through Clouds" by Antibody
+			}
+
+			SeseKitsugaiMusicBox: {
+				DisplayName: Music Box (Sese Kitsugai)
+				Tooltip: Plays "Carcass and Cadaver" by Antibody
+			}
+
+			Rudhira: {
+				DisplayName: Rudhira
+				Tooltip:
+					'''
+					Fires Blood Arrows
+					Each arrow can only hit a specific target once
+					"Holding bows in the left hand, as We had done, is what's correct."
+					'''
+			}
+
+			AsteroidBelt: {
+				DisplayName: Asteroid Belt
+				Tooltip: "Summons orbital meteors that provide 3 defense each, taking damage releases them. "
+				MeteoritePenalty: Reduces max mana by 10 and non-magic damage by 5% for each active orbital.
+				ScepterMax: Has a maximum of {0} orbiting meteors.
+			}
+
+			SkullSigil: {
+				DisplayName: Bone Bracelet
+				Tooltip: Critical strikes deal 12 more damage
+			}
+
+			NecroHand: {
+				DisplayName: Necro Hand
+				Tooltip:
+					'''
+					Increases defense by 2
+					Using weapons launches crossbones
+					Taking damage releases bone toothpicks
+					Critical strikes deal 10 more damage
+					'''
+			}
+
+			FrigidAltar: {
+				DisplayName: Frigid Altar
+				Tooltip: Going to be used for summoning a boss that isn't added yet
+			}
+
+			FrigidPointer: {
+				DisplayName: Frigid Pointer
+				Tooltip:
+					'''
+					Points toward the underground Ice Palace
+					...If you have one in your world, that is. 
+					'''
+			}
+
+			BagOfFrozenKnives: {
+				DisplayName: Bag of Frozen Knives
+				Tooltip:
+					'''
+					Throws three knives
+					Has a small chance to inflict frostburn
+					'''
+			}
+
+			BagOfPoisonedKnives: {
+				Tooltip:
+					'''
+					Throws three knives
+					Has a small chance to inflict poison
+					'''
+				DisplayName: Bag of Poisoned Knives
+			}
+
+			BagOfFrozenPoisonedKnives: {
+				Tooltip:
+					'''
+					Throws three knives
+					Has a small chance to inflict frostburn and poison
+					'''
+				DisplayName: Bag of Frozen Poisoned Knives
+			}
+
+			BoneBadge: {
+				DisplayName: Bone Badge
+				Tooltip: Reduces mana costs by 14%
+			}
+
+			BonePendant: {
+				DisplayName: Bone Pendant
+				Tooltip:
+					'''
+					20% decreased ranged velocity
+					13% increased ranged damage
+					'''
+			}
+
+			IronFist: {
+				DisplayName: Iron Fist
+				Tooltip: 10% increased summon damage and slightly increases summon knockback
+			}
+
+			SpikyThread: {
+				DisplayName: Spiky Thread
+				Tooltip: 25% increased whip range
+			}
+
+			FractureKnife: {
+				DisplayName: Fracture Knife
+				Tooltip: Begins falling after piercing one enemy
+			}
+
+			CursedCandleStaff: {
+				DisplayName: Cursed Candle Staff
+				Tooltip:
+					'''
+					Summons a water candle to fight for you
+					Inflicts Waterflame, which deals heavy damage over time and causes the 
+					target to take 12% more damage from other minions and their projectiles
+					Ignores up to 2 enemy defense
+					'''
+			}
+
+			UndeadTyranny: {
+				DisplayName: Undead Tyranny
+				Tooltip:
+					'''
+					Increases summon damage by 8%
+					Increases whip range by 18%
+					Increases armor penetration by 4
+					Slightly increases summon knockback
+					Increases defense by 1
+					'''
+			}
+
+			Sunblades: {
+				DisplayName: Sunblades
+				Tooltip: Throws two high velocity knives that set enemies ablaze
+			}
+
+			FlareScepter: {
+				DisplayName: Flare Scepter
+				Tooltip:
+					'''
+					Summons orbital flares that provide 5% movement speed, 5% acceleration, and 1 defense each.
+					Taking damage launches them towards the cursor.
+					Reduces max mana by 15 and non-magic damage by 5% for each active orbital.
+					'''
+				ScepterMax: Has a maximum of {0} orbiting flares.
+			}
+
+			UnholyStaff: {
+				DisplayName: Unholy Staff
+				Tooltip: Summons a demon to fight for you
+			}
+
+			AssortedKnifeBag: {
+				DisplayName: Assorted Knife Bag
+				Tooltip: Throws out various knives
+			}
+
+			TriElement: {
+				DisplayName: Tri-Element
+				Tooltip:
+					'''
+					Alternates between shooting a spread of leaves, a stream
+					of water, and an exploding fireball 
+					"Not to be confused with Triple Elementals... wait, they were the same thing"
+					'''
+			}
+
+			HeatTippedToothpickTome: {
+				Tooltip:
+					'''
+					Summons flaming bone toothpicks from the sky 
+					Moves through tiles while above the cursor
+					'''
+				DisplayName: Heat Tipped Toothpick Tome
+			}
+
+			Sandkicker: {
+				DisplayName: Sandkicker
+				Tooltip: Shoots lingering sand
+			}
+
+			EyeLasher: {
+				DisplayName: Eye Lasher
+				Tooltip:
+					'''
+					3 summon tag damage
+					The whip itself can recieve minion effects like tag damage
+					Performs well against crowds
+					Hits enemies twice
+					'''
+			}
+
+			EvilWardingCharm: {
+				DisplayName: Evil Warding Charm
+				Tooltip:
+					'''
+					1 defense
+					5% increased damage
+					Reduces enemy spawn rate and agression
+					"I actually just wrote whatever the heck on the charm,
+					so I wanted to get it back before that got out."
+					'''
+			}
+
+			Imperceptible: {
+				DisplayName: Imperceptible
+				Tooltip:
+					'''
+					Throws hidden knives that reveal themselves when near the mouse pointer
+					Revealed knives deal double damage
+					"Aha, you mean assassination?"
+					'''
+			}
+
+			StrawberryJam: {
+				RestoreLifeText: Mods.AwfulGarbageMod.Items.StrawberryJam.RestoreLifeText
+				DisplayName: Strawberry Jam
+				Tooltip:
+					'''
+					Additionally regenerates 75 life over 15 seconds
+					Regenerated life is not affected by equipment that changes potion healing
+					'It's a bit chunky...'
+					'''
+			}
+
+			StormHood: {
+				DisplayName: Storm Hood
+				Tooltip:
+					'''
+					15% increased ranged velocity
+					12% increased knife damage
+					'''
+			}
+
+			AmethystGemcornStaff: {
+				DisplayName: Amethyst Gemcorn Staff
+				Tooltip:
+					'''
+					Hitting an ememy restores all used mana
+					Pierces two enemies
+					'''
+			}
+
+			TopazGemcornStaff: {
+				DisplayName: Topaz Gemcorn Staff
+				Tooltip:
+					'''
+					Hitting an ememy restores all used mana
+					Leaves a trail of falling topaz sparks
+					'''
+			}
+
+			EmeraldGemcornStaff: {
+				DisplayName: Emerald Gemcorn Staff
+				Tooltip:
+					'''
+					Hitting an ememy restores all used mana
+					Reduces enemy defense by 5 and inflicts random earlygame debuffs on hit
+					'''
+			}
+
+			SapphireGemcornStaff: {
+				DisplayName: Sapphire Gemcorn Staff
+				Tooltip:
+					'''
+					Hitting an ememy restores all used mana
+					Projectiles are high velocity and are not affected by gravity
+					'''
+			}
+
+			AmberGemcornStaff: {
+				DisplayName: Amber Gemcorn Staff
+				Tooltip:
+					'''
+					Hitting an ememy restores all used mana
+					Bounces off tiles up to 4 times
+					Attempts to bounce towards enemies
+					'''
+			}
+
+			RubyGemcornStaff: {
+				DisplayName: Ruby Gemcorn Staff
+				Tooltip:
+					'''
+					Hitting an ememy restores all used mana
+					Explodes into ruby sparks
+					'''
+			}
+
+			DiamondGemcornStaff: {
+				DisplayName: Diamond Gemcorn Staff
+				Tooltip:
+					'''
+					Hitting an ememy restores all used mana
+					Homes in on nearby enemies
+					'''
+			}
+
+			GeodeGemcornStaff: {
+				DisplayName: Geode Gemcorn Staff
+				Tooltip:
+					'''
+					Hitting an ememy restores all used mana
+					Homes in on nearby enemies
+					Leaves a trail of falling topaz sparks
+					Explodes into ruby sparks on tile or enemy impact
+					Bounces off of tiles towards nearby enemies
+					Reduces enemy defense by 5
+					Inflicts random earlygame debuffs
+					Pierces two enemies
+					Projectiles are high velocity and unaffected by gravity
+					'''
+			}
+
+			FrigidiumOre: {
+				DisplayName: Frigidium
+				Tooltip: "'Seems to be 75% ice'"
+			}
+
+			FrigidiumBar: {
+				DisplayName: Frigidium Bar
+				Tooltip: "'It appears to now be 99% ice'"
+			}
+
+			FrigidDigger: {
+				DisplayName: Frigid Digger
+				Tooltip: "'Nostalgic'"
+			}
+
+			FrigidiumShotgun: {
+				DisplayName: Frigidium Shotgun
+				Tooltip: Fires a spread of bullets and ice shards
+			}
+
+			GlacierBow: {
+				DisplayName: Glacier Bow
+				Tooltip: Shoots an even spread of ice shards along with an arrow
+			}
+
+			FrigidiumShield: {
+				DisplayName: Frigidium Shield
+				Tooltip:
+					'''
+					5 defense
+					Grants immunity to Chilled
+					'''
+			}
+
+			ScepterCapacityPotion: {
+				DisplayName: Scepter Capacity Potion
+				Tooltip: Increases maximum scepter projectiles by 1
+			}
+
+			FrigidiumSpear: {
+				DisplayName: Frigidium Spear
+				Tooltip: Every 5th use, shoot an ice chunk that shatters into homing spirits
+			}
+
+			PaintingOfAnIceFairyDumpingFrozenFrogsOutOfATrashCan: {
+				DisplayName: Painting of an Ice Fairy Dumping Frozen Frogs out of a Trash Can
+				Tooltip: "'K. Imipenem'"
+			}
+
+			MyceliumMask: {
+				DisplayName: Mycelium Mask
+				Tooltip:
+					'''
+					60 increased max mana
+					Reduces non-damage scepter stat penalties by 8%
+					Increases scepter damage by 10%
+					Reduces non-scepter magic damage by 10%
+					'''
+			}
+
+			MeteoriteVisor: {
+				DisplayName: Meteor Visor
+				Tooltip:
+					'''
+					Increases maximum scepter projectiles by 1
+					Increases scepter damage by 12%
+					'''
+			}
+
+			GarbagePickaxe: {
+				Tooltip: ""
+				DisplayName: Garbage Pickaxe
+			}
+
+			GarbageHammer: {
+				Tooltip: ""
+				DisplayName: Garbage Hammer
+			}
+
+			GarbageAxe: {
+				Tooltip: ""
+				DisplayName: Garbage Axe
+			}
+
+			Garbage: {
+				Tooltip:
+					'''
+					Can be used in an extractinator
+					'It's just garbage'
+					'''
+				DisplayName: Garbage
+			}
+
+			BottledTrash: {
+				Tooltip:
+					'''
+					Increases enemy spawn rate
+					'Can be smelled from a mile away'
+					'''
+				DisplayName: Bottled Trash
+			}
+
+			LifelessBlock: {
+				Tooltip: "'All life has been absorbed'"
+				DisplayName: Lifeless Block
+			}
+
+			BipolarEmblem: {
+				DisplayName: Bipolar Emblem
+				Tooltip:
+					'''
+					12% increased magic damage
+					12% reduced mana cost
+					Increases magic damage by another 18% while not moving horizontally
+					Reduces mana cost by another 18% when not moving vertically
+					2% increased magic crit chance
+					'''
+			}
+
+			CursedFeatherPendant: {
+				DisplayName: Cursed Feather Pendant
+				Tooltip:
+					'''
+					6% increased ranged damage
+					6% increased ranged crit chance
+					6% increased ranged velocity
+					Ranged crits have a small chance to inflict cursed flane and ichor
+					'''
+			}
+
+			NecroGauntlet: {
+				DisplayName: Necro Gauntlet
+				Tooltip:
+					'''
+					Increases defense by 2
+					14% increased melee speed
+					7% increased melee damage
+					6% increased movement speed
+					Using weapons launches crossbones
+					Taking damage releases bone toothpicks
+					Melee critical strikes deal 12 more damage
+					'''
+			}
+
+			StormEmblem: {
+				DisplayName: Storm Emblem
+				Tooltip:
+					'''
+					Increases max number of minions and sentries by 1
+					8% increased movement speed
+					'''
+			}
+
+			HarujionLocator: {
+				DisplayName: Harujion Locator
+				Tooltip:
+					'''
+					5% increased magic damage
+					Mana potions restore 20% more mana
+					You gradually build up spirit energy
+					Drinking a mana potion releases homing spirits that deal damage equal to your spirit energy
+					Spirit energy takes about 30 seconds to fully max out at 100
+					'''
+			}
+
+			HarujionPetal: {
+				DisplayName: Harujion Petal
+				Tooltip:
+					'''
+					5% increased magic damage
+					Mana potions restore 20% more mana
+					You gradually build up spirit energy
+					Drinking a mana potion resets your spirit energy and releases homing spirits that deal damage equal to your spirit energy
+					Spirit energy takes about 30 seconds to fully max out at 100
+					'''
+			}
+
+			ReachPotion: {
+				DisplayName: Reach Potion
+				Tooltip:
+					'''
+					Increases block placement range, tool range, and item grab range by 3 blocks
+					'Your hands still can't reach the moon'
+					'''
+			}
+
+			TrashMelter: {
+				DisplayName: Trash Melter
+				Tooltip:
+					'''
+					Allows you to create more advanced stuff out of garbage
+					'One man's trash is another man's lethal weapon'
+					'''
+			}
+
+			TrashSlash: {
+				DisplayName: Trash Slash
+				Tooltip:
+					'''
+					Shoots a piece of trash, reducing your life by 5
+					Picking up the trash or hitting an enemy with it restores your life by 5
+					'''
+			}
+
+			Recycler: {
+				DisplayName: Recycler
+				Tooltip:
+					'''
+					Wooden arrows fired return to you and have a 75% chance not to be consumed
+					All other arrows have a 33% chance not to be consumed
+					'''
+			}
+
+			WorthlessJunkBreastplate: {
+				DisplayName: Worthless Junk Body Armor
+				Tooltip:
+					'''
+					Increases maximum number of minions by 1
+					Increases maximum mana by 40
+					Increases the size of melee weapons by 20%
+					'Like a turtle, I carry my home everywhere'
+					'''
+				StramEffect: Increases rogue crtitcal strike damage by 6
+			}
+
+			WorthlessJunkHelmet: {
+				DisplayName: Worthless Junk Helmet
+				Tooltip:
+					'''
+					Reduces mana usage by 18%
+					Increases ranged velocity and whip range by 30%
+					'''
+				StramEffect: Increases rogue velocity by 25%
+			}
+
+			WorthlessJunkLeggings: {
+				DisplayName: Worthless Junk Waistcloth
+				Tooltip:
+					'''
+					Increases melee and movement speed by 25%
+					Reduces scepter non-damage stat penalties by 15%
+					33% chance not to consume ammo
+					'''
+			}
+
+			Eruption: {
+				DisplayName: Eruption
+				Tooltip:
+					'''
+					Fires a spurt of flame along with a spread of bullets
+					Normal bullets explode on impact
+					'''
+			}
+
+			ShiningKnives: {
+				DisplayName: Shining Knives
+				Tooltip: ""
+			}
+
+			HoneycombKnives: {
+				DisplayName: Honeycomb Knives
+				Tooltip:
+					'''
+					Releases bees on impact
+					Upon sticking to tiles, the knife will release faster and more powerful bees over time
+					'''
+			}
+
+			BloodyJaws: {
+				DisplayName: Bloody Jaws
+				Tooltip: Shoots a tooth that summons more teeth on hit
+			}
+
+			WormBite: {
+				DisplayName: The Worm's Bite
+				Tooltip: Shoots 6 teeth, two are stronger and faster
+			}
+
+			Necroscepter: {
+				ScepterMax: Has a maximum of {0} orbiting skulls.
+				DisplayName: Necroscepter
+				Tooltip:
+					'''
+					Summons orbital skulls that provide 3% damage each.
+					Taking damage launches them towards nearby enemies.
+					Reduces max mana by 15 and non-magic damage by 7% for each active orbital.
+					'''
+			}
+
+			GoldenChain: {
+				DisplayName: Golden Chain
+				Tooltip: 2 summon tag damage
+			}
+
+			FrigidForge: {
+				DisplayName: Frigid Forge
+				Tooltip: Allows you to turn frigidium into bars
+			}
+
+			ExoticCrystal: {
+				DisplayName: Exotic Crystal
+				Tooltip: For use at the Frigid Altar
+			}
+
+			FrigidArrow: {
+				DisplayName: Frigid Arrow
+				Tooltip:
+					'''
+					Pierces through two enemies and unaffected by gravity
+					Is followed by a slightly homing ice bolt that deals 50% damage
+					'''
+			}
+
+			FrigidiumBreastplate: {
+				DisplayName: Frigidium Breastplate
+				Tooltip:
+					'''
+					10% increased melee critical strike chance
+					Taking damage inflicts frostburn on nearby enemies
+					'''
+			}
+
+			FrigidiumHelmet: {
+				DisplayName: Frigidium Helmet
+				Tooltip:
+					'''
+					8% increased melee speed
+					Increases melee damage to enemies inflicted with frostburn by 16%
+					'''
+			}
+
+			FrigidiumLeggings: {
+				DisplayName: Frigidium Leggings
+				Tooltip:
+					'''
+					12% increased movement speed
+					8% increased melee speed
+					Prevents sliding around on ice blocks
+					'''
+			}
+
+			FrigidiumKnives: {
+				Tooltip:
+					'''
+					Throws three frigidium knives
+					The central knife is larger, faster, and pierces two enemies
+					'''
+				DisplayName: Frigidium Knives
+			}
+
+			FrostFlareBoomerang: {
+				Tooltip:
+					'''
+					Striking an enemy causes flames to burst out of the enemy and icicles to rain from the sky
+					"I'll at least remember you until I go to bed tonight"
+					'''
+				DisplayName: Frost Flare Boomerang
+			}
+
+			SweetBeatdown: {
+				DisplayName: Sweet Beatdown
+				Tooltip:
+					'''
+					Shoots a splattering honey blob
+					Striking enemies with the blade itself increases life regeneration
+					'''
+			}
+
+			BloodChain: {
+				DisplayName: Blood Chain
+				Tooltip:
+					'''
+					Minion strikes cause up to 10 nearby enemies to take 50% the damage of the minion
+					This effect must be refreshed after a minion strikes the enemy
+					'''
+			}
+
+			SwarmScepter: {
+				ScepterMax: Has a maximum of {0} orbiting bees.
+				DisplayName: Swarm Scepter
+				Tooltip:
+					'''
+					Summons orbital bees that increases the damage of other bees by 4% and the damage of the Hornet Staff by 6% each.
+					Taking damage launches them outwards.
+					Reduces max life by 10 for each orbiting bee.
+					'''
+			}
+
+			SanguineBreastplate: {
+				DisplayName: Sanguine Breastplate
+				Tooltip:
+					'''
+					15% increased scepter damage
+					Slightly increases mana regeneration
+					'''
+			}
+
+			SanguineHelmet: {
+				DisplayName: Sanguine Helmet
+				Tooltip:
+					'''
+					8% reduced scepter max stat penalties
+					5% increased magic damage
+					'''
+			}
+
+			SanguineLeggings: {
+				DisplayName: Sanguine Leggings
+				Tooltip:
+					'''
+					15% increased magic damage
+					10% reduced mana usage
+					Slightly increases life regeneration
+					Increases maximum mana by 20
+					'''
+			}
+
+			Sunblades2: {
+				DisplayName: Sunblades (Rogue)
+				Tooltip: Throws two high velocity knives that set enemies ablaze
+			}
+
+			CloudAssassinBreastplate: {
+				DisplayName: Cloud Assassin Tunic
+				Tooltip:
+					'''
+					Enemies are less likely to target you
+					4% increased rogue damage and crit chance
+					'''
+			}
+
+			CloudAssassinHelmet: {
+				DisplayName: Cloud Assassin Hood
+				Tooltip:
+					'''
+					20% increased rogue velocity
+					Increases rogue crit damage by 4
+					'''
+			}
+
+			CloudAssassinLeggings: {
+				DisplayName: Cloud Assassin Leggings
+				Tooltip:
+					'''
+					20% increased movement speed
+					7% increased rogue crit chance
+					'''
+			}
+
+			FractureKnife2: {
+				DisplayName: Fracture Knife (Rogue)
+				Tooltip: Begins falling after piercing one enemy
+			}
+
+			Imperceptible2: {
+				DisplayName: Imperceptible (Rogue)
+				Tooltip:
+					'''
+					Throws hidden knives that reveal themselves when near the mouse pointer
+					Knives can not deal critical strikes unless they are revealed
+					"Aha, you mean assassination?"
+					'''
+			}
+
+			TreeChopper: {
+				DisplayName: Tree Chopper
+				Tooltip: Critical strikes release homing leaves from the player
+			}
+
+			Skeletoss: {
+				DisplayName: Skeletoss
+				Tooltip:
+					'''
+					Throw accelerating bone shurikens that can hit targets multiple times
+					Especially effective against large targets
+					Ignores up to 8 enemy defense
+					"I know~! They call people like you 'embarrassing'!"
+					'''
+			}
+
+			SkyDagger: {
+				DisplayName: Sky Dagger
+				Tooltip: Throws a dagger that splits into two feathers
+			}
+
+			StormDagger: {
+				DisplayName: Storm Dagger
+				Tooltip: Critical strikes summons a cloud to zap a nearby enemy with lightning
+			}
+
+			DaggerOfEgestedPoison: {
+				DisplayName: Dagger Of Egested Poison
+				Tooltip:
+					'''
+					Inflicts 7 seconds of poison with a 25% chance
+					Critical strikes cause enemies to release a poisonous aura, damaging nearby enemies
+					'Contains too much DOIP'
+					'''
+			}
+
+			FrigidJavelin: {
+				DisplayName: Frigid Javelin
+				Tooltip:
+					'''
+					Shatters on enemy hit, damaging nearby enemies
+					Critical strikes cause spirit projectiles to chase the enemy
+					'''
+			}
+
+			StormFocus: {
+				StramEffect: Rogue weapons gain 6% critical strike damage instead
+				DisplayName: Storm Focus
+				Tooltip:
+					'''
+					Mana potions are automatically consumed
+					Disable visibility to disable auto-drinking mana potions
+					Mana sickness wears off twice as fast
+					Drinking a mana potion will electrify you for two seconds
+					Mana potions restore 20% more mana
+					5% reduced mana usage
+					4% increased crit chance
+					4% further increased crit chance when staying still
+					12% increased critical strike damage
+					This means that critical strikes deal 212% of the original damage instead of 200%
+					'''
+			}
+
+			BoneChalice: {
+				DisplayName: Bone Chalice
+				Tooltip: 35% increased summon tag duration
+			}
+
+			GlacialEye: {
+				DisplayName: Glacial Eye
+				Tooltip:
+					'''
+					10% reduced damage taken
+					A glacial eye orbits you shooting snowballs at nearby enemies, dealing 22 damage each
+					'''
+			}
+
+			IlluminantString: {
+				DisplayName: Illuminant String
+				Tooltip:
+					'''
+					Whips emit light
+					Disable visiblity to disable this effect
+					30% increased whip range
+					'''
+			}
+
+			FrigidiusBag: {
+				DisplayName: Frigidius Bag
+				Tooltip: ""
+			}
+
+			AuthorityCrystal: {
+				DisplayName: Authority Crystal
+				Tooltip:
+					'''
+					15% increased whip speed
+					8% increased summon damage
+					'''
+			}
+
+			CrystalEmblem: {
+				DisplayName: Crystal Emblem
+				Tooltip:
+					'''
+					Whips emit light
+					Disable visiblity to disable this effect
+					Increases max number of minions and sentries by 1
+					25% increased whip range
+					12% increased whip and movement speed
+					6% increased summon damage
+					'''
+			}
+
+			RegalCrystalEmblem: {
+				DisplayName: Regal Crystal Emblem
+				Tooltip:
+					'''
+					Whips emit light
+					Disable visiblity to disable this effect
+					Increases max number of minions and sentries by 1
+					25% increased whip range
+					12% increased whip and movement speed
+					6% increased summon damage
+					Releases volatile gelatin that periodically damages enemies
+					Most slimes become friendly
+					'''
+			}
+
+			Cryogem: {
+				DisplayName: Cryogem
+				Tooltip: THIS ITEM IS UNOBTAINABLE AND ANYTHING THAT REQUIRES THIS ITEM TO CRAFT IS ALSO UNOBTAINABLE
+			}
+
+			Pyrogem: {
+				DisplayName: Pyrogem
+				Tooltip: THIS ITEM IS UNOBTAINABLE AND ANYTHING THAT REQUIRES THIS ITEM TO CRAFT IS ALSO UNOBTAINABLE
+			}
+
+			CryoCleaver: {
+				DisplayName: Cryo Cleaver
+				Tooltip:
+					'''
+					Shoots a large frost wave and a small frost wave
+					The larger one has less range but has more penetration and inflicts Frostbite
+					The smaller one has more range but has less penetration
+					'''
+			}
+
+			ChaosFlame: {
+				DisplayName: Chaos Flame
+				Tooltip:
+					'''
+					Throw short-range knives extremely quickly
+					'Anarchist? What's that?'
+					'''
+			}
+
+			IceChalice: {
+				DisplayName: Ice Chalice
+				Tooltip:
+					'''
+					50% increased summon tag duration
+					5% increased summon damage
+					'''
+			}
+
+			Pyrochain: {
+				DisplayName: Pyrochain
+				Tooltip:
+					'''
+					Spin around a flail that slowly grows in radius as it spins
+					Striking enemies with the flail head sets them on fire
+					Can hit enemies with its' chain for 50% damage
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			FrostDartgun: {
+				DisplayName: Frost Dartgun
+				Tooltip: Shoots two darts at a time
+			}
+
+			TornadoChain: {
+				DisplayName: Tornado Chain
+				Tooltip:
+					'''
+					20% increased flail spin speed
+					10% reduced flail range
+					'''
+			}
+
+			SlimyFlail: {
+				DisplayName: Slimy Flail
+				Tooltip:
+					'''
+					Spin a slimy flail around you
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			GrassBasher: {
+				DisplayName: Grass Basher
+				Tooltip:
+					'''
+					Has a chance to poison enemies
+					While at maximum range, the flail head periodically releases damaging spore clouds
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			DoubleWhammy: {
+				DisplayName: Double Whammy
+				Tooltip:
+					'''
+					Spin two flails around you
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			Icebreaker: {
+				DisplayName: Icebreaker
+				Tooltip:
+					'''
+					Spins a ball of ice in an ellipse shape pointed towards the cursor
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			ShadeVortex: {
+				DisplayName: Shade Vortex
+				Tooltip:
+					'''
+					Spin around a flail that slowly grows in radius as it spins
+					Releases a damaging aura of Shadowflame
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			TetheredEye: {
+				DisplayName: Tethered Eye
+				Tooltip:
+					'''
+					Spin around a tethered eye around you
+					Control the eye's range with your mouse
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			ShootingStar: {
+				Tooltip:
+					'''
+					Spin around a fallen star
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+				DisplayName: Shooting Star
+			}
+
+			BucketOfTrash: {
+				DisplayName: Bucket Of Trash
+				Tooltip:
+					'''
+					Toss in water up to 6 times to reduce your fishing power
+					'Why would you ever do this'
+					'''
+			}
+
+			BarbedWireFlail: {
+				DisplayName: Barbed Wire Flail
+				Tooltip:
+					'''
+					Can hit enemies with the chain for 33% damage
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			DoubleVisionBand: {
+				DisplayName: Double Vision Band
+				Tooltip: All spun flails spin a shorter, weaker flail copy in the opposite direction
+			}
+
+			MechanicalArm: {
+				DisplayName: Mechanical Arm
+				Tooltip: Every third knife throw is automatically aimed at the nearest enemy and gains 30% damage
+			}
+
+			VineThread: {
+				DisplayName: Vine Thread
+				Tooltip:
+					'''
+					6 damage
+					At max range, flails leave a trail of jungle spores
+					'''
+			}
+
+			SigilOfEvil: {
+				DisplayName: Sigil of Evil
+				Tooltip:
+					'''
+					15% increased knife velocity
+					5% increased knife damage
+					'''
+			}
+
+			SigilOfPoison: {
+				DisplayName: Sigil of Poison
+				Tooltip: Knife critical strikes have a 33% chance to emit jungle spores from the impact dealing 10 damage
+			}
+
+			SigilOfWater: {
+				DisplayName: Sigil of Water
+				Tooltip: Every fourth knife throw is followed by a stream of piercing water dealing 50% damage
+			}
+
+			SigilOfFire: {
+				DisplayName: Sigil of Fire
+				Tooltip: ""
+				tooltipWithoutArgs:
+					'''
+					Every {0} seconds, a knife will gain Fire Empowerment
+					Fire Empowerment has the following effects:
+					 - Inflicts On Fire for 2 seconds
+					 - Knife damage is increased by 12 + 60%
+					 - Knife velocity is increased by 30%
+					'''
+			}
+
+			SigilOfShadows: {
+				DisplayName: Sigil of Shadows
+				Tooltip: ""
+				tooltipWithoutArgs:
+					'''
+					15% increased knife velocity
+					8% increased knife damage
+					Every seventh knife throw is followed by a shadowflame tentacle dealing damage equal to your knife
+					Knife critical strikes have a 33% chance to emit shadow clouds from the impact dealing 15 damage
+					Every {0} seconds, a knife will gain Shadow Empowerment, which has the following effects:
+					 - Inflicts Shadowflame for 2 seconds
+					 - Knife damage is increased by 24 + 100%
+					 - Knife velocity is increased by 30%
+					 - Penetrates through one more enemy
+					'''
+			}
+
+			AridSymbol: {
+				DisplayName: Arid Symbol
+				tooltipWithoutArgs:
+					'''
+					Every {0} seconds, a knife will gain Arid Empowerment
+					Fire Empowerment has the following effects:
+					 - Knife damage is increased by 5 + 50%
+					 - Striking an enemy temporarily increases your movement speed and friction
+					'''
+				Tooltip: ""
+			}
+
+			DevAccessory1: {
+				DisplayName: Dev Accessory1
+				Tooltip: ""
+			}
+
+			KitchenKnife: {
+				DisplayName: Kitchen Knife
+				Tooltip: ""
+			}
+
+			Anatomy101: {
+				DisplayName: Anatomy 101
+				Tooltip: Shoots piercing toothpicks, high velocity flesh chunks, bouncing blood bolts, and homing eyeballs
+			}
+
+			WorldlyScroll: {
+				DisplayName: Worldly Scroll
+				Tooltip: Manually generates any missing ores and structures into your world
+			}
+
+			FrigidiusTrophy: {
+				Tooltip: ""
+				DisplayName: Frigidius Trophy
+			}
+
+			FrigidiusRelic: {
+				Tooltip: ""
+				DisplayName: Frigidius Relic
+			}
+
+			SnowScepter: {
+				DisplayName: Snow Scepter
+				Tooltip:
+					'''
+					Summons orbital snowballs that provide 5% increased knockback, taking damage releases them toward the cursor. 
+					Reduces max mana by 5 for each active orbital.
+					'''
+				ScepterMax: Has a maximum of {0} orbiting snowballs.
+			}
+
+			StoneScepter: {
+				DisplayName: Stone Scepter
+				Tooltip:
+					'''
+					Summons orbital pebbles that provide 5% increased mining speed, taking damage releases them outward. 
+					Reduces max life by 5 for each active orbital.
+					'''
+				ScepterMax: Has a maximum of {0} orbiting pebbles.
+			}
+
+			ViciousScepter: {
+				DisplayName: Vicious Scepter
+				Tooltip:
+					'''
+					Summons orbital Crimeras that provide 2% increased damage, 4 defense, and increased enemy agression. Taking damage releases them toward nearby enemies. 
+					Reduces max mana by 25 and non-magic damage by 10% for each active orbital.
+					'''
+				ScepterMax: Has a maximum of {0} orbiting Crimeras.
+			}
+
+			VileScepter: {
+				DisplayName: Vile Scepter
+				Tooltip:
+					'''
+					Summons orbital Eater of Souls that provide 3% increased critical strike chance, 10% movement speed, and reduced enemy agression. Taking damage releases them toward nearby enemies. 
+					Reduces max mana by 25 and non-magic damage by 10% for each active orbital.
+					'''
+				ScepterMax: Has a maximum of {0} orbiting Eater of Souls.
+			}
+
+			BloomingEvil: {
+				DisplayName: Blooming Evil
+				Tooltip:
+					'''
+					Increases maximum scepter projectiles by 1
+					8% increased scepter damage
+					'''
+			}
+
+			DiamondCutters: {
+				DisplayName: Diamond Cutters
+				Tooltip:
+					'''
+					Knives stick into enemies and burst outward when the enemy is killed and gain 20% damage
+					Bursting knives can also stick into enemies and can keep gaining damage
+					'''
+			}
+
+			ThiefsKnife: {
+				DisplayName: Thiefs Knife
+				Tooltip: Inflicts Midas to enemies at full health
+			}
+
+			BloodstainedKnife: {
+				DisplayName: Bloodstained Knife
+				Tooltip:
+					'''
+					Leaves a trail of homing blood for a bit after throwing
+					Blood projectiles inherit the empowerments of the knife it spawns from
+					'''
+			}
+
+			CobaltKnives: {
+				DisplayName: Cobalt Knives
+				Tooltip: Throw a fast piercing knife
+			}
+
+			PalladiumKnives: {
+				DisplayName: Palladium Knives
+				Tooltip:
+					'''
+					Inaccurately throw three knives at a time
+					When one knife is empowered, the other two knives are also empowered
+					'''
+			}
+		}
+
+		NPCs: {
+			EyeOfTheStorm: {
+				DisplayName: Eye Of the Storm
+
+				BossChecklistIntegration: {
+					EntryName: Eye of the Storm
+					SpawnInfo: Use a [i:AwfulGarbageMod/FoggyLens].
+				}
+			}
+
+			SeseKitsugai: {
+				DisplayName: Sese Kitsugai
+				BossChecklistIntegration.SpawnInfo: Use a [i:AwfulGarbageMod/PileOfFakeBones] in a graveyard.
+			}
+
+			TreeToad: {
+				DisplayName: Tree Toad
+				BossChecklistIntegration.SpawnInfo: Use an [i:AwfulGarbageMod/InsectOnAStick] on the surface.
+			}
+
+			IceSpirit.DisplayName: Ice Spirit
+			TestNpc.DisplayName: Test Npc
+
+			HaijiSenri: {
+				DisplayName: Spell Collector
+
+				# This is what displays during all of an NPC's happiness levels.
+				TownNPCMood: {
+					Content: Things are pretty fine.
+					NoHome: I need some place I can set up shop.
+					FarFromHome: My spell shop is too far away!
+					LoveSpace: I enjoy the lack of non-Senri fans around here.
+					DislikeCrowded: I can't find anyone here who enjoy the Senri as much as I do.
+					HateCrowded: Why are there so many people here? And why do none of them even know who Tsurubami Senri is?
+					LoveBiome: "{BiomeName} is very cool."
+					LikeBiome: "{BiomeName} reminds me of the Gloomy Straits"
+					DislikeBiome: I don't recall Tsurubami hanging around {BiomeName}
+					HateBiome: ""
+					LoveNPC: "{NPCName}"
+					LikeNPC: I like that {NPCName} knows a few things about bullets.
+					DislikeNPC: '''"{NPCName} doesn't know the value of spell cards!"'''
+					HateNPC: "{NPCName}"
+					LikeNPC_Princess: Huh, I thought {NPCName} would be smaller.
+					Princess_LovesNPC: I... um, like Tsurubami Senri, just like {NPCName}...
+				}
+
+				# This key is generated and used when the "Census" mod is enabled: It allows the user to see the spawn condition of this town NPC in the Housing UI
+				Census.SpawnCondition: Defeat Sese Kitsugai
+			}
+
+			TrashSlime.DisplayName: Trash Slime
+			FrigidiusBody.DisplayName: Frigidius
+
+			FrigidiusHead: {
+				DisplayName: Frigidius
+				BossChecklistIntegration.SpawnInfo: Use an [i:AwfulGarbageMod/ExoticCrystal] on the Frigid Altar in the Ice Palace. Use a [i:AwfulGarbageMod/FrigidPointer] to locate the Ice Palace.
+			}
+
+			FrigidiusTail.DisplayName: Frigidius
+			IceChunk.DisplayName: Possessed Ice Chunk
+			RottingSoulflower.DisplayName: Rotting Soulflower
+			DecayingBloodflower.DisplayName: Decaying Bloodflower
+			TsugumiUmatachi.DisplayName: Tsugumi Umatachi
+		}
+
+		Bestiary: {
+			HaijiSenri: Comes from a world called Mugenri. They like spell cards. Don't mind the spinning.
+			TreeToad: An oversized toad dwelling in treetops.
+			TrashSlime: A slime that absorbed trash. A lot of trash. Seriously, why are those townspeople throwing away so much trash on the ground?
+			SeseKitsugai: Comes from a world called Mugenri. Bones are included in this package.
+			IceSpirit: A spirit in control of an ice chunk. Or possibly an ice chunk in control of a spirit. Who knows?
+			EyeOfTheStorm: A large clump of clouds that seems to be spinning around the central eye. Only it knows when the storms will come. Unless you force the storm yourself.
+			FrigidiusHead: An ancient serpent left to freeze beneath the snow, gaining cold abilities. An ancient civilization believed it was a god, and built this palace in it's honor. Turns out, they were wrong.
+			RottingSoulflower: An organic lifeform that has been corrupted. Appears to manipulate the Eaters around it, along with being able to utilize the sealed power of the Cursed Flame. However, it only attacks those that are a threat.
+			DecayingBloodflower: An organic lifeform that has been tainted with blood. Appears to manipulate the Crimeras around it, along with being able to utilize the sealed power of Ichor. However, it only attacks those that are a threat.
+			IceChunk: Unlike the Ice Spirits, these ice chunks are possessed by Frigidius themself. Because of this, they don't gain the ability to shoot lasers that the spirits have.
+		}
+
+		Dialogue: {
+			HaijiSenri: {
+				StandardDialogue1: Oops, I forgot to introduce myself! ....Uhh, what was it again?
+				StandardDialogue2: Sukune is wrong, I'm not a scammer!
+				StandardDialogue3: I help myself to these spell cards via card duels, 100% legally!
+			}
+		}
+
+		Conditions.RemixSeed: World is in Don't Dig Up or Get Fixed Boi world
+
+		Tiles: {
+			TreeToadMusicBoxTile.MapEntry: Tree Toad Music Box Tile
+			EyeOfTheStormMusicBoxTile.MapEntry: Eye Of The Storm Music Box Tile
+			SeseKitsugaiMusicBoxTile.MapEntry: Sese Kitsugai Music Box Tile
+			FrigidiumOre.MapEntry: Frigidium
+			TrashMelter.MapEntry: Trash Melter
+			FrigidForge.MapEntry: Frigid Forge
+			FrigidAltar.MouseItem: "[i:AwfulGarbageMod/ExoticCrystal]"
+		}
+
+		WorldGen.OreGenMessage: More Shinies
+
+		Biomes: {
+			HarujionBiome: {
+				DisplayName: Harujion Biome
+				TownNPCDialogueName: the Harujion Biome
+			}
+		}
+	}
+}
