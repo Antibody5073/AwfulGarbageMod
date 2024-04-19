@@ -47,14 +47,15 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void AddRecipes()
 		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.WarriorEmblem); 
-            recipe.AddIngredient(Mod.Find<ModItem>("NecroHand").Type);
-            recipe.AddIngredient(Mod.Find<ModItem>("MyceliumGauntlet").Type);
-            recipe.AddIngredient(ItemID.SoulofLight, 6);
-            recipe.AddIngredient(ItemID.SoulofNight, 6);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.WarriorEmblem)
+                .AddIngredient<NecroHand>()
+                .AddIngredient<MyceliumGauntlet>()
+                .AddIngredient<SoulOfIghtImaHeadOut>(6)
+                .AddIngredient(ItemID.SoulofNight, 6)
+                .AddIngredient(ItemID.SoulofLight, 6)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
 	}
 }

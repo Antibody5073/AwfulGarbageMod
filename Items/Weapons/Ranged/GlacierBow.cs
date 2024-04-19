@@ -22,7 +22,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 27;
+			Item.damage = 34;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 40;
 			Item.height = 40;
@@ -45,10 +45,10 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         {
             int proj = Projectile.NewProjectile(source, position, velocity * 1.5f, type, damage, knockback, player.whoAmI);
             
-            int proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(10)) * 1.2f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 2, knockback / 2, player.whoAmI);
-            proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-10)) * 1.2f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 2, knockback / 2, player.whoAmI);
-            proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-20)) * 0.8f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 3, knockback / 2, player.whoAmI);
-            proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(20)) * 0.8f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 3, knockback / 2, player.whoAmI);
+            int proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(7)) * 1.2f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 2, knockback / 2, player.whoAmI);
+            proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-7)) * 1.2f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 2, knockback / 2, player.whoAmI);
+            proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-12)) * 0.8f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 3, knockback / 2, player.whoAmI);
+            proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(12)) * 0.8f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 3, knockback / 2, player.whoAmI);
 
             return false;
         }

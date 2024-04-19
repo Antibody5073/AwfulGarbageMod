@@ -38,7 +38,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Swing;
 			Item.knockBack = 5f;
 			Item.value = 10000;
-			Item.rare = 1;
+			Item.rare = 4;
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;
 			Item.shoot = ModContent.ProjectileType<PalladiumKnivesProjDummy>();
@@ -47,8 +47,11 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            for (var i = 0; i < 3; i++)
+            {
+                int proj = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-12, 12))) * Main.rand.NextFloat(0.9f, 1.1f), ModContent.ProjectileType<PalladiumKnivesProj>(), damage, knockback, player.whoAmI);
 
-            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            }
             return false;
         }
 

@@ -51,7 +51,7 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<GlobalPlayer>().knifeVelocity += 0.15f;
-            player.GetDamage<KnifeDamageClass>() += 0.08f;
+            player.GetDamage<KnifeDamageClass>() += 0.06f;
             player.GetModPlayer<GlobalPlayer>().shadowSigil += 15;
             player.GetModPlayer<ShadowEmpowermentPlayer>().hasSigil = true;
         }

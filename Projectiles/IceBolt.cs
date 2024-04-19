@@ -39,15 +39,15 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void AI()
         {
-            Projectile.damage = 30;
+            Projectile.damage = 26;
             Projectile.extraUpdates = 1;
             if (Main.expertMode)
             {
                 Projectile.extraUpdates = 2;
-                Projectile.damage = 28;
+                Projectile.damage = 24;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 25;
+                    Projectile.damage = 22;
                 }
             }
             if (Projectile.ai[0] == 1) 

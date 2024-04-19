@@ -77,13 +77,13 @@ namespace AwfulGarbageMod.Projectiles
         public override void AI()
         {
 
-            Projectile.damage = 21;
+            Projectile.damage = 18;
             if (Main.expertMode)
             {
-                Projectile.damage = 20;
+                Projectile.damage = 17;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 18;
+                    Projectile.damage = 15;
                 }
             }
 

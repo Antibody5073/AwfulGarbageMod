@@ -25,6 +25,7 @@ namespace AwfulGarbageMod.Items.Armor
 		public override void UpdateEquip(Player player) {
 			player.moveSpeed += 0.10f; // Increase the movement speed of the player
             player.GetAttackSpeed(DamageClass.Melee) *= 1.1f;
+            player.GetDamage(DamageClass.Melee) += 0.07f;
 
         }
 

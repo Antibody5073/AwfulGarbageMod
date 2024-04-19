@@ -262,6 +262,41 @@ Mods: {
 				DisplayName: Vile Scepter Buff
 				Description: Mods.AwfulGarbageMod.Buffs.VileScepterBuff.Description
 			}
+
+			HolyFireBuff: {
+				DisplayName: Holy Fire Buff
+				Description: Mods.AwfulGarbageMod.Buffs.HolyFireBuff.Description
+			}
+
+			PurityBuff: {
+				DisplayName: Purity Buff
+				Description: Mods.AwfulGarbageMod.Buffs.PurityBuff.Description
+			}
+
+			EarthenShieldBuff: {
+				DisplayName: Earthen Shield's Protection
+				Description: ""
+			}
+
+			EarthenShieldCooldown: {
+				DisplayName: Earthen Shield Cooldown
+				Description: Slowly repairing the Earthen Shield
+			}
+
+			VerdantStaffMinionBuff: {
+				DisplayName: Forest Bat
+				Description: The forest bat will fight for you
+			}
+
+			IceElementalStaffMinionBuff: {
+				DisplayName: Ice Elemental Staff Minion Buff
+				Description: Mods.AwfulGarbageMod.Buffs.IceElementalStaffMinionBuff.Description
+			}
+
+			HorseSnapperBuff: {
+				DisplayName: Horse Snapper Buff
+				Description: Minion projectile velocity is increased by 15%
+			}
 		}
 
 		Projectiles: {
@@ -502,6 +537,54 @@ Mods: {
 			CobaltKnivesProj.DisplayName: Cobalt Knives Proj
 			PalladiumKnivesProj.DisplayName: Palladium Knives Proj
 			PalladiumKnivesProjDummy.DisplayName: Palladium Knives Proj Dummy
+			BouncyKnivesProj.DisplayName: Bouncy Knives Proj
+			ChlorophyteKnivesProj.DisplayName: Chlorophyte Knives Proj
+			EctoDaggersProj.DisplayName: Ecto Daggers Proj
+			EctoDaggersProjDummy.DisplayName: Ecto Daggers Proj Dummy
+			PinkPunishersProj.DisplayName: Pink Punishers Proj
+			EclipseKnivesProjMoon.DisplayName: Eclipse Knives Proj Moon
+			EclipseKnivesProjSun.DisplayName: Eclipse Knives Proj Sun
+			StarfallProj.DisplayName: Starfall Proj
+			CrystalKnivesProj.DisplayName: Crystal Knives Proj
+			TerraWristSparkProj.DisplayName: Terra Wrist Spark Proj
+			TerraWristSwordProj.DisplayName: Terra Wrist Sword Proj
+			TerraWristNightProj.DisplayName: Terra Wrist Night Proj
+			BubbleSlicersProj.DisplayName: Bubble Slicers Proj
+			WingedKnifeProj.DisplayName: Winged Knife Proj
+			DancingSparksProj.DisplayName: Dancing Sparks Proj
+			FrigidiumFlailsProj.DisplayName: Frigidium Flails Proj
+			RadiantPrismSwordProj.DisplayName: Radiant Prism Sword Proj
+			TsugumiOrbit2Proj.DisplayName: Tsugumi Orbit2 Proj
+			TsugumiSlamProj.DisplayName: Tsugumi Slam Proj
+			TsugumiBigProj.DisplayName: Tsugumi Big Proj
+			TsugumiOrbit3Proj.DisplayName: Tsugumi Orbit3 Proj
+			TsugumiAccelProjLong.DisplayName: Tsugumi Accel Proj Long
+			CandescenceProjFireBlast.DisplayName: Candescence Proj Fire Blast
+			CandescenceProjFireball.DisplayName: Candescence Proj Fireball
+			CandescenceProjLavaOrb.DisplayName: Candescence Proj Lava Orb
+			CandescenceProjHomingFireball.DisplayName: Candescence Proj Homing Fireball
+			CandescenceProjLavaOrb2.DisplayName: Candescence Proj Lava Orb2
+			CandescenceProjFireballSlow.DisplayName: Candescence Proj Fireball Slow
+			MoltenEyeProj.DisplayName: Molten Eye Proj
+			IcewaveProj2.DisplayName: Icewave Proj2
+			IcewaveProj.DisplayName: Icewave Proj
+			AncientFlierDummyProjectile.DisplayName: Ancient Flier Dummy Projectile
+			TheSandstormProj.DisplayName: The Sandstorm Proj
+			SandyScalebookProj.DisplayName: Sandy Scalebook Proj
+			TheTumblerProj.DisplayName: The Tumbler Proj
+			TheTumblerProj2.DisplayName: The Tumbler Proj2
+			FlintCore.DisplayName: Flint Core
+			FlintStaffProj.DisplayName: Flint Staff Proj
+			FlintSpearProj.DisplayName: Flint Spear Proj
+			FlintKnivesProj.DisplayName: Flint Knives Proj
+			ForestBeam.DisplayName: Forest Beam
+			VerdantStaffMinion.DisplayName: Verdant Staff Minion
+			VerdantStaffProjectile.DisplayName: Verdant Staff Projectile
+			ForestBeamProj.DisplayName: Forest Beam Proj
+			LeafyDiscProj.DisplayName: Leafy Disc Proj
+			IceElementalStaffMinion.DisplayName: Ice Elemental Staff Minion
+			IceElementalStaffProjectile.DisplayName: Ice Elemental Staff Projectile
+			HorseSnapperProj.DisplayName: Horse Snapper Proj
 		}
 
 		Items: {
@@ -818,7 +901,7 @@ Mods: {
 				Tooltip:
 					'''
 					Increases movement speed by 10%
-					Increases ranged crit chance by 5%
+					Increases ranged crit chance by 10%
 					'''
 			}
 
@@ -834,12 +917,16 @@ Mods: {
 
 			FrozenSpiritLeggings: {
 				DisplayName: Frozen Spirit Greaves
-				Tooltip: Increases movement and melee speed by 10%
+				Tooltip:
+					'''
+					Increases movement and melee speed by 10%
+					7% increased melee damage
+					'''
 			}
 
 			MyceliumBreastplate: {
 				DisplayName: Mycelium Robes
-				Tooltip: Increases magic damage by 8%
+				Tooltip: Increases magic damage by 11%
 			}
 
 			MyceliumHelmet: {
@@ -849,11 +936,7 @@ Mods: {
 
 			MyceliumLeggings: {
 				DisplayName: Mycelium Greaves
-				Tooltip:
-					'''
-					Increases jump height
-					Increases magic crit chance by 5%
-					'''
+				Tooltip: Increases jump height
 			}
 
 			RottingBreastplate: {
@@ -1166,7 +1249,7 @@ Mods: {
 			}
 
 			BoneSkewer: {
-				DisplayName: Bone Skewer
+				DisplayName: Bone Pole-Arm
 				Tooltip:
 					'''
 					Inflicts a stacking bleed 
@@ -1503,7 +1586,11 @@ Mods: {
 			}
 
 			WitheredLeaf: {
-				Tooltip: Increases movement friction by 50% but decreases maximum movement speed by 12%
+				Tooltip:
+					'''
+					Increases movement friction by 50% but decreases maximum movement speed by 12%
+					[c/1FE600:Especially useful for precise movement.]
+					'''
 				DisplayName: Withered Leaf
 			}
 
@@ -1601,13 +1688,14 @@ Mods: {
 
 			CactusShell: {
 				DisplayName: Cactus Shell
-				Tooltip:
+				TooltipWithVar:
 					'''
-					25 damage
+					{0} ranged damage
 					2 defense
 					Taking damage shoots a spread of cactus spines towards the cursor
 					Has a cooldown of two seconds
 					'''
+				Tooltip: ""
 			}
 
 			ThornyShackle: {
@@ -1621,9 +1709,9 @@ Mods: {
 
 			ShellOfRetribution: {
 				DisplayName: Shell of Retribution
-				Tooltip:
+				TooltipWithVar:
 					'''
-					25 damage
+					{0} ranged damage
 					3 defense
 					Taking damage shoots a spread of cactus spines towards the cursor and briefly 
 					inflicts Venom on nearby enemies
@@ -1631,6 +1719,7 @@ Mods: {
 					Reflects 50% of contact damage
 					"Press the Trinket Ability hotkey to block 60% of da... Oh wait, wrong game"
 					'''
+				Tooltip: ""
 			}
 
 			TidesTurn: {
@@ -1789,7 +1878,8 @@ Mods: {
 				Tooltip:
 					'''
 					20% decreased ranged velocity
-					13% increased ranged damage
+					12% increased ranged damage
+					5% increased ranged crit chance
 					'''
 			}
 
@@ -2044,6 +2134,8 @@ Mods: {
 				Tooltip:
 					'''
 					5 defense
+					5% increased melee damage and critical strike chance
+					5% increased melee speed
 					Grants immunity to Chilled
 					'''
 			}
@@ -2215,6 +2307,7 @@ Mods: {
 					'''
 					Shoots a piece of trash, reducing your life by 5
 					Picking up the trash or hitting an enemy with it restores your life by 5
+					'Make sure to pick up after yourself'
 					'''
 			}
 
@@ -2222,8 +2315,9 @@ Mods: {
 				DisplayName: Recycler
 				Tooltip:
 					'''
-					Wooden arrows fired return to you and have a 75% chance not to be consumed
+					Wooden arrows fired return to you and have a 75% chance not to be consumed, but deal 30% less damage
 					All other arrows have a 33% chance not to be consumed
+					'Made from 100% recycled material... though you might want to toss this back into the recycling bin.'
 					'''
 			}
 
@@ -2534,6 +2628,7 @@ Mods: {
 					Drinking a mana potion will electrify you for two seconds
 					Mana potions restore 20% more mana
 					5% reduced mana usage
+					5% increased magic damage
 					4% increased crit chance
 					4% further increased crit chance when staying still
 					12% increased critical strike damage
@@ -2551,7 +2646,7 @@ Mods: {
 				Tooltip:
 					'''
 					10% reduced damage taken
-					A glacial eye orbits you shooting snowballs at nearby enemies, dealing 22 damage each
+					A glacial eye orbits you quickly shooting snowballs at nearby enemies, dealing 22 damage each
 					'''
 			}
 
@@ -2566,7 +2661,7 @@ Mods: {
 			}
 
 			FrigidiusBag: {
-				DisplayName: Frigidius Bag
+				DisplayName: Treasure Bag (Frigidius)
 				Tooltip: ""
 			}
 
@@ -2602,7 +2697,7 @@ Mods: {
 					25% increased whip range
 					12% increased whip and movement speed
 					6% increased summon damage
-					Releases volatile gelatin that periodically damages enemies
+					Releases volatile gelatin periodically that damages enemies
 					Most slimes become friendly
 					'''
 			}
@@ -2653,6 +2748,7 @@ Mods: {
 					Striking enemies with the flail head sets them on fire
 					Can hit enemies with its' chain for 50% damage
 					Melee speed modifiers affect maximum range and not spin speed
+					(Sprite is from ExampleMod and is a placeholder)
 					'''
 			}
 
@@ -2665,8 +2761,8 @@ Mods: {
 				DisplayName: Tornado Chain
 				Tooltip:
 					'''
-					20% increased flail spin speed
-					10% reduced flail range
+					25% increased flail spin speed
+					10% reduced flail damage and range
 					'''
 			}
 
@@ -2761,7 +2857,7 @@ Mods: {
 
 			MechanicalArm: {
 				DisplayName: Mechanical Arm
-				Tooltip: Every third knife throw is automatically aimed at the nearest enemy and gains 30% damage
+				Tooltip: Every third knife throw is automatically aimed at the nearest enemy and gains 40% damage
 			}
 
 			VineThread: {
@@ -2800,7 +2896,7 @@ Mods: {
 					Every {0} seconds, a knife will gain Fire Empowerment
 					Fire Empowerment has the following effects:
 					 - Inflicts On Fire for 2 seconds
-					 - Knife damage is increased by 12 + 60%
+					 - Knife damage is increased by 8 + 50%
 					 - Knife velocity is increased by 30%
 					'''
 			}
@@ -2811,12 +2907,12 @@ Mods: {
 				tooltipWithoutArgs:
 					'''
 					15% increased knife velocity
-					8% increased knife damage
+					6% increased knife damage
 					Every seventh knife throw is followed by a shadowflame tentacle dealing damage equal to your knife
 					Knife critical strikes have a 33% chance to emit shadow clouds from the impact dealing 15 damage
 					Every {0} seconds, a knife will gain Shadow Empowerment, which has the following effects:
 					 - Inflicts Shadowflame for 2 seconds
-					 - Knife damage is increased by 24 + 100%
+					 - Knife damage is increased by 15 + 65%
 					 - Knife velocity is increased by 30%
 					 - Penetrates through one more enemy
 					'''
@@ -2828,7 +2924,7 @@ Mods: {
 					'''
 					Every {0} seconds, a knife will gain Arid Empowerment
 					Fire Empowerment has the following effects:
-					 - Knife damage is increased by 5 + 50%
+					 - Knife damage is increased by 5 + 40%
 					 - Striking an enemy temporarily increases your movement speed and friction
 					'''
 				Tooltip: ""
@@ -2943,11 +3039,663 @@ Mods: {
 
 			PalladiumKnives: {
 				DisplayName: Palladium Knives
+				Tooltip: Inaccurately throw three knives at a time
+			}
+
+			BouncyKnives: {
+				DisplayName: Bouncy Knives
+				Tooltip: Throw 2-3 knives at a time that bounce around
+			}
+
+			ChlorophyteKnives: {
+				DisplayName: Chlorophyte Knives
+				Tooltip: Releases a spore cloud upon hitting enemies
+			}
+
+			EctoDaggers: {
+				DisplayName: Ecto Daggers
 				Tooltip:
 					'''
 					Inaccurately throw three knives at a time
 					When one knife is empowered, the other two knives are also empowered
 					'''
+			}
+
+			PinkPunishers: {
+				DisplayName: Pink Punishers
+				Tooltip: Rapidly throw bouncing knives
+			}
+
+			EclipseKnives: {
+				DisplayName: Eclipse Knives
+				Tooltip:
+					'''
+					Throws a Sun Knife that falls upward and a Moon Knife that falls downward
+					During the day, empowerments prioritize the Sun Knife 
+					During the night, empowerments prioritize the Moon Knife 
+					'''
+			}
+
+			LihzahrdsAncientBattery: {
+				DisplayName: Lihzahrds' Ancient Battery
+				Tooltip:
+					'''
+					Decreases knife empowerment cooldowns by 18%
+					'One of the batteries used to power the Golem itself'
+					'''
+			}
+
+			Starfall: {
+				DisplayName: Starfall
+				Tooltip:
+					'''
+					Summon homing stardust knives from above
+					'Manipulate the starry sky to your will'
+					'''
+			}
+
+			CrystalKnives: {
+				DisplayName: Crystal Assassin Knives
+				Tooltip: Splits into three when near the mouse pointer
+			}
+
+			HolyHandOfJudgement: {
+				tooltipWithoutArgs:
+					'''
+					Every {0} seconds, a knife will gain Holy Empowerment
+					Purity Empowerment has the following effects:
+					 - Knife damage is increased by 80
+					 - Striking an enemy will summon two stars from above
+					 - Striking an enemy will ignite nearby enemies with a holy blaze for 7 seconds, which increases damage taken by 10%
+					'''
+				DisplayName: Holy Hand of Judgement
+				Tooltip: ""
+			}
+
+			SigilOfPurity: {
+				tooltipWithoutArgs:
+					'''
+					Every {0} seconds, a knife will gain Purity Empowerment
+					Purity Empowerment has the following effects:
+					 - Knife damage is increased by 30%
+					 - The first enemy struck takes 7% more damage for 5 seconds
+					'''
+				DisplayName: Sigil of Purity
+				Tooltip: ""
+			}
+
+			SigilOfFrost: {
+				DisplayName: Sigil of Frost
+				Tooltip: Knife critical strikes have a 33% chance to inflict frostburn on nearby enemies
+			}
+
+			TerraWrist: {
+				DisplayName: Terra Wrist
+				Tooltip: ""
+				tooltipWithoutArgs:
+					'''
+					12% increased knife velocity and damage
+					Every third knife throw is automatically aimed at the nearest enemy and gains 50% damage
+					Every sixth knife throw will strike up to 4 nearby enemies with a terra sword beam dealing 80% the damage of your knife
+					Knife critical strikes have a 20% chance to emit multiple terra sparks dealing 40 damage
+					Every {0} seconds, a knife will gain Terra Empowerment, which has the following effects:
+					 - Knife damage is increased by 50 + 50%
+					 - Knife velocity is increased by 15%
+					 - Penetrates through one more enemy
+					 - Creates Night and Light knives upon hitting enemies that deal 50% damage and inflict Shadowflame and Holy Flame respectively
+					'''
+			}
+
+			BubbleSlicers: {
+				DisplayName: Bubble Slicers
+				Tooltip: Leaves a trail of homing bubbles
+			}
+
+			WingedKnife: {
+				DisplayName: Winged Knife
+				Tooltip: Throws a homing knife
+			}
+
+			DancingSparks: {
+				DisplayName: Dancing Sparks
+				Tooltip: ""
+			}
+
+			FrigidiumFlails: {
+				DisplayName: Frigidium Flails
+				Tooltip:
+					'''
+					Spins three flails in an elipse shape
+					(Sprite is a placeholder)
+					'''
+			}
+
+			RadiantPrism: {
+				tooltipWithoutArgs:
+					'''
+					4% increased ranged damage and critical strike chance
+					Every {0} seconds, a knife will gain Radiance Empowerment, which has the following effects:
+					 - Knife damage is increased by 70%
+					 - Penetrates through two more enemies
+					 - Summons a Lance of Light that deals 33% damage to attack up to 3 nearby enemies on impact
+					'''
+				DisplayName: Radiant Prism
+				Tooltip: ""
+			}
+
+			SigilOfVenom: {
+				tooltipWithoutArgs:
+					'''
+					Every {0} seconds, a knife will gain Venom Empowerment, which has the following effects:
+					 - Knife damage is increased by 35%
+					 - Inflicts Venom for 5 seconds
+					 - Summons two temporary spider minions when hitting an enemy
+					'''
+				DisplayName: Sigil of Venom
+				Tooltip: ""
+			}
+
+			SigilOfSpirits: {
+				tooltipWithoutArgs:
+					'''
+					Every {0} seconds, a knife will gain Ectoplasmic Empowerment, which has the following effects:
+					 - Knife damage is increased by 50 + 20%
+					 - Striking an enemy will burst three homing spirits out of them, dealing 50% damage each
+					'''
+				DisplayName: Sigil of Spirits
+				Tooltip: ""
+			}
+
+			LavaLamp: {
+				Tooltip:
+					'''
+					A certain hell moth is obsessed with these
+					BOSS IS WORK IN PROGRESS
+					'''
+				DisplayName: Lava Lamp
+			}
+
+			JarOfSpirits: {
+				Tooltip:
+					'''
+					Attracts a certain eggplant jockey hired to retrieve spirits 
+					BOSS IS WORK IN PROGRESS
+					'''
+				DisplayName: Jar of Spirits
+			}
+
+			MoltenEye: {
+				Tooltip:
+					'''
+					Currently Unobtainable
+					10% increased damage
+					A molten eye orbits you shooting bouncy fireballs at nearby enemies, dealing 33 damage each
+					'''
+				DisplayName: Molten Eye
+			}
+
+			OpposingViews: {
+				Tooltip:
+					'''
+					Currently Unobtainable
+					8% increased damage
+					8% reduced damage taken
+					A glacial eye orbits you quickly shooting snowballs at nearby enemies, dealing 32 damage each
+					A molten eye orbits you shooting bouncy fireballs at nearby enemies, dealing 40 damage each
+					'''
+				DisplayName: Opposing Views
+			}
+
+			FourEyes: {
+				DisplayName: Four-Eyes
+				Tooltip:
+					'''
+					Currently Unobtainable
+					8% increased damage
+					8% reduced damage taken
+					8% increased critical strike chance
+					8% further increased critical strike chance when standing still
+					Critical strikes deal 12% more damage,
+					this means that critical strikes deal 212% damage instead of 200%
+					A glacial eye orbits you quickly shooting snowballs at nearby enemies, dealing 55 damage each
+					A molten eye orbits you shooting bouncy fireballs at nearby enemies, dealing 70 damage each
+					'''
+			}
+
+			CandesciteOre: {
+				Tooltip: ""
+				DisplayName: Candescite Ore
+			}
+
+			CandesciteBar: {
+				Tooltip: ""
+				DisplayName: Candescite Bar
+			}
+
+			NecroScope: {
+				Tooltip:
+					'''
+					2 defense
+					10% increased ranged damage and critical strike chance
+					5% increased bullet damage
+					Using weapons shoots crossbones
+					Taking damage launches bone toothpicks
+					Enemies are less likely to target you
+					Increases view range for guns (Right click to zoom)
+					'''
+				DisplayName: Necro Scope
+			}
+
+			MechanicalQuiver: {
+				Tooltip:
+					'''
+					5% increased ranged damage and critical strike chance
+					8% increased arrow damage and increases arrow speed
+					20% chance not to consume arrows
+					Enemies are less likely to target you
+					'''
+				DisplayName: Mechanical Quiver
+			}
+
+			AncientGadgets: {
+				Tooltip:
+					'''
+					2 defense
+					15% increased ranged damage and 10% increased ranged critical strike chance
+					15% increased ranged velocity
+					25% chance not to consume ammo
+					Enemies are much less likely to target you
+					Using weapons shoots crossbones
+					Taking damage launches bone toothpicks
+					Increases view range for guns (Right click to zoom)
+					'''
+				DisplayName: Ancient Gadgets
+			}
+
+			CandescenceBag: {
+				Tooltip: ""
+				DisplayName: Treasure Bag (Candescence)
+			}
+
+			CandescentLeggings: {
+				Tooltip:
+					'''
+					10% increased melee and magic critical strike chance
+					10% reduced mana cost
+					15% increased movement speed
+					'''
+				DisplayName: Candescent Leggings
+			}
+
+			CandescentHelmet: {
+				Tooltip:
+					'''
+					14% increased melee and magic damage
+					Removes the non-magic damage penalties of scepters
+					'''
+				DisplayName: Candescent Helmet
+			}
+
+			CandescentBreastplate: {
+				Tooltip:
+					'''
+					10% increased melee and magic damage and critical strike chance
+					Increases max mana by 40% and melee speed by 15%
+					'''
+				DisplayName: Candescent Breastplate
+			}
+
+			Icewave: {
+				Tooltip: Shoots an accelerating ice vortex
+				DisplayName: Icewave
+			}
+
+			HellShell: {
+				TooltipWithVar:
+					'''
+					{0} magic damage
+					2 defense
+					Taking damage releases multiple sparks
+					'''
+				DisplayName: Hell Shell
+				Tooltip: ""
+			}
+
+			ShellOfRetaliation: {
+				TooltipWithVar:
+					'''
+					7 defense
+					Increases length of invincibility after taking damage
+					Reflects 75% of contact damage
+					Upon taking damage, the following effects will take place:
+					 - With a 2 second cooldown, releases three Cactus Spines toward the cursor, dealing {0} ranged damage. Stacks with downgrades
+					 - Releases multiple sparks, dealing {1} magic damage. Stacks with downgrades
+					 - Briefly inflicts Venom on nearby enemies. Stacks with downgrades
+					 - Causes stars to fall
+					 - Releases bees to chase enemies (Toggled with visibility)
+					 - Douses the user in honey
+					'''
+				DisplayName: Shell of Retaliation
+				Tooltip: ""
+			}
+
+			OverflowingVenomVial: {
+				DisplayName: Overflowing Venom Vial
+				Tooltip:
+					'''
+					Emit a larger venomous aura
+					Enemies within the aura take 15% more damage (multiplicative) and venom is strengthened by 3x
+					'''
+			}
+
+			PotentVenomGland: {
+				DisplayName: Potent Venom Gland
+				Tooltip:
+					'''
+					Emit a venomous aura
+					Enemies within the aura take 10% more damage (multiplicative)
+					'''
+			}
+
+			VenomWard: {
+				DisplayName: Venom Ward
+				Tooltip:
+					'''
+					6 defense
+					Absorbs 25% of damage done to players on your team when above 25% life
+					Grants immunity to knockback
+					Puts a shell around the owner when below 50% life that reduces damage taken by 25%
+					Releases bees when damaged (Can be toggled with visibility)
+					Douses the user in honey when damaged
+					Emit a venomous aura
+					Enemies within the aura take 15% more damage (multiplicative) and venom is strengthened by 3x
+					Increases armor penetration by 12
+					'''
+			}
+
+			ShellOfVengefulSpirits: {
+				DisplayName: Shell of Vengeful Spirits
+				TooltipWithVar:
+					'''
+					12 defense
+					Absorbs 25% of damage done to players on your team when above 25% life
+					Puts a shell around the owner when below 50% life that reduces damage taken by 25%
+					Emit a venomous aura
+					Enemies within the aura take 15% more damage (multiplicative) and venom is strengthened by 3x
+					Increases armor penetration by 12
+					Increases length of invincibility after taking damage
+					Increases defense the lower your health, up to a max of 20 defense below 30% health
+					Increases health healed by potions the lower your health, up to a max of 30% extra health below 15% health
+					Grants immunity to knockback, most debuffs, and fire blocks
+					Increases life regeneration
+					Reflects 75% of contact damage
+					Upon taking damage, the following effects will take place:
+					 - With a 2 second cooldown, releases three Cactus Spines toward the cursor, dealing {0} ranged damage. Stacks with downgrades
+					 - Releases multiple sparks, dealing {1} magic damage. Stacks with downgrades
+					 - Briefly inflicts Venom on nearby enemies. Stacks with downgrades
+					 - Releases multiple bone toothpicks. Stacks with downgrades
+					 - Causes stars to fall
+					 - Releases bees to chase enemies (Toggled with visibility)
+					 - Douses the user in honey
+					'''
+				Tooltip: ""
+			}
+
+			AmplifyingRail: {
+				Tooltip:
+					'''
+					Currently Unobtainable
+					Gain up to 20% damage, 10% melee speed, 20% ranged velocity, 10% reduced
+					mana cost, and 10% whip range based on your current speed
+					Caps out at 40 MPH
+					'''
+				DisplayName: Amplifying Rail
+			}
+
+			AncientFlierBreastplate: {
+				DisplayName: Ancient Flier Chainmail
+				Tooltip:
+					'''
+					Increases maximum number of minions by 2
+					20% increased ranged velocity
+					20% chance not to consume ammo
+					25% increased wing flight time
+					8% reduced wing speed
+					'''
+			}
+
+			AncientFlierHelmet: {
+				DisplayName: Ancient Flier Headgear
+				Tooltip:
+					'''
+					16% increased ranged and summon damage
+					Increases armor penetration by 4
+					25% increased wing flight time
+					8% reduced wing speed
+					'''
+			}
+
+			AncientFlierLeggings: {
+				DisplayName: Ancient Flier Greaves
+				Tooltip:
+					'''
+					10% increased ranged damage and crit chance
+					10% increased summon damage
+					50% increased wing flight time
+					16% reduced wing speed
+					'''
+			}
+
+			DesertScale: {
+				DisplayName: Desert Scale
+				Tooltip: Devoid of hydration
+			}
+
+			SandShark: {
+				DisplayName: The Sand Shark
+				Tooltip:
+					'''
+					40% chance to save ammo
+					Periodically fires lingering sand
+					'''
+			}
+
+			TheSandstorm: {
+				DisplayName: The Sandstorm
+				Tooltip: Teleports around the enemy on hit
+			}
+
+			DesertSting: {
+				DisplayName: Desert Sting
+				Tooltip:
+					'''
+					25% chance to save ammo
+					Every 8th shot is converted to venom arrow
+					'''
+			}
+
+			SandyScalebook: {
+				DisplayName: Sandy Scalebook
+				Tooltip: Rapidly fire bouncing desert scales
+			}
+
+			TheTumbler: {
+				DisplayName: The Tumbler
+				Tooltip:
+					'''
+					Leaves a trail of sand as it spins
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			DriedBlossom: {
+				DisplayName: Dried Blossom
+				Tooltip:
+					'''
+					6% increased magic damage and critical strike chance
+					6% reduced mana cost
+					15% increased flight time
+					'''
+			}
+
+			Flint: {
+				DisplayName: Flint
+				Tooltip: "'Sharp and easy to shape'"
+			}
+
+			FlintDirt: {
+				DisplayName: Flint Dirt
+				Tooltip: A dirt block with flint in it
+			}
+
+			EarthenBreastplate: {
+				DisplayName: Earthen Breastplate
+				Tooltip:
+					'''
+					Increases max mana by 40
+					6% increased ranged damage and critical strike chance
+					'''
+			}
+
+			EarthenHelmet: {
+				DisplayName: Earthen Helmet
+				Tooltip:
+					'''
+					Removes the non-magic damage penalties of scepters
+					10% reduced scepter max stat penalties
+					10% increased ranged velocity
+					5% increased magic damage
+					'''
+			}
+
+			EarthenLeggings: {
+				DisplayName: Earthen Leggings
+				Tooltip:
+					'''
+					10% increased movement speed
+					10% increased ranged velocity
+					5% increased magic damage
+					'''
+			}
+
+			FlintHandAxe: {
+				DisplayName: Flint Hand Axe
+				Tooltip: ""
+			}
+
+			FlintStaff: {
+				DisplayName: Flint Staff
+				Tooltip: Fires a bolt of flint
+			}
+
+			FlintSpear: {
+				DisplayName: Flint Spear
+				Tooltip: Deals double damage on the first enemy hit
+			}
+
+			FlintKnives: {
+				DisplayName: Flint Knives
+				Tooltip: Throw three knives at a time
+			}
+
+			EnchantedLeaf: {
+				DisplayName: Enchanted Leaf
+				Tooltip:
+					'''
+					Can be used to create chlorophyte more efficiently
+					'Enchanted by what, exactly?'
+					'''
+			}
+
+			VerdantStaff: {
+				DisplayName: Verdant Staff
+				Tooltip:
+					'''
+					Summons a forest bat to fight for you
+					Bats may sometimes shoot homing beams
+					'''
+			}
+
+			ForestBeam: {
+				DisplayName: Forest Beam
+				Tooltip:
+					'''
+					Fires a forest beam
+					'Me? Fake shader trails? Don't be ridiculous.'
+					'''
+			}
+
+			LeafyDisc: {
+				DisplayName: Leafy Disc
+				Tooltip: Stacks up to two
+			}
+
+			EarthenAmulet: {
+				DisplayName: Earthen Amulet
+				Tooltip:
+					'''
+					12% increased ranged velocity
+					Increases max mana by 20
+					5% reduced mana usage
+					Reduces mana regeneration
+					Ranged attacks have a 33% chance to restore mana equal to its' damage
+					This effect can only occur once every 1/5 of a second and has a max of 25 mana regenerated per projectile
+					'''
+			}
+
+			IceElementalStaff: {
+				DisplayName: Ice Elemental Staff
+				Tooltip:
+					'''
+					Summons an ice elemental to fight for you
+					Occupies two minion slots
+					Projectiles use static immunity frames; it is suggested you other minions with this weapon
+					'''
+			}
+
+			ThrushGliders: {
+				DisplayName: Thrush Gliders
+				Tooltip:
+					'''
+					Allows flight and slow fall
+					15% increased horizontal speed; this includes boot speed
+					"If things get rough, I'm makin' a break for it. Don't worry 'bout me."
+					'''
+			}
+
+			EmptyJarOfSpirits: {
+				DisplayName: Empty Jar of Spirits
+				Tooltip: Can be filled with spirit items
+			}
+
+			TsugumiBag: {
+				DisplayName: Treasure Bag (Tsugumi Umatachi)
+				Tooltip: ""
+			}
+
+			HorseSnapper: {
+				DisplayName: Horse Snapper
+				Tooltip:
+					'''
+					6 summon tag damage
+					6% summon tag critical strike chance
+					Striking an enemy will briefly increase minion projectile velocity by 15%
+					"What?! Like hell! This here horse is MINE!!"
+					'''
+			}
+
+			PumpkinRocket: {
+				DisplayName: Pumpkin Rocket
+				Tooltip:
+					'''
+					50% increased horizontal speed while not using any items
+					This includes boot speed
+					'''
+			}
+
+			SoulOfIghtImaHeadOut: {
+				DisplayName: Soul of ight ima head out
+				Tooltip: "'The essence of running away'"
 			}
 		}
 
@@ -3014,11 +3762,14 @@ Mods: {
 			RottingSoulflower.DisplayName: Rotting Soulflower
 			DecayingBloodflower.DisplayName: Decaying Bloodflower
 			TsugumiUmatachi.DisplayName: Tsugumi Umatachi
+			Candescence.DisplayName: Candescence
+			ForestBat.DisplayName: Forest Bat
+			SentientSapling.DisplayName: Sentient Sapling
 		}
 
 		Bestiary: {
 			HaijiSenri: Comes from a world called Mugenri. They like spell cards. Don't mind the spinning.
-			TreeToad: An oversized toad dwelling in treetops.
+			TreeToad: An oversized toad dwelling in treetops. Contrary to popular belief, it is not the one enchanting those leaves.
 			TrashSlime: A slime that absorbed trash. A lot of trash. Seriously, why are those townspeople throwing away so much trash on the ground?
 			SeseKitsugai: Comes from a world called Mugenri. Bones are included in this package.
 			IceSpirit: A spirit in control of an ice chunk. Or possibly an ice chunk in control of a spirit. Who knows?
@@ -3027,6 +3778,9 @@ Mods: {
 			RottingSoulflower: An organic lifeform that has been corrupted. Appears to manipulate the Eaters around it, along with being able to utilize the sealed power of the Cursed Flame. However, it only attacks those that are a threat.
 			DecayingBloodflower: An organic lifeform that has been tainted with blood. Appears to manipulate the Crimeras around it, along with being able to utilize the sealed power of Ichor. However, it only attacks those that are a threat.
 			IceChunk: Unlike the Ice Spirits, these ice chunks are possessed by Frigidius themself. Because of this, they don't gain the ability to shoot lasers that the spirits have.
+			Candescence: An ancient moth that found its' way to Hell after its' sparring partner had gotten lost and been buried under the snow. The demons down here seem to be on good terms with this moth.
+			ForestBat: What kind of hellspawn is this abomination?!
+			SentientSapling: A sapling that can apparently make sense of it's surroundings. Just don't attack it and you'll be fine.
 		}
 
 		Dialogue: {
@@ -3047,14 +3801,16 @@ Mods: {
 			TrashMelter.MapEntry: Trash Melter
 			FrigidForge.MapEntry: Frigid Forge
 			FrigidAltar.MouseItem: "[i:AwfulGarbageMod/ExoticCrystal]"
+			CandesciteOre.MapEntry: Candescite
+			FlintDirt.MapEntry: Flint
 		}
 
 		WorldGen.OreGenMessage: More Shinies
 
 		Biomes: {
 			HarujionBiome: {
-				DisplayName: Harujion Biome
-				TownNPCDialogueName: the Harujion Biome
+				DisplayName: The Harujion
+				TownNPCDialogueName: the Harujion
 			}
 		}
 	}

@@ -27,6 +27,7 @@ using AwfulGarbageMod.NPCs;
 using static Terraria.GameContent.Animations.IL_Actions.NPCs;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Rogue;
+using AwfulGarbageMod.Items.Consumables;
 
 namespace AwfulGarbageMod.NPCs.Town
 {
@@ -230,7 +231,8 @@ namespace AwfulGarbageMod.NPCs.Town
 		// Not completely finished, but below is what the NPC will sell
 		public override void AddShops() {
 			var npcShop = new NPCShop(Type, ShopName)
-				.Add<PerfectFreeze>()
+				.Add<EmptyJarOfSpirits>()
+                .Add<PerfectFreeze>()
 				.Add<EvilWardingCharm>()
 				.Add<Imperceptible>()
             ;

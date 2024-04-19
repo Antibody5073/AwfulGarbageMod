@@ -84,8 +84,13 @@ namespace AwfulGarbageMod.Configs
         
         [DefaultValue(100)]
         [Range(20, 1000)]
-        [Increment(10)]
+        [Increment(5)]
         [Slider]
         public int BossHealthMultiplier;
+
+
+        [DefaultValue(100)]
+        [Range(20, 1000)]
+        public int EnemyDamageMultiplier;
     }
 }

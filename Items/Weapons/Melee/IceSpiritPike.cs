@@ -108,36 +108,48 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             projSpeed = 0.3f;
         }
-
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            return Projectile.ai[1] > 0 ? false : base.Colliding(projHitbox, targetHitbox);
+        }
         public override void AI()
         {
-            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.SpectreStaff, Projectile.velocity.X / 2, Projectile.velocity.Y / 2, 0, default(Color), 1f);
-            Main.dust[dust].scale = 1.35f;
-            Main.dust[dust].noGravity = true;
-            int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.SpectreStaff, 0, 0 / 2, 0, default(Color), 1f);
-            Main.dust[dust2].scale = 1.35f;
-            Main.dust[dust2].noGravity = true;
-
-            float maxDetectRadius = 800f; // The maximum radius at which a projectile can detect a target
-
-            // Trying to find NPC closest to the projectile
-            NPC closestNPC = FindClosestNPC(maxDetectRadius);
-            if (closestNPC == null)
-                return;
-
-            // If found, change the velocity of the projectile and turn it in the direction of the target
-            // Use the SafeNormalize extension method to avoid NaNs returned by Vector2.Normalize when the vector is zero
-            Projectile.velocity += (closestNPC.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * projSpeed;
-            Projectile.rotation = Projectile.velocity.ToRotation();
-            projSpeed += 0.02f;
-            if (Vector2.Distance(new Vector2(0, 0), Projectile.velocity) > 7f)
+            for (int i = 0; i < 2; i++)
             {
-                Projectile.velocity *= 0.95f;
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.SpectreStaff, Projectile.velocity.X / 2, Projectile.velocity.Y / 2, 0, default(Color), 1f);
+                Main.dust[dust].scale = 1.35f;
+                Main.dust[dust].noGravity = true;
+                int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.SpectreStaff, 0, 0 / 2, 0, default(Color), 1f);
+                Main.dust[dust2].scale = 1.35f;
+                Main.dust[dust2].noGravity = true;
             }
-            if (Vector2.Distance(new Vector2(0, 0), Projectile.velocity) > 12f)
+            if (Projectile.ai[1] > 0)
             {
-                Projectile.velocity.Normalize();
-                Projectile.velocity *= 12;
+                Projectile.ai[1]--;
+            }
+            else
+            {
+                float maxDetectRadius = 800f; // The maximum radius at which a projectile can detect a target
+
+                // Trying to find NPC closest to the projectile
+                NPC closestNPC = FindClosestNPC(maxDetectRadius);
+                if (closestNPC == null)
+                    return;
+
+                // If found, change the velocity of the projectile and turn it in the direction of the target
+                // Use the SafeNormalize extension method to avoid NaNs returned by Vector2.Normalize when the vector is zero
+                Projectile.velocity += (closestNPC.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * projSpeed;
+                Projectile.rotation = Projectile.velocity.ToRotation();
+                projSpeed += 0.02f;
+                if (Vector2.Distance(new Vector2(0, 0), Projectile.velocity) > 7f)
+                {
+                    Projectile.velocity *= 0.95f;
+                }
+                if (Vector2.Distance(new Vector2(0, 0), Projectile.velocity) > 12f)
+                {
+                    Projectile.velocity.Normalize();
+                    Projectile.velocity *= 12;
+                }
             }
         }
         public NPC FindClosestNPC(float maxDetectDistance)

@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using AwfulGarbageMod;
 using AwfulGarbageMod.Global;
+using AwfulGarbageMod.DamageClasses;
 
 namespace AwfulGarbageMod.Items.Accessories
 {
@@ -34,7 +35,8 @@ namespace AwfulGarbageMod.Items.Accessories
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.GetModPlayer<GlobalPlayer>().flailSpinSpd += 0.20f;
+			player.GetModPlayer<GlobalPlayer>().flailSpinSpd += 0.25f;
+            player.GetDamage<FlailDamageClass>() -= 0.10f;
             player.GetModPlayer<GlobalPlayer>().flailRange -= 0.10f;
 
         }

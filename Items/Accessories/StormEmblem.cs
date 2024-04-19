@@ -40,12 +40,13 @@ namespace AwfulGarbageMod.Items.Accessories
         }
 
         public override void AddRecipes()
-		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(Mod.Find<ModItem>("StormyCharm").Type);
-            recipe.AddIngredient(ItemID.SummonerEmblem);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.SummonerEmblem)
+                .AddIngredient<StormyCharm>()
+                .AddIngredient<SoulOfIghtImaHeadOut>(9)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
 	}
 }

@@ -26,7 +26,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 59;
+			Item.damage = 53;
             Item.DamageType = ModContent.GetInstance<KnifeDamageClass>();
 			Item.width = 60;
 			Item.height = 60;
@@ -37,7 +37,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Swing;
 			Item.knockBack = 5f;
 			Item.value = 10000;
-			Item.rare = 1;
+			Item.rare = 4;
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;
 			Item.shoot = ModContent.ProjectileType<CobaltKnivesProj>();

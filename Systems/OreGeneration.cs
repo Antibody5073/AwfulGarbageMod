@@ -33,6 +33,11 @@ namespace AwfulGarbageMod.Systems
             {
                 GenerateFrigidium();
             }
+            //Flint
+            if (ModContent.GetInstance<ConfigClient>().ShouldGenerateFlint)
+            {
+                GenerateFlint();
+            }
         }
 
         public static void GenerateFrigidium()
@@ -48,6 +53,23 @@ namespace AwfulGarbageMod.Systems
                 if (tile.HasTile && (tile.TileType == TileID.IceBlock || tile.TileType == TileID.SnowBlock))
                 {
                     WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 12), WorldGen.genRand.Next(4, 8), ModContent.TileType<FrigidiumOre>());
+                }
+            }
+        }
+        public static void GenerateFlint()
+        {
+            Main.NewText("Generated Flint", Color.DarkSlateGray);
+
+            for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY) * 7E-04); i++)
+            {
+                int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+                int y = WorldGen.genRand.Next(0, (int)GenVars.rockLayerLow);
+
+                Tile tile = Framing.GetTileSafely(x, y);
+                Tile tileAbove = Framing.GetTileSafely(x, y - 2);
+                if (tile.HasTile && (tile.TileType == TileID.Dirt) && (tileAbove.TileType == TileID.Dirt || tileAbove.TileType == TileID.Grass))
+                {
+                    WorldGen.TileRunner(x, y, WorldGen.genRand.NextFloat(1, 2.5f), WorldGen.genRand.Next(15, 55), ModContent.TileType<FlintDirt>());
                 }
             }
         }

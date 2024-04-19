@@ -182,12 +182,12 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             }
 
             counter++;
-            if (counter % 24 == 12)
+            if (counter % 26 == 13)
             {
                 NPC closestNPC = FindClosestNPC(zapRange);
                 if (closestNPC != null)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, (closestNPC.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * 12, Mod.Find<ModProjectile>("TheEyeOfTheStormProjLightning").Type, (int)(dmg * 1.35f), Projectile.knockBack / 5f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, (closestNPC.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * 12, Mod.Find<ModProjectile>("TheEyeOfTheStormProjLightning").Type, (int)(dmg * 1.25f), Projectile.knockBack / 5f, Projectile.owner);
                 }
             }
 

@@ -47,6 +47,10 @@ namespace AwfulGarbageMod.Items.Consumables
             {
                 OreGeneration.GenerateFrigidium();
             }
+            if (AGUtils.GetTileCounts(ModContent.TileType<FlintDirt>()) <= 0)
+            {
+                OreGeneration.GenerateFlint();
+            }
             return true;
         }
 

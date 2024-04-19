@@ -94,6 +94,11 @@ namespace ExampleMod.Content
                     .AddIngredient(ItemID.HellstoneBar, 7)
                     .AddTile(TileID.Anvils)
                     .Register();
+                Recipe.Create(ItemID.FrozenTurtleShell)
+                .AddIngredient(ItemID.TurtleShell)
+                .AddIngredient<Cryogem>(30)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
             }
         }
     }

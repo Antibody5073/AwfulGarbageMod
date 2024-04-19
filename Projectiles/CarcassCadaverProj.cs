@@ -54,13 +54,13 @@ namespace AwfulGarbageMod.Projectiles
         }
         public override void AI()
         {
-            Projectile.damage = 18;
+            Projectile.damage = 16;
             if (Main.expertMode)
             {
-                Projectile.damage = 17;
+                Projectile.damage = 15;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 15;
+                    Projectile.damage = 13;
                 }
             }
             Projectile.rotation += MathHelper.ToRadians(spin);

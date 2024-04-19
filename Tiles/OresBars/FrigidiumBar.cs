@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -15,7 +16,8 @@ namespace AwfulGarbageMod.Tiles.OresBars
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
 
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.addTile(Type);

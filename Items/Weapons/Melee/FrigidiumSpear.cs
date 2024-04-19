@@ -26,12 +26,12 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 		public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.Spear);
-			Item.damage = 24;
+			Item.damage = 21;
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 60;
 			Item.height = 60;
-			Item.useTime = 30;
-			Item.useAnimation = 30;
+			Item.useTime = 33;
+			Item.useAnimation = 33;
 			Item.knockBack = 7;
 			Item.value = 10000;
 			Item.rare = 2;

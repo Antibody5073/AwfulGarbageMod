@@ -29,7 +29,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
 		public override void SetDefaults()
 		{
-			Item.damage = 39;
+			Item.damage = 45;
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 60;
 			Item.height = 60;

@@ -21,7 +21,10 @@ namespace AwfulGarbageMod.Tiles.OresBars
 			Main.tileSolid[Type] = true;
 			Main.tileBlockLight[Type] = true;
 
-			LocalizedText name = CreateMapEntryName();
+            Main.tileMerge[Type][TileID.IceBlock] = true;
+            Main.tileMerge[Type][TileID.SnowBlock] = true;
+
+            LocalizedText name = CreateMapEntryName();
 			AddMapEntry(new Color(152, 171, 198), name);
 
 			DustType = DustID.Ice;

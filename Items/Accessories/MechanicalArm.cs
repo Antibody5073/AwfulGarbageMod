@@ -34,8 +34,17 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<GlobalPlayer>().mechanicalArm += 0.3f;
+            player.GetModPlayer<GlobalPlayer>().mechanicalArm += 0.4f;
         }
-
-	}
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.HallowedBar, 15)
+                .AddIngredient(ItemID.SoulofMight, 18)
+                .AddIngredient(ItemID.Wire, 30)
+                .AddIngredient(ItemID.Cog, 15)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+        }
+    }
 }

@@ -36,5 +36,14 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             player.GetModPlayer<GlobalPlayer>().DoubleVisionBand = true;
         }
-	}
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.SoulofSight, 15)
+                .AddIngredient(ItemID.Chain, 5)
+                .AddIngredient(ItemID.Lens, 2)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+        }
+    }
 }

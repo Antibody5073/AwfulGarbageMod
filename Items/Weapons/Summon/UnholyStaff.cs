@@ -427,7 +427,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             Projectile.CloneDefaults(ProjectileID.DemonScythe);
             Projectile.DamageType = DamageClass.Summon;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 12;
+            Projectile.idStaticNPCHitCooldown = 15;
         }
     }
 }

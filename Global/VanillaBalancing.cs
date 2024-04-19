@@ -92,7 +92,7 @@ namespace AwfulGarbageMod.Global.GlobalItems
                 }
                 if (item.type == ItemID.BeeGun)
                 {
-                    item.damage += 4;
+                    item.damage += 2;
                 }
             }
 
@@ -159,32 +159,24 @@ namespace AwfulGarbageMod.Global.GlobalItems
             {
                 if ((item.ammo == AmmoID.Arrow || item.ammo == AmmoID.Bullet))
                 {
-                    item.damage /= 2;
+                    item.damage = item.damage * 3 / 4; 
                     item.StatsModifiedBy.Add(Mod);
                 }
                 if (item.type == ItemID.Minishark && ModContent.GetInstance<Config>().RangerAmmoNerf)
                 {
-                    item.damage += 1;
-                    item.ArmorPenetration += 5;
+                    item.ArmorPenetration += 3;
                     item.StatsModifiedBy.Add(Mod);
                 }
                 if (item.type == ItemID.Megashark && ModContent.GetInstance<Config>().RangerAmmoNerf)
                 {
                     item.damage += 1;
-                    item.ArmorPenetration += 4;
+                    item.ArmorPenetration += 2;
                     item.StatsModifiedBy.Add(Mod);
                 }
                 if (item.type == ItemID.ChainGun && ModContent.GetInstance<Config>().RangerAmmoNerf)
                 {
                     item.damage += 2;
                     item.ArmorPenetration += 3;
-                    item.StatsModifiedBy.Add(Mod);
-                }
-                if (item.type == ItemID.FlintlockPistol && ModContent.GetInstance<Config>().RangerAmmoNerf)
-                {
-                    item.damage += 3;
-                    item.useTime -= 1;
-                    item.useAnimation -= 1;
                     item.StatsModifiedBy.Add(Mod);
                 }
             }

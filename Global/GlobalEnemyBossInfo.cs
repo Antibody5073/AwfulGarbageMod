@@ -24,10 +24,12 @@ namespace AwfulGarbageMod.Global
     public class GlobalEnemyBossInfo : GlobalNPC
     {
         public override bool InstancePerEntity => true;
-
+        
         public float OrbitDistance;
         public float OrbitDirection;
         public bool killOrbitals;
         public bool orbitalsDealDamage;
+
+        public bool finishedAtk;
     }
 }

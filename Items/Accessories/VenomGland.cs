@@ -26,7 +26,7 @@ namespace AwfulGarbageMod.Items.Accessories
 		{
 			Item.width = 20;
 			Item.height = 20;
-            Item.value = 6000;
+            Item.value = Item.sellPrice(gold: 75);
             Item.rare = ItemRarityID.Green;
             Item.accessory = true;
         }

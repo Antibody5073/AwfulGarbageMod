@@ -317,7 +317,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
                 vel.Y -= (distanceFromTarget / 10) * 0.06f;
 
                 atkTimer++;
-                if (atkTimer % 23 == 0)
+                if (atkTimer % 25 == 0)
                 {
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vel, Mod.Find<ModProjectile>("CursedCandleStaffProj").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Main.projectile[proj].ArmorPenetration += 2;

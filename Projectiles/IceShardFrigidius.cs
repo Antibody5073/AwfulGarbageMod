@@ -118,13 +118,13 @@ namespace AwfulGarbageMod.Projectiles
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(315);
 
-            Projectile.damage = 30;
+            Projectile.damage = 26;
             if (Main.expertMode)
             {
-                Projectile.damage = 28;
+                Projectile.damage = 24;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 25;
+                    Projectile.damage = 22;
                 }
             }
         }

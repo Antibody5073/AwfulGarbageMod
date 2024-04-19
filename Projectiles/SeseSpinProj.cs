@@ -37,13 +37,13 @@ namespace AwfulGarbageMod.Projectiles
         {
             DrawOffsetX = -4;
             DrawOriginOffsetY = -4;
-            Projectile.damage = 21;
+            Projectile.damage = 18;
             if (Main.expertMode)
             {
-                Projectile.damage = 20;
+                Projectile.damage = 17;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 18;
+                    Projectile.damage = 15;
                 }
             }
             if (Projectile.timeLeft > 540)

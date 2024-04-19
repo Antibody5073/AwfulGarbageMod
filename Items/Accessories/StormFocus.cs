@@ -51,7 +51,7 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetCritChance(DamageClass.Generic) += 4;
-
+            player.GetDamage(DamageClass.Magic) += 0.05f;
             if (player.velocity == new Vector2(0, 0))
             {
                 player.GetCritChance(DamageClass.Generic) += 4;
@@ -81,7 +81,11 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void AddRecipes()
 		{
-            
+            CreateRecipe()
+                .AddIngredient<ToadFocus>()
+                .AddIngredient<LightningRing>()
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
 	}
 }

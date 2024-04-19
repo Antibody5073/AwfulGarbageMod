@@ -42,13 +42,13 @@ namespace AwfulGarbageMod.Projectiles
             {
                 Projectile.velocity.Y = Projectile.ai[1];
             }
-            Projectile.damage = 20;
+            Projectile.damage = 18;
             if (Main.expertMode)
             {
-                Projectile.damage = 19;
+                Projectile.damage = 17;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 18;
+                    Projectile.damage = 16;
                 }
             }
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.78f);

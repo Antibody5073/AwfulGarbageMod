@@ -63,6 +63,12 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             recipe2.AddIngredient(ItemID.RubyStaff);
             recipe2.AddTile(TileID.Anvils);
             recipe2.Register();
+            CreateRecipe()
+                .AddIngredient<AcornStaff>()
+                .AddIngredient(ItemID.GemTreeRubySeed, 6)
+                .AddIngredient(ItemID.CrimtaneBar, 8)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
 	}
 

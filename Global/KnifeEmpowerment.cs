@@ -57,7 +57,7 @@ namespace AwfulGarbageMod.Global
                         CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height), textColor, key, dramatic: true);
                         if (player.GetModPlayer<GlobalPlayer>().CobaltRanged) 
                         {
-                            projectile.damage += (int)(origdmg * 1.25f);
+                            projectile.damage += (int)(origdmg * 1.1f);
                         }
                     }
                 }

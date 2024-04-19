@@ -10,6 +10,9 @@ using System.Linq;
 using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.DamageClasses;
 using AwfulGarbageMod.Projectiles;
+using System;
+using Steamworks;
+using AwfulGarbageMod.Items.Armor;
 
 namespace AwfulGarbageMod.Global
 {
@@ -18,11 +21,23 @@ namespace AwfulGarbageMod.Global
     // See other GlobalItem classes in ExampleMod to see other ways that GlobalItem can be used.
     public class ItemAccessoryEffects : GlobalItem
     {
+        public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
+        {
+            speed *= player.GetModPlayer<GlobalPlayer>().HorizontalWingSpdMult;
+        }
+        public override void VerticalWingSpeeds(Item item, Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
+        {
+            maxAscentMultiplier *= player.GetModPlayer<GlobalPlayer>().VerticalWingSpdMult;
+            ascentWhenRising *= player.GetModPlayer<GlobalPlayer>().VerticalWingSpdMult;
+            ascentWhenFalling *= player.GetModPlayer<GlobalPlayer>().VerticalWingSpdMult;
+
+        }
+
         public override bool InstancePerEntity => true;
         int shotNumber;
         public override void GetHealMana(Item item, Player player, bool quickHeal, ref int healValue)
         {
-            if (player.GetModPlayer<GlobalPlayer>().lightningRing == true)
+            if (player.GetModPlayer<GlobalPlayer>().lightningRing == true && item.healMana > 0)
             {
                 player.AddBuff(BuffID.Electrified, 2 * 60);
                 healValue = (int)(healValue * 1.2f);
@@ -68,14 +83,21 @@ namespace AwfulGarbageMod.Global
 
         public override bool CanConsumeAmmo(Item weapon, Item ammo, Player player)
         {
-            if (player.GetModPlayer<GlobalPlayer>().JunkGreaves && Main.rand.NextBool(4)) 
+            if (player.GetModPlayer<GlobalPlayer>().JunkGreaves && Main.rand.NextBool(4))
             {
                 return false;
             }
-            else
+            if (player.body == ModContent.ItemType<AncientFlierBreastplate>() && Main.rand.NextBool(5))
             {
-                return true;
-            } 
+                return false;
+            }
+            if (player.GetModPlayer<GlobalPlayer>().AncientGadgets && Main.rand.NextBool(5))
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
@@ -115,6 +137,58 @@ namespace AwfulGarbageMod.Global
                         float distanceFromTarget = Vector2.Distance(position, Main.MouseWorld);
                         vel.Y -= (distanceFromTarget / 24) * 0.15f;
                         int proj = Projectile.NewProjectile(source, position, vel, ModContent.ProjectileType<WaterStreamRanged>(), (int)(damage * player.GetModPlayer<GlobalPlayer>().waterSigil), 2, player.whoAmI);
+                    }
+                }
+                if (player.GetModPlayer<GlobalPlayer>().terraSigil)
+                {
+                    if (shotNumber % 6 == 0)
+                    {
+                        List<NPCandValue> npcDistances = new List<NPCandValue> { };
+
+
+                        // Using squared values in distance checks will let us skip square root calculations, drastically improving this method's speed.
+                        float sqrMaxDetectDistance = 1280 * 1280;
+
+                        // Loop through all NPCs(max always 200)
+                        for (int k = 0; k < Main.maxNPCs; k++)
+                        {
+                            NPC target = Main.npc[k];
+                            // Check if NPC able to be targeted. It means that NPC is
+                            // 1. active (alive)
+                            // 2. chaseable (e.g. not a cultist archer)
+                            // 3. max life bigger than 5 (e.g. not a critter)
+                            // 4. can take damage (e.g. moonlord core after all it's parts are downed)
+                            // 5. hostile (!friendly)
+                            // 6. not immortal (e.g. not a target dummy)
+                            if (target.CanBeChasedBy())
+                            {
+                                // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
+                                float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, player.Center);
+
+                                // Check if it is within the radius
+                                if (sqrDistanceToTarget < sqrMaxDetectDistance)
+                                {
+                                    npcDistances.Add(
+                                        new NPCandValue { npc = target, value = sqrDistanceToTarget }
+                                        );
+                                }
+                            }
+                        }
+
+                        npcDistances.Sort();
+
+                        int npcs = npcDistances.Count;
+                        if (npcs > 4)
+                        {
+                            npcs = 4;
+                        }
+                        if (npcs > 0)
+                        {
+                            for (int i = 0; i < npcs; i++)
+                            {
+                                Projectile.NewProjectile(source, npcDistances[i].npc.Bottom + new Vector2(0, 32), Vector2.Zero, ModContent.ProjectileType<TerraWristSwordProj>(), damage * 4/5, 5, player.whoAmI, npcDistances[i].npc.whoAmI);
+                            }
+                        }
                     }
                 }
                 if (player.GetModPlayer<GlobalPlayer>().shadowSigil > 0)
@@ -184,4 +258,5 @@ namespace AwfulGarbageMod.Global
             return closestNPC;
         }
     }
+    
 }

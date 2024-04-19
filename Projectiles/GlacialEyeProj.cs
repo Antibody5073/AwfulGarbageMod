@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using AwfulGarbageMod.Buffs;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using static Humanizer.In;
 
 namespace AwfulGarbageMod.Projectiles
 {
@@ -52,7 +53,6 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.DamageType = DamageClass.Melee;
             Projectile.width = 12;
             Projectile.height = 12;
             Projectile.aiStyle = -1;
@@ -133,7 +133,7 @@ namespace AwfulGarbageMod.Projectiles
 
         public virtual void SetRotation(Player player, float direction, float offsetDir = 0)
         {
-            float maxDetectRadius = 500f;
+            float maxDetectRadius = 650f;
             NPC closestNPC = FindClosestNPC(maxDetectRadius);
             if (closestNPC == null)
             {
@@ -166,7 +166,7 @@ namespace AwfulGarbageMod.Projectiles
 
             SetRotation(player, tempDir, OffsetDir);
 
-            if (!player.GetModPlayer<GlobalPlayer>().GlacialEyePassive)
+            if (player.GetModPlayer<GlobalPlayer>().GlacialEyeDmg > 0)
             {
                 Shoot();
             }
@@ -215,18 +215,18 @@ namespace AwfulGarbageMod.Projectiles
                 return;
             }
 
-            float maxDetectRadius = 500f; // The maximum radius at which a projectile can detect a target
+            float maxDetectRadius = 650f; // The maximum radius at which a projectile can detect a target
             // Trying to find NPC closest to the projectile
             NPC closestNPC = FindClosestNPC(maxDetectRadius);
             if (closestNPC == null)
                 return;
 
             Vector2 direction;
-
+            Player player = Main.player[Projectile.owner];
 
             direction = closestNPC.Center - Projectile.Center;
             direction.Normalize();
-            int proj = Projectile.NewProjectile(Projectile.GetSource_ReleaseEntity(), Projectile.Center, direction.RotatedByRandom(MathHelper.ToRadians(8)) * 13, ProjectileID.SnowBallFriendly, 22, 2, Projectile.owner);
+            int proj = Projectile.NewProjectile(Projectile.GetSource_ReleaseEntity(), Projectile.Center, direction.RotatedByRandom(MathHelper.ToRadians(8)) * 13, ProjectileID.SnowBallFriendly, player.GetModPlayer<GlobalPlayer>().GlacialEyeDmg, 2, Projectile.owner);
             Main.projectile[proj].DamageType = DamageClass.Default;
             Main.projectile[proj].ArmorPenetration = 8;
             timer = 20;

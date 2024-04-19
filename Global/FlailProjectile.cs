@@ -27,6 +27,7 @@ namespace AwfulGarbageMod.Global
 
         public float spinOffset = 0;
         public float shadeVortexDirection;
+        public Projectile ownerProj;
 
         public bool isAClone = false;
 

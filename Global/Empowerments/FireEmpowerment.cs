@@ -43,8 +43,8 @@ namespace AwfulGarbageMod.Global
             if (ApplyDmgKb)
             {
 
-                projectile.damage = (int)(projectile.damage * 1.6f);
-                projectile.damage += 12;
+                projectile.damage = (int)(projectile.damage * 1.5f);
+                projectile.damage += 10;
                 projectile.velocity *= 1.3f;
             }
         }

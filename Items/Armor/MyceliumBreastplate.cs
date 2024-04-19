@@ -50,7 +50,7 @@ namespace AwfulGarbageMod.Items.Armor
         }
 
         public override void UpdateEquip(Player player) {
-                player.GetDamage(DamageClass.Magic) += 0.08f;
+                player.GetDamage(DamageClass.Magic) += 0.11f;
         }
 
         // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.

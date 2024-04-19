@@ -23,7 +23,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-            Item.damage = 21;
+            Item.damage = 27;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 40;
             Item.height = 40;
@@ -45,11 +45,11 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         {
             for (var i = 0; i <= Main.rand.Next(2, 3); i++)
             {
-                int proj = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(15)) * Main.rand.NextFloat(0.8f, 1.2f), type, damage, knockback, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(12)) * Main.rand.NextFloat(0.8f, 1.2f), type, damage, knockback, player.whoAmI);
             }
             for (var i = 0; i < Main.rand.Next(4, 7); i++)
             {
-                int proj = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(18)) * Main.rand.NextFloat(0.8f, 1.2f), Mod.Find<ModProjectile>("FrostBowShard").Type, (int)(damage * 0.5), knockback, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(15)) * Main.rand.NextFloat(0.8f, 1.2f), Mod.Find<ModProjectile>("FrostBowShard").Type, (int)(damage * 0.5), knockback, player.whoAmI);
             }
             return false;
         }

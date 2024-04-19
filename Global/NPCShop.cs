@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using AwfulGarbageMod.Configs;
 using System.Collections.Generic;
 using AwfulGarbageMod.Items;
+using AwfulGarbageMod.Items.Weapons.Ranged;
 
 namespace AwfulGarbageMod.Global.GlobalItems
 {
@@ -18,7 +19,6 @@ namespace AwfulGarbageMod.Global.GlobalItems
                 // Adding an item to a vanilla NPC is easy:
                 // This item sells for the normal price.
                 shop.Add<ChirumiruCan>(Condition.TimeNight);
-
             }
         }
     }

@@ -47,7 +47,7 @@ namespace AwfulGarbageMod.Global
             startingTimeLeft = projectile.timeLeft;
             if (ApplyDmgKb)
             {
-                projectile.damage += 80;
+                projectile.damage += 70;
             }
             projectile.penetrate += 1;
             increasedDamage = true;

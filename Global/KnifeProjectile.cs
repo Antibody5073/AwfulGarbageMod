@@ -28,7 +28,7 @@ namespace AwfulGarbageMod.Global
 
         public bool hasEmpowerment = false;
         public bool canBeEmpowered = true;
-        public bool[] Empowerments = new bool[10];
+        public bool[] Empowerments = new bool[15];
 
         
 

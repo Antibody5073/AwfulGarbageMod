@@ -34,8 +34,9 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Ranged) += 0.13f;
-            player.GetModPlayer<GlobalPlayer>().rangedVelocity -= 0.2f;
+            player.GetDamage(DamageClass.Ranged) += 0.12f;
+			player.GetCritChance(DamageClass.Ranged) += 5;
+            player.GetModPlayer<GlobalPlayer>().rangedVelocity -= 0.25f;
         }
 
         

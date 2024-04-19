@@ -102,6 +102,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override int spinHitCooldown => 55;
         public override float RetractSpd => 0.1f;
         public override float MaxRetractSpd => 9f;
+        public override float flailHeadRotation => 90;
+
 
         public override void Dusts()
         {
@@ -123,19 +125,20 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
             float mouseDist = Vector2.Distance(mouse, Vector2.Zero);
             mouseDist *= 2f / 3f;
+            mouseDist *= Projectile.flailProjectile().rangeMultiplier;
             if (spinDistance < mouseDist)
             {
-                if (mouseDist > SpinDistanceIncrease)
+                if (mouseDist > SpinDistanceIncrease * Projectile.flailProjectile().rangeMultiplier)
                 {
-                    mouseDist = SpinDistanceIncrease;
+                    mouseDist = SpinDistanceIncrease * Projectile.flailProjectile().rangeMultiplier;
                 }
                 spinDistance += mouseDist;
             }
             else
             {
-                if (mouseDist > SpinDistanceIncrease)
+                if (mouseDist > SpinDistanceIncrease * Projectile.flailProjectile().rangeMultiplier)
                 {
-                    mouseDist = SpinDistanceIncrease;
+                    mouseDist = SpinDistanceIncrease * Projectile.flailProjectile().rangeMultiplier;
                 }
                 spinDistance -= mouseDist;
             }

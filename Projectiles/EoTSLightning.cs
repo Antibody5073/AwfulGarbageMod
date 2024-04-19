@@ -253,13 +253,13 @@ namespace AwfulGarbageMod.Projectiles
             SoundEngine.PlaySound(SoundID.Item94, Projectile.Center);
             dusts = true;
 
-            Projectile.damage = 24;
+            Projectile.damage = 22;
             if (Main.expertMode)
             {
-                Projectile.damage = 22;
+                Projectile.damage = 20;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 20;
+                    Projectile.damage = 18;
                 }
             }
         }

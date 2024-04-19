@@ -8,19 +8,33 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using AwfulGarbageMod;
 using AwfulGarbageMod.Global;
+using System.Collections.Generic;
+using Terraria.Localization;
 
 namespace AwfulGarbageMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shield)]
     public class ShellOfRetribution : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			// DisplayName.SetDefault("Scaled Shade Shield"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-			// Tooltip.SetDefault("3 defense\nIncreases defense the lower your health, up to a max of 30 defense below 30% health");
-		}
+        public static LocalizedText TooltipWithVar { get; private set; }
 
-		public override void SetDefaults()
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Meat Shield"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            // Tooltip.SetDefault("2 defense\nIncreases health healed by potions the lower your health, up to a max of 30% extra health below 15% health");
+            TooltipWithVar = this.GetLocalization(nameof(TooltipWithVar));
+
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            Player player = Main.LocalPlayer;
+            TooltipLine tooltip;
+            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(AGUtils.ScaleDamage(35, Main.LocalPlayer, DamageClass.Ranged)));
+            tooltips.Add(tooltip);
+        }
+
+
+        public override void SetDefaults()
 		{
 			Item.width = 20;
 			Item.height = 20;

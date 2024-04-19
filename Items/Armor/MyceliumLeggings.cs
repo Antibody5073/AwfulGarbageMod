@@ -24,7 +24,6 @@ namespace AwfulGarbageMod.Items.Armor
 
 		public override void UpdateEquip(Player player) {
             player.jumpSpeedBoost += 1.2f;
-            player.GetCritChance(DamageClass.Magic) += 5f;
         }
 
         // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.

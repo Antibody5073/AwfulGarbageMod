@@ -37,6 +37,9 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             player.statDefense += 5;
             player.buffImmune[BuffID.Chilled] = true;
+            player.GetCritChance(DamageClass.Melee) += 5f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.05f;
+            player.GetDamage(DamageClass.Melee) += 0.05f;
         }
 
 

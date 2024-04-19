@@ -52,13 +52,14 @@ namespace AwfulGarbageMod.Items.Accessories
         }
 
         public override void AddRecipes()
-		{
-            Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(Mod.Find<ModItem>("BoneBadge").Type);
-            recipe.AddIngredient(Mod.Find<ModItem>("DualismRing").Type);
-            recipe.AddIngredient(ItemID.SorcererEmblem);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.Register();
+        {
+            CreateRecipe()
+                .AddIngredient<DualismRing>()
+                .AddIngredient(ItemID.SorcererEmblem)
+                .AddIngredient<BoneBadge>()
+                .AddIngredient<SoulOfIghtImaHeadOut>(7)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
-	}
+    }
 }

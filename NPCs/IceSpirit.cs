@@ -92,13 +92,13 @@ namespace AwfulGarbageMod.NPCs
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FrostShard>(), 1, 2, 3));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpiritItem>(), 1, 4, 6));
-
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SigilOfFrost>(), 4));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneSnow && spawnInfo.Player.ZoneRockLayerHeight)
             {
-                return 0.03f;
+                return 0.05f;
             }
             return 0;
         }

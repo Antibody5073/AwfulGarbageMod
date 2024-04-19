@@ -65,9 +65,12 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<Pyrogem>(20)
+                //.AddIngredient<Pyrogem>(20)
                 //.AddIngredient<FrigidiumBar>(16)
-                .AddTile(TileID.Anvils)
+                .AddIngredient(ItemID.HellstoneBar, 30)
+                .AddIngredient(ItemID.SoulofLight, 20)
+                .AddIngredient(ItemID.SoulofNight, 20)
+                .AddTile(TileID.MythrilAnvil)
                 .Register();
         }
     }

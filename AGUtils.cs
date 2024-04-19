@@ -48,25 +48,62 @@ namespace AwfulGarbageMod
         public static bool IsOnScreen(this Projectile proj, Vector2 spriteDimensions)
         {
             Vector2 offsetFromCamera = Main.Camera.Center - proj.Center;
-            if(Math.Abs(offsetFromCamera.X) - spriteDimensions.X > 800 || Math.Abs(offsetFromCamera.Y) - spriteDimensions.Y > 450)
+            if(Math.Abs(offsetFromCamera.X) - spriteDimensions.X > 960 || Math.Abs(offsetFromCamera.Y) - spriteDimensions.Y > 540)
             {
                 return false;
             }
             return true;
         }
 
+        public static float TurnTowards(float turnSpd, Vector2 targetPos, float startingDir, Vector2 position)
+        {
+            float currentDir = -MathHelper.ToDegrees(startingDir) - 90;
+            float targetDir = -MathHelper.ToDegrees((targetPos - position).ToRotation()) - 90;
+            if (targetDir > currentDir + 180)
+            {
+                targetDir -= 360;
+                while (targetDir >= currentDir + 180)
+                {
+                    targetDir -= 360;
+                }
+            }
+            if (targetDir < currentDir - 180)
+            {
+                targetDir += 360;
+                while (targetDir <= currentDir - 180)
+                {
+                    targetDir += 360;
+                }
+            }
+            float turn = targetDir - currentDir;
+            if (turn > turnSpd)
+            {
+                turn = turnSpd;
+            }
+            if (turn < -turnSpd)
+            {
+                turn = -turnSpd;
+            }
+
+            return -MathHelper.ToRadians(turn);
+        }
 
         public static void ApplyEmpowermentEffects(Projectile proj, KnifeEmpowerment empowerment, bool ApplyDmgKb)
         {
             empowerment.EmpowermentEffects(proj, Main.player[proj.owner], ApplyDmgKb, false);
         }
-        public static bool IsAmbientObject(int tileType)
+        public static bool IsNotAmbientObject(int tileType)
         {
-            if (tileType == TileID.Plants || tileType == TileID.Plants2 || tileType == TileID.CorruptThorns || tileType == TileID.CrimsonThorns || tileType == TileID.JungleThorns || tileType == TileID.AshPlants || tileType == TileID.CrimsonPlants || tileType == TileID.CorruptPlants || tileType == TileID.JunglePlants || tileType == TileID.JunglePlants2 || tileType == TileID.Pots || tileType == TileID.CorruptPlants || tileType == TileID.Torches || tileType == TileID.Sunflower)
+            if (Main.tileSolid[tileType] || Main.tileSolidTop[tileType])
             {
                 return true;
             }
             return false;
+        }
+
+        public static int ScaleDamage(int origDmg, Player player, DamageClass damageClass)
+        {
+            return (int)(origDmg * player.GetTotalDamage(damageClass).Additive * player.GetTotalDamage(damageClass).Multiplicative + player.GetTotalDamage(damageClass).Flat);
         }
 
         public static int GetTileCounts(int tileType)
@@ -125,6 +162,22 @@ namespace AwfulGarbageMod
         public static readonly int ShadowEmpowerment = 1;
         public static readonly int AridEmpowerment = 2;
         public static readonly int StormEmpowerment = 3;
+        public static readonly int PurityEmpowerment = 4;
+        public static readonly int HolyEmpowerment = 5;
+        public static readonly int TerraEmpowerment = 6;
+        public static readonly int RadiantEmpowerment = 7;
+        public static readonly int VenomEmpowerment = 8;
+        public static readonly int EctoplasmicEmpowerment = 9;
+    }
 
+    class NPCandValue : IComparable<NPCandValue>
+    {
+        public NPC npc { get; set; }
+        public float value { get; set; }
+
+        public int CompareTo(NPCandValue other)
+        {
+            return this.value.CompareTo(other.value);
+        }
     }
 }

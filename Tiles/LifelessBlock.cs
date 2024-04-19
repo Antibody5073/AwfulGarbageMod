@@ -20,6 +20,7 @@ namespace AwfulGarbageMod.Tiles
 			MineResist = 5f;
 		}
 
+		
 		public override void NumDust(int i, int j, bool fail, ref int num) {
 			num = fail ? 1 : 3;
 		}

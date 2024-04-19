@@ -45,7 +45,7 @@ namespace AwfulGarbageMod.Items.Armor
         // UpdateArmorSet allows you to give set bonuses to the armor.
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Every 5 seconds, a knife is empowered with Storm Empowerment, which has the following effects:\n - 80 increased damage for the first enemy hit\n - Penetration is increased by 1\n - The knife will bounce toward a nearby enemy once after hitting an enemy\nIncreases movement speed by 25% and knife damage by 5%"; // This is the setbonus tooltip
+            player.setBonus = "Every 5 seconds, a knife is empowered with Storm Empowerment, which has the following effects:\n - 70 increased damage for the first enemy hit\n - Penetration is increased by 1\n - The knife will bounce toward a nearby enemy once after hitting an enemy\nIncreases movement speed by 25% and knife damage by 5%"; // This is the setbonus tooltip
 
             player.GetModPlayer<StormEmpowermentPlayer>().hasSigil = true;
             player.moveSpeed += 0.25f;

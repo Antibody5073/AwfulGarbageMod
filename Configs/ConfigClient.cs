@@ -21,5 +21,8 @@ namespace AwfulGarbageMod.Configs
 
         [DefaultValue(true)] // This sets the configs default value.
         public bool ShouldGenerateFrigidiumOre;
+
+        [DefaultValue(true)] // This sets the configs default value.
+        public bool ShouldGenerateFlint;
     }
 }

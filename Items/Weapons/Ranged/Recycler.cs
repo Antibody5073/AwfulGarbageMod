@@ -23,7 +23,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 22;
+			Item.damage = 35;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 40;
 			Item.height = 40;
@@ -47,6 +47,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             if (type == ProjectileID.WoodenArrowFriendly)
             {
                 type = Mod.Find<ModProjectile>("RecyclerProj").Type;
+                damage = (int)(damage * 0.7f);
             }
         }
 

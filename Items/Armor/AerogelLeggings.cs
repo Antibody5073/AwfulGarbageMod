@@ -25,7 +25,7 @@ namespace AwfulGarbageMod.Items.Armor
 		public override void UpdateEquip(Player player) {
 			player.moveSpeed += 0.10f; // Increase the movement speed of the player
             player.maxRunSpeed += 0.10f;
-            player.GetCritChance(DamageClass.Ranged) += 5f;
+            player.GetCritChance(DamageClass.Ranged) += 10f;
         }
 
         // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.

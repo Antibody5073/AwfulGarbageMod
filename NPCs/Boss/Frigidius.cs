@@ -57,7 +57,9 @@ namespace AwfulGarbageMod.NPCs.Boss
             PhaseTransition1,
             PhaseTransition2,
             Midphase,
-            PhaseTransition3
+            PhaseTransition3,
+
+            Despawn
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -158,7 +160,10 @@ namespace AwfulGarbageMod.NPCs.Boss
 			}
 			*/
         }
-
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.HealingPotion;
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             // We can use AddRange instead of calling Add multiple times in order to add multiple items at once
@@ -215,7 +220,14 @@ namespace AwfulGarbageMod.NPCs.Boss
             DrawOffsetY = 16;
 
             Player player = Main.player[NPC.target];
-            
+
+            if (player.dead)
+            {
+                AI_State = (float)ActionState.Despawn;
+                NPC.EncourageDespawn(0);
+                return;
+            }
+
             if (NPC.CountNPCS(ModContent.NPCType<FrigidiusTail>()) < 1)
             {
                 NPC.ai[0] = 0;
@@ -281,6 +293,9 @@ namespace AwfulGarbageMod.NPCs.Boss
                     break;
                 case (float)ActionState.DashUp2:
                     DashUp2();
+                    break;
+                case (float)ActionState.Despawn:
+                    Despawn();
                     break;
             }
         }
@@ -1108,7 +1123,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 RotateDir = NPC.velocity.ToRotation();
                 if (AI_Timer % 3 == 0)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.SafeNormalize(Vector2.Zero) * 12, Mod.Find<ModProjectile>("IceShardFrigidiusTelegraph").Type, 0, 0, Main.myPlayer, TurnTowards(((AI_Timer % 480) - 210) * 5f/60, player.Center, RotateDir, NPC.Center));
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.SafeNormalize(Vector2.Zero) * 12, Mod.Find<ModProjectile>("IceShardFrigidiusTelegraph").Type, 0, 0, Main.myPlayer, AGUtils.TurnTowards(((AI_Timer % 480) - 210) * 5f/60, player.Center, RotateDir, NPC.Center));
                 }
             }
             else if (AI_Timer % 480 < 360)
@@ -1117,7 +1132,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     SoundEngine.PlaySound(SoundID.Roar);
                 }
-                RotateDir += TurnTowards(5, player.Center, RotateDir, NPC.Center);
+                RotateDir += AGUtils.TurnTowards(5, player.Center, RotateDir, NPC.Center);
                 NPC.velocity = new Vector2(24, 0).RotatedBy(RotateDir);
             }
             else if (AI_Timer % 480 < 390)
@@ -1343,37 +1358,29 @@ namespace AwfulGarbageMod.NPCs.Boss
             }
         }
 
-        private float TurnTowards(float turnSpd, Vector2 targetPos, float startingDir, Vector2 position)
+        private void Despawn()
         {
-            float currentDir = -MathHelper.ToDegrees(startingDir) - 90;
-            float targetDir = -MathHelper.ToDegrees((targetPos - position).ToRotation()) - 90;
-            if (targetDir > currentDir + 180)
+            if (Main.expertMode)
             {
-                targetDir -= 360;
-                while (targetDir >= currentDir + 180)
-                {
-                    targetDir -= 360;
-                }
-            }
-            if (targetDir < currentDir - 180)
-            {
-                targetDir += 360;
-                while (targetDir <= currentDir - 180)
-                {
-                    targetDir += 360;
-                }
-            }
-            float turn = targetDir - currentDir;
-            if (turn > turnSpd)
-            {
-                turn = turnSpd;
-            }
-            if (turn < -turnSpd)
-            {
-                turn = -turnSpd;
-            }
+                NPC.damage = 60;
 
-            return -MathHelper.ToRadians(turn);
+                if (Main.masterMode)
+                {
+                    NPC.damage = 80;
+                }
+            }
+            else
+            {
+                NPC.damage = 40;
+            }
+            Player player = Main.player[NPC.target];
+
+
+            Vector2 direction = player.Center - NPC.Center;
+            direction.SafeNormalize(Vector2.Zero);
+            NPC.velocity -= direction * 0.0002f;
+            NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
+
         }
     }
 

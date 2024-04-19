@@ -21,6 +21,7 @@ using Mono.Cecil;
 using Terraria.Audio;
 using Terraria.Localization;
 using AwfulGarbageMod.Items.Accessories;
+using Microsoft.CodeAnalysis;
 
 namespace AwfulGarbageMod.Global
 {
@@ -30,10 +31,14 @@ namespace AwfulGarbageMod.Global
         public static class Sets
         {
             public static bool[] IsScepterProjectile = ProjectileID.Sets.Factory.CreateBoolSet();
+            public static bool[] OverrideSummonDamageClass = ProjectileID.Sets.Factory.CreateBoolSet();
+            public static DamageClass[] OrigDamageClass = ProjectileID.Sets.Factory.CreateCustomSet<DamageClass>(DamageClass.Default);
+
         }
 
         public override void SetDefaults(Projectile entity)
         {
+
             if (entity.type == ProjectileID.ThrowingKnife)
             {
                 entity.DamageType = ModContent.GetInstance<KnifeDamageClass>();
@@ -64,6 +69,21 @@ namespace AwfulGarbageMod.Global
             base.AI(projectile);
         }
 
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            Player player = Main.player[projectile.owner];
+            if (AGUtils.AnyRangedDmg(projectile.DamageType))
+            {
+                ProjectileID.Sets.MinionShot[projectile.type] = false;
+                ProjectileID.Sets.SummonTagDamageMultiplier[projectile.type] = 0f;
+                if (player.GetModPlayer<GlobalPlayer>().AncientFlierBonus)
+                {
+                    ProjectileID.Sets.MinionShot[projectile.type] = true;
+                    ProjectileID.Sets.SummonTagDamageMultiplier[projectile.type] = 0.5f;
+                }
+            }
+        }
+
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[projectile.owner];
@@ -84,35 +104,78 @@ namespace AwfulGarbageMod.Global
             {
                 target.AddBuff(BuffID.Ichor, 300);
             }
-
-            //Storm Hood
-            if (projectile.DamageType == GetInstance<KnifeDamageClass>() && player.GetModPlayer<GlobalPlayer>().StormHoodBonus == true)
+            if (AGUtils.AnyRangedDmg(projectile.DamageType) && player.GetModPlayer<GlobalPlayer>().EarthenAmulet && player.GetModPlayer<GlobalPlayer>().EarthenAmuletTimer <= 0 && Main.rand.NextBool(3))
             {
-                int[] npcsBlacklisted = { target.whoAmI };
-                NPC closestNPC = FindClosestNPC(400, target.Center, npcsBlacklisted);
-                if (closestNPC != null)
+                player.GetModPlayer<GlobalPlayer>().EarthenAmuletTimer = 12;
+                int manaRegenerated = projectile.damage;
+                if (manaRegenerated > 25)
                 {
-                    int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, (closestNPC.Center - projectile.Center).SafeNormalize(Vector2.Zero) * 12, Mod.Find<ModProjectile>("StormLightningProj").Type, projectile.damage / 4, 0, player.whoAmI, target.whoAmI, -1);
-                    Main.projectile[proj].penetrate = 2;
-                    Main.projectile[proj].localNPCImmunity[target.whoAmI] = -1;
-
+                    manaRegenerated = 25;
                 }
-            }
-            if (projectile.DamageType == GetInstance<KnifeDamageClass>() && player.GetModPlayer<GlobalPlayer>().poisonSigil > 0 && hit.Crit && Main.rand.NextBool(3))
-            {
-                for (int j = 0; j < 2; j++)
+                player.statMana += manaRegenerated;
+                if (player.statMana > player.statManaMax2)
                 {
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), projectile.Center, Main.rand.NextVector2CircularEdge(5, 5), ProjectileID.SporeCloud, player.GetModPlayer<GlobalPlayer>().poisonSigil, 0, player.whoAmI);
-                    Main.projectile[proj].DamageType = DamageClass.Ranged;
-                    Main.projectile[proj].usesIDStaticNPCImmunity = true;
-                    Main.projectile[proj].idStaticNPCHitCooldown = 10;
+                    player.statMana = player.statManaMax2;
                 }
+                player.ManaEffect(manaRegenerated);
             }
-            if (projectile.DamageType == GetInstance<KnifeDamageClass>() && player.GetModPlayer<GlobalPlayer>().shadowSigil > 0 && hit.Crit && Main.rand.NextBool(3))
+
+
+            if (projectile.DamageType == GetInstance<KnifeDamageClass>())
             {
-                for (int j = 0; j < 2; j++)
+                if (player.GetModPlayer<GlobalPlayer>().poisonSigil > 0 && hit.Crit && Main.rand.NextBool(3))
                 {
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), projectile.Center, Main.rand.NextVector2CircularEdge(5, 5), ModContent.ProjectileType<SigilOfShadowsSporeProj>(), player.GetModPlayer<GlobalPlayer>().shadowSigil, 0, player.whoAmI);
+                    for (int j = 0; j < 2; j++)
+                    {
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), projectile.Center, Main.rand.NextVector2CircularEdge(5, 5), ProjectileID.SporeCloud, player.GetModPlayer<GlobalPlayer>().poisonSigil, 0, player.whoAmI);
+                        Main.projectile[proj].DamageType = DamageClass.Ranged;
+                        Main.projectile[proj].usesIDStaticNPCImmunity = true;
+                        Main.projectile[proj].idStaticNPCHitCooldown = 10;
+                    }
+                }
+                if (player.GetModPlayer<GlobalPlayer>().shadowSigil > 0 && hit.Crit && Main.rand.NextBool(3))
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), projectile.Center, Main.rand.NextVector2CircularEdge(5, 5), ModContent.ProjectileType<SigilOfShadowsSporeProj>(), player.GetModPlayer<GlobalPlayer>().shadowSigil, 0, player.whoAmI);
+                    }
+                }
+                if (player.GetModPlayer<GlobalPlayer>().terraSigil && hit.Crit && Main.rand.NextBool(5))
+                {
+                    for (int j = 0; j < 5; j++)
+                    {
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), projectile.Center, Main.rand.NextVector2CircularEdge(5, 5) + new Vector2(0, -3), ModContent.ProjectileType<TerraWristSparkProj>(), 40, 0, player.whoAmI);
+                    }
+                }
+                if (player.GetModPlayer<GlobalPlayer>().frostSigil && hit.Crit && Main.rand.NextBool(3))
+                {
+                    float sqrMaxDetectDistance = 160*160;
+
+                    // Loop through all NPCs(max always 200)
+                    for (int k = 0; k < Main.maxNPCs; k++)
+                    {
+                        NPC target2 = Main.npc[k];
+                        // Check if NPC able to be targeted. It means that NPC is
+                        // 1. active (alive)
+                        // 2. chaseable (e.g. not a cultist archer)
+                        // 3. max life bigger than 5 (e.g. not a critter)
+                        // 4. can take damage (e.g. moonlord core after all it's parts are downed)
+                        // 5. hostile (!friendly)
+                        // 6. not immortal (e.g. not a target dummy)
+
+                        if (target2.CanBeChasedBy())
+                        {
+                            // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
+                            float sqrDistanceToTarget = Vector2.DistanceSquared(target2.Center, projectile.Center);
+
+                            // Check if it is within the radius
+                            if (sqrDistanceToTarget < sqrMaxDetectDistance)
+                            {
+                                target2.AddBuff(BuffID.Frostburn, 600);
+                            }
+                        }
+
+                    }
                 }
             }
 
@@ -125,6 +188,12 @@ namespace AwfulGarbageMod.Global
         {
             Player player = Main.player[projectile.owner];
 
+            if (AGUtils.AnyRangedDmg(projectile.DamageType))
+            {
+                Sets.OverrideSummonDamageClass[projectile.type] = true;
+                Sets.OrigDamageClass[projectile.type] = projectile.DamageType;
+            }
+
             //bee damage boosts
             if (projectile.type == ProjectileID.Bee || projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.HornetStinger)
             {
@@ -135,16 +204,32 @@ namespace AwfulGarbageMod.Global
                 projectile.damage = (int)(projectile.damage * ((player.GetModPlayer<GlobalPlayer>().beeDmg - 1) * 1.5f + 1));
             }
 
+            if (Sets.OverrideSummonDamageClass[projectile.type] == true && projectile.DamageType == DamageClass.Summon)
+            {
+                projectile.DamageType = Sets.OrigDamageClass[projectile.type];
+            }    
+
             //Velocity boosts
             if (AGUtils.AnyRangedDmg(projectile.DamageType))
             {
                 projectile.velocity *= player.GetModPlayer<GlobalPlayer>().rangedVelocity;
+                Sets.OverrideSummonDamageClass[projectile.type] = true;
+                Sets.OrigDamageClass[projectile.type] = projectile.DamageType;
+            }
+            if (player.GetModPlayer<GlobalPlayer>().AncientFlierBonus && projectile.DamageType == DamageClass.Summon && !projectile.minion)
+            {
+                projectile.velocity *= player.GetModPlayer<GlobalPlayer>().rangedVelocity;
+            }
+            if (player.HasBuff(ModContent.BuffType<HorseSnapperBuff>()) && projectile.DamageType == DamageClass.Summon && !projectile.minion)
+            {
+                projectile.velocity *= 1.15f;
             }
             if (projectile.DamageType == ModContent.GetInstance<KnifeDamageClass>())
             {
                 projectile.velocity *= player.GetModPlayer<GlobalPlayer>().knifeVelocity;
             }
 
+            
             //Bone Glove recode
             if (projectile.type == ProjectileID.BoneGloveProj)
             {

@@ -22,7 +22,7 @@ namespace AwfulGarbageMod.Global;
 
 
 
-internal class CobaltPalladiumArmorChanges
+internal class ArmorChanges
 {
     public class CobaltMeleeHelm : GlobalItem
     {
@@ -93,10 +93,10 @@ internal class CobaltPalladiumArmorChanges
             player.GetDamage(DamageClass.Ranged) -= 0.10f;
             player.GetCritChance(DamageClass.Ranged) -= 10;
 
-            player.GetDamage(DamageClass.Ranged) += 0.15f;
-            player.GetDamage<KnifeDamageClass>() += 0.11f;
-            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.15f;
-            player.GetModPlayer<GlobalPlayer>().knifeVelocity += 0.10f;
+            player.GetDamage(DamageClass.Ranged) += 0.18f;
+            player.GetDamage<KnifeDamageClass>() += 0.06f;
+            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.18f;
+            player.GetModPlayer<GlobalPlayer>().knifeVelocity += 0.06f;
 
         }
 
@@ -105,12 +105,12 @@ internal class CobaltPalladiumArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "15% increased ranged damage and velocity";
+                line.Text = "18% increased ranged damage and velocity";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "11% further increased knife damage and 10% increased knife velocity";
+                line2.Text = "6% further increased knife damage and velocity";
             }
         }
 
@@ -127,7 +127,7 @@ internal class CobaltPalladiumArmorChanges
         {
             if (set.Equals("Cobalt Ranged"))
             {
-                player.setBonus = "Grants an extra accessory slot dedicated for knife empowerments\nOnly accessories which provide an empowerment and nothing else can go in this slot\nEmpowered knives deal 25% more damage\n20% chance not to consume ammo";
+                player.setBonus = "Grants an extra accessory slot dedicated for knife empowerments\nOnly accessories which provide an empowerment and nothing else can go in this slot\nEmpowered knives deal 10% more damage\n20% chance not to consume ammo";
                 player.GetModPlayer<GlobalPlayer>().EmpowermentSlot = true;
                 player.GetModPlayer<GlobalPlayer>().CobaltRanged = true;
 
@@ -212,7 +212,7 @@ internal class CobaltPalladiumArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "10% increased flail, knife, and scepter damage and critical strike chance and 10% reduced mana usage";
+                line.Text = "9% increased flail, knife, and scepter damage and critical strike chance and 10% reduced mana usage";
             }   
         }
 
@@ -225,13 +225,13 @@ internal class CobaltPalladiumArmorChanges
         {
             player.GetCritChance(DamageClass.Generic) -= 5f;
 
-            player.GetDamage<FlailDamageClass>() += 0.1f;
-            player.GetDamage<KnifeDamageClass>() += 0.1f;
-            player.GetDamage<ScepterDamageClass>() += 0.1f;
+            player.GetDamage<FlailDamageClass>() += 0.09f;
+            player.GetDamage<KnifeDamageClass>() += 0.09f;
+            player.GetDamage<ScepterDamageClass>() += 0.09f;
 
-            player.GetCritChance<FlailDamageClass>() += 10;
-            player.GetCritChance<KnifeDamageClass>() += 10;
-            player.GetCritChance<ScepterDamageClass>() += 10;
+            player.GetCritChance<FlailDamageClass>() += 9;
+            player.GetCritChance<KnifeDamageClass>() += 9;
+            player.GetCritChance<ScepterDamageClass>() += 9;
             
             player.manaCost *= 0.9f;
         }
@@ -313,9 +313,12 @@ internal class CobaltPalladiumArmorChanges
         {
             if (set.Equals("Palladium Melee"))
             {
-                player.setBonus = "Increases life regeneration based on the enemy closest to the player\nLife regeneration scales based on how close the enemy is\nFlail heads deal 15% more multiplicative damage to the closest enemy\n6% increased flail critical strike chance and 6% increased melee speed";
+                player.setBonus = "Increases life regeneration based on the enemy closest to the player\nLife regeneration scales based on how close the enemy is and maxes out at 6 hp/sec\nFlail heads deal 15% more multiplicative damage to the closest enemy\n6% increased flail critical strike chance and 6% increased melee speed";
+                player.GetModPlayer<GlobalPlayer>().PalladiumMelee = true;
                 player.GetCritChance<FlailDamageClass>() += 6f;
                 player.GetAttackSpeed(DamageClass.Melee) += 0.06f;
+                player.buffImmune[BuffID.RapidHealing] = true;
+
             }
         }
     }
@@ -366,12 +369,11 @@ internal class CobaltPalladiumArmorChanges
         {
             if (set.Equals("Palladium Ranged"))
             {
-                player.setBonus = "Grants an extra accessory slot dedicated for knife empowerments\nOnly accessories which provide an empowerment and nothing else can go in this slot\nOn strike, empowered knives temporarily boost life regeneration\n10% increased knife critical strike chance and 5% increased ranged damage";
+                player.setBonus = "Grants an extra accessory slot dedicated for knife empowerments\nOnly accessories which provide an empowerment and nothing else can go in this slot\nOn strike, empowered knives temporarily boost life regeneration\n5% increased knife critical strike chance and ranged damage";
                 player.GetModPlayer<GlobalPlayer>().EmpowermentSlot = true;
                 player.GetModPlayer<GlobalPlayer>().CobaltRanged = true;
 
-
-                player.GetCritChance<KnifeDamageClass>() += 10f;
+                player.GetCritChance<KnifeDamageClass>() += 5f;
                 player.GetDamage(DamageClass.Ranged) += 0.05f;
             }
         }
@@ -416,8 +418,30 @@ internal class CobaltPalladiumArmorChanges
                 line2.Text = "Increases maximum mana by 40 and scepter projectiles by 2";
             }
         }
+        public override string IsArmorSet(Item head, Item body, Item legs)
+        {
+            if (head.type == 1207 && body.type == 1208 && legs.type == 1209)
+            {
+                return "Palladium Magic";
+            }
+            return null;
+        }
 
-        
+        public override void UpdateArmorSet(Player player, string set)
+        {
+            if (set.Equals("Palladium Magic"))
+            {
+                player.setBonus = "Press ArmorSetAbility key to deal 10% of your max health as damage to yourself, triggering on-hit effects and releasing scepter projectiles\nThis effect has a cooldown of 8 seconds, during this cooldown, life regeneration is increased by 3 hp/sec\nEvery 30 seconds, self-damage will be reduced to 1";
+                player.buffImmune[BuffID.RapidHealing] = true;
+
+                if (player.HasBuff<ArmorAbilityCooldown>())
+                {
+                    player.lifeRegen += 6;
+                }
+                player.GetModPlayer<GlobalPlayer>().PalladiumMagic = true;
+            }
+        }
+
     }
     public class PalladiumChest : GlobalItem
     {
@@ -532,6 +556,64 @@ internal class CobaltPalladiumArmorChanges
             }
         }
     }
+
+    public class MoltenHelm : GlobalItem
+    {
+        public override bool AppliesToEntity(Item item, bool lateInstatiation)
+        {
+            return item.type == ItemID.MoltenHelmet;
+        }
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            if (line != null)
+            {
+                line.Text += "\n10% increased flail spin speed";
+            }
+        }
+        public override void UpdateEquip(Item item, Player player)
+        {
+            player.GetModPlayer<GlobalPlayer>().flailSpinSpd += 0.1f;
+        }
+
+        public override string IsArmorSet(Item head, Item body, Item legs)
+        {
+            if (head.type == ItemID.MoltenHelmet && body.type == ItemID.MoltenBreastplate && legs.type == ItemID.MoltenGreaves)
+            {
+                return "Molten Armor";
+            }
+            return null;
+        }
+
+        public override void UpdateArmorSet(Player player, string set)
+        {
+            if (set.Equals("Molten Armor"))
+            {
+                player.setBonus += "\n10% increased flail range";
+                player.GetModPlayer<GlobalPlayer>().flailRange += 0.1f;
+            }
+        }
+    }
+    public class MoltenLegs : GlobalItem
+    {
+        public override bool AppliesToEntity(Item item, bool lateInstatiation)
+        {
+            return item.type == ItemID.MoltenGreaves;
+        }
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            if (line != null)
+            {
+                line.Text += "\n6% increased flail spin speed";
+            }
+        }
+        public override void UpdateEquip(Item item, Player player)
+        {
+            player.GetModPlayer<GlobalPlayer>().flailSpinSpd += 0.06f;
+        }
+    }
+
 }
 
 

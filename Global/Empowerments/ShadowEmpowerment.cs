@@ -38,18 +38,18 @@ namespace AwfulGarbageMod.Global
         {
             if (setCooldown)
             {
-                player.GetModPlayer<ShadowEmpowermentPlayer>().sigilCooldown = (int)(150 * player.GetModPlayer<GlobalPlayer>().empowermentCooldowMultiplier);
+                player.GetModPlayer<ShadowEmpowermentPlayer>().sigilCooldown = (int)(180 * player.GetModPlayer<GlobalPlayer>().empowermentCooldowMultiplier);
             }
             if (ApplyDmgKb)
             {
 
-                projectile.damage = (int)(projectile.damage * 2f);
-                projectile.damage += 12;
+                projectile.damage = (int)(projectile.damage * 1.65f);
+                projectile.damage += 15;
                 projectile.velocity *= 1.3f;
             }
             if (projectile.penetrate > 0)
             {
-                if (projectile.penetrate == 1)
+                if (projectile.usesLocalNPCImmunity == false)
                 {
                     projectile.usesLocalNPCImmunity = true;
                     projectile.localNPCHitCooldown = -1;

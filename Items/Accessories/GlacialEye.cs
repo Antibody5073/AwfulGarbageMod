@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using AwfulGarbageMod;
 using AwfulGarbageMod.Global;
+using AwfulGarbageMod.Projectiles;
 
 namespace AwfulGarbageMod.Items.Accessories
 {
@@ -36,11 +37,10 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateVanity(Player player)
         {
             player.GetModPlayer<GlobalPlayer>().GlacialEye = true;
-            player.GetModPlayer<GlobalPlayer>().GlacialEyePassive = true;
 
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("GlacialEyeProj").Type] < 1)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GlacialEyeProj>()] < 1)
             {
-                var projectile = Projectile.NewProjectileDirect(Projectile.GetSource_NaturalSpawn(), player.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("GlacialEyeProj").Type, 0, 0, Main.myPlayer);
+                var projectile = Projectile.NewProjectileDirect(Projectile.GetSource_NaturalSpawn(), player.Center, new Vector2(0, 0), ModContent.ProjectileType<GlacialEyeProj>(), 0, 0, Main.myPlayer);
             }
         }
 
@@ -48,9 +48,10 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             player.endurance = 1f - (0.9f * (1f - player.endurance));
             player.GetModPlayer<GlobalPlayer>().GlacialEye = true;
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("GlacialEyeProj").Type] < 1)
+            player.GetModPlayer<GlobalPlayer>().GlacialEyeDmg += 22;
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GlacialEyeProj>()] < 1)
             {
-                var projectile = Projectile.NewProjectileDirect(Projectile.GetSource_NaturalSpawn(), player.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("GlacialEyeProj").Type, 0, 0, Main.myPlayer);
+                var projectile = Projectile.NewProjectileDirect(Projectile.GetSource_NaturalSpawn(), player.Center, new Vector2(0, 0), ModContent.ProjectileType<GlacialEyeProj>(), 0, 0, Main.myPlayer);
             }
         }
     }

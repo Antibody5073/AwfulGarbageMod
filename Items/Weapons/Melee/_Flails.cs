@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
 using ReLogic.Content;
 using Steamworks;
+using StramClasses.Particles;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -82,6 +83,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Player player = Main.player[Projectile.owner];
             if (player.GetModPlayer<GlobalPlayer>().CobaltMelee && atMaxRange)
             {
+                player.GetModPlayer<GlobalPlayer>().CobaltMeleeCooldown = 60 * 10;
                 player.GetModPlayer<GlobalPlayer>().CobaltMeleeDefense += 1;
                 if (player.GetModPlayer<GlobalPlayer>().CobaltMeleeDefense > 24)
                 {
@@ -173,7 +175,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                         SetRotation(offsetFromPlayer, flailHeadRotation, player);
                         SetDistance();
                         atMaxRange = false;
-                        if (spinDistance > maxSpinRange)
+                        if (spinDistance >= maxSpinRange)
                         {
                             atMaxRange = true;
                             spinDistance = maxSpinRange;
@@ -259,7 +261,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         }
         public virtual void SetRotation(Vector2 offsetFromPlayer, float rotation, Player player)
         {
-            Projectile.rotation = offsetFromPlayer.ToRotation() + MathHelper.ToRadians(-90) + MathHelper.ToRadians(rotation) * player.direction;
+            Projectile.rotation = offsetFromPlayer.ToRotation() + MathHelper.ToRadians(-90) + MathHelper.ToRadians(rotation) * player.direction * (Projectile.flailProjectile().spinSpdMultiplier >= 0 ? 1 : -1);
         }
 
         public virtual void DoFlailPositioning(Player player, float spd, float currentDir, out Vector2 offsetFromPlayer)
@@ -371,21 +373,33 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                 chainCount++;
                 chainLengthRemainingToDraw -= chainSegmentLength;
             }
+            Texture2D projectileTexture = TextureAssets.Projectile[Projectile.type].Value;
 
+
+            int frameHeight = projectileTexture.Height / Main.projFrames[Projectile.type];
+            int startY = frameHeight * Projectile.frame;
+            Rectangle sourceRectangle = new Rectangle(0, startY, projectileTexture.Width, frameHeight);
+            Color drawColor = Projectile.GetAlpha(lightColor);
+
+            Vector2 drawOrigin = sourceRectangle.Size() / 2f;
+            SpriteEffects spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             // Add a motion trail when moving forward, like most flails do (don't add trail if already hit a tile)
             if (CurrentAIState == AIState.Spinning)
             {
-                Texture2D projectileTexture = TextureAssets.Projectile[Projectile.type].Value;
-                Vector2 drawOrigin = new Vector2(projectileTexture.Width * 0.5f, Projectile.height * 0.5f);
-                SpriteEffects spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                
+
                 for (int k = 0; k < Projectile.oldPos.Length && k < StateTimer; k++)
                 {
-                    Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                    Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(Projectile.width/2, Projectile.height/2);
                     Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-                    Main.spriteBatch.Draw(projectileTexture, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale - k / (float)Projectile.oldPos.Length / 3, spriteEffects, 0f);
+                    Main.spriteBatch.Draw(projectileTexture, drawPos, sourceRectangle, color, Projectile.rotation, drawOrigin, Projectile.scale - k / (float)Projectile.oldPos.Length / 3, spriteEffects, 0f);
                 }
             }
-            return true;
+            Main.EntitySpriteDraw(projectileTexture,
+               Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
+               sourceRectangle, drawColor, Projectile.rotation, drawOrigin, Projectile.scale, spriteEffects, 0);
+
+            return false;
         }
     }
 

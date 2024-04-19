@@ -89,6 +89,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Snowball, 150);
             recipe.AddIngredient(ItemID.BorealWood, 12);
+            recipe.AddIngredient(ItemID.Shiverthorn, 3);
             recipe.AddTile(TileID.WorkBenches);
             recipe.Register();
         }

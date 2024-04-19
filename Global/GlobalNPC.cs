@@ -18,6 +18,7 @@ using AwfulGarbageMod.Items.Tools;
 using System.Linq;
 using Terraria.DataStructures;
 using AwfulGarbageMod.Configs;
+using AwfulGarbageMod.Items.Consumables;
 
 namespace AwfulGarbageMod.Global;
 public class ExampleGlobalNPC : GlobalNPC
@@ -28,7 +29,7 @@ public class ExampleGlobalNPC : GlobalNPC
     {
         if (npc.type == NPCID.WallCreeper || npc.type == NPCID.WallCreeperWall || npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall)
         {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpiderLeg>(), 1, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpiderLeg>(), 1, 1, 3));
         }
         if (npc.type == NPCID.WallCreeper || npc.type == NPCID.WallCreeperWall)
         {
@@ -66,21 +67,69 @@ public class ExampleGlobalNPC : GlobalNPC
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SwarmScepter>(), 2, 1, 1));
         }
+        if (npc.type == NPCID.Golem)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LihzahrdsAncientBattery>(), 2, 1, 1));
+        }
+        if (npc.type == NPCID.QueenSlimeBoss)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrystalKnives>(), 2, 1, 1));
+        }
+        if (npc.type == NPCID.DukeFishron)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BubbleSlicers>(), 2, 1, 1));
+        }
         if (npc.type == NPCID.IlluminantBat || npc.type == NPCID.IlluminantSlime)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IlluminantString>(), 20, 1, 1));
         }
         if (npc.type == NPCID.DarkCaster)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SigilOfWater>(), 18, 1, 1));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SigilOfWater>(), 20, 1, 1));
         }
         if (npc.type == NPCID.GoblinThief)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ThiefsKnife>(), 11, 1, 1));
         }
+        if (npc.type == NPCID.Mothron)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<EclipseKnives>(), 3, 1, 1));
+        }
         if (npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigHelmet || npc.type == NPCID.AngryBonesBigMuscle)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BoneChalice>(), 120, 1, 1));
+        }
+        if (npc.type == NPCID.DungeonSpirit || npc.type == NPCID.GiantCursedSkull)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SigilOfSpirits>(), 17, 1, 1));
+        }
+        if (npc.type == NPCID.Hellbat || npc.type == NPCID.Lavabat)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LavaLamp>(), 30, 1, 1));
+        }
+        if (npc.type == NPCID.Lavabat)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Pyrogem>(), 1, 1, 5));
+        }
+        if (npc.type == NPCID.Hellbat || npc.type == NPCID.LavaSlime)
+        {
+            LeadingConditionRule hardmodeRule = new LeadingConditionRule(new Conditions.IsHardmode());
+
+            hardmodeRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Pyrogem>(), 1, 1, 3));
+            npcLoot.Add(hardmodeRule);
+
+        }
+        if (npc.type == NPCID.RedDevil)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Pyrogem>(), 1, 4, 6));
+        }
+        if (npc.type == NPCID.IceElemental || npc.type == NPCID.IcyMerman || npc.type == NPCID.IceTortoise)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Cryogem>(), 1, 1, 4));
+        }
+        if (npc.type == NPCID.SandShark || npc.type == NPCID.DuneSplicerHead || npc.type == NPCID.DesertBeast || npc.type == NPCID.DesertScorpionWalk || npc.type == NPCID.DesertScorpionWall)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DesertScale>(), 2, 3, 4));
         }
     }
 
@@ -91,7 +140,7 @@ public class ExampleGlobalNPC : GlobalNPC
         Player player = Main.LocalPlayer;
 
         //Ice Crystal Geode
-        if (player.GetModPlayer<GlobalPlayer>().iceCrystalGeode && (projectile.DamageType == DamageClass.Melee || projectile.DamageType == DamageClass.MeleeNoSpeed))
+        if (player.GetModPlayer<GlobalPlayer>().iceCrystalGeode && projectile.CountsAsClass(DamageClass.Melee))
         {
             if (Main.rand.NextBool(10))
             {
@@ -108,7 +157,7 @@ public class ExampleGlobalNPC : GlobalNPC
         }
 
         //Meteorite Geode
-        if (player.GetModPlayer<GlobalPlayer>().meteoriteGeode && (projectile.DamageType == DamageClass.Melee || projectile.DamageType == DamageClass.MeleeNoSpeed) && projectile.type != Mod.Find<ModProjectile>("GeodeMeteor").Type)
+        if (player.GetModPlayer<GlobalPlayer>().meteoriteGeode && projectile.CountsAsClass(DamageClass.Melee) && projectile.type != Mod.Find<ModProjectile>("GeodeMeteor").Type)
         {
 
             if (!player.HasBuff(ModContent.BuffType<MeteorGeodeCooldown>()))
@@ -119,13 +168,13 @@ public class ExampleGlobalNPC : GlobalNPC
         }
 
         //Frozen Spirit set bonus
-        if ((player.GetModPlayer<GlobalPlayer>().FrozenSpiritBonus || player.GetModPlayer<GlobalPlayer>().FrigidHelmet) && (npc.HasBuff(BuffID.Frostburn) || npc.HasBuff(BuffID.Frostburn2)) && (projectile.DamageType == DamageClass.Melee || projectile.DamageType == DamageClass.MeleeNoSpeed))
+        if ((player.GetModPlayer<GlobalPlayer>().FrozenSpiritBonus || player.GetModPlayer<GlobalPlayer>().FrigidHelmet) && (npc.HasBuff(BuffID.Frostburn) || npc.HasBuff(BuffID.Frostburn2)) && projectile.CountsAsClass(DamageClass.Melee))
         {
             modifiers.FinalDamage *= 1.16f;
         }
         //Vein set bonus
         if (player.GetModPlayer<GlobalPlayer>().VeinBonus && !player.HasBuff(ModContent.BuffType<VeinCooldown>()))
-        {        
+        {
             if (!projectile.npcProj && !projectile.trap && (projectile.minion || ProjectileID.Sets.MinionShot[projectile.type]))
             {
                 for (var i = 0; i < 12; i++)
@@ -145,7 +194,7 @@ public class ExampleGlobalNPC : GlobalNPC
             {
                 hitInfo.Damage += player.GetModPlayer<GlobalPlayer>().FlatCrit;
 
-                if (projectile.DamageType == DamageClass.Melee || projectile.DamageType == DamageClass.MeleeNoSpeed)
+                if (projectile.CountsAsClass(DamageClass.Melee))
                 {
                     hitInfo.Damage += player.GetModPlayer<GlobalPlayer>().FlatMeleeCrit;
                 }
@@ -208,6 +257,31 @@ public class ExampleGlobalNPC : GlobalNPC
 
     }
 
+    public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
+    {
+        Player target = Main.LocalPlayer;
+        if (target.GetModPlayer<GlobalPlayer>().OverflowingVenom)
+        {
+            float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, npc.Center);
+
+            if (sqrDistanceToTarget < 330 * 330)
+            {
+                modifiers.FinalDamage *= 1.15f;
+            }
+        }
+        if (target.GetModPlayer<GlobalPlayer>().PotentVenomGland)
+        {
+            float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, npc.Center);
+
+            if (sqrDistanceToTarget < 275 * 275)
+            {
+                modifiers.FinalDamage *= 1.1f;
+            }
+        }
+
+        base.ModifyIncomingHit(npc, ref modifiers);
+    }
+
     public int[] buffPrevious;
     public int[] buffPreviousPrevious;
 
@@ -253,13 +327,12 @@ public class ExampleGlobalNPC : GlobalNPC
         if (npc.type == NPCID.DD2Betsy && ModContent.GetInstance<Configs.Config>().BetsyNerf)
         {
             npc.lifeMax /= 2;
-
-
         }
     }
 
     public override void UpdateLifeRegen(NPC npc, ref int damage)
     {
+
         if (BoneSkewerBleed > 0)
         {
             if (npc.lifeRegen > 0)
@@ -284,7 +357,97 @@ public class ExampleGlobalNPC : GlobalNPC
                 damage = 2;
             }
         }
+        Player target = Main.LocalPlayer;
+
+        if (target.GetModPlayer<GlobalPlayer>().CandescentBonus)
+        {
+            // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
+            float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, npc.Center);
+
+            // Check if it is within the radius
+            if (sqrDistanceToTarget < 360 * 360)
+            {
+                if (npc.HasBuff(BuffID.OnFire))
+                {
+                    npc.AddBuff(BuffID.OnFire3, 5);
+                }
+                if (npc.HasBuff(BuffID.OnFire3))
+                {
+                    npc.lifeRegen -= 60;
+                    if (damage < 15)
+                    {
+                        damage = 15;
+                    }
+                }
+                if (npc.HasBuff(BuffID.Frostburn))
+                {
+                    npc.AddBuff(BuffID.Frostburn2, 5);
+
+                }
+                if (npc.HasBuff(BuffID.Frostburn2))
+                {
+                    npc.lifeRegen -= 100;
+                    if (damage < 30)
+                    {
+                        damage = 30;
+                    }
+                }
+                if (npc.HasBuff(BuffID.ShadowFlame))
+                {
+                    npc.lifeRegen -= 60;
+                    if (damage < 15)
+                    {
+                        damage = 15;
+                    }
+                }
+                if (npc.HasBuff(BuffID.CursedInferno))
+                {
+                    npc.lifeRegen -= 96;
+                    if (damage < 30)
+                    {
+                        damage = 30;
+                    }
+                }
+                if (npc.HasBuff<WaterflameBuff>())
+                {
+                    npc.lifeRegen -= 120;
+                    if (damage < 30)
+                    {
+                        damage = 30;
+                    }
+                }
+                if (npc.HasBuff<HolyFireBuff>())
+                {
+                    npc.lifeRegen -= 120;
+                    if (damage < 30)
+                    {
+                        damage = 30;
+                    }
+                }
+            }
+        }
+        if (target.GetModPlayer<GlobalPlayer>().OverflowingVenom)
+        {
+            // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
+            float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, npc.Center);
+
+            // Check if it is within the radius
+            if (sqrDistanceToTarget < 330 * 330)
+            {
+                if (npc.HasBuff(BuffID.Venom))
+                {
+                    npc.lifeRegen -= 120;
+                    if (damage < 45)
+                    {
+                        damage = 45;
+                    }
+                }
+            }
+        }
     }
+
+
+   
 
     public override void DrawEffects(NPC npc, ref Color drawColor)
     {

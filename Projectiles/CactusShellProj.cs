@@ -20,7 +20,7 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.DamageType = DamageClass.Default;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = -1;

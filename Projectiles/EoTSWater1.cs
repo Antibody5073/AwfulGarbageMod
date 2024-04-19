@@ -38,13 +38,13 @@ namespace AwfulGarbageMod.Projectiles
             DrawOffsetX = -6;
             DrawOriginOffsetY = -24;
 
-            Projectile.damage = 21;
+            Projectile.damage = 18;
             if (Main.expertMode)
             {
-                Projectile.damage = 20;
+                Projectile.damage = 17;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 19;
+                    Projectile.damage = 16;
                 }
             }
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.78f);
@@ -104,13 +104,13 @@ namespace AwfulGarbageMod.Projectiles
             DrawOffsetX = -13;
             DrawOriginOffsetY = -13;
 
-            Projectile.damage = 18;
+            Projectile.damage = 16;
             if (Main.expertMode)
             {
-                Projectile.damage = 17;
+                Projectile.damage = 15;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 16;
+                    Projectile.damage = 14;
                 }
             }
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.78f);

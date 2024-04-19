@@ -159,7 +159,10 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
             }
         }
-
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.HealingPotion;
+        }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             // Do NOT misuse the ModifyNPCLoot and OnKill hooks: the former is only used for registering drops, the latter for everything else
@@ -668,7 +671,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.alpha += 3;
                 float xv = Main.rand.NextFloat(-3, 3);
                 float yv = Main.rand.NextFloat(-2, -5);
-                int dust = Dust.NewDust(new Vector2(wallX - NPC.width / 2, Main.player[NPC.target].Center.Y), 1, 1, DustID.RainCloud, xv, yv, 0, default(Color), 1f);
+                int dust = Dust.NewDust(new Vector2(wallX - NPC.width / 2, Main.player[NPC.target].Center.Y), 1, 1, DustID.Electric, xv, yv, 0, default(Color), 1f);
                 Main.dust[dust].scale = Main.rand.NextFloat(1, 2);
 
             }
@@ -1045,7 +1048,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
                 float xv = Main.rand.NextFloat(-3, 3);
                 float yv = Main.rand.NextFloat(-2, -5);
-                int dust = Dust.NewDust(storedPos + new Vector2(NPC.width / 2, NPC.height / 2), 1, 1, DustID.RainCloud, xv, yv, 0, default(Color), 1f);
+                int dust = Dust.NewDust(storedPos + new Vector2(NPC.width / 2, NPC.height / 2), 1, 1, DustID.Electric, xv, yv, 0, default(Color), 1f);
                 Main.dust[dust].scale = Main.rand.NextFloat(1, 2);
                 Lighting.AddLight(storedPos, 0.6f, 0.75f, 0.8f);
 
@@ -1377,7 +1380,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
                 float xv = Main.rand.NextFloat(-3, 3);
                 float yv = Main.rand.NextFloat(-2, -5);
-                int dust = Dust.NewDust(storedPos + new Vector2(NPC.width / 2, NPC.height / 2), 1, 1, DustID.RainCloud, xv, yv, 0, default(Color), 1f);
+                int dust = Dust.NewDust(storedPos + new Vector2(NPC.width / 2, NPC.height / 2), 1, 1, DustID.Electric, xv, yv, 0, default(Color), 1f);
                 Main.dust[dust].scale = Main.rand.NextFloat(1, 2);
                 Lighting.AddLight(storedPos, 0.6f, 0.75f, 0.8f);
 
