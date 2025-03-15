@@ -30,15 +30,18 @@ namespace AwfulGarbageMod.NPCs
 
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[NPC.type] = 1; // make sure to set NPC for your modnpcs.
+            Main.npcFrameCount[NPC.type] = 4; // make sure to set NPC for your modnpcs.
         }
 
         Vector2 oldVel;
 
+        int frameCounter = 0;
+        int frame = 0;
+
         public override void SetDefaults()
         {
-            NPC.width = 12; // The width of the npc's hitbox (in pixels)
-            NPC.height = 12; // The height of the npc's hitbox (in pixels)
+            NPC.width = 24; // The width of the npc's hitbox (in pixels)
+            NPC.height = 24; // The height of the npc's hitbox (in pixels)
             NPC.aiStyle = -1; // NPC npc has a completely unique AI, so we set NPC to -1. The default aiStyle 0 will face the player, which might conflict with custom AI code.
             NPC.damage = 12; // The amount of damage that NPC npc deals
             NPC.defense = 4; // The amount of defense that NPC npc has
@@ -66,9 +69,9 @@ namespace AwfulGarbageMod.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.ZoneForest)
+            if (spawnInfo.Player.ZoneForest && !spawnInfo.Invasion)
             {
-                return 0.18f;
+                return 0.17f;
             }
             return 0;
         }
@@ -234,9 +237,19 @@ namespace AwfulGarbageMod.NPCs
         public override void FindFrame(int frameHeight)
         {
             // NPC makes the sprite flip horizontally in conjunction with the npc.direction.
-            NPC.spriteDirection = NPC.direction * -1;
+            NPC.spriteDirection = NPC.direction;
 
-           
+            if (++frameCounter >= 6)
+            {
+                frameCounter = 0;
+                frame++;
+                if (frame >= 4)
+                {
+                    frame = 0;
+                }
+            }
+            NPC.frame.Y = frame * frameHeight;
+
         }
 
         // Here, because we use custom AI (aiStyle not set to a suitable vanilla value), we should manually decide when Flutter Slime can fall through platforms

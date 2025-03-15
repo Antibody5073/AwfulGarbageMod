@@ -3,18 +3,19 @@ This mod also adds a structure and some ore, so a new world is recommended (thou
 
 Awful Garbage Mod is a mod I have created to just add whatever I want into Terraria, it is also the first Terraria mod I have ever created. While I have "plans" for the mod, they mostly just exist so I feel like I am making progress.
 
-Currently adds 260+ items and 10 NPCs, mostly in pre-Hardmode. This includes: 
-121 weapons
+Currently adds 400+ items and 10 NPCs, mostly in pre-Hardmode. This includes: 
+190 weapons
 A new type of magic weapon, Scepters, which create orbital projectiles that grant buffs while orbiting. Taking damage releases all orbiting projectiles.
-10 tools
-9 armor sets + 1 helmet for a vanilla set
-78 accessories
+11 tools
+14 armor sets + 1 helmet for a vanilla set
+135 accessories
 
-4 bosses + 1 boss minion
-4 enemies
+6 bosses + 1 boss minion
+6 enemies
 1 town NPC
 
-This mod balance changes a few vanilla items, this can be managed in the configs
+This mod tweaks a few vanilla items, this can be managed in the configs
+This mod supports armor mixing and hybrid summoner
 
 Has support/cross mod content for:
 Boss Checklist
@@ -22,13 +23,22 @@ Census
 Stram's Classes (This includes: 1 armor set, 9 weapons)
 
 Coders: 
-Antibody
+Antibody (Main coder)
 
 Spriters: 
-Kevimipenem
+Kevimipenem (Main spriter)
+nobisyu for the following:
+Candescite, Candescite bar
+Someone with a short username for the following sprites: 
+Necro Scope, Dried Blossom, Leafstorm, Cobalt Flail, Palladium Flail, Pumpking's Harvester, Phantom Flail, Vortex Storm, Nunchucks, Bonechucks, Lee's Nunchucks, Crystalline Nunchucks
+jolly pil for the following: 
+Corrupted Metal Chunk, Crimson Metal Chunk
+crow attack for the following:
+High Velocity Arrow
+
 
 Music: 
-Antibody
+Antibody (Main musician)
 JynX(For making the original music for the Len'en bosses, the music for those bosses in this mod are remixes)
 
 Other:

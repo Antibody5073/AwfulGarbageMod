@@ -15,6 +15,7 @@ namespace AwfulGarbageMod.Items.Placeable.Furniture
 			Item.width = 28; // The item texture's width
 			Item.height = 14; // The item texture's height
 			Item.value = 150;
+			Item.rare = 1;
 		}
 
 		// Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.

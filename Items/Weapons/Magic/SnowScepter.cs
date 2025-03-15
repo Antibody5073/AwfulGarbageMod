@@ -6,6 +6,7 @@ using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -42,8 +43,12 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             Player player = Main.LocalPlayer;
-            TooltipLine tooltip = new TooltipLine(Mod, "ScepterMax", ScepterMax.Format(ModItemSets.Sets.MaxScepterProjectiles[Item.type] + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost));
-            tooltips.Add(tooltip);
+            TooltipLine tooltip = new TooltipLine(Mod, "ScepterMax", ScepterMax.Format(Item.scepterItem().MaxScepterProjectiles + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost));
+            TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            if (line != null)
+            {
+                line.Text += tooltip.Text;
+            }
         }
 
         public override void SetDefaults()
@@ -67,6 +72,10 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.buffType = ModContent.BuffType<SnowScepterBuff>();
 
+
+            Item.scepterItem().scepter = true;
+            Item.scepterItem().MaxScepterProjectiles = 8;
+
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -75,7 +84,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             player.AddBuff(Item.buffType, 2);
 
             // Minions have to be spawned manually, then have originalDamage assigned to the damage of the summon item
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("SnowScepterOrbit").Type] < ModItemSets.Sets.MaxScepterProjectiles[Item.type] + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("SnowScepterOrbit").Type] < Item.scepterItem().MaxScepterProjectiles + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost)
             {
                 var projectile = Projectile.NewProjectileDirect(source, position, velocity, type, Item.damage, knockback, Main.myPlayer, player.ownedProjectileCounts[Mod.Find<ModProjectile>("SnowScepterOrbit").Type]);
             }

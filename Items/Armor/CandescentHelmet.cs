@@ -46,7 +46,7 @@ namespace AwfulGarbageMod.Items.Armor
         // UpdateArmorSet allows you to give set bonuses to the armor.
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "10% reduced damage taken\nEmit an aura that strengthens certain fire-related debuffs by 3x"; // This is the setbonus tooltip
+            player.setBonus = "10% reduced damage taken\nEmit an aura that strengthens certain fire-related debuffs by 3x\nThis includes the following debuffs: On Fire, Hellfire, Frostburn, Frostbite, Cursed Inferno, Shadowflame, Waterflame, Holy Fire"; // This is the setbonus tooltip
             player.endurance = 1f - (0.9f * (1f - player.endurance));
             player.GetModPlayer<GlobalPlayer>().CandescentBonus = true;
         }

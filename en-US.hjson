@@ -4,6 +4,7 @@ Mods: {
 			KnifeDamageClass.DisplayName: ranged (knife) damage
 			ScepterDamageClass.DisplayName: magic (scepter) damage
 			FlailDamageClass.DisplayName: melee (flail) damage
+			MageRangedClass.DisplayName: Mage Ranged Class
 		}
 
 		Keybinds.ArmorSetAbility.DisplayName: Armor Set Ability
@@ -245,22 +246,22 @@ Mods: {
 
 			SnowScepterBuff: {
 				DisplayName: Snow Scepter Buff
-				Description: Mods.AwfulGarbageMod.Buffs.SnowScepterBuff.Description
+				Description: Orbiting snowballs
 			}
 
 			StoneScepterBuff: {
 				DisplayName: Stone Scepter Buff
-				Description: Mods.AwfulGarbageMod.Buffs.StoneScepterBuff.Description
+				Description: Orbiting stone
 			}
 
 			ViciousScepterBuff: {
 				DisplayName: Vicious Scepter Buff
-				Description: Mods.AwfulGarbageMod.Buffs.ViciousScepterBuff.Description
+				Description: Orbiting crimeras
 			}
 
 			VileScepterBuff: {
 				DisplayName: Vile Scepter Buff
-				Description: Mods.AwfulGarbageMod.Buffs.VileScepterBuff.Description
+				Description: Orbiting eaters
 			}
 
 			HolyFireBuff: {
@@ -296,6 +297,46 @@ Mods: {
 			HorseSnapperBuff: {
 				DisplayName: Horse Snapper Buff
 				Description: Minion projectile velocity is increased by 15%
+			}
+
+			CorruptorCurse: {
+				DisplayName: Corruptor Curse
+				Description: Mods.AwfulGarbageMod.Buffs.CorruptorCurse.Description
+			}
+
+			IceSpiritStaffMinionBuff: {
+				DisplayName: Ice Spirit Staff Minion Buff
+				Description: The ice spirit will fight for you
+			}
+
+			SaplingCaneMinionBuff: {
+				DisplayName: Sapling Cane Minion Buff
+				Description: Mods.AwfulGarbageMod.Buffs.SaplingCaneMinionBuff.Description
+			}
+
+			IciclashBuff: {
+				DisplayName: Iciclash Buff
+				Description: Oh no you shoot icicles when you take damage
+			}
+
+			VultureStaffMinionBuff: {
+				DisplayName: Vulture Staff Minion Buff
+				Description: The vulture will fight for you
+			}
+
+			RecyclingBinBuff: {
+				DisplayName: Recycling Bin
+				Description: Trash slimes won't spawn
+			}
+
+			ExtensionBuff: {
+				DisplayName: Extension Buff
+				Description: Mods.AwfulGarbageMod.Buffs.ExtensionBuff.Description
+			}
+
+			SprintBuff: {
+				DisplayName: Sprint Buff
+				Description: Mods.AwfulGarbageMod.Buffs.SprintBuff.Description
 			}
 		}
 
@@ -585,6 +626,71 @@ Mods: {
 			IceElementalStaffMinion.DisplayName: Ice Elemental Staff Minion
 			IceElementalStaffProjectile.DisplayName: Ice Elemental Staff Projectile
 			HorseSnapperProj.DisplayName: Horse Snapper Proj
+			HighVelocityArrowProj.DisplayName: High Velocity Arrow Proj
+			ForestSigilProj.DisplayName: Forest Sigil Proj
+			CandescentArrowProj.DisplayName: Candescent Arrow Proj
+			CandescentArrowProj2.DisplayName: Candescent Arrow Proj2
+			LavaLanceProj.DisplayName: Lava Lance Proj
+			LavaLanceProj2.DisplayName: Lava Lance Proj2
+			CorruptedMetalChunkProj.DisplayName: Corrupted Metal Chunk Proj
+			CrimsonMetalChunkProj.DisplayName: Crimson Metal Chunk Proj
+			HallowedMetalChunkProj.DisplayName: Hallowed Metal Chunk Proj
+			SpiritReaperProjSlash.DisplayName: Spirit Reaper Proj Slash
+			SpiritReaperProjScythe.DisplayName: Spirit Reaper Proj Scythe
+			SpiritReaperProjScytheChase.DisplayName: Spirit Reaper Proj Scythe Chase
+			SpiritReaperProjShadowBeam.DisplayName: Spirit Reaper Proj Shadow Beam
+			TrueDeathSickleProj.DisplayName: True Death Sickle Proj
+			SoulSpearProj.DisplayName: Soul Spear Proj
+			SoulSpearProjSoul.DisplayName: Soul Spear Proj Soul
+			SpiritReaperProjSlashSmall.DisplayName: Spirit Reaper Proj Slash Small
+			DeathStringsProj.DisplayName: Death Strings Proj
+			ShadowBookProj.DisplayName: Shadow Book Proj
+			BarbedWireFlail2Proj.DisplayName: Barbed Wire Flail2 Proj
+			BarbedWireFlail2ProjHitbox.DisplayName: Barbed Wire Flail2 Proj Hitbox
+			SlimyFlail2Proj.DisplayName: Slimy Flail2 Proj
+			Icebreaker2Proj.DisplayName: Icebreaker2 Proj
+			NunchucksProj.DisplayName: Nunchucks Proj
+			BonechucksProj.DisplayName: Bonechucks Proj
+			BonechucksProj2.DisplayName: Bonechucks Proj2
+			PumpkingHarvesterProj.DisplayName: Pumpking Harvester Proj
+			PhantomFlailProj.DisplayName: Phantom Flail Proj
+			LeafstormProj.DisplayName: Leafstorm Proj
+			HotGlockProj.DisplayName: Hot Glock Proj
+			SwampyGripSludge.DisplayName: Swampy Grip Sludge
+			CobaltFlailProj.DisplayName: Cobalt Flail Proj
+			PalladiumFlailProj.DisplayName: Palladium Flail Proj
+			KingSlimeProjSlime.DisplayName: King Slime Proj Slime
+			KingSlimeProjSlam.DisplayName: King Slime Proj Slam
+			KingSlimeProjGround.DisplayName: King Slime Proj Ground
+			KingSlimeProjSlimeSpawner.DisplayName: King Slime Proj Slime Spawner
+			UmbragelShadow.DisplayName: Umbragel Shadow
+			SlimeExplosion.DisplayName: Slime Explosion
+			IceSpiritBeamProj.DisplayName: Ice Spirit Beam Proj
+			IceSpiritStaffMinion.DisplayName: Ice Spirit Staff Minion
+			IceSpiritStaffProjectile.DisplayName: Ice Spirit Staff Projectile
+			SaplingCaneMinion.DisplayName: Sapling Cane Minion
+			SaplingCaneProj.DisplayName: Sapling Cane Proj
+			IciclashProj.DisplayName: Iciclash Proj
+			IciclashProj2.DisplayName: Iciclash Proj2
+			VultureStaffMinion.DisplayName: Vulture Staff Minion
+			SnatcherStaffMinion.DisplayName: Snatcher Staff Minion
+			VortexStormProj.DisplayName: Vortex Storm Proj
+			CandescenceProjFireBlastUnreal.DisplayName: Candescence Proj Fire Blast Unreal
+			CandescenceProjTwinFire.DisplayName: Candescence Proj Twin Fire
+			CandescenceProjTwinFireShot.DisplayName: Candescence Proj Twin Fire Shot
+			CandescenceProjWarning.DisplayName: Candescence Proj Warning
+			BossTelegraph.DisplayName: Boss Telegraph
+			ShadowtrickSparkProj.DisplayName: Shadowtrick Spark Proj
+			ShadowtrickSpinnerProj.DisplayName: Shadowtrick Spinner Proj
+			LeeNunchucksProj.DisplayName: Lee Nunchucks Proj
+			LeeNunchucksProj2.DisplayName: Lee Nunchucks Proj2
+			DukeFishronProjWave.DisplayName: Duke Fishron Proj Wave
+			DukeFishronProjFish.DisplayName: Duke Fishron Proj Fish
+			DukeFishronProjTyphoon.DisplayName: Duke Fishron Proj Typhoon
+			DukeFishronProjTornado.DisplayName: Duke Fishron Proj Tornado
+			DukeFishronProjTornadoBolt.DisplayName: Duke Fishron Proj Tornado Bolt
+			DukeFishronProjTornadoBoltSpawner.DisplayName: Duke Fishron Proj Tornado Bolt Spawner
+			DukeFishronProjTyphoon2.DisplayName: Duke Fishron Proj Typhoon2
 		}
 
 		Items: {
@@ -618,7 +724,7 @@ Mods: {
 					15% increased critical strike damage
 					This means that critical strikes deal 215% of the original damage instead of 200%
 					'''
-				StramEffect: Rogue weapons gain 7.5% critical strike damage instead
+				StramEffect: Stram's Classes: Rogue weapons gain 7.5% critical strike damage instead
 			}
 
 			CorruptedPendant: {
@@ -825,8 +931,8 @@ Mods: {
 				DisplayName: Spider Charm
 				Tooltip:
 					'''
-					Increases max number of minions
-					18% decreased summon damage
+					Increases max number of minions by 1
+					22% decreased damage
 					'''
 			}
 
@@ -845,7 +951,7 @@ Mods: {
 				Tooltip:
 					'''
 					Increases max number of minions and sentries by 1
-					12% decreased summon damage
+					16% decreased damage
 					8% increased movement speed
 					'''
 			}
@@ -868,7 +974,7 @@ Mods: {
 					12% increased critical strike damage
 					This means that critical strikes deal 212% of the original damage instead of 200%
 					'''
-				StramEffect: Rogue weapons gain 6% critical strike damage instead
+				StramEffect: Stram's Classes: Rogue weapons gain 6% critical strike damage instead
 			}
 
 			ViciousMushroomFlask: {
@@ -1107,12 +1213,13 @@ Mods: {
 
 			LeafScepter: {
 				DisplayName: Leaf Scepter
-				Tooltip:
+				Tooltip: ""
+				ScepterMax:
 					'''
 					Summons orbital leaves that provide 1% critical strike chance each, taking damage releases them outward. 
 					Reduces max mana by 8 and non-magic damage by 5% for each active orbital.
+					Has a maximum of {0} orbiting leaves.
 					'''
-				ScepterMax: Has a maximum of {0} orbiting leaves.
 			}
 
 			NaturalSpell: {
@@ -1165,12 +1272,13 @@ Mods: {
 
 			SlimeScepter: {
 				DisplayName: Slime Scepter
-				Tooltip:
+				Tooltip: ""
+				ScepterMax:
 					'''
 					Summons orbital slimeballs that provide 2 defense each, taking damage releases them outward. 
 					Reduces max mana by 5 and non-magic damage by 8% for each active orbital.
+					Has a maximum of {0} orbiting slimeballs.
 					'''
-				ScepterMax: Has a maximum of {0} orbiting slimeballs.
 			}
 
 			Sprinkler: {
@@ -1226,12 +1334,13 @@ Mods: {
 
 			VitalScepter: {
 				DisplayName: Vital Scepter
-				Tooltip:
+				Tooltip: ""
+				ScepterMax:
 					'''
 					Summons orbital life crystals that provide 20 max life each, taking damage releases them outward. 
 					Reduces max mana by 25 and non-magic damage by 10% for each active orbital.
+					Has a maximum of {0} orbiting life crystals.
 					'''
-				ScepterMax: Has a maximum of {0} orbiting life crystals.
 			}
 
 			Backbone: {
@@ -1291,7 +1400,7 @@ Mods: {
 			}
 
 			InfernalBlade: {
-				DisplayName: Infernal Blade
+				DisplayName: Infernus
 				Tooltip: Shoots an exploding fireball every other swing
 			}
 
@@ -1448,7 +1557,11 @@ Mods: {
 
 			HammerOfClay: {
 				DisplayName: Hammer of Clay
-				Tooltip: '''"It's a hammer-shaped bottle opener, gyah!"'''
+				Tooltip:
+					'''
+					Uses static immunity frames; it is suggested you mix minions when using this weapon
+					"It's a hammer-shaped bottle opener, gyah!"
+					'''
 			}
 
 			PileOfActualBones: {
@@ -1475,7 +1588,7 @@ Mods: {
 				DisplayName: Thundercrack
 				Tooltip:
 					'''
-					Strikes enemies hit by summons with lightning that deals 120% of the summon's damage
+					Strikes enemies hit by summons with lightning that deals 100% of the summon's damage
 					This effect must be refreshed after a minion strikes the enemy
 					2 summon tag damage
 					'''
@@ -1799,7 +1912,7 @@ Mods: {
 				Tooltip:
 					'''
 					Fires Blood Arrows
-					Each arrow can only hit a specific target once
+					Arrows can re-hit the same target after a bounce
 					"Holding bows in the left hand, as We had done, is what's correct."
 					'''
 			}
@@ -1807,7 +1920,12 @@ Mods: {
 			AsteroidBelt: {
 				DisplayName: Asteroid Belt
 				Tooltip: "Summons orbital meteors that provide 3 defense each, taking damage releases them. "
-				MeteoritePenalty: Reduces max mana by 10 and non-magic damage by 5% for each active orbital.
+				MeteoritePenalty:
+					'''
+
+					Reduces max mana by 10 and non-magic damage by 5% for each active orbital.
+
+					'''
 				ScepterMax: Has a maximum of {0} orbiting meteors.
 			}
 
@@ -1890,7 +2008,7 @@ Mods: {
 
 			SpikyThread: {
 				DisplayName: Spiky Thread
-				Tooltip: 25% increased whip range
+				Tooltip: 25% increased whip range and flail spin range
 			}
 
 			FractureKnife: {
@@ -1903,8 +2021,8 @@ Mods: {
 				Tooltip:
 					'''
 					Summons a water candle to fight for you
-					Inflicts Waterflame, which deals heavy damage over time and causes the 
-					target to take 12% more damage from other minions and their projectiles
+					Inflicts Waterflame, which deals heavy damage over time and causes the target to take 
+					12% more damage or +4 damage from other minions and their projectiles, whichever is lower
 					Ignores up to 2 enemy defense
 					'''
 			}
@@ -1939,7 +2057,11 @@ Mods: {
 
 			UnholyStaff: {
 				DisplayName: Unholy Staff
-				Tooltip: Summons a demon to fight for you
+				Tooltip:
+					'''
+					Summons a demon to fight for you
+					Projectiles use static immunity frames, it is recommended to mix with other minions
+					'''
 			}
 
 			AssortedKnifeBag: {
@@ -2261,14 +2383,7 @@ Mods: {
 
 			HarujionLocator: {
 				DisplayName: Harujion Locator
-				Tooltip:
-					'''
-					5% increased magic damage
-					Mana potions restore 20% more mana
-					You gradually build up spirit energy
-					Drinking a mana potion releases homing spirits that deal damage equal to your spirit energy
-					Spirit energy takes about 30 seconds to fully max out at 100
-					'''
+				Tooltip: hey your not supposd to hav this yet
 			}
 
 			HarujionPetal: {
@@ -2311,6 +2426,16 @@ Mods: {
 					'''
 			}
 
+			Trash: {
+				DisplayName: trash
+				Tooltip:
+					'''
+					It's not garbage?
+					Do not use
+					(Joke item)
+					'''
+			}
+
 			Recycler: {
 				DisplayName: Recycler
 				Tooltip:
@@ -2330,7 +2455,7 @@ Mods: {
 					Increases the size of melee weapons by 20%
 					'Like a turtle, I carry my home everywhere'
 					'''
-				StramEffect: Increases rogue crtitcal strike damage by 6
+				StramEffect: Stram's Classes: Increases rogue crtitcal strike damage by 6
 			}
 
 			WorthlessJunkHelmet: {
@@ -2340,7 +2465,7 @@ Mods: {
 					Reduces mana usage by 18%
 					Increases ranged velocity and whip range by 30%
 					'''
-				StramEffect: Increases rogue velocity by 25%
+				StramEffect: Stram's Classes: Increases rogue velocity by 25%
 			}
 
 			WorthlessJunkLeggings: {
@@ -2387,14 +2512,15 @@ Mods: {
 			}
 
 			Necroscepter: {
-				ScepterMax: Has a maximum of {0} orbiting skulls.
-				DisplayName: Necroscepter
-				Tooltip:
+				ScepterMax:
 					'''
 					Summons orbital skulls that provide 3% damage each.
 					Taking damage launches them towards nearby enemies.
 					Reduces max mana by 15 and non-magic damage by 7% for each active orbital.
+					Has a maximum of {0} orbiting skulls.
 					'''
+				DisplayName: Necroscepter
+				Tooltip: ""
 			}
 
 			GoldenChain: {
@@ -2417,7 +2543,7 @@ Mods: {
 				Tooltip:
 					'''
 					Pierces through two enemies and unaffected by gravity
-					Is followed by a slightly homing ice bolt that deals 50% damage
+					Is followed by a slightly homing ice bolt that deals 40% damage
 					'''
 			}
 
@@ -2486,14 +2612,15 @@ Mods: {
 			}
 
 			SwarmScepter: {
-				ScepterMax: Has a maximum of {0} orbiting bees.
-				DisplayName: Swarm Scepter
-				Tooltip:
+				ScepterMax:
 					'''
 					Summons orbital bees that increases the damage of other bees by 4% and the damage of the Hornet Staff by 6% each.
 					Taking damage launches them outwards.
 					Reduces max life by 10 for each orbiting bee.
+					Has a maximum of {0} orbiting bees.
 					'''
+				DisplayName: Swarm Scepter
+				Tooltip: ""
 			}
 
 			SanguineBreastplate: {
@@ -2599,7 +2726,7 @@ Mods: {
 			}
 
 			DaggerOfEgestedPoison: {
-				DisplayName: Dagger Of Egested Poison
+				DisplayName: Dagger of Egested Poison
 				Tooltip:
 					'''
 					Inflicts 7 seconds of poison with a 25% chance
@@ -2618,7 +2745,7 @@ Mods: {
 			}
 
 			StormFocus: {
-				StramEffect: Rogue weapons gain 6% critical strike damage instead
+				StramEffect: Stram's Classes: Rogue weapons gain 6% critical strike damage instead
 				DisplayName: Storm Focus
 				Tooltip:
 					'''
@@ -2638,7 +2765,7 @@ Mods: {
 
 			BoneChalice: {
 				DisplayName: Bone Chalice
-				Tooltip: 35% increased summon tag duration
+				Tooltip: 50% increased summon tag duration
 			}
 
 			GlacialEye: {
@@ -2704,19 +2831,19 @@ Mods: {
 
 			Cryogem: {
 				DisplayName: Cryogem
-				Tooltip: THIS ITEM IS UNOBTAINABLE AND ANYTHING THAT REQUIRES THIS ITEM TO CRAFT IS ALSO UNOBTAINABLE
+				Tooltip: "'This thing is negative kelvin degrees'"
 			}
 
 			Pyrogem: {
 				DisplayName: Pyrogem
-				Tooltip: THIS ITEM IS UNOBTAINABLE AND ANYTHING THAT REQUIRES THIS ITEM TO CRAFT IS ALSO UNOBTAINABLE
+				Tooltip: "'This thing is not negative kelvin degrees'"
 			}
 
 			CryoCleaver: {
 				DisplayName: Cryo Cleaver
 				Tooltip:
 					'''
-					Shoots a large frost wave and a small frost wave
+					Shoots a large icicle wave and a small icicle wave
 					The larger one has less range but has more penetration and inflicts Frostbite
 					The smaller one has more range but has less penetration
 					'''
@@ -2735,7 +2862,7 @@ Mods: {
 				DisplayName: Ice Chalice
 				Tooltip:
 					'''
-					50% increased summon tag duration
+					75% increased summon tag duration
 					5% increased summon damage
 					'''
 			}
@@ -2845,6 +2972,7 @@ Mods: {
 				DisplayName: Barbed Wire Flail
 				Tooltip:
 					'''
+					Spin a spiky flail around you
 					Can hit enemies with the chain for 33% damage
 					Melee speed modifiers affect maximum range and not spin speed
 					'''
@@ -2932,7 +3060,7 @@ Mods: {
 
 			DevAccessory1: {
 				DisplayName: Dev Accessory1
-				Tooltip: ""
+				Tooltip: Reduced knife empowerment cooldowns
 			}
 
 			KitchenKnife: {
@@ -2947,7 +3075,12 @@ Mods: {
 
 			WorldlyScroll: {
 				DisplayName: Worldly Scroll
-				Tooltip: Manually generates any missing ores and structures into your world
+				Tooltip:
+					'''
+					Manually generates any missing ores and structures into your world
+					May be slightly buggier than generating structures via world creation
+					Does nothing if there isn't anything wrong with your world
+					'''
 			}
 
 			FrigidiusTrophy: {
@@ -2962,42 +3095,46 @@ Mods: {
 
 			SnowScepter: {
 				DisplayName: Snow Scepter
-				Tooltip:
+				Tooltip: ""
+				ScepterMax:
 					'''
 					Summons orbital snowballs that provide 5% increased knockback, taking damage releases them toward the cursor. 
 					Reduces max mana by 5 for each active orbital.
+					Has a maximum of {0} orbiting snowballs.
 					'''
-				ScepterMax: Has a maximum of {0} orbiting snowballs.
 			}
 
 			StoneScepter: {
 				DisplayName: Stone Scepter
-				Tooltip:
+				Tooltip: ""
+				ScepterMax:
 					'''
 					Summons orbital pebbles that provide 5% increased mining speed, taking damage releases them outward. 
 					Reduces max life by 5 for each active orbital.
+					Has a maximum of {0} orbiting pebbles.
 					'''
-				ScepterMax: Has a maximum of {0} orbiting pebbles.
 			}
 
 			ViciousScepter: {
 				DisplayName: Vicious Scepter
-				Tooltip:
+				Tooltip: ""
+				ScepterMax:
 					'''
 					Summons orbital Crimeras that provide 2% increased damage, 4 defense, and increased enemy agression. Taking damage releases them toward nearby enemies. 
 					Reduces max mana by 25 and non-magic damage by 10% for each active orbital.
+					Has a maximum of {0} orbiting Crimeras.
 					'''
-				ScepterMax: Has a maximum of {0} orbiting Crimeras.
 			}
 
 			VileScepter: {
 				DisplayName: Vile Scepter
-				Tooltip:
+				Tooltip: ""
+				ScepterMax:
 					'''
 					Summons orbital Eater of Souls that provide 3% increased critical strike chance, 10% movement speed, and reduced enemy agression. Taking damage releases them toward nearby enemies. 
 					Reduces max mana by 25 and non-magic damage by 10% for each active orbital.
+					Has a maximum of {0} orbiting Eater of Souls.
 					'''
-				ScepterMax: Has a maximum of {0} orbiting Eater of Souls.
 			}
 
 			BloomingEvil: {
@@ -3013,7 +3150,7 @@ Mods: {
 				DisplayName: Diamond Cutters
 				Tooltip:
 					'''
-					Knives stick into enemies and burst outward when the enemy is killed and gain 20% damage
+					Knives stick into enemies and burst outward when the enemy is killed and gain 40% damage
 					Bursting knives can also stick into enemies and can keep gaining damage
 					'''
 			}
@@ -3163,11 +3300,7 @@ Mods: {
 
 			FrigidiumFlails: {
 				DisplayName: Frigidium Flails
-				Tooltip:
-					'''
-					Spins three flails in an elipse shape
-					(Sprite is a placeholder)
-					'''
+				Tooltip: Spins three flails in an elipse shape
 			}
 
 			RadiantPrism: {
@@ -3210,24 +3343,19 @@ Mods: {
 				Tooltip:
 					'''
 					A certain hell moth is obsessed with these
-					BOSS IS WORK IN PROGRESS
+					Must be used in the underworld
 					'''
 				DisplayName: Lava Lamp
 			}
 
 			JarOfSpirits: {
-				Tooltip:
-					'''
-					Attracts a certain eggplant jockey hired to retrieve spirits 
-					BOSS IS WORK IN PROGRESS
-					'''
+				Tooltip: "Attracts a certain eggplant jockey hired to retrieve spirits "
 				DisplayName: Jar of Spirits
 			}
 
 			MoltenEye: {
 				Tooltip:
 					'''
-					Currently Unobtainable
 					10% increased damage
 					A molten eye orbits you shooting bouncy fireballs at nearby enemies, dealing 33 damage each
 					'''
@@ -3237,7 +3365,6 @@ Mods: {
 			OpposingViews: {
 				Tooltip:
 					'''
-					Currently Unobtainable
 					8% increased damage
 					8% reduced damage taken
 					A glacial eye orbits you quickly shooting snowballs at nearby enemies, dealing 32 damage each
@@ -3250,7 +3377,6 @@ Mods: {
 				DisplayName: Four-Eyes
 				Tooltip:
 					'''
-					Currently Unobtainable
 					8% increased damage
 					8% reduced damage taken
 					8% increased critical strike chance
@@ -3263,12 +3389,12 @@ Mods: {
 			}
 
 			CandesciteOre: {
-				Tooltip: ""
-				DisplayName: Candescite Ore
+				Tooltip: "'A glowing hot metal'"
+				DisplayName: Candescite
 			}
 
 			CandesciteBar: {
-				Tooltip: ""
+				Tooltip: "'A glowing hot metal'"
 				DisplayName: Candescite Bar
 			}
 
@@ -3308,6 +3434,8 @@ Mods: {
 					Using weapons shoots crossbones
 					Taking damage launches bone toothpicks
 					Increases view range for guns (Right click to zoom)
+					Every third ranged weapon use is automatically aimed at the nearest enemy and gains 40% damage
+					Every third weapon use is guaranteed to be a critical strike
 					'''
 				DisplayName: Ancient Gadgets
 			}
@@ -3364,7 +3492,7 @@ Mods: {
 			ShellOfRetaliation: {
 				TooltipWithVar:
 					'''
-					7 defense
+					5 defense
 					Increases length of invincibility after taking damage
 					Reflects 75% of contact damage
 					Upon taking damage, the following effects will take place:
@@ -3421,10 +3549,10 @@ Mods: {
 					Absorbs 25% of damage done to players on your team when above 25% life
 					Puts a shell around the owner when below 50% life that reduces damage taken by 25%
 					Emit a venomous aura
-					Enemies within the aura take 15% more damage (multiplicative) and venom is strengthened by 3x
-					Increases armor penetration by 12
+					Enemies within the aura take 10% more damage (multiplicative) and venom is strengthened by 3x
+					Increases armor penetration by 10
 					Increases length of invincibility after taking damage
-					Increases defense the lower your health, up to a max of 20 defense below 30% health
+					Increases defense the lower your health, up to a max of 12 defense below 30% health
 					Increases health healed by potions the lower your health, up to a max of 30% extra health below 15% health
 					Grants immunity to knockback, most debuffs, and fire blocks
 					Increases life regeneration
@@ -3468,7 +3596,7 @@ Mods: {
 				DisplayName: Ancient Flier Headgear
 				Tooltip:
 					'''
-					16% increased ranged and summon damage
+					12% increased ranged and summon damage
 					Increases armor penetration by 4
 					25% increased wing flight time
 					8% reduced wing speed
@@ -3479,7 +3607,7 @@ Mods: {
 				DisplayName: Ancient Flier Greaves
 				Tooltip:
 					'''
-					10% increased ranged damage and crit chance
+					6% increased ranged damage and crit chance
 					10% increased summon damage
 					50% increased wing flight time
 					16% reduced wing speed
@@ -3495,7 +3623,7 @@ Mods: {
 				DisplayName: The Sand Shark
 				Tooltip:
 					'''
-					40% chance to save ammo
+					66% chance to save ammo
 					Periodically fires lingering sand
 					'''
 			}
@@ -3509,7 +3637,7 @@ Mods: {
 				DisplayName: Desert Sting
 				Tooltip:
 					'''
-					25% chance to save ammo
+					50% chance to save ammo
 					Every 8th shot is converted to venom arrow
 					'''
 			}
@@ -3585,7 +3713,7 @@ Mods: {
 
 			FlintStaff: {
 				DisplayName: Flint Staff
-				Tooltip: Fires a bolt of flint
+				Tooltip: Fires a bolt of flint that pierces through two enemies
 			}
 
 			FlintSpear: {
@@ -3618,11 +3746,7 @@ Mods: {
 
 			ForestBeam: {
 				DisplayName: Forest Beam
-				Tooltip:
-					'''
-					Fires a forest beam
-					'Me? Fake shader trails? Don't be ridiculous.'
-					'''
+				Tooltip: Fires a forest beam
 			}
 
 			LeafyDisc: {
@@ -3649,7 +3773,7 @@ Mods: {
 					'''
 					Summons an ice elemental to fight for you
 					Occupies two minion slots
-					Projectiles use static immunity frames; it is suggested you other minions with this weapon
+					Projectiles use static immunity frames; it is suggested you mix minions when using this weapon
 					'''
 			}
 
@@ -3658,6 +3782,7 @@ Mods: {
 				Tooltip:
 					'''
 					Allows flight and slow fall
+					Ascends slower than most wings
 					15% increased horizontal speed; this includes boot speed
 					"If things get rough, I'm makin' a break for it. Don't worry 'bout me."
 					'''
@@ -3696,6 +3821,627 @@ Mods: {
 			SoulOfIghtImaHeadOut: {
 				DisplayName: Soul of ight ima head out
 				Tooltip: "'The essence of running away'"
+			}
+
+			HighVelocityArrow: {
+				DisplayName: High Velocity Arrow
+				Tooltip:
+					'''
+					Self-explanatory
+					"What?! You got any complaints 'bout this?!"
+					'''
+			}
+
+			ThrushFeather: {
+				DisplayName: Thrush Feather
+				Tooltip:
+					'''
+					25% increased ranged velocity
+					8% increased melee speed
+					8% increased damage
+					'''
+			}
+
+			ForestSigil: {
+				tooltipWithoutArgs:
+					'''
+					Every {0} seconds, a knife will gain Lush Empowerment, which has the following effects:
+					 - Knife damage is increased by 6
+					 - The knife is followed by a helix of leaves that deal 33% damage
+					'''
+				DisplayName: Forest Sigil
+				Tooltip: ""
+			}
+
+			BipolarBouquet: {
+				DisplayName: Bipolar Bouquet
+				Tooltip:
+					'''
+					10% increased magic damage
+					10% reduced mana cost
+					Increases magic damage by another 15% while not moving horizontally
+					Reduces mana cost by another 15% when not moving vertically
+					5% increased magic crit chance
+					Magic attacks deal x1.07 damage and inflict Frostbite on the enemy with the highest health
+					Magic attacks deal x1.07 damage and inflict Hellfire on the enemy with the lowest health
+					'''
+			}
+
+			CelestialBouquet: {
+				DisplayName: Celestial Bouquet
+				Tooltip:
+					'''
+					Enables auto-drinking mana potions
+					Increases magic damage by 15% and scepter damage by another 15%
+					Increases maximum mana by 40 and maximum scpeter projectiles by 1
+					Slightly increases mana regeneration rate
+					Reduces mana usage and scepter max stat penalties by 10%
+					Increases defense by 1 for every orbiting scepter projectile
+					Maximum defense increase is 25
+					Increases pickup range for mana stars
+					'''
+			}
+
+			FrozenLotus: {
+				DisplayName: Frozen Lotus
+				Tooltip:
+					'''
+					Magic attacks deal x1.09 damage and inflict Frostbite on the enemy with the highest health
+					4% increased magic critical strike chance
+					'''
+			}
+
+			MoltenRose: {
+				DisplayName: Molten Rose
+				Tooltip:
+					'''
+					Magic attacks deal x1.09 damage and inflict Hellfire on the enemy with the lowest health
+					5% increased magic critical strike chance
+					'''
+			}
+
+			CandescentArrow: {
+				DisplayName: Candescent Arrow
+				Tooltip:
+					'''
+					Pierces through three enemies and is unaffected by gravity
+					Is followed by three erratic sparks that deal 25% of the arrow's damage each
+					'''
+			}
+
+			LavaLance: {
+				DisplayName: Lava Lance
+				Tooltip: Fires multiple lava bubbles
+			}
+
+			CorruptedMetalChunk: {
+				DisplayName: Corrupted Metal Chunk
+				Tooltip:
+					'''
+					Summons a Cursed Hammer to fight for you; does not occupy minion slots but is affected by whip effects
+					Inflicts Cursed Flame on struck enemies
+					'''
+			}
+
+			CrimsonMetalChunk: {
+				DisplayName: Crimson Metal Chunk
+				Tooltip:
+					'''
+					Summons a Crimson Axe to fight for you; does not occupy minion slots but is affected by whip effects
+					Inflicts Ichor on struck enemies
+					'''
+			}
+
+			HallowedMetalChunk: {
+				DisplayName: Hallowed Metal Chunk
+				Tooltip:
+					'''
+					Summons an Enchanted Sword to fight for you; does not occupy minion slots but is affected by whip effects
+					Summons falling stars on struck enemies
+					'''
+			}
+
+			ReanimatedAlloy: {
+				DisplayName: Reanimated Alloy
+				Tooltip:
+					'''
+					Summons a Cursed Hammer, a Crimson Axe, and an Enchanted Sword to fight for you
+					Boosts damage of respective minion when stacking with downgrades
+					'''
+			}
+
+			FleshyAmalgam: {
+				DisplayName: Fleshy Amalgam
+				Tooltip:
+					'''
+					Every third weapon use is guaranteed to be a critical strike
+					7% reduced damage
+					'''
+			}
+
+			MechanicalAmalgam: {
+				DisplayName: Mechanical Amalgam
+				Tooltip:
+					'''
+					Every third ranged weapon use is automatically aimed at the nearest enemy and gains 40% damage
+					Every third weapon use is guaranteed to be a critical strike
+					5% reduced damage
+					'''
+			}
+
+			MechanicalLens: {
+				DisplayName: Mechanical Optics
+				Tooltip: Every third bow shot is automatically aimed at the nearest enemy and gains 40% damage
+			}
+
+			MechanicalScope: {
+				DisplayName: Mechanical Scope
+				Tooltip: Every third gun shot is automatically aimed at the nearest enemy and gains 40% damage
+			}
+
+			TrueDeathSickle: {
+				DisplayName: True Death Sickle
+				Tooltip:
+					'''
+					Leaves a trail of deathly sickles
+					Releases homing spirits
+					'''
+			}
+
+			DeathRipper: {
+				DisplayName: Death Ripper
+				Tooltip: Periodically fires deathly sickles
+			}
+
+			SoulSpear: {
+				DisplayName: Soul Spear
+				Tooltip: Every third attack will shoot a homing soul
+			}
+
+			DevAccessory2: {
+				DisplayName: Dev Accessory2
+				Tooltip: Massively increased damage
+			}
+
+			DeathStringsSealed: {
+				DisplayName: heaDt rtgiSsn
+				Tooltip: ""
+			}
+
+			DeathStrings: {
+				DisplayName: Death Strings
+				Tooltip: ""
+			}
+
+			ShadowBookSealed: {
+				DisplayName: owahdS okBo
+				Tooltip: ""
+			}
+
+			ShadowBook: {
+				DisplayName: Shadow Book
+				Tooltip: ""
+			}
+
+			BarbedWireFlail2: {
+				DisplayName: Barbed Wire Flail (Paladin)
+				Tooltip:
+					'''
+					Spin a spiky flail around you
+					Can hit enemies with the chain for 33% damage
+					During a smite, hits enemies a second time for 50% damage
+					'''
+			}
+
+			FrigidiumShieldPaladin: {
+				DisplayName: Frigidium Shield (Paladin)
+				Tooltip:
+					'''
+					Grants immunity to Chilled
+					10% increased divine damage while smiting
+					5% increased divine critical strike chance
+					Increases divinity charge by 1
+					'''
+			}
+
+			SlimyFlail2: {
+				DisplayName: Slimy Flail (Paladin)
+				Tooltip:
+					'''
+					Spin a slimy flail around you
+					During a smite, the slime ignites, inflicting a strong fire
+					'''
+			}
+
+			DevAccessoryPaladin: {
+				DisplayName: Dev Accessory Paladin
+				Tooltip: Constant divinity regeneration
+			}
+
+			Icebreaker2: {
+				DisplayName: Icebreaker (Paladin)
+				Tooltip:
+					'''
+					Spins a ball of ice in an ellipse shape pointed towards the cursor
+					During a smite, hits enemies a second time for 50% damage
+					'''
+			}
+
+			Nunchucks: {
+				DisplayName: Nunchucks
+				Tooltip: Spin a pair of nunchucks
+			}
+
+			Bonechucks: {
+				DisplayName: Bonechucks
+				Tooltip:
+					'''
+					Spin a pair of nunchucks
+					Periodically emits crossbones
+					'''
+			}
+
+			PumpkingHarvester: {
+				DisplayName: Pumpking's Harvester
+				Tooltip:
+					'''
+					While at max range, fires accelerating flaming scythes toward the cursor
+					Melee speed modifiers affect maximum range and not spin speed
+					'Can harvest crop fields and heads'
+					'''
+			}
+
+			PhantomFlail: {
+				DisplayName: Phantom Flail
+				Tooltip:
+					'''
+					Emits homing spirits upon hitting an enemy
+					Can strike enemies through walls
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			CandescentCrucible: {
+				DisplayName: Candescent Crucible
+				Tooltip: Allows you to turn candescite into bars
+			}
+
+			ElementalSmeltery: {
+				DisplayName: Elemental Smeltery
+				Tooltip:
+					'''
+					Able to turn a variety of ores into bars!
+					Functions as an Adamantite Forge, Frigid Forge, Candescent Crucible, and Trash Melter
+					'''
+			}
+
+			Leafstorm: {
+				DisplayName: Leafstorm
+				Tooltip:
+					'''
+					A slow-spinning flail
+					Emits poisonous leaves upon hitting an enemy
+					Retracting the flail at max range will shoot multiple poisonous leaves outwards
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			DemonClaw: {
+				DisplayName: Demon Claw
+				Tooltip:
+					'''
+					Spun flails deal triple damage while retracting
+					This also applies to any on-retract effects
+					'''
+			}
+
+			DemonGauntlet: {
+				DisplayName: Demon Gauntlet
+				Tooltip:
+					'''
+					Spun flails deal triple damage while retracting (Does not stack with downgrades)
+					7% increased melee speed
+					Increases defense by 8 while spinning a flail at max range (Does not stack with downgrades)
+					Reflects 75% of contact damage
+					'''
+			}
+
+			DesertGauntlet: {
+				DisplayName: Desert Gauntlet
+				Tooltip:
+					'''
+					6% increased melee speed
+					Increases defense by 7 while spinning a flail at max range (Does not stack with downgrades)
+					'''
+			}
+
+			FortifyingLink: {
+				DisplayName: Fortifying Link
+				Tooltip: Increases defense by 6 while spinning a flail at max range
+			}
+
+			SpikyCover: {
+				DisplayName: Spiky Cover
+				Tooltip: Spun flails penetrate 8 enemy armor
+			}
+
+			HotGlock: {
+				DisplayName: Hot Glock
+				Tooltip: Critical strikes emit a bouncy fireball from the impact
+			}
+
+			FieryGrip: {
+				DisplayName: Fiery Grip
+				Tooltip:
+					'''
+					Retracting a flail at max range causes a fiery explosion, dealing 15 + 33% of the flail's damage
+					10% increased flail extend speed
+					'''
+			}
+
+			SwampyGrip: {
+				DisplayName: Swampy Grip
+				Tooltip:
+					'''
+					Retracting a flail at max range shoots exploding sludge, dealing 25 + 50% of the flail's damage
+					10% increased flail retract speed
+					'''
+			}
+
+			TheGripsOfChaos: {
+				DisplayName: The Grips Of Chaos
+				Tooltip:
+					'''
+					Retracting a flail at max range shoots exploding sludge, dealing 40 + 50% of the flail's damage
+					Retracting a flail at max range causes a fiery explosion, dealing 25 + 33% of the flail's damage
+					10% increased flail extend and retract speed
+					'Ancients Awakened? What's that?'
+					'''
+			}
+
+			CobaltFlail: {
+				DisplayName: Cobalt Flail
+				Tooltip:
+					'''
+					Spin an agile ball of cobalt
+					Ignores 30 enemy defense
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			PalladiumFlail: {
+				DisplayName: Palladium Flail
+				Tooltip:
+					'''
+					Spin a slow, powerful ball of palladium
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			FireFirearm: {
+				DisplayName: Fire Firearm
+				Tooltip: Critical strikes release multiple sparks and fireballs
+			}
+
+			EyeOfSenri: {
+				DisplayName: Eye of Senri
+				Tooltip:
+					'''
+					Use to cycle between the difficulty modes.
+					Use on Expert or Master mode to enable Unreal Mode.
+					Use again on Master Mode to enable Absurdly Extra Mode.
+					[c/B841DC:Unreal Mode: Reworked vanilla bosses, Awful Garbage Mod bosses are harder. Enemy spawns are]
+					[c/B841DC:increased and certain enemies get changes. Certain bosses have Unreal-exclusive drops.]
+					[c/D2ADAD:Absurdly Extra Mode: Do not play if you want a balanced experience. Everything is overtuned]
+					[c/D2ADAD:to be as unfair and unfun as possible. Expect unavoidable boss attacks, telefragging, and projectile spam.]
+					Currently only reworks King Slime and Tree Toad.
+					Candescence has a WIP rework that is probably really stupid and unfair in its' current state, I recommend turning Unreal mode off for Candescence.
+					'''
+			}
+
+			UmbragelBreastplate: {
+				DisplayName: Umbragel Shirt
+				Tooltip:
+					'''
+					10% increased movement speed
+					7% increased critical strike chance
+					Increases max minions by 1
+					'''
+			}
+
+			UmbragelHelmet: {
+				DisplayName: Umbragel Hood
+				Tooltip:
+					'''
+					10% increased movement speed
+					5% increased damage and critical strike chance
+					'''
+			}
+
+			UmbragelLeggings: {
+				DisplayName: Umbragel Pants
+				Tooltip:
+					'''
+					10% increased movement speed
+					9% increased melee speed
+					9% increased ranged velocity
+					'''
+			}
+
+			SlimyLocket: {
+				DisplayName: Slimy Locket
+				Tooltip:
+					'''
+					Every three seconds, a strike will deal massively increased knockback
+					While under 33% HP, the strike will also cause a slimy explosion that deals 45 damage
+					15% reduced damage taken while descending
+					'''
+			}
+
+			EvilCharm: {
+				DisplayName: Evil Charm
+				Tooltip: Increases maximum sentries by 1
+			}
+
+			IceSpiritBeam: {
+				DisplayName: Ice Spirit Beam
+				Tooltip: Fires an ice spirit beam that travels through blocks
+			}
+
+			IceSpiritStaff: {
+				DisplayName: Ice Spirit Staff
+				Tooltip:
+					'''
+					Summons an ice spirit to fight for you
+					Shoots rapid-fire medium range ice beams that benefit from 80% of tag effects
+					Penetrates 8 enemy defense
+					Occupies three minion slots
+					'''
+			}
+
+			SaplingCane: {
+				DisplayName: Sapling Cane
+				Tooltip: Summons a Sentient Sapling sentry
+			}
+
+			Iciclash: {
+				DisplayName: Iciclash
+				Tooltip:
+					'''
+					Enemies struck by minions will shoot an armor-penetrating ice shard
+					Ice shard deals 5 + 15% of the minion damage and is capped at 14 damage
+					'''
+			}
+
+			VultureStaff: {
+				DisplayName: Vulture Staff
+				Tooltip:
+					'''
+					Summons a vulture to ram enemies
+					'I believe we came from a rock'
+					'''
+			}
+
+			SnatcherStaff: {
+				DisplayName: Snatcher Staff
+				Tooltip:
+					'''
+					Summons a Snatcher sentry to grasp enemies
+					Must be summoned on a tile
+					'''
+			}
+
+			VortexStorm: {
+				DisplayName: Vortex Storm
+				Tooltip:
+					'''
+					Throw a vortex portal that spins a flail around it
+					Chases the mouse pointer
+					Melee speed modifiers affect maximum range and not spin speed
+					'''
+			}
+
+			RecyclingBin: {
+				DisplayName: Recycling Bin
+				Tooltip:
+					'''
+					Right click to open and close the lid
+					Prevents trash slimes from spawning nearby when open
+					'What do you mean this stuff is just shipped overseas?'
+					'''
+			}
+
+			Shadowfuel: {
+				DisplayName: Shadowfuel
+				Tooltip: ""
+			}
+
+			ShadowtrickSpinner: {
+				DisplayName: Shadowtrick Spinner
+				Tooltip: Shadowflame sparks orbit the yoyo
+			}
+
+			ShadowflameShot: {
+				DisplayName: Shadowflame Shot
+				Tooltip: Bullets fired gain the power of shadowflame
+			}
+
+			LeeNunchucks: {
+				DisplayName: Lee's Nunchucks
+				Tooltip: Spin a pair of shadow-assisted nunchucks
+			}
+
+			SunflowerSeed: {
+				Tooltip:
+					'''
+					Increases whips' summon tag damage by 1
+					'Of course it's not enough to keep you well fed'
+					'''
+				DisplayName: Sunflower Seed
+			}
+
+			SoulflowerSeed: {
+				Tooltip:
+					'''
+					Whips briefly inflict Cursed Inferno
+					Grants immunity to Cursed Inferno
+					Increases defense by 4
+					'''
+				DisplayName: Soulflower Seed
+			}
+
+			SeedOfInfection: {
+				Tooltip:
+					'''
+					Minions deal 1.12x damage to enemies inflicted with Poisoned
+					Increases melee speed by 8%
+					'Xenomite detected'
+					'''
+				DisplayName: Seed of Infection
+			}
+
+			MagmaSeed: {
+				Tooltip: Magic and Summon attacks briefly inflict Hellfire
+				DisplayName: Magma Seed
+			}
+
+			FrigidSeed: {
+				Tooltip: Magic and Summon attacks briefly inflict Frostburn
+				DisplayName: Frigid Seed
+			}
+
+			BloodflowerSeed: {
+				Tooltip:
+					'''
+					Whips briefly inflict Ichor
+					Grants immunity to Ichor
+					Increases damage by 5%
+					'''
+				DisplayName: Bloodflower Seed
+			}
+
+			BagOfSeeds: {
+				Tooltip:
+					'''
+					Increases whips' summon tag damage by 3
+					Minions deal an extra 6 damage to enemies inflicted with On Fire or Hellfire
+					Minions deal an extra 6 damage to enemies inflicted with Frostburn or Frostbite
+					Minions deal 1.12x damage to enemies inflicted with Poisoned
+					Whips briefly inflict Cursed Inferno and Ichor
+					Grants immunity to Cursed Inferno and Ichor
+					'There's a zombie on your lawn'
+					'''
+				DisplayName: Bag of Seeds
+			}
+
+			SprintPotion: {
+				Tooltip: 12% increased maximum run speed, this affects boot and wing speed
+				DisplayName: Sprinting Potion
+			}
+
+			ExtensionPotion: {
+				Tooltip: 10% increased flail range
+				DisplayName: Extension Potion
 			}
 		}
 
@@ -3759,12 +4505,44 @@ Mods: {
 
 			FrigidiusTail.DisplayName: Frigidius
 			IceChunk.DisplayName: Possessed Ice Chunk
-			RottingSoulflower.DisplayName: Rotting Soulflower
-			DecayingBloodflower.DisplayName: Decaying Bloodflower
-			TsugumiUmatachi.DisplayName: Tsugumi Umatachi
-			Candescence.DisplayName: Candescence
+
+			RottingSoulflower: {
+				DisplayName: Rotting Soulflower
+				BossChecklistIntegration.SpawnInfo: Spawns naturally in the surface Corruption. Harmless until attacked.
+			}
+
+			DecayingBloodflower: {
+				DisplayName: Decaying Bloodflower
+				BossChecklistIntegration.SpawnInfo: Spawns naturally in the surface Crimson. Harmless until attacked.
+			}
+
+			TsugumiUmatachi: {
+				DisplayName: Tsugumi Umatachi
+				BossChecklistIntegration.SpawnInfo: Use a [i:AwfulGarbageMod/JarOfSpirits].
+			}
+
+			Candescence: {
+				DisplayName: Candescence
+				BossChecklistIntegration.SpawnInfo: Use a [i:AwfulGarbageMod/LavaLamp] in the underworld.
+			}
+
 			ForestBat.DisplayName: Forest Bat
 			SentientSapling.DisplayName: Sentient Sapling
+			SpiritReaper.DisplayName: Spirit Reaper
+			KingSlimePhase1.DisplayName: King Slime
+			KingSlimePhase2.DisplayName: King Slime
+			KingSlimeShadow.DisplayName: Slimy Shadow
+
+			AwfulGarbageFake: {
+				DisplayName: awful Garbage
+
+				BossChecklistIntegration: {
+					EntryName: Awful Garbage
+					SpawnInfo: Use a [i:AwfulGarbageMod/Trash].
+				}
+			}
+
+			DukeFishron.DisplayName: Duke Fishron
 		}
 
 		Bestiary: {
@@ -3803,14 +4581,52 @@ Mods: {
 			FrigidAltar.MouseItem: "[i:AwfulGarbageMod/ExoticCrystal]"
 			CandesciteOre.MapEntry: Candescite
 			FlintDirt.MapEntry: Flint
+			CandescentCrucible.MapEntry: Candescent Crucible
+			ElementalSmeltery.MapEntry: Elemental Smeltery
+			RecyclingBin.MapEntry: Recycling Bin
 		}
 
-		WorldGen.OreGenMessage: More Shinies
+		WorldGen: {
+			OreGenMessage: More Shinies
+			CandesciteGenMessage: Mods.AwfulGarbageMod.WorldGen.CandesciteGenMessage
+		}
 
 		Biomes: {
 			HarujionBiome: {
 				DisplayName: The Harujion
 				TownNPCDialogueName: the Harujion
+			}
+		}
+
+		Prefixes: {
+			PrefixSupportive: {
+				AdditionalTooltip: +3 maximum scepter projectiles
+				DisplayName: Supportive
+			}
+
+			PrefixBounded: {
+				AdditionalTooltip: -1 maximum scepter projectile
+				DisplayName: Bounded
+			}
+
+			PrefixConjuring: {
+				AdditionalTooltip: +4 maximum scepter projectiles
+				DisplayName: Conjuring
+			}
+
+			PrefixExpeditious: {
+				AdditionalTooltip: +1 maximum scepter projectile
+				DisplayName: Expeditious
+			}
+
+			PrefixPotent: {
+				AdditionalTooltip: +1 maximum scepter projectile
+				DisplayName: Potent
+			}
+
+			PrefixRestrained: {
+				AdditionalTooltip: -1 maximum scepter projectile
+				DisplayName: Restrained
 			}
 		}
 	}

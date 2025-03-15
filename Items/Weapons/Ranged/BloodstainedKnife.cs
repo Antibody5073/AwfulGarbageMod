@@ -136,9 +136,9 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             {
                 Projectile.velocity.Y += 0.66f;
                 Projectile.velocity.X *= 0.98f;
-                if (Projectile.velocity.Y > 20)
+                if (Projectile.velocity.Y > 15)
                 {
-                    Projectile.velocity.Y = 20;
+                    Projectile.velocity.Y = 15;
                 }
             }
             else

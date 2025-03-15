@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AwfulGarbageMod.ModIntegration
@@ -33,7 +35,18 @@ namespace AwfulGarbageMod.ModIntegration
             DoBossChecklistIntegration();
 
             // We can integrate with other mods here by following the same pattern. Some modders may prefer a ModSystem for each mod they integrate with, or some other design.
-           // DoMusicDisplayIntegration();
+            // DoMusicDisplayIntegration();
+
+            Main.instance.LoadNPC(56); //Snatcher
+            Main.instance.LoadNPC(61); // Vulture
+            Main.instance.LoadNPC(169); // Ice Elemental
+            Main.instance.LoadNPC(1); // Slime
+
+            Main.instance.LoadProjectile(864); //Blade Staff
+            Main.instance.LoadProjectile(206); //Leaf
+            Main.instance.LoadProjectile(578); //Vortex Portal
+            Main.instance.LoadProjectile(ProjectileID.TerraBeam); //Terra Blade
+            Main.instance.LoadProjectile(ProjectileID.BoneGloveProj); //Crossbone
         }
 
         private void DoCensusIntegration()
@@ -58,9 +71,12 @@ namespace AwfulGarbageMod.ModIntegration
                 return;
             }
 
-            display.Call("AddMusic", (short)MusicLoader.GetMusicSlot(Mod, "Assets/Music/TreeToadTheme"), "Antibody - Nightmare of Insects", "Awful Garbage Mod");
+            display.Call("AddMusic", (short)MusicLoader.GetMusicSlot(Mod, "Assets/Music/TreeToadTheme2"), "Antibody - Nightmare of Insects", "Awful Garbage Mod");
             display.Call("AddMusic", (short)MusicLoader.GetMusicSlot(Mod, "Assets/Music/SeseTheme"), "Antibody - Carcass and Cadaver", "Awful Garbage Mod");
             display.Call("AddMusic", (short)MusicLoader.GetMusicSlot(Mod, "Assets/Music/EotSTheme"), "Antibody - Peering Through Clouds", "Awful Garbage Mod");
+            display.Call("AddMusic", (short)MusicLoader.GetMusicSlot(Mod, "Assets/Music/FrigidiusTheme"), "Antibody - Cold Blooded", "Awful Garbage Mod");
+            display.Call("AddMusic", (short)MusicLoader.GetMusicSlot(Mod, "Assets/Music/TsugumiTheme"), "Antibody - Perpetual Motion Machine Vegetable", "Awful Garbage Mod");
+            display.Call("AddMusic", (short)MusicLoader.GetMusicSlot(Mod, "Assets/Music/CandescenceTheme"), "Antibody - Warm Blooded", "Awful Garbage Mod");
         }
 
         private void DoBossChecklistIntegration()
@@ -122,6 +138,64 @@ namespace AwfulGarbageMod.ModIntegration
                     // Other optional arguments as needed are inferred from the wiki
                 }
             );
+
+
+            internalName = "RottingSoulflower";
+
+            // Value inferred from boss progression, see the wiki for details
+            weight = 1.001f;
+
+            // Used for tracking checklist progress
+            downed = () => DownedBossSystem.downedEvilFlowerMiniboss;
+
+            // The NPC type of the boss
+            bossType = ModContent.NPCType<NPCs.RottingSoulflower>();
+
+            // The item used to summon the boss with (if available)
+            // By default, it draws the first frame of the boss, omit if you don't need custom drawing
+            // But we want to draw the bestiary texture instead, so we create the code for that to draw centered on the intended location
+
+
+            bossChecklistMod.Call(
+                "LogMiniBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                }
+            );
+
+            internalName = "DecayingBloodflower";
+
+            // Value inferred from boss progression, see the wiki for details
+            weight = 1.001f;
+
+            // Used for tracking checklist progress
+            downed = () => DownedBossSystem.downedEvilFlowerMiniboss;
+
+            // The NPC type of the boss
+            bossType = ModContent.NPCType<NPCs.DecayingBloodflower>();
+
+            // The item used to summon the boss with (if available)
+            // By default, it draws the first frame of the boss, omit if you don't need custom drawing
+            // But we want to draw the bestiary texture instead, so we create the code for that to draw centered on the intended location
+
+
+            bossChecklistMod.Call(
+                "LogMiniBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                }
+            );
+
 
 
             internalName = "SeseKitsugai";
@@ -206,7 +280,7 @@ namespace AwfulGarbageMod.ModIntegration
                 }
             );
 
-            
+
 
             internalName = "Frigidius";
 
@@ -246,7 +320,83 @@ namespace AwfulGarbageMod.ModIntegration
                     ["collectibles"] = collectibles,
                     // Other optional arguments as needed are inferred from the wiki
                 }
-            );
+            ); 
+            
+
+            internalName = "TsugumiUmatachi";
+            weight = 5.0001f;
+            downed = () => DownedBossSystem.downedTsugumi;
+            bossType = ModContent.NPCType<NPCs.Boss.TsugumiUmatachi>();
+            spawnItem = ModContent.ItemType<Items.Consumables.JarOfSpirits>();
+            collectibles = new List<int>()
+            {
+                ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormRelic>(),
+                ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormTrophy>()
+            };
+            bossChecklistMod.Call(
+                "LogBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                    ["spawnItems"] = spawnItem,
+                    ["collectibles"] = collectibles,
+                    // Other optional arguments as needed are inferred from the wiki
+                }
+            ); 
+
+
+            internalName = "Candescence";
+            weight = 7.0001f;
+            downed = () => DownedBossSystem.downedFireMoth;
+            bossType = ModContent.NPCType<NPCs.Boss.Candescence>();
+            spawnItem = ModContent.ItemType<Items.Consumables.LavaLamp>();
+            collectibles = new List<int>()
+            {
+                ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormRelic>(),
+                ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormTrophy>()
+            };
+            bossChecklistMod.Call(
+                "LogBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                    ["spawnItems"] = spawnItem,
+                    ["collectibles"] = collectibles,
+                    // Other optional arguments as needed are inferred from the wiki
+                }
+            ); 
+
+            /*
+            internalName = "AwfulGarabage";
+            weight = 19f;
+            downed = () => DownedBossSystem.downedAwfulGarbage;
+            bossType = ModContent.NPCType<NPCs.Boss.AwfulGarbageFake>();
+            spawnItem = ModContent.ItemType<Items.Consumables.Trash>();
+            collectibles = new List<int>()
+            {
+            };
+            bossChecklistMod.Call(
+                "LogBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                    ["spawnItems"] = spawnItem,
+                    ["collectibles"] = collectibles,
+                    // Other optional arguments as needed are inferred from the wiki
+                }
+            );*/
             // Other bosses or additional Mod.Call can be made here.
         }
     }

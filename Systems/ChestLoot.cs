@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 using AwfulGarbageMod.Items.Weapons.Melee;
+using AwfulGarbageMod.Items.Accessories;
 
 namespace AwfulGarbageMod.ModIntegration
 {
@@ -135,6 +136,28 @@ namespace AwfulGarbageMod.ModIntegration
                 }
             }
 
+            //Add surface chest loot
+            itemNum = 0;
+
+            for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+            {
+                Chest chest = Main.chest[chestIndex];
+                int[] itemsToPlaceInChests4 = { ModContent.ItemType<FortifyingLink>(), ModContent.ItemType<SunflowerSeed>(), ItemID.None };
+
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 0 * 36)
+                {
+                    for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                    {
+                        if (chest.item[inventoryIndex].type == ItemID.None)
+                        {
+                            chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
+                            chest.item[inventoryIndex].stack = 1;
+                            itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
+                            break;
+                        }
+                    }
+                }
+            } 
             //Add Insect on a stick to surface chest loot
             itemNum = 0;
 

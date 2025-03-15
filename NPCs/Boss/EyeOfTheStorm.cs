@@ -216,7 +216,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             Main.StartRain();
             Main.maxRaining = 1f;
 
-            NPC.lifeMax *= (ModContent.GetInstance<Config>().BossHealthMultiplier / 100);
+            NPC.lifeMax = NPC.lifeMax * ModContent.GetInstance<Config>().BossHealthMultiplier / 100;
             NPC.life = NPC.lifeMax;
         }
 
@@ -772,7 +772,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
                 storedVel = direction;
 
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel, Mod.Find<ModProjectile>("IceSpiritTelegraph").Type, 0, 0, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel / 4, ModContent.ProjectileType<BossTelegraph>(), 0, 0, Main.myPlayer, DustID.AncientLight);
 
             }
             else if (AI_Timer % 75 > 50)
@@ -895,7 +895,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                 storedVel = direction;
 
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel, Mod.Find<ModProjectile>("IceSpiritTelegraph").Type, 0, 0, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel / 4, ModContent.ProjectileType<BossTelegraph>(), 0, 0, Main.myPlayer, DustID.AncientLight);
 
             }
             else if (AI_Timer % 75 > 50)
@@ -1095,7 +1095,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                     }
                     storedVel = direction;
 
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel, Mod.Find<ModProjectile>("IceSpiritTelegraph").Type, 0, 0, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel / 4, ModContent.ProjectileType<BossTelegraph>(), 0, 0, Main.myPlayer, DustID.AncientLight);
 
                 }
                 else if (AI_Timer % 178 > 50)
@@ -1437,7 +1437,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                     storedVel = direction;
 
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel, Mod.Find<ModProjectile>("IceSpiritTelegraph").Type, 0, 0, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel / 4, ModContent.ProjectileType<BossTelegraph>(), 0, 0, Main.myPlayer, DustID.AncientLight);
 
                 }
                 else if (AI_Timer % 178 > 50)

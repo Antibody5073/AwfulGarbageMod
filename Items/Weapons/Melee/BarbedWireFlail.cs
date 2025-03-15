@@ -53,6 +53,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             Main.projectile[proj].flailProjectile().spinOffset = MathHelper.ToDegrees(velocity.ToRotation());
+            Main.projectile[proj].originalDamage = Item.damage;
+
             return false;
         }
 

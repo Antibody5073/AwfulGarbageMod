@@ -20,6 +20,8 @@ using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.Items.Consumables;
 using AwfulGarbageMod.Items;
+using AwfulGarbageMod.Buffs;
+using AwfulGarbageMod.Items.Placeable.Furniture;
 
 namespace AwfulGarbageMod.NPCs
 {
@@ -99,14 +101,19 @@ namespace AwfulGarbageMod.NPCs
                 }
             }
         }
-
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.FinalDamage /= 3;
+        }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Garbage>(), 1, 4, 15));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Trash>(), 100, 1, 1));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RecyclingBin>(), 60, 1, 1));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.townNPCs > 2f && !spawnInfo.Invasion && (Condition.DownedEyeOfCthulhu.IsMet() || Condition.DownedKingSlime.IsMet() || Condition.DownedEowOrBoc.IsMet() || DownedBossSystem.downedSeseKitsugai || DownedBossSystem.downedTreeToad))
+            if (spawnInfo.Player.townNPCs > 2f && !spawnInfo.Invasion && (Condition.DownedEyeOfCthulhu.IsMet() || Condition.DownedKingSlime.IsMet() || Condition.DownedEowOrBoc.IsMet() || DownedBossSystem.downedSeseKitsugai || DownedBossSystem.downedTreeToad) && !spawnInfo.Player.HasBuff<RecyclingBinBuff>())
             {
                 return 0.3f;
             }

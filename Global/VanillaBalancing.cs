@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using AwfulGarbageMod.DamageClasses;
 using Terraria.Localization;
 using AwfulGarbageMod.Items.Armor;
+using System.Linq;
 
 namespace AwfulGarbageMod.Global.GlobalItems
 {
@@ -18,6 +19,9 @@ namespace AwfulGarbageMod.Global.GlobalItems
     {
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
+            Player player = Main.LocalPlayer;
+            TooltipLine tooltip;
+            TooltipLine line;
             if (item.type == ItemID.MagicPowerPotion && ModContent.GetInstance<Config>().MagicPowerMana)
             {
                 tooltips[2].Text = "Increases maximum mana by 100";
@@ -26,13 +30,56 @@ namespace AwfulGarbageMod.Global.GlobalItems
             {
                 if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.ApprenticeAltShirt || item.type == ItemID.ApprenticeRobe || item.type == ItemID.CrystalNinjaLeggings || item.type == ItemID.HallowedPlateMail || item.type == ItemID.AncientHallowedPlateMail)
                 {
-                    TooltipLine tooltip = new TooltipLine(Mod, "ScepterStatTooltip1", "Removes the non-magic damage penalties of scepters");
-                    tooltips.Add(tooltip);
+                    tooltip = new TooltipLine(Mod, "ScepterStatTooltip1", "\nRemoves the non-magic damage penalties of scepters");
+                    line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+                    if (line != null)
+                    {
+                        line.Text += tooltip.Text;
+                    }
                 }
+            }
+            if (ModContent.GetInstance<Config>().ScourgeOfTheCorruptorRework)
+            {
+                if (item.type == ItemID.ScourgeoftheCorruptor)
+                {
+                    tooltip = new TooltipLine(Mod, "ScepterStatTooltip1", "\nInflicts Corruptor's Curse for 6 seconds, which deals damage over time and causes enemies to emit a\nhoming mini Eater upon melee strike that deals 15 + 10% of the weapons damage");
+                    line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+                    if (line != null)
+                    {
+                        line.Text += tooltip.Text;
+                    }
+                }
+            }
+            if (item.type == ItemID.TerraBlade)
+            {
+                tooltip = new TooltipLine(Mod, "yago", "\n'Made in YagoTM'");
+                line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Material" && x.Mod == "Terraria");
+                if (line != null)
+                {
+                    line.Text += tooltip.Text;
+                }
+            }
+            if (item.type == ItemID.LeadPickaxe || item.type == ItemID.SilverPickaxe)
+            {
+                tooltip = new TooltipLine(Mod, "Mine", "\nCan mine Frigidium");
+                line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "PickPower" && x.Mod == "Terraria");
+                if (line != null)
+                {
+                    line.Text += tooltip.Text;
+                }
+            }
+            if (item.type == ItemID.TungstenPickaxe || item.type == ItemID.GoldPickaxe || item.type == ItemID.PlatinumPickaxe)
+            {
+                tooltip = new TooltipLine(Mod, "Mine", "\nCan mine Frigidium and Candescite");
+                line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "PickPower" && x.Mod == "Terraria");
+                if (line != null)
+                {
+                    line.Text += tooltip.Text;
+                }
+
             }
         }
 
-        
 
 
         public override void UpdateEquip(Item item, Player player)
@@ -98,6 +145,13 @@ namespace AwfulGarbageMod.Global.GlobalItems
 
             if (item.type == ItemID.Starfury && ModContent.GetInstance<Config>().StarfuryNerf)
             {
+                item.StatsModifiedBy.Add(Mod);
+            }
+
+            //Scourge
+            if (item.type == ItemID.ScourgeoftheCorruptor && ModContent.GetInstance<Config>().ScourgeOfTheCorruptorRework)
+            {
+                item.damage = (int)(item.damage * 0.8f);
                 item.StatsModifiedBy.Add(Mod);
             }
 

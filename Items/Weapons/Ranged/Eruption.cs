@@ -94,7 +94,6 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Projectile.hostile = false;
             Projectile.penetrate = 8;
             Projectile.tileCollide = true;
-            Projectile.alpha = 255;
             Projectile.extraUpdates = 2;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.friendly = true;
@@ -129,7 +128,10 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             }
             return true;
         }
-
+        public override bool PreDraw(ref Color lightColor)
+        {
+            return false;
+        }
 
         public override void AI()
         {

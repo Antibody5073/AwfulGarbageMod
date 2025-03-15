@@ -17,20 +17,19 @@ namespace AwfulGarbageMod.Tiles.OresBars
 			Main.tileSpelunker[Type] = true; // The tile will be affected by spelunker highlighting
 			Main.tileOreFinderPriority[Type] = 300; // Metal Detector value, see https://terraria.wiki.gg/wiki/Metal_Detector
 			Main.tileShine2[Type] = true; // Modifies the draw color slightly.
-			Main.tileShine[Type] = 975; // How often tiny dust appear off this tile. Larger is less frequently
-			Main.tileMergeDirt[Type] = true;
+			Main.tileShine[Type] = 315; // How often tiny dust appear off this tile. Larger is less frequently
 			Main.tileSolid[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			
-			
-			LocalizedText name = CreateMapEntryName();
-			AddMapEntry(new Color(152, 171, 198), name);
+            Main.tileBrick[Type] = true;
+
+            LocalizedText name = CreateMapEntryName();
+			AddMapEntry(new Color(249, 226, 117), name);
 
 			DustType = DustID.Torch;
 			HitSound = SoundID.Tink;
 
-			MineResist = 3f;
-			MinPick = 105;
+			MineResist = 4f;
+			MinPick = 50;
 		}
 	}
 }

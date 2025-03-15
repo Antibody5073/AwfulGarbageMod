@@ -45,6 +45,10 @@ namespace AwfulGarbageMod
             return npc.GetGlobalNPC<GlobalEnemyBossInfo>();
         }
 
+        public static ScepterItem scepterItem(this Item item)
+        {
+            return item.GetGlobalItem<ScepterItem>();
+        }
         public static bool IsOnScreen(this Projectile proj, Vector2 spriteDimensions)
         {
             Vector2 offsetFromCamera = Main.Camera.Center - proj.Center;
@@ -55,7 +59,7 @@ namespace AwfulGarbageMod
             return true;
         }
 
-        public static float TurnTowards(float turnSpd, Vector2 targetPos, float startingDir, Vector2 position)
+        public static float TurnTowards(float turnSpd, Vector2 targetPos, float startingDir, Vector2 position, float smoothness = 1)
         {
             float currentDir = -MathHelper.ToDegrees(startingDir) - 90;
             float targetDir = -MathHelper.ToDegrees((targetPos - position).ToRotation()) - 90;
@@ -75,7 +79,39 @@ namespace AwfulGarbageMod
                     targetDir += 360;
                 }
             }
-            float turn = targetDir - currentDir;
+            float turn = (targetDir - currentDir) / smoothness;
+            if (turn > turnSpd)
+            {
+                turn = turnSpd;
+            }
+            if (turn < -turnSpd)
+            {
+                turn = -turnSpd;
+            }
+
+            return -MathHelper.ToRadians(turn);
+        }
+        public static float TurnTowardsDirection(float turnSpd, float targetDir, float startingDir, float smoothness = 1)
+        {
+            float currentDir = -MathHelper.ToDegrees(startingDir) - 90;
+            float targetDir2 = -MathHelper.ToDegrees(targetDir) - 90;
+            if (targetDir > currentDir + 180)
+            {
+                targetDir -= 360;
+                while (targetDir >= currentDir + 180)
+                {
+                    targetDir -= 360;
+                }
+            }
+            if (targetDir < currentDir - 180)
+            {
+                targetDir += 360;
+                while (targetDir <= currentDir - 180)
+                {
+                    targetDir += 360;
+                }
+            }
+            float turn = (targetDir - currentDir) / smoothness;
             if (turn > turnSpd)
             {
                 turn = turnSpd;
@@ -168,6 +204,7 @@ namespace AwfulGarbageMod
         public static readonly int RadiantEmpowerment = 7;
         public static readonly int VenomEmpowerment = 8;
         public static readonly int EctoplasmicEmpowerment = 9;
+        public static readonly int LushEmpowerment = 10;
     }
 
     class NPCandValue : IComparable<NPCandValue>

@@ -9,6 +9,7 @@ using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -45,8 +46,12 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             Player player = Main.LocalPlayer;
-            TooltipLine tooltip = new TooltipLine(Mod, "ScepterMax", ScepterMax.Format(ModItemSets.Sets.MaxScepterProjectiles[Item.type] + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost));
-            tooltips.Add(tooltip);
+            TooltipLine tooltip = new TooltipLine(Mod, "ScepterMax", ScepterMax.Format(Item.scepterItem().MaxScepterProjectiles + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost));
+            TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            if (line != null)
+            {
+                line.Text += tooltip.Text;
+            }
         }
 
         public override void SetDefaults()
@@ -68,11 +73,13 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 			Item.shootSpeed = 0f;
 			Item.noMelee = true;
             Item.buffType = ModContent.BuffType<SwarmScepterBuff>();
+            Item.scepterItem().scepter = true;
+            Item.scepterItem().MaxScepterProjectiles = 12;
 
         }
         public override bool CanUseItem(Player player)
         {
-            return (player.ownedProjectileCounts[Mod.Find<ModProjectile>("SwarmScepterOrbit").Type] < ModItemSets.Sets.MaxScepterProjectiles[Item.type] + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost);
+            return (player.ownedProjectileCounts[Mod.Find<ModProjectile>("SwarmScepterOrbit").Type] < Item.scepterItem().MaxScepterProjectiles + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost);
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

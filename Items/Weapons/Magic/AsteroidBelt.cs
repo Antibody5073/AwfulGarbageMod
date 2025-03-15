@@ -62,13 +62,25 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         {
             Player player = Main.LocalPlayer;
             TooltipLine tooltip;
+            TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+
             if (player.GetModPlayer<GlobalPlayer>().MeteoriteVisorBonus == false)
             {
                 tooltip = new TooltipLine(Mod, "Penalty", MeteoritePenalty.Format());
-                tooltips.Add(tooltip);
+
+                line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+                if (line != null)
+                {
+                    line.Text += tooltip.Text;
+                }
             }
-            tooltip = new TooltipLine(Mod, "ScepterMax", ScepterMax.Format(ModItemSets.Sets.MaxScepterProjectiles[Item.type] + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost));
-            tooltips.Add(tooltip);
+            tooltip = new TooltipLine(Mod, "ScepterMax", ScepterMax.Format(Item.scepterItem().MaxScepterProjectiles + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost));
+
+            line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            if (line != null)
+            {
+                line.Text += tooltip.Text;
+            }
         }
 
         public override void SetDefaults()
@@ -90,7 +102,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 			Item.shootSpeed = 0f;
 			Item.noMelee = true;
             Item.buffType = ModContent.BuffType<AsteroidBeltBuff>();
-
+            Item.scepterItem().scepter = true;
+            Item.scepterItem().MaxScepterProjectiles = 6;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -99,7 +112,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             player.AddBuff(Item.buffType, 2);
 
             // Minions have to be spawned manually, then have originalDamage assigned to the damage of the summon item
-            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("AsteroidBeltOrbit").Type] < ModItemSets.Sets.MaxScepterProjectiles[Item.type] + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost)
+            if (player.ownedProjectileCounts[Mod.Find<ModProjectile>("AsteroidBeltOrbit").Type] < Item.scepterItem().MaxScepterProjectiles + player.GetModPlayer<GlobalPlayer>().MaxScepterBoost)
             {
                 var projectile = Projectile.NewProjectileDirect(source, position, velocity, type, Item.damage, knockback, Main.myPlayer, player.ownedProjectileCounts[Mod.Find<ModProjectile>("AsteroidBeltOrbit").Type]);
             }

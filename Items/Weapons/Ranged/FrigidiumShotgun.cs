@@ -23,12 +23,12 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-            Item.damage = 27;
+            Item.damage = 23;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 40;
             Item.height = 40;
-            Item.useTime = 48;
-            Item.useAnimation = 48;
+            Item.useTime = 49;
+            Item.useAnimation = 49;
             Item.useStyle = 5;
             Item.knockBack = 2f;
             Item.value = 5000;
@@ -43,11 +43,11 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (var i = 0; i <= Main.rand.Next(2, 3); i++)
+            for (var i = 0; i <= Main.rand.Next(2, 4); i++)
             {
                 int proj = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(12)) * Main.rand.NextFloat(0.8f, 1.2f), type, damage, knockback, player.whoAmI);
             }
-            for (var i = 0; i < Main.rand.Next(4, 7); i++)
+            for (var i = 0; i < Main.rand.Next(3, 6); i++)
             {
                 int proj = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(15)) * Main.rand.NextFloat(0.8f, 1.2f), Mod.Find<ModProjectile>("FrostBowShard").Type, (int)(damage * 0.5), knockback, player.whoAmI);
             }

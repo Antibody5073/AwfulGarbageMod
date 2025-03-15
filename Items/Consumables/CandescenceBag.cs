@@ -46,7 +46,8 @@ namespace AwfulGarbageMod.Items.Consumables
         {
             // We have to replicate the expert drops from MinionBossBody here
 
-            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<CandesciteOre>(), 1, 55, 87));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<CandesciteBar>(), 1, 4, 5));
+            itemLoot.Add(ItemDropRule.FewFromOptions(1, 3, ModContent.ItemType<LavaLance>()));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<MoltenEye>()));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Candescence>()));
         }

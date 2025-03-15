@@ -79,9 +79,8 @@ namespace AwfulGarbageMod.Items.Ammo
         int temp;
         public override void OnSpawn(IEntitySource source)
         {
-            Projectile.damage = (int)(Projectile.damage * 0.8f);
             spawnPos = Projectile.Center;
-            temp = 5;
+            temp = 4;
         }
         public override void OnKill(int timeLeft)
         {
@@ -140,7 +139,7 @@ namespace AwfulGarbageMod.Items.Ammo
             temp--;
             if (temp == 0)
             {
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, Projectile.velocity * 0.8f, Mod.Find<ModProjectile>("FrigidArrowProj2").Type, Projectile.damage / 2, Projectile.knockBack / 3, Projectile.owner, 0);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, Projectile.velocity * 0.8f, Mod.Find<ModProjectile>("FrigidArrowProj2").Type, (int)(Projectile.damage * 0.4f), Projectile.knockBack / 3, Projectile.owner, 0);
             }
             if (Main.rand.NextBool(2))
             {

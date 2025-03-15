@@ -60,6 +60,10 @@ namespace AwfulGarbageMod.Configs
 
         [DefaultValue(true)]
         [ReloadRequired]
+        public bool ScourgeOfTheCorruptorRework;
+
+        [DefaultValue(true)]
+        [ReloadRequired]
         public bool BetsyNerf;
 
         [Label("Misc Balancing")]
@@ -81,16 +85,20 @@ namespace AwfulGarbageMod.Configs
         public bool AreYouLazy;
 
         [Header("ModAdjustments")] // Headers are like titles in a config. You only need to declare a header on the item it should appear over, not every item in the category.
-        
+
+
         [DefaultValue(100)]
         [Range(20, 1000)]
-        [Increment(5)]
-        [Slider]
         public int BossHealthMultiplier;
 
 
         [DefaultValue(100)]
         [Range(20, 1000)]
         public int EnemyDamageMultiplier;
+
+
+        [DefaultValue(100)]
+        [Range(20, 1000)]
+        public int EnemyHealthMultiplier;
     }
 }

@@ -45,7 +45,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense += 7;
+            player.statDefense += 5;
             player.thorns += 0.75f;
             player.GetModPlayer<GlobalPlayer>().cactusShell += 45;
             player.GetModPlayer<GlobalPlayer>().VenomOnDamanged += 150;

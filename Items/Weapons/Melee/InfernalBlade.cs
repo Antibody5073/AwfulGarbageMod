@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using AwfulGarbageMod;
 using Terraria.Audio;
 using static Terraria.ModLoader.PlayerDrawLayer;
+using AwfulGarbageMod.Items.Placeable.OresBars;
 
 namespace AwfulGarbageMod.Items.Weapons.Melee
 {
@@ -55,18 +56,18 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         }
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Fireblossom, 3);
-            recipe.AddIngredient(ItemID.Torch, 66);
-            recipe.AddIngredient(ItemID.SilverBroadsword);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-            Recipe recipe2 = CreateRecipe();
-            recipe2.AddIngredient(ItemID.Fireblossom, 3);
-            recipe2.AddIngredient(ItemID.Torch, 66);
-            recipe2.AddIngredient(ItemID.TungstenBroadsword);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.Fireblossom, 3)
+                .AddIngredient<CandesciteOre>(50)
+                .AddIngredient(ItemID.SilverBroadsword)
+                .AddTile(TileID.Anvils)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.Fireblossom, 3)
+                .AddIngredient<CandesciteOre>(50)
+                .AddIngredient(ItemID.TungstenBroadsword)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 

@@ -2,6 +2,7 @@ using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Projectiles;
+using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -102,13 +103,19 @@ namespace AwfulGarbageMod.NPCs
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.Vertebrae, 1, 10, 13));
             npcLoot.Add(ItemDropRule.Common(ItemID.ViciousMushroom, 1, 2, 3));
-            npcLoot.Add(ItemDropRule.FewFromOptions(1, 2, ModContent.ItemType<SigilOfEvil>(), ModContent.ItemType<BloomingEvil>()));
+            npcLoot.Add(ItemDropRule.FewFromOptions(1, 2, ModContent.ItemType<SigilOfEvil>(), ModContent.ItemType<BloomingEvil>(), ModContent.ItemType<EvilCharm>()));
         }
+        public override void OnKill()
+        {
+            // This sets downedMinionBoss to true, and if it was false before, it initiates a lantern night
+            NPC.SetEventFlagCleared(ref DownedBossSystem.downedEvilFlowerMiniboss, -1);
+        }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneOverworldHeight)
             {
-                return 0.08f;
+                return 0.09f;
             }
             return 0;
         }
@@ -178,7 +185,14 @@ namespace AwfulGarbageMod.NPCs
         {
             return true;
         }
-
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            if (AI_State != (float)ActionState.Passive || Vector2.DistanceSquared(Main.LocalPlayer.Center, NPC.Center) < 320 * 320)
+            {
+                return null;
+            }
+            return false;
+        }
         public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             if (AI_State == (float)ActionState.Passive)

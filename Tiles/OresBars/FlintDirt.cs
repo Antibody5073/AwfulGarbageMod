@@ -23,9 +23,8 @@ namespace AwfulGarbageMod.Tiles.OresBars
 			Main.tileMergeDirt[Type] = true;
 			Main.tileSolid[Type] = true;
 			Main.tileBlockLight[Type] = true;
+            Main.tileBrick[Type] = true;
 
-			
-			
 			LocalizedText name = CreateMapEntryName();
 			AddMapEntry(new Color(15, 15, 15), name);
 
@@ -46,7 +45,10 @@ namespace AwfulGarbageMod.Tiles.OresBars
         public override bool CanPlace(int i, int j)
         {
 			Tile tile = Framing.GetTileSafely(i, j);
-
+			if (tile.TileType == TileID.Dirt)
+			{
+				return true;
+			}
             return false;
         }
     }

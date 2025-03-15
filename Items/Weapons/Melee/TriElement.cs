@@ -36,7 +36,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 			Item.rare = 2;
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;
-			Item.shoot = Mod.Find<ModProjectile>("OrganicGreatswordProj").Type;
+			Item.shoot = ModContent.ProjectileType<LeafBladeProj>();
 			Item.shootSpeed = 1f;
 			Item.crit = 0;
 			Item.scale = 1.05f;
@@ -49,7 +49,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 			{
 				for (var i = -1; i < 2; i++)
 				{
-					int proj = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(6 * i)) * 13, Mod.Find<ModProjectile>("OrganicGreatswordProj").Type, (int)(damage * 0.5f), knockback, player.whoAmI);
+					int proj = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(6 * i)) * 13, ModContent.ProjectileType<LeafBladeProj>(), (int)(damage * 0.5f), knockback, player.whoAmI);
 
 				}
 			}

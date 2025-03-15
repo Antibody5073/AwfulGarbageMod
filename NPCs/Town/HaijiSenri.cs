@@ -234,7 +234,8 @@ namespace AwfulGarbageMod.NPCs.Town
 				.Add<EmptyJarOfSpirits>()
                 .Add<PerfectFreeze>()
 				.Add<EvilWardingCharm>()
-				.Add<Imperceptible>()
+                .Add<HarujionPetal>()
+                .Add<Imperceptible>()
             ;
 
             if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))

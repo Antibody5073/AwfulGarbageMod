@@ -22,16 +22,20 @@ using Terraria.Audio;
 using Terraria.Localization;
 using AwfulGarbageMod.Items.Accessories;
 using Microsoft.CodeAnalysis;
+using Terraria.WorldBuilding;
 
 namespace AwfulGarbageMod.Global
 {
 
     public class GlobalProjectiles : GlobalProjectile
     {
+        public override bool InstancePerEntity => true;
+        public float VelocityMultiplier = 0;
         public static class Sets
         {
             public static bool[] IsScepterProjectile = ProjectileID.Sets.Factory.CreateBoolSet();
             public static bool[] OverrideSummonDamageClass = ProjectileID.Sets.Factory.CreateBoolSet();
+            public static bool[] DontUseAdjustedVelocityModifier = ProjectileID.Sets.Factory.CreateBoolSet(ProjectileID.MolotovFire, ProjectileID.MolotovFire2, ProjectileID.MolotovFire3, ProjectileID.Grenade, ProjectileID.GrenadeI, ProjectileID.GrenadeII, ProjectileID.GrenadeIII, ProjectileID.GrenadeIV, ProjectileID.ClusterGrenadeI, ProjectileID.ClusterGrenadeII, ProjectileID.DryGrenade, ProjectileID.HoneyGrenade, ProjectileID.LavaGrenade, ProjectileID.MiniNukeGrenadeI, ProjectileID.MiniNukeGrenadeII, ProjectileID.WetGrenade, ProjectileID.ProximityMineI, ProjectileID.ProximityMineII, ProjectileID.ProximityMineIII, ProjectileID.ProximityMineIV, ProjectileID.ClusterMineI, ProjectileID.ClusterMineII, ProjectileID.DryMine, ProjectileID.HoneyMine, ProjectileID.LavaMine, ProjectileID.MiniNukeMineI, ProjectileID.MiniNukeMineII, ProjectileID.WetMine);
             public static DamageClass[] OrigDamageClass = ProjectileID.Sets.Factory.CreateCustomSet<DamageClass>(DamageClass.Default);
 
         }
@@ -56,7 +60,6 @@ namespace AwfulGarbageMod.Global
                 entity.DamageType = ModContent.GetInstance<KnifeDamageClass>();
             }
         }
-
         public override void AI(Projectile projectile)
         {
             Player player = Main.player[projectile.owner];
@@ -66,9 +69,16 @@ namespace AwfulGarbageMod.Global
             {
                 Lighting.AddLight(projectile.Center, 0.75f, 0.4f, 1f);
             }
-            base.AI(projectile);
+            //Velocity
+            if (projectile.friendly && VelocityMultiplier != 0 && !Sets.DontUseAdjustedVelocityModifier[projectile.type] && (projectile.ModProjectile == null || projectile.ModProjectile.Mod == Mod))
+            {
+                if (ShouldUpdatePosition(projectile))
+                {
+                    projectile.position += projectile.velocity * VelocityMultiplier;
+                }
+            }
         }
-
+        
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[projectile.owner];
@@ -80,6 +90,31 @@ namespace AwfulGarbageMod.Global
                 {
                     ProjectileID.Sets.MinionShot[projectile.type] = true;
                     ProjectileID.Sets.SummonTagDamageMultiplier[projectile.type] = 0.5f;
+                }
+            }
+            if (!projectile.npcProj && !projectile.trap && projectile.IsMinionOrSentryRelated)
+            {
+                foreach (var item in target.buffType)
+                {
+                    if (BuffID.Sets.IsATagBuff[item])
+                    {
+                        modifiers.FlatBonusDamage += player.GetModPlayer<GlobalPlayer>().extraWhipTagDamage;
+                    }
+                }
+                if (player.GetModPlayer<GlobalPlayer>().InfectionSeed && target.HasBuff(BuffID.Poisoned))
+                {
+                    modifiers.SourceDamage *= 1.12f;
+                }
+                if (player.GetModPlayer<GlobalPlayer>().BagOfSeeds)
+                {
+                    if (target.HasBuff(BuffID.OnFire) || target.HasBuff(BuffID.OnFire3))
+                    {
+                        modifiers.SourceDamage += 6;
+                    }
+                    if (target.HasBuff(BuffID.Frostburn) || target.HasBuff(BuffID.Frostburn2))
+                    {
+                        modifiers.SourceDamage += 6;
+                    }
                 }
             }
         }
@@ -120,6 +155,10 @@ namespace AwfulGarbageMod.Global
                 player.ManaEffect(manaRegenerated);
             }
 
+            if (projectile.type == ProjectileID.EatersBite && ModContent.GetInstance<Config>().ScourgeOfTheCorruptorRework)
+            {
+                target.AddBuff(ModContent.BuffType<CorruptorCurse>(), 360);
+            }
 
             if (projectile.DamageType == GetInstance<KnifeDamageClass>())
             {
@@ -183,6 +222,14 @@ namespace AwfulGarbageMod.Global
             {
                 projectile.damage += 2;
             }
+            if (player.GetModPlayer<GlobalPlayer>().CursedSeed && ProjectileID.Sets.IsAWhip[projectile.type])
+            {
+                target.AddBuff(BuffID.CursedInferno, 60);
+            }
+            if (player.GetModPlayer<GlobalPlayer>().IchorSeed && ProjectileID.Sets.IsAWhip[projectile.type])
+            {
+                target.AddBuff(BuffID.Ichor, 20);
+            }
         }
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
@@ -212,21 +259,25 @@ namespace AwfulGarbageMod.Global
             //Velocity boosts
             if (AGUtils.AnyRangedDmg(projectile.DamageType))
             {
-                projectile.velocity *= player.GetModPlayer<GlobalPlayer>().rangedVelocity;
+                VelocityMultiplier += (player.GetModPlayer<GlobalPlayer>().rangedVelocity - 1);
                 Sets.OverrideSummonDamageClass[projectile.type] = true;
                 Sets.OrigDamageClass[projectile.type] = projectile.DamageType;
             }
-            if (player.GetModPlayer<GlobalPlayer>().AncientFlierBonus && projectile.DamageType == DamageClass.Summon && !projectile.minion)
+            if (Sets.DontUseAdjustedVelocityModifier[projectile.type] || !(projectile.ModProjectile == null || projectile.ModProjectile.Mod == Mod))
             {
                 projectile.velocity *= player.GetModPlayer<GlobalPlayer>().rangedVelocity;
             }
+            if (player.GetModPlayer<GlobalPlayer>().AncientFlierBonus && projectile.DamageType == DamageClass.Summon && !projectile.minion)
+            {
+                VelocityMultiplier += (player.GetModPlayer<GlobalPlayer>().rangedVelocity - 1);
+            }
             if (player.HasBuff(ModContent.BuffType<HorseSnapperBuff>()) && projectile.DamageType == DamageClass.Summon && !projectile.minion)
             {
-                projectile.velocity *= 1.15f;
+                VelocityMultiplier += 0.15f;
             }
             if (projectile.DamageType == ModContent.GetInstance<KnifeDamageClass>())
             {
-                projectile.velocity *= player.GetModPlayer<GlobalPlayer>().knifeVelocity;
+                VelocityMultiplier += (player.GetModPlayer<GlobalPlayer>().knifeVelocity - 1);
             }
 
             

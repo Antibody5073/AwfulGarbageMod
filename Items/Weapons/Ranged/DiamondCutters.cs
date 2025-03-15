@@ -186,7 +186,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2 + MathHelper.ToRadians(30);
         }
 
-        private const int StickTime = 60 * 12; // 15 seconds
+        private const int StickTime = 60 * 30; // 15 seconds
 
         private void StickyAI()
         {
@@ -217,7 +217,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             }
             else
             { // Otherwise, kill the projectile
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.npc[npcTarget].Center, startingVel.RotatedByRandom(MathHelper.PiOver2), Projectile.type, (int)(startingDamage * 1.2f), Projectile.knockBack, Projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.npc[npcTarget].Center, startingVel.RotatedByRandom(MathHelper.PiOver2), Projectile.type, (int)(startingDamage * 1.4f), Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].GetGlobalProjectile<KnifeProjectile>().canBeEmpowered = false;
                 Projectile.Kill();
             }

@@ -47,6 +47,12 @@ namespace AwfulGarbageMod.Items.Accessories
             player.boneGloveItem = Item;
 
             player.ammoCost75 = true;
+
+            player.GetModPlayer<GlobalPlayer>().mechanicalArm += 0.4f;
+            player.GetModPlayer<GlobalPlayer>().mechanicalScope += 0.4f;
+            player.GetModPlayer<GlobalPlayer>().mechanicalLens += 0.4f;
+
+            player.GetModPlayer<GlobalPlayer>().FleshyAmalgam = true;
         }
 
         public override void AddRecipes()
@@ -54,6 +60,7 @@ namespace AwfulGarbageMod.Items.Accessories
             CreateRecipe()
                 .AddIngredient<NecroScope>()
                 .AddIngredient<MechanicalQuiver>()
+                .AddIngredient<MechanicalAmalgam>()
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
         }

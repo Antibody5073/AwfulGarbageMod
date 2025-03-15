@@ -27,7 +27,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
 		public override void SetDefaults()
 		{
-            Item.damage = 49;
+            Item.damage = 69;
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 60;
 			Item.height = 60;
@@ -39,15 +39,15 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 			Item.rare = 4;
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;
-			Item.shoot = Mod.Find<ModProjectile>("CloudCleaverProj").Type;
+			Item.shoot = ModContent.ProjectileType<CryoCleaverProj>();
 			Item.shootSpeed = 14f;
 			Item.crit = 0;
 		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(source, position, velocity / 1.5f + player.velocity * 0.35f, Mod.Find<ModProjectile>("CryoCleaverProj").Type, (int)(damage * 0.75f), knockback / 2, player.whoAmI);
-            proj = Projectile.NewProjectile(source, position, velocity + player.velocity * 0.35f, Mod.Find<ModProjectile>("CryoCleaverProj2").Type, (int)(damage * 0.75f), knockback / 2, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, velocity / 1.5f + player.velocity * 0.35f, type, (int)(damage * 0.75f), knockback / 2, player.whoAmI);
+            proj = Projectile.NewProjectile(source, position, velocity + player.velocity * 0.35f, ModContent.ProjectileType<CryoCleaverProj2>(), (int)(damage * 0.75f), knockback / 2, player.whoAmI);
 
             return false;
         }
@@ -55,7 +55,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             CreateRecipe()
                 .AddIngredient<Cryogem>(20)
-                //.AddIngredient<FrigidiumBar>(16)
+                .AddIngredient<FrigidiumBar>(16)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

@@ -53,7 +53,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             Main.projectile[proj].flailProjectile().spinOffset = MathHelper.ToDegrees(velocity.ToRotation());
-    
+            Main.projectile[proj].originalDamage = Item.damage;
+
             return false;
         }
 
@@ -68,8 +69,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             CreateRecipe()
                 .AddIngredient(ItemID.Wood, 18)
                 .AddIngredient(ItemID.Gel, 12)
-                .AddIngredient(ItemID.Chain, 10)
-                .AddTile(TileID.Anvils)
+                .AddTile(TileID.WorkBenches)
                 .Register();
         }
     }

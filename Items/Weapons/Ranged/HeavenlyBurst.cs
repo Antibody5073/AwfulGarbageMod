@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace AwfulGarbageMod.Items.Weapons.Ranged
@@ -125,6 +126,14 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                 if (chargeLevel < 5)
                 {
                     chargeLevel++;
+                    if (chargeLevel == 5)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item4, Projectile.Center);
+                    }
+                    else
+                    {
+                        SoundEngine.PlaySound(SoundID.MaxMana, Projectile.Center);
+                    }
                     for (var i = 0; i < 8; i++)
                     {
                         float xv = Main.rand.NextFloat(-3, 3);
@@ -180,7 +189,6 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             for (var i = 0; i < arrowsShot; i++)
             {
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), owner.Center, new Vector2(Projectile.ai[0], 0).RotatedBy(MathHelper.ToRadians(dir) + Projectile.rotation), (int)Projectile.ai[1], Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Main.projectile[proj].CritChance = Projectile.CritChance;
                 dir += 3;
 
             }

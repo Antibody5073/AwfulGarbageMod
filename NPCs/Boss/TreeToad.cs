@@ -81,14 +81,10 @@ namespace AwfulGarbageMod.NPCs.Boss
             Rest2,
             Rest3,
             Rest4,
-            Rest5,
-            Rest6,
             WingRest1,
             WingRest2,
             WingRest3,
             WingRest4,
-            WingRest5,
-            WingRest6,
 
         }
 
@@ -117,13 +113,14 @@ namespace AwfulGarbageMod.NPCs.Boss
         float phase = 1;
         float y0;
         bool treeToadRest = false;
-
+        float attackSpeed = 1;
+        float attackVariation;
 
 
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Flutter Slime"); // Automatic from localization files
-            Main.npcFrameCount[NPC.type] = 26; // make sure to set this for your modnpcs.
+            Main.npcFrameCount[NPC.type] = 22; // make sure to set this for your modnpcs.
 
             // Specify the debuffs it is immune to
             NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Wet] = true;
@@ -152,9 +149,9 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (!Main.dedServ)
             {
-                Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/TreeToadTheme");
+                Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/TreeToadTheme2");
             }
-            NPC.BossBar = ModContent.GetInstance<SeseKitsugaiBossBar>();
+            NPC.BossBar = ModContent.GetInstance<TreeToadBossBar>();
 
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -182,13 +179,17 @@ namespace AwfulGarbageMod.NPCs.Boss
                     NPC.lifeMax = 4500;
                 }
             }
+            if (DifficultyModes.Difficulty > 0)
+            {
+                NPC.lifeMax = (int)(NPC.lifeMax * 1.15f);
+            }
         }
 
 
         public override void OnSpawn(IEntitySource source)
         {
 
-            NPC.lifeMax *= (ModContent.GetInstance<Config>().BossHealthMultiplier / 100);
+            NPC.lifeMax = NPC.lifeMax * ModContent.GetInstance<Config>().BossHealthMultiplier / 100;
             NPC.life = NPC.lifeMax;
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -212,11 +213,11 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))
             {
-                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<TreeChopper>()));
+                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(2, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<Leafstorm>(), ModContent.ItemType<TreeChopper>()));
             }
             else
             {
-                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>()));
+                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(2, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<Leafstorm>()));
             }
             notExpertRule.OnSuccess(ItemDropRule.Common(ItemID.ArmorPolish, 10));
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SuwaHat>(), 15));
@@ -275,7 +276,7 @@ namespace AwfulGarbageMod.NPCs.Boss
         public override void AI()
         {
             // The npc starts in the asleep state, waiting for a player to enter range
-            DrawOffsetY = 20;
+            DrawOffsetY = 38;
             Player player = Main.player[NPC.target];
 
             if (player.dead)
@@ -470,10 +471,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                     if (treeToadRest)
                     {
                         frameCounter++;
-                        if (frameCounter % 5 == 0)
+                        int[] frameLen = { 30, 6, 30, 6 };
+
+                        if (frameCounter % frameLen[(int)frameNumber] == 0)
                         {
+
                             frameNumber++;
-                            if (frameNumber == 6)
+                            if (frameNumber == 4)
                             {
                                 frameNumber = 0;
                             }
@@ -491,12 +495,6 @@ namespace AwfulGarbageMod.NPCs.Boss
                                 break;
                             case 3:
                                 NPC.frame.Y = (int)Frame.Rest4 * frameHeight;
-                                break;
-                            case 4:
-                                NPC.frame.Y = (int)Frame.Rest5 * frameHeight;
-                                break;
-                            case 5:
-                                NPC.frame.Y = (int)Frame.Rest6 * frameHeight;
                                 break;
                         }
                     }
@@ -567,7 +565,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                     break;
                 case (float)ActionState.Circle:
                     frameCounter++;
-                    if (frameCounter % 3 == 0)
+                    if (frameCounter % 6 == 0)
                     {
                         frameNumber++;
                         if (frameNumber == 4)
@@ -600,7 +598,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                     else
                     {
                         frameCounter++;
-                        if (frameCounter % 3 == 0)
+                        if (frameCounter % 6 == 0)
                         {
                             frameNumber++;
                             if (frameNumber == 4)
@@ -628,7 +626,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                     break;
                 case (float)ActionState.ScreenDash:
                     frameCounter++;
-                    if (frameCounter % 2 == 0)
+                    if (frameCounter % 3 == 0)
                     {
                         frameNumber++;
                         if (frameNumber == 4)
@@ -654,7 +652,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                     break;
                 case (float)ActionState.HoverDash:
                     frameCounter++;
-                    if (frameCounter % 3 == 0)
+                    if (frameCounter % 6 == 0)
                     {
                         frameNumber++;
                         if (frameNumber == 4)
@@ -717,10 +715,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                         if (treeToadRest)
                         {
                             frameCounter++;
-                            if (frameCounter % 5 == 0)
+                            int[] frameLen = { 30, 6, 30, 6 };
+
+                            if (frameCounter % frameLen[(int)frameNumber] == 0)
                             {
+
                                 frameNumber++;
-                                if (frameNumber == 6)
+                                if (frameNumber == 4)
                                 {
                                     frameNumber = 0;
                                 }
@@ -738,12 +739,6 @@ namespace AwfulGarbageMod.NPCs.Boss
                                     break;
                                 case 3:
                                     NPC.frame.Y = (int)Frame.WingRest4 * frameHeight;
-                                    break;
-                                case 4:
-                                    NPC.frame.Y = (int)Frame.WingRest5 * frameHeight;
-                                    break;
-                                case 5:
-                                    NPC.frame.Y = (int)Frame.WingRest6 * frameHeight;
                                     break;
                             }
                         }
@@ -756,10 +751,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                         if (treeToadRest)
                         {
                             frameCounter++;
-                            if (frameCounter % 5 == 0)
+                            int[] frameLen = { 30, 6, 30, 6 };
+
+                            if (frameCounter % frameLen[(int)frameNumber] == 0)
                             {
+
                                 frameNumber++;
-                                if (frameNumber == 6)
+                                if (frameNumber == 4)
                                 {
                                     frameNumber = 0;
                                 }
@@ -777,12 +775,6 @@ namespace AwfulGarbageMod.NPCs.Boss
                                     break;
                                 case 3:
                                     NPC.frame.Y = (int)Frame.WingRest4 * frameHeight;
-                                    break;
-                                case 4:
-                                    NPC.frame.Y = (int)Frame.WingRest5 * frameHeight;
-                                    break;
-                                case 5:
-                                    NPC.frame.Y = (int)Frame.WingRest6 * frameHeight;
                                     break;
                             }
                         }
@@ -801,11 +793,16 @@ namespace AwfulGarbageMod.NPCs.Boss
                 Vector2 drawOrigin = NPC.frame.Size() / 2;
                 for (int k = 0; k < NPC.oldPos.Length; k++)
                 {
-                    Vector2 drawPos = NPC.oldPos[k] - screenPos + new Vector2(NPC.width / 2, NPC.height / 2) + new Vector2(0, NPC.gfxOffY); //.RotatedBy(NPC.rotation);
+                    Vector2 drawPos = NPC.oldPos[k] - screenPos + new Vector2(NPC.width / 2, NPC.height / 2) + new Vector2(0, NPC.gfxOffY + 14); //.RotatedBy(NPC.rotation);
                     Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
                     spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos + new Vector2(0, -11), NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
                 }
             }
+            return true;
+        }
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+        {
+            position += new Vector2(0, -40);
             return true;
         }
 
@@ -891,18 +888,23 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
 
-                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadLeaf").Type, 17, 0, Main.myPlayer);
-                Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f;
                 if (Main.expertMode)
                 {
-                    for (var i = 0; i < 3; i++)
+                    float spd = 8;
+                    if (phase == 2 && DifficultyModes.Difficulty > 0)
                     {
-                        int proj2 = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadLeaf").Type, 17, 0, Main.myPlayer);
-                        Main.projectile[proj2].velocity = ((Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f).RotatedBy(MathHelper.ToRadians(1.2f * i));
-                        int proj3 = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadLeaf").Type, 17, 0, Main.myPlayer);
-                        Main.projectile[proj3].velocity = ((Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f).RotatedBy(MathHelper.ToRadians(-1.2f * i));
-
+                        spd *= attackSpeed;
                     }
+                    for (var i = -2; i < 3; i++)
+                    {
+                        int proj2 = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                        Main.projectile[proj2].velocity = ((Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * spd).RotatedBy(MathHelper.ToRadians(1.2f * i));
+                    }
+                }
+                else
+                {
+                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                    Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f;
                 }
             }
             else
@@ -910,15 +912,49 @@ namespace AwfulGarbageMod.NPCs.Boss
                 if (JumpCount % 3 == 0)
                 {
                     int proj;
-                    for (int i = 0; i < 4; i++)
+                    if (DifficultyModes.Difficulty == 2)
                     {
-                        proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadOrbTele").Type, 0, 0, Main.myPlayer);
-                        Main.projectile[proj].velocity = new Vector2(7, 0).RotatedBy(MathHelper.ToRadians(90) * i + orbDir);
+                        for (int i = 0; i < 60; i++)
+                        {
+                            proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadOrb>(), 0, 0, Main.myPlayer);
+                            Main.projectile[proj].velocity = new Vector2(15, 0).RotatedBy(MathHelper.ToRadians(6) * i + orbDir);
+                        }
                     }
-                    for (int i = 0; i < 4; i++)
+                    else if (DifficultyModes.Difficulty == 1)
                     {
-                        proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadOrb").Type, 0, 0, Main.myPlayer);
-                        Main.projectile[proj].velocity = new Vector2(7, 0).RotatedBy(MathHelper.ToRadians(90) * i + orbDir);
+
+                        for (int i = -6; i < 7; i++)
+                        {
+                            proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadOrbTele>(), 0, 0, Main.myPlayer);
+                            Main.projectile[proj].velocity = new Vector2(0, -12).RotatedBy(MathHelper.ToRadians(8 * i + orbDir));
+                        }
+                        for (int i = -6; i < 7; i++)
+                        {
+                            proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadOrb>(), 0, 0, Main.myPlayer);
+                            Main.projectile[proj].velocity = new Vector2(0, -12).RotatedBy(MathHelper.ToRadians(8 * i + orbDir));
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadOrbTele").Type, 0, 0, Main.myPlayer);
+                            Main.projectile[proj].velocity = new Vector2(7, 0).RotatedBy(MathHelper.ToRadians(90) * i + orbDir);
+                        }
+                        for (int i = 0; i < 4; i++)
+                        {
+                            proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadOrb").Type, 0, 0, Main.myPlayer);
+                            Main.projectile[proj].velocity = new Vector2(7, 0).RotatedBy(MathHelper.ToRadians(90) * i + orbDir);
+                        }
+                    }
+                }
+                else if (DifficultyModes.Difficulty > 0)
+                {
+                    for (int i = -1; i < 2; i++)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                        Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(24 * i)) * 8f * attackSpeed;
                     }
                 }
             }
@@ -986,11 +1022,33 @@ namespace AwfulGarbageMod.NPCs.Boss
                 if (JumpCount % 3 == 0)
                 {
                     NPC.velocity = new Vector2(Xdifference / 120 + Main.player[NPC.target].velocity.X, JumpSpeed);
-                    orbDir = Main.rand.NextFloatDirection();
+                    if (DifficultyModes.Difficulty == 1)
+                    {
+                        orbDir = Main.rand.NextFloat(-10, 10);
+                    }
+                    else
+                    {
+                        orbDir = Main.rand.NextFloatDirection();
+                    }
                 }
                 else
                 {
-                    NPC.velocity = new Vector2(Xdifference / 120, JumpSpeed);
+                    if (DifficultyModes.Difficulty > 0)
+                    {
+                        if (DifficultyModes.Difficulty == 2 && Main.rand.NextBool(5))
+                        {
+                            NPC.velocity = new Vector2(Xdifference / 120 + Main.player[NPC.target].velocity.X, JumpSpeed);
+                            orbDir = Main.rand.NextFloatDirection();
+                        }
+                        else
+                        {
+                            NPC.velocity = new Vector2(Xdifference / 120 + Main.player[NPC.target].velocity.X / 3, JumpSpeed);
+                        }
+                    }
+                    else
+                    {
+                        NPC.velocity = new Vector2(Xdifference / 120, JumpSpeed);
+                    }
                 }
                 AI_Timer = 0;
                 AI_State = (float)ActionState.Fall;
@@ -1004,8 +1062,10 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 NPC.direction = (int)MathHelper.ToRadians(-90);
             }
-
-            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadTelegraph").Type, 0, 0, Main.myPlayer, GravSpeed);
+            if (DifficultyModes.Difficulty != 2)
+            {
+                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadTelegraph").Type, 0, 0, Main.myPlayer, GravSpeed);
+            }
         }
 
         private void Wait()
@@ -1023,6 +1083,10 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     AI_State = (float)ActionState.Jump;
                     AI_Timer = 0;
+                    if (DifficultyModes.Difficulty > 0)
+                    {
+                        attackSpeed = 1;
+                    }
                 }
             }
         }
@@ -1048,21 +1112,42 @@ namespace AwfulGarbageMod.NPCs.Boss
                 int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("TreeToadLeafTele").Type, 17, 0, Main.myPlayer);
                 Main.projectile[proj].timeLeft = 120 - (int)AI_Timer;
             }
-
-            if (AI_Timer == 60)
+            if (DifficultyModes.Difficulty > 0)
             {
-                SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
-                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadLeaf").Type, 17, 0, Main.myPlayer);
-                Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f;
-            }
-
-            if (Main.expertMode)
-            {
-                if (AI_Timer == 55 || AI_Timer == 65)
+                if (AI_Timer >= 60 && AI_Timer % 5 == 0)
                 {
                     SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadLeaf").Type, 17, 0, Main.myPlayer);
+                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                    Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f * attackSpeed;
+
+
+                    if (DifficultyModes.Difficulty == 2)
+                    {
+                        attackSpeed += 0.15f;
+                    }
+                    else
+                    {
+                        attackSpeed += 0.1f;
+                    }
+                }
+            }
+            else
+            {
+                if (AI_Timer == 60)
+                {
+                    SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
+                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
                     Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f;
+                }
+
+                if (Main.expertMode)
+                {
+                    if (AI_Timer == 55 || AI_Timer == 65)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                        Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f;
+                    }
                 }
             }
 
@@ -1165,8 +1250,29 @@ namespace AwfulGarbageMod.NPCs.Boss
                             }
                             SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2((Main.rand.NextFloat() - 0.5f) * 10, -8), Mod.Find<ModProjectile>("TreeToadLeafGrav").Type, 0, 0, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2((Main.rand.NextFloat() - 0.5f) * 10 + Main.player[NPC.target].velocity.X, -8), Mod.Find<ModProjectile>("TreeToadLeafGrav").Type, 0, 0, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2((Main.rand.NextFloat() - 0.5f) * 10, -8), Mod.Find<ModProjectile>("TreeToadLeafGrav").Type, 0, 0, Main.myPlayer, 1);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2((Main.rand.NextFloat() - 0.5f) * 10 + Main.player[NPC.target].velocity.X, -8), Mod.Find<ModProjectile>("TreeToadLeafGrav").Type, 0, 0, Main.myPlayer, 1);
+                        }
+                        if (DifficultyModes.Difficulty == 1)
+                        {
+                            for (int i = -5; i < 6; i++)
+                            {
+                                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadOrbTele>(), 0, 0, Main.myPlayer);
+                                Main.projectile[proj].velocity = new Vector2(0, -12).RotatedBy(MathHelper.ToRadians(8 * i + orbDir));
+                            }
+                            for (int i = -5; i < 6; i++)
+                            {
+                                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadOrb>(), 0, 0, Main.myPlayer);
+                                Main.projectile[proj].velocity = new Vector2(0, -12).RotatedBy(MathHelper.ToRadians(8 * i + orbDir));
+                            }
+                        }
+                        if (DifficultyModes.Difficulty == 2)
+                        {
+                            for (int i = 0; i < 60; i++)
+                            {
+                                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadOrb>(), 0, 0, Main.myPlayer);
+                                Main.projectile[proj].velocity = new Vector2(15, 0).RotatedBy(MathHelper.ToRadians(6) * i + orbDir);
+                            }
                         }
                     }
                 }
@@ -1210,6 +1316,10 @@ namespace AwfulGarbageMod.NPCs.Boss
             y0 = 0;
             AI_State = (float)ActionState.RapidFall;
 
+            if (DifficultyModes.Difficulty > 0)
+            {
+                attackSpeed = 1;
+            }
             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadTelegraph").Type, 0, 0, Main.myPlayer, GravSpeed);
         }
 
@@ -1227,23 +1337,44 @@ namespace AwfulGarbageMod.NPCs.Boss
             }
 
             NPC.velocity.Y -= GravSpeed;
-
-            if (AI_Timer == 45)
+            if (DifficultyModes.Difficulty > 0)
             {
-                SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
+                if (AI_Timer >= 45 && AI_Timer % 5 == 0)
+                {
+                    SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
+                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                    Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f * attackSpeed;
 
-                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadLeaf").Type, 17, 0, Main.myPlayer);
-                Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f;
+
+                    if (DifficultyModes.Difficulty == 2)
+                    {
+                        attackSpeed += 0.2f;
+                    }
+                    else
+                    {
+                        attackSpeed += 0.125f;
+                    }
+                }
             }
-
-            if (Main.expertMode)
+            else
             {
-                if (AI_Timer == 40 || AI_Timer == 50)
+                if (AI_Timer == 45)
                 {
                     SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
 
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadLeaf").Type, 17, 0, Main.myPlayer);
+                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
                     Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f;
+                }
+
+                if (Main.expertMode)
+                {
+                    if (AI_Timer == 40 || AI_Timer == 50)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
+
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                        Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f;
+                    }
                 }
             }
 
@@ -1471,8 +1602,29 @@ namespace AwfulGarbageMod.NPCs.Boss
                             }
                             SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2((Main.rand.NextFloat() - 0.5f) * 10, -8), Mod.Find<ModProjectile>("TreeToadLeafGrav").Type, 0, 0, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2((Main.rand.NextFloat() - 0.5f) * 10 + Main.player[NPC.target].velocity.X, -8), Mod.Find<ModProjectile>("TreeToadLeafGrav").Type, 0, 0, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2((Main.rand.NextFloat() - 0.5f) * 10, -8), Mod.Find<ModProjectile>("TreeToadLeafGrav").Type, 0, 0, Main.myPlayer, 1);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2((Main.rand.NextFloat() - 0.5f) * 10 + Main.player[NPC.target].velocity.X, -8), Mod.Find<ModProjectile>("TreeToadLeafGrav").Type, 0, 0, Main.myPlayer, 1);
+                        }
+                        if (DifficultyModes.Difficulty == 1)
+                        {
+                            for (int i = -5; i < 6; i++)
+                            {
+                                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadOrbTele>(), 0, 0, Main.myPlayer);
+                                Main.projectile[proj].velocity = new Vector2(0, -12).RotatedBy(MathHelper.ToRadians(8 * i + orbDir));
+                            }
+                            for (int i = -5; i < 6; i++)
+                            {
+                                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadOrb>(), 0, 0, Main.myPlayer);
+                                Main.projectile[proj].velocity = new Vector2(0, -12).RotatedBy(MathHelper.ToRadians(8 * i + orbDir));
+                            }
+                        }
+                        if (DifficultyModes.Difficulty == 2)
+                        {
+                            for (int i = 0; i < 60; i++)
+                            {
+                                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadOrb>(), 0, 0, Main.myPlayer);
+                                Main.projectile[proj].velocity = new Vector2(15, 0).RotatedBy(MathHelper.ToRadians(6) * i + orbDir);
+                            }
                         }
                     }
                 }
@@ -1533,9 +1685,9 @@ namespace AwfulGarbageMod.NPCs.Boss
                     freq = 3;
                 }
 
-                    if (AI_Timer % freq == randLeaf)
+                if (AI_Timer % freq == randLeaf)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(targetDir, -6), Mod.Find<ModProjectile>("TreeToadLeafGrav").Type, 0, 0, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(targetDir, -6), Mod.Find<ModProjectile>("TreeToadLeafGrav").Type, 0, 0, Main.myPlayer, dashNum == 8 ? 1 : 0);
                 }
                 if (AI_Timer == 60)
                 {
@@ -1545,6 +1697,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                         AI_State = (float)ActionState.Circle;
                         RotateMagnitude = Vector2.Distance(Main.player[NPC.target].Center, NPC.Center);
                         RotateDir = MathHelper.ToDegrees((NPC.Center - Main.player[NPC.target].Center).ToRotation());
+                        attackVariation = Main.rand.Next(0, 2);
+                        attackSpeed = Main.rand.NextBool() ? 2 : -2;
                     }
                     else
                     {
@@ -1573,16 +1727,80 @@ namespace AwfulGarbageMod.NPCs.Boss
             else
             {
                 AI_Timer++;
-                if (AI_Timer % 60 == 0 || AI_Timer % 60 == 5 || AI_Timer % 60 == 10)
-                {
-                    SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("TreeToadLeaf").Type, 17, 0, Main.myPlayer);
-                    Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f;
 
+                if (DifficultyModes.Difficulty == 0)
+                {
+                    if (AI_Timer % 60 == 0 || AI_Timer % 60 == 5 || AI_Timer % 60 == 10)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                        Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 8f;
+
+                    }
                 }
+                else
+                {
+                    if (attackVariation == 0)
+                    {
+                        if (AI_Timer % 15 == 0)
+                        {
+                            SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
+                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                            Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 6.5f;
+                            proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                            Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(36)) * 6.5f;
+                            proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                            Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(-36)) * 6.5f;
+                            if (DifficultyModes.Difficulty == 2)
+                            {
+                                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                                Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(18)) * 6.5f;
+                                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
+                                Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(-18)) * 6.5f;
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (AI_Timer % 75 == 0)
+                        {
+                            SoundEngine.PlaySound(SoundID.Item7, NPC.Center);
+                            Vector2 vel = Main.rand.NextVector2CircularEdge(6.5f, 6.5f);
+                            for (var i = 0; i < 20; i++)
+                            {
+                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer, attackSpeed, 30);
+                                Main.projectile[proj].velocity = vel.RotatedBy(MathHelper.TwoPi * i / 20);
+                            }
+                            if (DifficultyModes.Difficulty == 2)
+                            {
+                                for (var i = 0; i < 30; i++)
+                                {
+                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer, attackSpeed, 30);
+                                    Main.projectile[proj].velocity = vel.RotatedBy(MathHelper.TwoPi * i / 30);
+                                }
+                                for (var i = 0; i < 30; i++)
+                                {
+                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer, -attackSpeed, 30);
+                                    Main.projectile[proj].velocity = vel.RotatedBy(MathHelper.TwoPi * i / 30) * 0.9f;
+                                }
+                            }
+                            else
+                            {
+                                for (var i = 0; i < 20; i++)
+                                {
+                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer, attackSpeed, 30);
+                                    Main.projectile[proj].velocity = vel.RotatedBy(MathHelper.TwoPi * i / 20);
+                                }
+                            }    
+                            attackSpeed *= -1;
+                        }
+                    }
+                }
+
                 if (AI_Timer > 600)
                 {
-                    if(Math.Abs(NPC.Center.X - Main.player[NPC.target].Center.X) < 5f && NPC.Center.Y < Main.player[NPC.target].Center.Y)
+                    if (Math.Abs(NPC.Center.X - Main.player[NPC.target].Center.X) < 5f && NPC.Center.Y < Main.player[NPC.target].Center.Y)
                     {
                         AI_State = (float)ActionState.HoverDash2;
                         NPC.velocity = new Vector2(0, 0);

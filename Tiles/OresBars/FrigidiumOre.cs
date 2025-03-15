@@ -21,6 +21,7 @@ namespace AwfulGarbageMod.Tiles.OresBars
 			Main.tileSolid[Type] = true;
 			Main.tileBlockLight[Type] = true;
 
+			Main.tileBrick[Type] = true;
             Main.tileMerge[Type][TileID.IceBlock] = true;
             Main.tileMerge[Type][TileID.SnowBlock] = true;
 

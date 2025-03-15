@@ -34,7 +34,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Summon) -= 22 / 100f;
+            player.GetDamage(DamageClass.Generic) -= 22 / 100f;
             player.maxMinions += 1;
         }
 

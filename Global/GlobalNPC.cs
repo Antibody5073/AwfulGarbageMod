@@ -19,6 +19,7 @@ using System.Linq;
 using Terraria.DataStructures;
 using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Systems;
 
 namespace AwfulGarbageMod.Global;
 public class ExampleGlobalNPC : GlobalNPC
@@ -75,6 +76,22 @@ public class ExampleGlobalNPC : GlobalNPC
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrystalKnives>(), 2, 1, 1));
         }
+        if (npc.type == NPCID.SkeletronPrime)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MechanicalArm>(), 2, 1, 1));
+        }
+        if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MechanicalLens>(), 4, 1, 1));
+        }
+        if (npc.type == NPCID.TheDestroyer)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MechanicalScope>(), 2, 1, 1));
+        }
+        if (npc.type == NPCID.WallofFlesh)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FleshyAmalgam>(), 2, 1, 1));
+        }
         if (npc.type == NPCID.DukeFishron)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BubbleSlicers>(), 2, 1, 1));
@@ -107,6 +124,26 @@ public class ExampleGlobalNPC : GlobalNPC
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LavaLamp>(), 30, 1, 1));
         }
+        if (npc.type == NPCID.Demon)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DemonClaw>(), 15, 1, 1));
+        }
+        if (npc.type == NPCID.JungleSlime)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SwampyGrip>(), 100, 1, 1));
+        }
+        if (npc.type == NPCID.SpikedJungleSlime)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SwampyGrip>(), 30, 1, 1));
+        }
+        if (npc.type == NPCID.ManEater)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SwampyGrip>(), 20, 1, 1));
+        }
+        if (npc.type == NPCID.LavaSlime || npc.type == NPCID.FireImp)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryGrip>(), 30, 1, 1));
+        }
         if (npc.type == NPCID.Lavabat)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Pyrogem>(), 1, 1, 5));
@@ -131,14 +168,56 @@ public class ExampleGlobalNPC : GlobalNPC
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DesertScale>(), 2, 3, 4));
         }
+        if (npc.type == NPCID.CursedHammer)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CorruptedMetalChunk>(), 2));
+        }
+        if (npc.type == NPCID.CrimsonAxe)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrimsonMetalChunk>(), 2));
+        }
+        if (npc.type == NPCID.EnchantedSword)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HallowedMetalChunk>(), 2));
+        }
+        if (npc.type == NPCID.BoneLee)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LeeNunchucks>(), 5));
+        }
+        if (NPCID.Sets.Skeletons[npc.type])
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PileOfActualBones>(), 20));
+        }
+        if (npc.type == NPCID.Pumpking)
+        {
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<PumpkingHarvester>(), 15, 10));
+        }
+        if (npc.type == NPCID.IceBat || npc.type == NPCID.UndeadViking || npc.type == NPCID.ArmoredViking || npc.type == NPCID.IceTortoise || npc.type == NPCID.IcyMerman)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FrigidSeed>(), 50));
+        }
+        if (npc.type == NPCID.FireImp || npc.type == NPCID.LavaSlime)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MagmaSeed>(), 40));
+        }
+        if (npc.type == NPCID.Clinger || npc.type == NPCID.Corruptor || npc.type == NPCID.DesertGhoulCorruption)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SoulflowerSeed>(), 75));
+        }
+        if (npc.type == NPCID.IchorSticker || npc.type == NPCID.FloatyGross || npc.type == NPCID.DesertGhoulCrimson)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloodflowerSeed>(), 75));
+        }
+        if (npc.type == NPCID.JungleCreeper || npc.type == NPCID.JungleCreeperWall|| npc.type == NPCID.MossHornet)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SeedOfInfection>(), 60));
+        }
     }
-
 
     //Crit damage boosts
     public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
     {
         Player player = Main.LocalPlayer;
-
         //Ice Crystal Geode
         if (player.GetModPlayer<GlobalPlayer>().iceCrystalGeode && projectile.CountsAsClass(DamageClass.Melee))
         {
@@ -260,7 +339,7 @@ public class ExampleGlobalNPC : GlobalNPC
     public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
     {
         Player target = Main.LocalPlayer;
-        if (target.GetModPlayer<GlobalPlayer>().OverflowingVenom)
+        if (target.GetModPlayer<GlobalPlayer>().OverflowingVenom > 1)
         {
             float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, npc.Center);
 
@@ -282,6 +361,18 @@ public class ExampleGlobalNPC : GlobalNPC
         base.ModifyIncomingHit(npc, ref modifiers);
     }
 
+    public override void OnKill(NPC npc)
+    {
+        if (npc.type == NPCID.WallofFlesh)
+        {
+            if (ModContent.GetInstance<ConfigClient>().ShouldGenerateHardmodeStructures)
+            {
+                Structures.timer = 300;
+            }
+        }
+        base.OnKill(npc);
+    }
+
     public int[] buffPrevious;
     public int[] buffPreviousPrevious;
 
@@ -293,6 +384,7 @@ public class ExampleGlobalNPC : GlobalNPC
     public int BoneSkewerBleed;
     public int BoneSkewerTimer;
 
+
     public override void ResetEffects(NPC npc)
     {
         ExampleDebuff = false;
@@ -303,6 +395,7 @@ public class ExampleGlobalNPC : GlobalNPC
         }
     }
 
+    
 
     //Enemy spawn rate
     public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
@@ -317,6 +410,11 @@ public class ExampleGlobalNPC : GlobalNPC
             spawnRate = (int)(spawnRate / 2.5f);
             maxSpawns = (int)(maxSpawns * 2.5f);
         }
+        if (DifficultyModes.Difficulty > 0)
+        {
+            spawnRate = (int)(spawnRate / 1.25f);
+            maxSpawns = (int)(maxSpawns * 1.25f);
+        }
     }
 
     public override void SetDefaults(NPC npc)
@@ -327,6 +425,16 @@ public class ExampleGlobalNPC : GlobalNPC
         if (npc.type == NPCID.DD2Betsy && ModContent.GetInstance<Configs.Config>().BetsyNerf)
         {
             npc.lifeMax /= 2;
+        }
+
+
+        if (ModContent.GetInstance<Configs.Config>().EnemyHealthMultiplier != 100)
+        {
+            if (npc.lifeMax > 5)
+            {
+                npc.lifeMax = npc.lifeMax * ModContent.GetInstance<Configs.Config>().EnemyHealthMultiplier / 100;
+                npc.life = npc.lifeMax;
+            }
         }
     }
 
@@ -426,7 +534,7 @@ public class ExampleGlobalNPC : GlobalNPC
                 }
             }
         }
-        if (target.GetModPlayer<GlobalPlayer>().OverflowingVenom)
+        if (target.GetModPlayer<GlobalPlayer>().OverflowingVenom > 1)
         {
             // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
             float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, npc.Center);

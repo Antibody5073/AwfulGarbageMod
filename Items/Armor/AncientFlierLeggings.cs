@@ -26,9 +26,9 @@ namespace AwfulGarbageMod.Items.Armor
 
 		public override void UpdateEquip(Player player) {
 
-            player.GetDamage(DamageClass.Ranged) += 0.1f;
+            player.GetDamage(DamageClass.Ranged) += 0.06f;
             player.GetDamage(DamageClass.Summon) += 0.1f;
-            player.GetCritChance(DamageClass.Ranged) += 10f;
+            player.GetCritChance(DamageClass.Ranged) += 6f;
             player.GetModPlayer<GlobalPlayer>().wingTimeMultiplier += 0.5f;
             player.GetModPlayer<GlobalPlayer>().HorizontalWingSpdMult -= 0.16f;
             player.GetModPlayer<GlobalPlayer>().VerticalWingSpdMult -= 0.16f;
@@ -40,7 +40,7 @@ namespace AwfulGarbageMod.Items.Armor
             CreateRecipe()
                 .AddIngredient(ItemID.NecroGreaves)
                 .AddIngredient(ItemID.BeeGreaves)
-                .AddIngredient(ItemID.PlatinumGreaves)
+                .AddIngredient(ItemID.GoldGreaves)
                 .AddIngredient<DesertScale>(10)
                 .AddTile(TileID.Anvils)
                 .Register();

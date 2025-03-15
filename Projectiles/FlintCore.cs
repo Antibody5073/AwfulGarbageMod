@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using static Humanizer.In;
 using AwfulGarbageMod.DamageClasses;
+using AwfulGarbageMod.Items.Weapons.Magic;
 
 namespace AwfulGarbageMod.Projectiles
 {
@@ -27,7 +28,6 @@ namespace AwfulGarbageMod.Projectiles
         public float dir;
         public float pupilDir;
         public float pupilMagnitude;
-        public int[] frames = {0, 1, 2, 1};
 
         public virtual float ProjSpd => 0;
         public virtual int ProjType => -1;
@@ -38,7 +38,7 @@ namespace AwfulGarbageMod.Projectiles
         public override void SetStaticDefaults()
         {
             // Sets the amount of frames this minion has on its spritesheet
-            Main.projFrames[Projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 9;
             // This is necessary for right-click targeting
 
             Main.projPet[Projectile.type] = true; // Denotes that this projectile is a pet or minion
@@ -62,6 +62,7 @@ namespace AwfulGarbageMod.Projectiles
             Projectile.penetrate = -1;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
+            Projectile.timeLeft = 5;
         }
 
         public virtual void GetOrbitDirection(out float tempdir, out Vector2 targetPos, float spd = 1, float distance = 120)
@@ -84,7 +85,7 @@ namespace AwfulGarbageMod.Projectiles
             // Calculating frameHeight and current Y pos dependence of frame
             // If texture without animation frameHeight is always texture.Height and startY is always 0
             int frameHeight = texture.Height / Main.projFrames[Projectile.type];
-            int startY = frameHeight * frames[Projectile.frame];
+            int startY = frameHeight * Projectile.frame;
 
             // Get this frame on texture
             Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
@@ -94,20 +95,12 @@ namespace AwfulGarbageMod.Projectiles
 
             Vector2 origin = sourceRectangle.Size() / 2f;
 
-            // If image isn't centered or symmetrical you can specify origin of the sprite
-            // (0,0) for the upper-left corner
-            
-            float offsetX = 17;
-            origin.X = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Width - offsetX : offsetX);
-
-            float offsetY = 17;
-            origin.Y = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Height - offsetY : offsetY);
             
 
             // Applying lighting and draw current frame
             Color drawColor = Projectile.GetAlpha(lightColor);
             Main.EntitySpriteDraw(texture,
-                Projectile.Center - Main.screenPosition + new Vector2(-3f, Projectile.gfxOffY + 12),
+                Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY),
                 sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
 
             // It's important to return false, otherwise we also draw the original texture.
@@ -170,7 +163,7 @@ namespace AwfulGarbageMod.Projectiles
         }
         public virtual void Visuals()
         {
-            int frameSpeed = 10;
+            int frameSpeed = 6;
 
             Projectile.frameCounter++;
 
@@ -179,7 +172,7 @@ namespace AwfulGarbageMod.Projectiles
                 Projectile.frameCounter = 0;
                 Projectile.frame++;
 
-                if (Projectile.frame >= frames.Length)
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
                 {
                     Projectile.frame = 0;
                 }
@@ -207,14 +200,15 @@ namespace AwfulGarbageMod.Projectiles
 
             direction = closestNPC.Center - Projectile.Center;
             direction.Normalize();
-            int proj = Projectile.NewProjectile(Projectile.GetSource_ReleaseEntity(), Projectile.Center, direction.RotatedByRandom(MathHelper.ToRadians(1)) * 10, ProjectileID.AmethystBolt, AGUtils.ScaleDamage(11, player, ModContent.GetInstance<MageRangedClass>()), 4, Projectile.owner);
+            int proj = Projectile.NewProjectile(Projectile.GetSource_ReleaseEntity(), Projectile.Center, direction.RotatedByRandom(MathHelper.ToRadians(1)) * 6, ModContent.ProjectileType<FlintStaffProj>(), AGUtils.ScaleDamage(11, player, ModContent.GetInstance<MageRangedClass>()), 4, Projectile.owner);
             Main.projectile[proj].DamageType = DamageClass.Default;
             Main.projectile[proj].ArmorPenetration = 3;
+            Main.projectile[proj].penetrate = 1;
             
-            timer = 40;
+            timer = 50;
             if (!player.GetModPlayer<EarthenShield>().shieldsActive)
             {
-                timer = 25;
+                timer = 40;
             }
         }
         public NPC FindClosestNPC(float maxDetectDistance)

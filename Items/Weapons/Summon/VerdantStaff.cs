@@ -50,7 +50,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
 		public override void SetDefaults()
 		{
-            Item.damage = 5;
+            Item.damage = 6;
             Item.knockBack = 3f;
             Item.mana = 5; // mana cost
             Item.width = 24;
@@ -434,7 +434,6 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
                 }
             }
             // Some visuals here
-            Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.78f);
         }
     }
 

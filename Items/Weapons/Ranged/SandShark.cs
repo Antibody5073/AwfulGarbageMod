@@ -23,7 +23,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 13;
+			Item.damage = 12;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 40;
 			Item.height = 40;
@@ -43,7 +43,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 		}
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
-            return Main.rand.NextBool(3, 5);
+            return Main.rand.NextBool(1, 3);
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

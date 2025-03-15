@@ -50,6 +50,12 @@ namespace AwfulGarbageMod.Items.Accessories
                 .AddIngredient(ItemID.Cog, 25)
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.StalkersQuiver)
+                .AddIngredient(ItemID.RangerEmblem)
+                .AddIngredient(ItemID.Cog, 25)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
     }
 }

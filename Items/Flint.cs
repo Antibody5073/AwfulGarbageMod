@@ -31,8 +31,8 @@ namespace AwfulGarbageMod.Items
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.useTurn = true;
-            Item.consumable = true;
-            Item.createTile = ModContent.TileType<FlintDirt>();
+            //Item.consumable = true;
+            //Item.createTile = ModContent.TileType<FlintDirt>();
         }
     }
 }

@@ -70,7 +70,6 @@ namespace AwfulGarbageMod.Projectiles
                 Main.dust[dust7].velocity *= 0f;
                 Main.dust[dust7].noGravity = true;
             }
-
         }
 	}
 }

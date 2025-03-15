@@ -46,11 +46,11 @@ namespace AwfulGarbageMod.Items.Consumables
             // We have to replicate the expert drops from MinionBossBody here
             if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))
             {
-                itemLoot.Add(ItemDropRule.FewFromOptions(2, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<TreeChopper>()));
+                itemLoot.Add(ItemDropRule.FewFromOptions(3, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<Leafstorm>(), ModContent.ItemType<TreeChopper>()));
             }
             else
             {
-                itemLoot.Add(ItemDropRule.FewFromOptions(2, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>()));
+                itemLoot.Add(ItemDropRule.FewFromOptions(3, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<Leafstorm>()));
             }
             itemLoot.Add(ItemDropRule.Common(ItemID.ArmorPolish, 8));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<WitheredLeaf>()));

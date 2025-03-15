@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
 using AwfulGarbageMod.NPCs.Boss;
+using AwfulGarbageMod.Items.Placeable.OresBars;
 
 namespace AwfulGarbageMod.Items.Consumables
 {
@@ -29,7 +30,7 @@ namespace AwfulGarbageMod.Items.Consumables
             Item.value = Item.sellPrice(platinum: 1, gold: 50);
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item44;
-            Item.consumable = false;
+            Item.consumable = true;
         }
 
         // We use the CanUseItem hook to prevent a player from using this Item while the boss is present in the world.
@@ -50,6 +51,8 @@ namespace AwfulGarbageMod.Items.Consumables
         {
             CreateRecipe()
                 .AddIngredient<Pyrogem>(6)
+                .AddIngredient(ItemID.Glass, 4)
+                .AddIngredient<CandesciteOre>(5)
                 .Register();
         }
     }

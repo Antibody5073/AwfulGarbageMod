@@ -44,7 +44,7 @@ namespace AwfulGarbageMod.Items.Armor
 
 		// UpdateArmorSet allows you to give set bonuses to the armor.
 		public override void UpdateArmorSet(Player player) {
-			player.setBonus = "Generates an orbiting ice chunk for every 350 melee damage dealt, with a maximum of 5 ice chunks.\nEach ice chunk reduces damage taken by 8%, for a total of 40% reduced damage taken.\nTaking damage shatters all ice chunks, and no more ice chunks can generate for 18 seconds.\nPress armor ability key to absorb all orbiting ice chunks, increasing your melee damage by 6% for each ice chunk for 18 seconds.\nIncreases melee damage by 10%"; // This is the setbonus tooltip
+			player.setBonus = "Generates an orbiting ice chunk for every 350 melee damage dealt, with a maximum of 5 ice chunks.\nEach ice chunk reduces damage taken by 8%, for a maximum of 40% reduced damage taken.\nTaking damage shatters all ice chunks, and no more ice chunks can generate for 18 seconds.\nPress armor ability key to absorb all orbiting ice chunks, increasing your melee damage by 6% for each absorbed ice chunk for 18 seconds.\nIncreases melee damage by 10%"; // This is the setbonus tooltip
             player.GetDamage(DamageClass.Melee) += 0.1f;
             player.GetModPlayer<GlobalPlayer>().FrigidiumBonus = true;
 		}

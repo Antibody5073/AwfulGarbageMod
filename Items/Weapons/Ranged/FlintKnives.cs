@@ -25,7 +25,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 4;
+            Item.damage = 5;
             Item.DamageType = ModContent.GetInstance<KnifeDamageClass>();
             Item.width = 60;
             Item.height = 60;
@@ -34,7 +34,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Item.scale = 0f;
             Item.useAnimation = 24;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.knockBack = 4.5f;
+            Item.knockBack = 2.5f;
             Item.value = 10000;
             Item.rare = 1;
             Item.UseSound = SoundID.Item1;
@@ -80,7 +80,6 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
-            Projectile.light = 1f;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.usesLocalNPCImmunity = true;
@@ -149,7 +148,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             for (int k = 0; k < Projectile.oldPos.Length && k < StateTimer; k++)
             {
-                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(5f, 5f);
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(Projectile.width / 2, Projectile.height / 2);
                 Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
                 Main.spriteBatch.Draw(projectileTexture, drawPos, sourceRectangle, color, Projectile.oldRot[k], drawOrigin, Projectile.scale, spriteEffects, 0f);
             }

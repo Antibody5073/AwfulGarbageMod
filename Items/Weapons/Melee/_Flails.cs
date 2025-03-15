@@ -1,10 +1,14 @@
 using AwfulGarbageMod.DamageClasses;
 using AwfulGarbageMod.Global;
+using AwfulGarbageMod.Items.Accessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
+using rail;
 using ReLogic.Content;
 using Steamworks;
+using StramClasses;
+using StramClasses.Classes.Paladin.Projectiles;
 using StramClasses.Particles;
 using System;
 using Terraria;
@@ -36,10 +40,13 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public virtual float MaxRetractSpd => 10f;
         public virtual float flailHeadRotation => 0f;
         public virtual float flailHeadRotationRetract => 0f;
+        public virtual bool dealDamageWhileSmiting => true;
+        public virtual float smiteParticleDmg => 1;
+        public virtual bool paladin => false;
+        public int paladinShineProj = -1;
 
 
-
-        private enum AIState
+        public enum AIState
         {
             Spinning,
             Retracting,
@@ -47,7 +54,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         }
 
         // These properties wrap the usual ai and localAI arrays for cleaner and easier to understand code.
-        private AIState CurrentAIState
+        public AIState CurrentAIState
         {
             get => (AIState)Projectile.ai[0];
             set => Projectile.ai[0] = (float)value;
@@ -59,17 +66,40 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
         public float spinDistance;
         public bool atMaxRange;
+        bool spawnedSmite;
+        public Vector2 offsetCenter;
 
+        public float spinSpdMultiplier;
         bool spawnEffectDone = false;
 
+        [JITWhenModsEnabled("StramClasses")]
+        public void PaladinSetDefaults()
+        {
+            Projectile.toPaladinProjectile();
+        }
+
+
+        public virtual void WidthHeight()
+        {
+            Projectile.width = 24; // The width of your projectile
+            Projectile.height = 24; // The height of your projectile
+        }
         public override void SetDefaults()
         {
             Projectile.netImportant = true; // This ensures that the projectile is synced when other players join the world.
-            Projectile.width = 24; // The width of your projectile
-            Projectile.height = 24; // The height of your projectile
+            WidthHeight();
+
             Projectile.friendly = true; // Deals damage to enemies
             Projectile.penetrate = -1; // Infinite pierce
             Projectile.DamageType = ModContent.GetInstance<FlailDamageClass>(); // Deals melee damage
+            Projectile.ContinuouslyUpdateDamageStats = true;
+            if (paladin)
+            {
+                if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))
+                {
+                    PaladinSetDefaults();
+                }
+            }
             Projectile.usesLocalNPCImmunity = true; // Used for hit cooldown changes in the ai hook
             Projectile.localNPCHitCooldown = 10; // This facilitates custom hit cooldown logic
             Projectile.extraUpdates = 3;
@@ -90,11 +120,42 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                     player.GetModPlayer<GlobalPlayer>().CobaltMeleeDefense = 24;
                 }
             }
+            HitEffect(target, hit, damageDone);
         }
-
+        [JITWhenModsEnabled("StramClasses")]
+        public void PaladinAI()
+        {
+            if (!spawnedSmite)
+            {
+                paladinShineProj = Projectile.NewProjectile(base.Projectile.GetSource_FromThis(), base.Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DivineSmiteFlail>(), base.Projectile.damage, base.Projectile.knockBack, base.Projectile.owner, base.Projectile.whoAmI);
+                spawnedSmite = true;
+            }
+            Main.projectile[paladinShineProj].damage = (int)(Projectile.damage * smiteParticleDmg);
+        }
+        [JITWhenModsEnabled("StramClasses")]
+        public float PaladinAISpin(Player player, float origSpd)
+        {
+            float spinSpd = origSpd;
+            if (player.paladin().smiting)
+            {
+                spinSpd += player.paladin().smiteSpeedBoost;
+            }
+            return spinSpd;
+        }
+        public virtual void SpawnEffect()
+        {
+            
+        }
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
+            if (paladin)
+            {
+                if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))
+                {
+                    PaladinAI();
+                }
+            }
             // Kill the projectile if the player dies or gets crowd controlled
             if (!player.active || player.dead || player.noItems || player.CCed || Vector2.Distance(Projectile.Center, player.Center) > 1200f)
             {
@@ -109,19 +170,36 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             if (!spawnEffectDone)
             {
                 spawnEffectDone = true;
+                SpawnEffect();
+                offsetCenter = Vector2.Zero;
+                
                 if (player.GetModPlayer<GlobalPlayer>().DoubleVisionBand && !Projectile.flailProjectile().isAClone)
                 {
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), player.Center, Projectile.velocity, Projectile.type, (int)(Projectile.damage * 0.6f), Projectile.knockBack * 0.4f, player.whoAmI);
-                    Main.projectile[proj].flailProjectile().isAClone = true;
-                    Main.projectile[proj].flailProjectile().spinOffset = Projectile.flailProjectile().spinOffset;
-                    Main.projectile[proj].flailProjectile().spinSpdMultiplier = -1;
-                    Main.projectile[proj].flailProjectile().rangeMultiplier = 0.66f;
-                    Main.projectile[proj].flailProjectile().distanceIncreaseMultiplier = 0.66f;
+                    if (Projectile.type == ModContent.ProjectileType<LeeNunchucksProj>())
+                    {
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), player.Center, Projectile.velocity, ModContent.ProjectileType<LeeNunchucksProj2>(), (int)(Projectile.damage * 0.6f), Projectile.knockBack * 0.4f, player.whoAmI);
+                        Main.projectile[proj].originalDamage = (int)(Projectile.originalDamage * 0.6f);
+                        Main.projectile[proj].flailProjectile().isAClone = true;
+                        Main.projectile[proj].flailProjectile().spinOffset = Projectile.flailProjectile().spinOffset;
+                        Main.projectile[proj].flailProjectile().spinSpdMultiplier = -1;
+                        Main.projectile[proj].flailProjectile().rangeMultiplier = 0.66f;
+                        Main.projectile[proj].flailProjectile().distanceIncreaseMultiplier = 0.66f;
+                    }
+                    else
+                    {
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), player.Center, Projectile.velocity, Projectile.type, (int)(Projectile.damage * 0.6f), Projectile.knockBack * 0.4f, player.whoAmI);
+                        Main.projectile[proj].originalDamage = (int)(Projectile.originalDamage * 0.6f);
+                        Main.projectile[proj].flailProjectile().isAClone = true;
+                        Main.projectile[proj].flailProjectile().spinOffset = Projectile.flailProjectile().spinOffset;
+                        Main.projectile[proj].flailProjectile().spinSpdMultiplier = -1;
+                        Main.projectile[proj].flailProjectile().rangeMultiplier = 0.66f;
+                        Main.projectile[proj].flailProjectile().distanceIncreaseMultiplier = 0.66f;
+                    }
                 }
             }
-            Vector2 mountedCenter = player.MountedCenter;
-            float retractAcceleration = RetractSpd; // How quickly the projectile will accelerate back towards the player while retracting
-            float maxRetractSpeed = MaxRetractSpd; // The max speed the projectile will have while retracting
+            Vector2 mountedCenter = player.MountedCenter + offsetCenter;
+            float retractAcceleration = RetractSpd * player.GetModPlayer<GlobalPlayer>().flailRetractSpeed; // How quickly the projectile will accelerate back towards the player while retracting
+            float maxRetractSpeed = MaxRetractSpd * player.GetModPlayer<GlobalPlayer>().flailRetractSpeed; // The max speed the projectile will have while retracting
             float forcedRetractAcceleration = 1f; // How quickly the projectile will accelerate back towards the player while being forced to retract
             float maxForcedRetractSpeed = 20f; // The max speed the projectile will have while being forced to retract
             // Scaling these speeds and accelerations by the players melee speed makes the weapon more responsive if the player boosts it or general weapon speed
@@ -130,7 +208,14 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             maxRetractSpeed *= meleeSpeedMultiplier;
             forcedRetractAcceleration *= meleeSpeedMultiplier;
             maxForcedRetractSpeed *= meleeSpeedMultiplier;
-            Projectile.localNPCHitCooldown = (int)(spinHitCooldown / player.GetModPlayer<GlobalPlayer>().flailSpinSpd);
+            spinSpdMultiplier = player.GetModPlayer<GlobalPlayer>().flailSpinSpd;
+
+            if (paladin && ModLoader.TryGetMod("StramClasses", out Mod result))
+            {
+                spinSpdMultiplier = PaladinAISpin(player, spinSpdMultiplier);
+            }
+
+            Projectile.localNPCHitCooldown = (int)(spinHitCooldown / spinSpdMultiplier);
             Projectile.tileCollide = false;
             float maxSpinRange = MaxSpinDistance * Projectile.flailProjectile().rangeMultiplier * player.HeldItem.scale * player.GetModPlayer<GlobalPlayer>().flailRange;
             if (MeleeSpdToRange)
@@ -155,12 +240,22 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                                 Projectile.velocity = Vector2.Zero;
                                 Projectile.netUpdate = true;
                                 SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
+
+                                float dmgMult = player.GetModPlayer<GlobalPlayer>().flailRetractDmg;
+                                if (player.GetModPlayer<GlobalPlayer>().DemonClaw)
+                                {
+                                    dmgMult += 2f;
+                                }
+                                Projectile.originalDamage = (int)(Projectile.originalDamage * dmgMult);
+                                Projectile.damage = (int)(Projectile.damage * dmgMult);
+                                AccessoryRetractEffect(player, spinDistance, maxSpinRange);
+                                RetractEffect(player, spinDistance, maxSpinRange);
                                 break;
                             }
                         }
                         SpinningStateTimer += 1f;
                         // This line creates a unit vector that is constantly rotated around the player. 10f controls how fast the projectile visually spins around the player
-                        float tempSpinSpd = SpinSpd * Projectile.flailProjectile().spinSpdMultiplier * 45 / player.HeldItem.useTime * player.GetModPlayer<GlobalPlayer>().flailSpinSpd;
+                        float tempSpinSpd = SpinSpd * Projectile.flailProjectile().spinSpdMultiplier * 45 / player.HeldItem.useTime * spinSpdMultiplier;
                         if (!MeleeSpdToRange)
                         {
                             tempSpinSpd *= ((meleeSpeedMultiplier - 1) * MeleeSpdEffectiveness + 1);
@@ -173,7 +268,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
                         Projectile.velocity = Vector2.Zero;
                         SetRotation(offsetFromPlayer, flailHeadRotation, player);
-                        SetDistance();
+                        SetDistance(player);
                         atMaxRange = false;
                         if (spinDistance >= maxSpinRange)
                         {
@@ -221,8 +316,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                         player.ChangeDir((player.Center.X < Projectile.Center.X).ToDirectionInt());
                         break;
                     }
-
             }
+
 
             // This is where Flower Pow launches projectiles. Decompile Terraria to view that code.
 
@@ -255,9 +350,9 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Dusts();
         }
 
-        public virtual void SetDistance()
+        public virtual void SetDistance(Player player)
         {
-            spinDistance += SpinDistanceIncrease * Projectile.flailProjectile().distanceIncreaseMultiplier;
+            spinDistance += SpinDistanceIncrease * Projectile.flailProjectile().distanceIncreaseMultiplier * player.GetModPlayer<GlobalPlayer>().flailExtendSpeed;
         }
         public virtual void SetRotation(Vector2 offsetFromPlayer, float rotation, Player player)
         {
@@ -274,13 +369,45 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
         }
 
+        public virtual void RetractEffect(Player player, float length, float maxLength)
+        {
+
+        }
+
         private void AccessorySpinEffect(Player player, float timer, float length, float maxLength)
         {
-            if (player.GetModPlayer<GlobalPlayer>().jungleSporeFlail > 0)
+            if (length == maxLength)
             {
-                if (length == maxLength && timer % 64 == 0)
+                player.GetModPlayer<GlobalPlayer>().FlailAtMaxLength = true;
+             
+                if (player.GetModPlayer<GlobalPlayer>().jungleSporeFlail > 0)
                 {
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SporeCloud, player.GetModPlayer<GlobalPlayer>().jungleSporeFlail, 0, player.whoAmI);
+                    if (timer % 64 == 0)
+                    {
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SporeCloud, player.GetModPlayer<GlobalPlayer>().jungleSporeFlail, 0, player.whoAmI);
+                    }
+                }
+            }
+        }
+
+        private void AccessoryRetractEffect(Player player, float length, float maxLength)
+        {
+            if (length == maxLength)
+            {
+                if (player.GetModPlayer<GlobalPlayer>().FieryGrip > 0)
+                {
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, 953, player.GetModPlayer<GlobalPlayer>().FieryGrip + Projectile.damage / 3, 0, player.whoAmI, 0, 1.5f);
+                    Main.projectile[proj].usesLocalNPCImmunity = true;
+                    Main.projectile[proj].localNPCHitCooldown = 6;
+                    Main.projectile[proj].GetGlobalProjectile<ProjectileWeaponEffect>().noDaybreak = true;
+                }
+
+                if (player.GetModPlayer<GlobalPlayer>().SwampyGrip > 0)
+                {
+                    Vector2 vel = Projectile.Center - player.Center;
+
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vel.SafeNormalize(Vector2.Zero) * 10, ModContent.ProjectileType<SwampyGripSludge>(), player.GetModPlayer<GlobalPlayer>().SwampyGrip + Projectile.damage / 2, 0, Projectile.owner);
+
                 }
             }
         }
@@ -289,7 +416,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
 
         }
-
+        public virtual void HitEffect(NPC target, NPC.HitInfo hit, int damageDone)
+        { }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
 
@@ -304,12 +432,24 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
             return false;
         }
+        [JITWhenModsEnabled("StramClasses")]
+        public bool DamageWhileSmiting(Player player)
+        {
+            return !player.paladin().smiting;
+        }
         public override bool? CanDamage()
         {
             // Flails in spin mode won't damage enemies within the first 12 ticks. Visually this delays the first hit until the player swings the flail around for a full spin before damaging anything.
             if (SpinningStateTimer <= 60f)
             {
                 return false;
+            }
+            if (paladin && ModLoader.TryGetMod("StramClasses", out Mod result))
+            {
+                if (!dealDamageWhileSmiting)
+                {
+                    return DamageWhileSmiting(Main.player[Projectile.owner]);
+                }
             }
             return base.CanDamage();
         }
@@ -325,7 +465,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         // PreDraw is used to draw a chain and trail before the projectile is drawn normally.
         public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 playerArmPosition = Main.GetPlayerArmPosition(Projectile);
+            Vector2 playerArmPosition = Main.GetPlayerArmPosition(Projectile) + offsetCenter;
 
             // This fixes a vanilla GetPlayerArmPosition bug causing the chain to draw incorrectly when stepping up slopes. The flail itself still draws incorrectly due to another similar bug. This should be removed once the vanilla bug is fixed.
             playerArmPosition.Y -= Main.player[Projectile.owner].gfxOffY;
@@ -384,10 +524,9 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Vector2 drawOrigin = sourceRectangle.Size() / 2f;
             SpriteEffects spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             // Add a motion trail when moving forward, like most flails do (don't add trail if already hit a tile)
-            if (CurrentAIState == AIState.Spinning)
+            
+                if (CurrentAIState == AIState.Spinning)
             {
-                
-
                 for (int k = 0; k < Projectile.oldPos.Length && k < StateTimer; k++)
                 {
                     Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(Projectile.width/2, Projectile.height/2);

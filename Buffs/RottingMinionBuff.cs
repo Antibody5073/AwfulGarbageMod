@@ -49,9 +49,9 @@ namespace AwfulGarbageMod.Buffs
 
         public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
         {
-            modifiers.Defense.Flat -= 3;
             if (Consumed)
             {
+                modifiers.Defense.Flat -= 3;
                 modifiers.FinalDamage *= 1.08f;
             }
         }

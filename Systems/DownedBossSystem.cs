@@ -18,6 +18,11 @@ namespace AwfulGarbageMod.Systems
         public static bool downedSeseKitsugai = false;
         public static bool downedEyeOfTheStorm = false;
         public static bool downedFrigidius = false;
+        public static bool downedTsugumi = false;
+        public static bool downedFireMoth = false;
+        public static bool downedAwfulGarbage = false;
+
+        public static bool downedEvilFlowerMiniboss = false;
 
 
         // public static bool downedOtherBoss = false;
@@ -28,7 +33,10 @@ namespace AwfulGarbageMod.Systems
             downedSeseKitsugai = false;
             downedEyeOfTheStorm = false;
             downedFrigidius = false;
-
+            downedTsugumi = false;
+            downedFireMoth = false;
+            downedAwfulGarbage = false;
+            downedEvilFlowerMiniboss = false;
             // downedOtherBoss = false;
         }
 
@@ -38,7 +46,10 @@ namespace AwfulGarbageMod.Systems
             downedSeseKitsugai = false;
             downedEyeOfTheStorm = false;
             downedFrigidius = false;
-
+            downedTsugumi = false;
+            downedFireMoth = false;
+            downedAwfulGarbage = false;
+            downedEvilFlowerMiniboss= false;
             // downedOtherBoss = false;
         }
 
@@ -62,6 +73,22 @@ namespace AwfulGarbageMod.Systems
             {
                 tag["downedFrigidius"] = true;
             }
+            if (downedTsugumi)
+            {
+                tag["downedTsugumi"] = true;
+            }
+            if (downedFireMoth)
+            {
+                tag["downedFireMoth"] = true;
+            }
+            if (downedAwfulGarbage)
+            {
+                tag["downedAwfulGarbage"] = true;
+            }
+            if (downedEvilFlowerMiniboss)
+            {
+                tag["downedEvilFlowerMiniboss"] = true;
+            }
             // if (downedOtherBoss) {
             //	tag["downedOtherBoss"] = true;
             // }
@@ -73,6 +100,10 @@ namespace AwfulGarbageMod.Systems
             downedSeseKitsugai = tag.ContainsKey("downedSeseKitsugai");
             downedEyeOfTheStorm = tag.ContainsKey("downedEyeOfTheStorm");
             downedFrigidius = tag.ContainsKey("downedFrigidius");
+            downedTsugumi = tag.ContainsKey("downedTsugumi");
+            downedFireMoth = tag.ContainsKey("downedFireMoth");
+            downedAwfulGarbage = tag.ContainsKey("downedAwfulGarbage");
+            downedEvilFlowerMiniboss = tag.ContainsKey("downedEvilFlowerMiniboss");
 
             // downedOtherBoss = tag.ContainsKey("downedOtherBoss");
         }
@@ -85,6 +116,10 @@ namespace AwfulGarbageMod.Systems
             flags[1] = downedSeseKitsugai;
             flags[2] = downedEyeOfTheStorm;
             flags[3] = downedFrigidius;
+            flags[4] = downedTsugumi;
+            flags[5] = downedFireMoth;
+            flags[6] = downedAwfulGarbage;
+            flags[7] = downedEvilFlowerMiniboss;
             // flags[4] = downedOtherBoss;
             writer.Write(flags);
 
@@ -136,10 +171,14 @@ namespace AwfulGarbageMod.Systems
         {
             // Order of operations is important and has to match that of NetSend
             BitsByte flags = reader.ReadByte();
-            downedTreeToad = flags[0]; 
-            downedSeseKitsugai = flags[1]; 
+            downedTreeToad = flags[0];
+            downedSeseKitsugai = flags[1];
             downedEyeOfTheStorm = flags[2];
             downedFrigidius = flags[3];
+            downedTsugumi = flags[4];
+            downedFireMoth = flags[5];
+            downedAwfulGarbage = flags[6];
+            downedEvilFlowerMiniboss = flags[7];
 
             // downedOtherBoss = flags[1];
 

@@ -77,7 +77,7 @@ namespace AwfulGarbageMod.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = Request<Texture2D>("AwfulGarbageMod/Projectiles/EoTSLightningTele").Value;
-            DrawLaser(texture, origin - Projectile.velocity * 42, Projectile.velocity, 15, Projectile.damage, lightColor, -1.57f, 1f, 2000f, Color.White, (int)MOVE_DISTANCE);
+            DrawLaser(texture, origin - Projectile.velocity * 42, Projectile.velocity, 30, Projectile.damage, lightColor, -1.57f, 1f, 2000f, Color.White, (int)MOVE_DISTANCE);
             return false;
         }
         /*

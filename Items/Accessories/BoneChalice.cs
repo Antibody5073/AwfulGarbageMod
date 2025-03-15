@@ -34,7 +34,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<GlobalPlayer>().WhipDebuffDuration += 0.35f;
+            player.GetModPlayer<GlobalPlayer>().WhipDebuffDuration += 0.5f;
         }
     }
 }

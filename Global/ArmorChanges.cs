@@ -28,12 +28,12 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == 372;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == 372;
         }
 
         public override void SetDefaults(Item item)
         {
-            item.defense += 2;
+            item.defense += 3;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -80,12 +80,13 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == 373;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == 373;
+            
         }
 
         public override void SetDefaults(Item item)
         {
-            item.defense += 7;
+            item.defense += 5;
         }
 
         public override void UpdateEquip(Item item, Player player)
@@ -138,12 +139,12 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == 371;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == 371;
         }
 
         public override void SetDefaults(Item item)
         {
-            item.defense += 8;
+            item.defense += 7;
         }
 
         public override void UpdateEquip(Item item, Player player)
@@ -204,7 +205,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == 374;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == 374;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -216,10 +217,6 @@ internal class ArmorChanges
             }   
         }
 
-        public override void SetDefaults(Item item)
-        {
-            item.defense += 2;
-        }
 
         public override void UpdateEquip(Item item, Player player)
         {
@@ -240,7 +237,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == 375;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == 375;
         }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
@@ -249,11 +246,6 @@ internal class ArmorChanges
             {
                 line.Text = "12% increased damage and movement speed; provides knockback immunity";
             }
-        }
-
-        public override void SetDefaults(Item item)
-        {
-            item.defense += 3;
         }
 
         public override void UpdateEquip(Item item, Player player)
@@ -271,12 +263,12 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == 1205;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == 1205;
         }
 
         public override void SetDefaults(Item item)
         {
-            item.defense += 1;
+            item.defense += 3;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -326,7 +318,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == 1206;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == 1206;
         }
         public override void SetDefaults(Item item)
         {
@@ -382,12 +374,12 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == 1207;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == 1207;
         }
 
         public override void SetDefaults(Item item)
         {
-            item.defense += 5;
+            item.defense += 7;
         }
 
         public override void UpdateEquip(Item item, Player player)
@@ -447,13 +439,9 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == 1208;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == 1208;
         }
 
-        public override void SetDefaults(Item entity)
-        {
-            entity.lifeRegen += 2;
-        }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
@@ -478,7 +466,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == 1209;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == 1209;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -561,7 +549,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == ItemID.MoltenHelmet;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.MoltenHelmet;
         }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
@@ -598,7 +586,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return item.type == ItemID.MoltenGreaves;
+            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.MoltenGreaves;
         }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {

@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace AwfulGarbageMod.Items.Weapons.Ranged
@@ -108,6 +109,14 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                 if (chargeLevel < 6)
                 {
                     chargeLevel++;
+                    if (chargeLevel == 6)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item4, Projectile.Center);
+                    }
+                    else
+                    {
+                        SoundEngine.PlaySound(SoundID.MaxMana, Projectile.Center);
+                    }
                     for (var i = 0; i < 8; i++)
                     {
                         float xv = Main.rand.NextFloat(-3, 3);

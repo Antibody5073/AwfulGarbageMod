@@ -24,7 +24,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 34;
+            Item.damage = 38;
             Item.DamageType = ModContent.GetInstance<KnifeDamageClass>();
             Item.width = 60;
             Item.height = 60;
@@ -80,7 +80,6 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Projectile.friendly = true;
             Projectile.penetrate = 4;
             Projectile.timeLeft = 600;
-            Projectile.light = 1f;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 1;

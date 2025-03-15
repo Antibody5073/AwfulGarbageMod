@@ -34,8 +34,10 @@ namespace AwfulGarbageMod.Global.GlobalBuffs
             }
         }
 
+        
         public override void Update(int type, NPC npc, ref int buffIndex)
         {
+            
             Player player = Main.LocalPlayer;
 
             if (BuffID.Sets.IsATagBuff[type])
@@ -51,7 +53,7 @@ namespace AwfulGarbageMod.Global.GlobalBuffs
             }
         }
 
-
+        
         public override void ModifyBuffText(int type, ref string buffName, ref string tip, ref int rare)
         {
             Player player = Main.LocalPlayer;

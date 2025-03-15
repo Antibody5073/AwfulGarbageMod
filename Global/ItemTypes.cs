@@ -10,6 +10,8 @@ using System.Linq;
 using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.DamageClasses;
 using AwfulGarbageMod.Projectiles;
+using AwfulGarbageMod.Systems;
+using AwfulGarbageMod.Items.Armor;
 
 namespace AwfulGarbageMod.Global
 {
@@ -21,5 +23,39 @@ namespace AwfulGarbageMod.Global
         public override bool InstancePerEntity => true;
         public bool Empowerment = false;
 
+        public bool Unreal = false;
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (Unreal)
+            {
+                TooltipLine tooltip = new TooltipLine(Mod, "Unreal", "Unreal");
+                tooltips.Add(tooltip);
+            }
+        }
+
+        public override void OnSpawn(Item item, IEntitySource source)
+        {
+            if (DifficultyModes.Difficulty > 0)
+            {
+
+                if (item.type == ItemID.NinjaHood)
+                {
+                    Item.NewItem(source, new Rectangle((int)item.position.X, (int)item.position.Y, 1, 1), ModContent.ItemType<UmbragelHelmet>());
+                    item.active = false;
+                }
+                if (item.type == ItemID.NinjaShirt)
+                {
+                    Item.NewItem(source, new Rectangle((int)item.position.X, (int)item.position.Y, 1, 1), ModContent.ItemType<UmbragelBreastplate>());
+                    item.active = false;
+                }
+                if (item.type == ItemID.NinjaPants)
+                {
+                    Item.NewItem(source, new Rectangle((int)item.position.X, (int)item.position.Y, 1, 1), ModContent.ItemType<UmbragelLeggings>());
+                    item.active = false;
+                }
+
+            }
+        }
     }
 }

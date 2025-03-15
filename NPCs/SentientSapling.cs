@@ -59,7 +59,7 @@ namespace AwfulGarbageMod.NPCs
             NPC.height = 36; // The height of the npc's hitbox (in pixels)
             NPC.aiStyle = -1; // This npc has a completely unique AI, so we set this to -1. The default aiStyle 0 will face the player, which might conflict with custom AI code.
             NPC.damage = 0; // The amount of damage that this npc deals
-            NPC.defense = 7; // The amount of defense that this npc has
+            NPC.defense = 5; // The amount of defense that this npc has
             NPC.lifeMax = 150; // The amount of health that this npc has
             if (Main.expertMode)
             {
@@ -76,7 +76,7 @@ namespace AwfulGarbageMod.NPCs
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.chaseable = false;
-            NPC.rarity = 3;
+            NPC.rarity = 2;
 
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -102,9 +102,9 @@ namespace AwfulGarbageMod.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.ZoneForest)
+            if (spawnInfo.Player.ZoneForest && !spawnInfo.Invasion && !spawnInfo.PlayerInTown)
             {
-                return 0.09f;
+                return 0.07f;
             }
             return 0;
         }
@@ -155,6 +155,14 @@ namespace AwfulGarbageMod.NPCs
             return true;
         }
 
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            if (AI_State != (float)ActionState.Passive || Vector2.DistanceSquared(Main.LocalPlayer.Center, NPC.Center) < 320 * 320)
+            {
+                return null;
+            }
+            return false;
+        }
         public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             if (AI_State == (float)ActionState.Passive)

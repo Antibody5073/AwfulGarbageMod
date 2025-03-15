@@ -34,21 +34,22 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Summon) -= 16 / 100f;
+            player.GetDamage(DamageClass.Generic) -= 16 / 100f;
             player.maxMinions += 1;
             player.maxTurrets += 1;
             player.moveSpeed += 0.08f;
         }
 
         public override void AddRecipes()
-		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(Mod.Find<ModItem>("CloudRelic").Type);
-            recipe.AddIngredient(Mod.Find<ModItem>("SpiderCharm").Type);
-            recipe.AddIngredient(Mod.Find<ModItem>("StormEssence").Type, 6);
-            recipe.AddIngredient(ItemID.RainCloud, 24);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
+        {
+            CreateRecipe()
+                .AddIngredient<CloudRelic>()
+                .AddIngredient<SpiderCharm>()
+                .AddIngredient<EvilCharm>()
+                .AddIngredient<StormEssence>(6)
+                .AddIngredient(ItemID.RainCloud)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 	}
 }

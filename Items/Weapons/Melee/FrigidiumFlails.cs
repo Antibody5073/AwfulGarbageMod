@@ -54,10 +54,13 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, ai2: -12);
             Main.projectile[proj].flailProjectile().spinOffset = MathHelper.ToDegrees(velocity.ToRotation()) - 120;
+            Main.projectile[proj].originalDamage = Item.damage;
             proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             Main.projectile[proj].flailProjectile().spinOffset = MathHelper.ToDegrees(velocity.ToRotation());
+            Main.projectile[proj].originalDamage = Item.damage;
             proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, ai2: 12);
             Main.projectile[proj].flailProjectile().spinOffset = MathHelper.ToDegrees(velocity.ToRotation()) + 120;
+            Main.projectile[proj].originalDamage = Item.damage;
 
             return false;
         }
@@ -101,6 +104,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override int spinHitCooldown => 70;
         public override float RetractSpd => 0.15f;
         public override float MaxRetractSpd => 12f;
+        public override float flailHeadRotation => 180;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (var i = 0; i < 10; i++)

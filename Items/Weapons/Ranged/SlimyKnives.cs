@@ -70,7 +70,6 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 480;
-            Projectile.light = 1f;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
         }
@@ -158,9 +157,9 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                     Projectile.rotation += spinSpd;
                     Projectile.velocity.Y += 0.66f;
                     Projectile.velocity.X *= 0.98f;
-                    if (Projectile.velocity.Y > 20)
+                    if (Projectile.velocity.Y > 17)
                     {
-                        Projectile.velocity.Y = 20;
+                        Projectile.velocity.Y = 17;
                     }
                 }
                 else

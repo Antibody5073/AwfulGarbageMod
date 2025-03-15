@@ -20,6 +20,14 @@ using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.Tiles.OresBars;
 using Terraria.Localization;
+using System.Collections.Generic;
+using rail;
+using Terraria.Graphics.Renderers;
+using Microsoft.Build.Evaluation;
+using System;
+using AwfulGarbageMod.Projectiles;
+using System.Drawing.Imaging;
+using AwfulGarbageMod.Items.Accessories;
 
 namespace AwfulGarbageMod.Global
 {
@@ -48,7 +56,10 @@ namespace AwfulGarbageMod.Global
         public float wingTimeMultiplier = 1;
         public float HorizontalWingSpdMult = 1; 
         public float VerticalWingSpdMult = 1;
-
+        public float flailRetractDmg = 1;
+        public float flailExtendSpeed = 1;
+        public float flailRetractSpeed = 1;
+        public int extraWhipTagDamage = 0;
 
         public float OrbitalDir = 0;
 
@@ -81,6 +92,8 @@ namespace AwfulGarbageMod.Global
         public bool DoubleVisionBand = false;
         public int jungleSporeFlail = 0;
         public float mechanicalArm = 1;
+        public float mechanicalLens = 1;
+        public float mechanicalScope = 1;
         public int poisonSigil = 0;
         public float waterSigil = 0;
         public bool fireSigil = false;
@@ -95,11 +108,29 @@ namespace AwfulGarbageMod.Global
         public bool AncientGadgets = false;
         public int HellShellSparks = 0;
         public bool PotentVenomGland = false;
-        public bool OverflowingVenom = false;
+        public float OverflowingVenom = 1;
         public bool EarthenAmulet = false;
         public int EarthenAmuletTimer = 0;
         public bool PumpkinRocket = false;
         public bool ThrushGliders = false;
+        public float MoltenRose = 1;
+        public float FrozenLotus = 1;
+        public int CursedHammer = 0;
+        public int CrimsonAxe = 0;
+        public int EnchantedSword = 0;
+        public bool FleshyAmalgam;
+        public int FortifyingLink = 0;
+        public bool DemonClaw = false;
+        public int FieryGrip = 0;
+        public int SwampyGrip = 0;
+        public bool SlimyLocket = false;
+        public int slimyLocketTimer = 0;
+        public bool FrigidSeed = false;
+        public bool MagmaSeed = false;
+        public bool InfectionSeed = false;
+        public bool CursedSeed = false;
+        public bool IchorSeed = false;
+        public bool BagOfSeeds = false;
 
         public bool lightningRingPrevious;
 
@@ -137,13 +168,22 @@ namespace AwfulGarbageMod.Global
         public bool AncientFlierBonus = false;
         public bool EarthenBonus = false;
         public bool EarthenBonusPrev = false;
-        
+        public bool UmbragelBonus = false;
+        public List<Vector2> umbragelPos = [];
+        public List<Vector2> umbragelVel = [];
+        public int umbragelTimer = 0;
+
 
         public bool FrigidHelmet = false;
         public bool FrigidBreastplate = false;
 
+        public bool FlailAtMaxLengthPrev = false;
+        public bool FlailAtMaxLength = false;
+
+
 
         public string ImportantHoveredTile = "";
+
 
         public override void GetFishingLevel(Item fishingRod, Item bait, ref float fishingLevel)
         {
@@ -198,7 +238,7 @@ namespace AwfulGarbageMod.Global
             messageTimer--;
             if (ModContent.GetInstance<ConfigClient>().NotifyMissingStuff && messageTimer == 0)
             {
-                if (new Vector2(Structures.IcePalacePosX, Structures.IcePalacePosY) == new Vector2(0, 0) || AGUtils.GetTileCounts(ModContent.TileType<FrigidiumOre>()) <= 0 || AGUtils.GetTileCounts(ModContent.TileType<FlintDirt>()) <= 0)
+                if (new Vector2(Structures.IcePalacePosX, Structures.IcePalacePosY) == new Vector2(0, 0) || AGUtils.GetTileCounts(ModContent.TileType<CandesciteOre>()) <= 0 || AGUtils.GetTileCounts(ModContent.TileType<FrigidiumOre>()) <= 0 || AGUtils.GetTileCounts(ModContent.TileType<FlintDirt>()) <= 0)
                 {
                     Main.NewTextMultiline("Your world is missing ores and/or structures\nPlease use a Worldly Scroll ([i:AwfulGarbageMod/WorldlyScroll]) to generate any missing ores and structures", c: Color.Red);
                 }
@@ -215,7 +255,7 @@ namespace AwfulGarbageMod.Global
                 }
             }
             
-            if (OverflowingVenom)
+            if (OverflowingVenom > 1)
             {
                 for (var j = 0; j < 3; j++)
                 {
@@ -274,8 +314,133 @@ namespace AwfulGarbageMod.Global
                     }
                 }
             }
+            if (MoltenRose > 1)
+            {
+                NPC target = FindLowestHealthNPC();
+                if (target != null)
+                {
+                    int radius = target.width;
+                    if (target.height > radius)
+                    {
+                        radius = target.height;
+                    }
+                    radius /= 2;
+                    for (var j = 0; j < 2; j++)
+                    {
+                        int dust = Dust.NewDust(target.Center + new Vector2(radius, 0).RotatedBy(MathHelper.ToRadians((360 / 2) * j + OrbitalDir * 2f)) + new Vector2(-4, -4), 0, 0, DustID.Torch, 0f, 0f, 0, default(Color), 1f);
+                        Main.dust[dust].scale = 2f;
+                        Main.dust[dust].velocity *= 0;
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
+            }
+            if (FrozenLotus > 1)
+            {
+                NPC target = FindHighestHealthNPC();
+                if (target != null)
+                {
+                    int radius = target.width;
+                    if (target.height > radius)
+                    {
+                        radius = target.height;
+                    }
+                    radius /= 2;
+                    for (var j = 0; j < 2; j++)
+                    {
+                        int dust = Dust.NewDust(target.Center + new Vector2(radius, 0).RotatedBy(MathHelper.ToRadians((360 / 2) * j - OrbitalDir * 2f)) + new Vector2(-4, -4), 0, 0, DustID.Frost, 0f, 0f, 0, default(Color), 1f);
+                        Main.dust[dust].scale = 2f;
+                        Main.dust[dust].velocity *= 0;
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
+            }
+
+            umbragelPos.Add(Player.position);
+            umbragelVel.Add(Player.velocity);
+            if (umbragelPos.Count > 30)
+            {
+                umbragelPos.RemoveAt(0);
+            }
+            if (umbragelVel.Count > 30)
+            {
+                umbragelVel.RemoveAt(0);
+            }
+
+            if (slimyLocketTimer > 0)
+            {
+                slimyLocketTimer--;
+            }
+
+            if (UmbragelBonus) {
+                if (umbragelTimer > 0)
+                {
+                    umbragelTimer--;
+                }
+                else
+                {
+
+                    float maxDetectRadius = 720; // The maximum radius at which a projectile can detect a target
+                                                 // Trying to find NPC closest to the projectile
+                    NPC closestNPC = AGUtils.GetClosestNPC(umbragelPos[0] + new Vector2(Player.width / 2, Player.height / 2), maxDetectRadius);
+                    if (closestNPC == null)
+                        return;
+                    if (umbragelVel[0].Length() > 2f)
+                    {
+                        umbragelTimer = 24;
+
+                        Vector2 direction;
+
+                        direction = closestNPC.Center - (umbragelPos[0] + new Vector2(Player.width / 2, Player.height / 2));
+                        int proj = Projectile.NewProjectile(Player.GetSource_Accessory(ModContent.GetInstance<UmbragelHelmet>().Item), umbragelPos[0] + new Vector2(Player.width / 2, Player.height / 2), direction.SafeNormalize(Vector2.Zero) * 20, ProjectileID.Shuriken, 13, 0, Player.whoAmI);
+                        Main.projectile[proj].usesLocalNPCImmunity = true;
+                        Main.projectile[proj].localNPCHitCooldown = 13;
+                    }
+                }
+            }
         }
-        
+
+        public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+        {
+            if (UmbragelBonus)
+            {
+
+                Item item = new(ItemID.ShadowDye);
+
+                int owner = Player.whoAmI;
+                Player other = Main.player[owner];
+                if (Main.playerVisualClone[owner] == null)
+                {
+                    Main.playerVisualClone[owner] = new Player();
+                }
+                Player player = Main.playerVisualClone[owner];
+                player.CopyVisuals(other);
+                //player.isFirstFractalAfterImage = true;
+                //player.firstFractalAfterImageOpacity = 50 * 1f;
+                player.ResetEffects();
+                player.ResetVisibleAccessories();
+
+                for (int i = 0; i < player.dye.Length; i++)
+                {
+                    player.dye[i] = item;
+                }
+                player.UpdateDyes();
+                player.DisplayDollUpdate();
+                player.UpdateSocialShadow();
+                player.itemAnimationMax = 60;
+                player.itemAnimation = 0;
+                player.skinColor = Color.Black;
+                player.itemRotation = umbragelVel[0].ToRotation();
+                player.position = umbragelPos[0];
+                player.direction = ((umbragelVel[0].X > 0f) ? 1 : (-1));
+                player.velocity.Y = 0.01f;
+                player.wingFrame = Player.wingFrame;
+                player.PlayerFrame();
+                player.socialIgnoreLight = true;
+                Main.PlayerRenderer.DrawPlayer(Main.Camera, player, player.position, 0f, player.fullRotationOrigin, 0.4f);
+            }
+            base.DrawEffects(drawInfo, ref r, ref g, ref b, ref a, ref fullBright);
+        }
+
         public override void ModifyItemScale(Item item, ref float scale)
         {
             if (item.DamageType == DamageClass.Melee || item.DamageType == DamageClass.MeleeNoSpeed)
@@ -287,13 +452,53 @@ namespace AwfulGarbageMod.Global
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             NPC closestNPC = FindClosestNPC(1500);
-            if (closestNPC != target)
+            if (closestNPC == target)
             {
-                return;
+                if (PalladiumMelee && modifiers.DamageType == ModContent.GetInstance<FlailDamageClass>())
+                {
+                    modifiers.FinalDamage *= 1.15f;
+                }
             }
-            if (PalladiumMelee && modifiers.DamageType == ModContent.GetInstance<FlailDamageClass>())
+            if (modifiers.DamageType.CountsAsClass(DamageClass.Magic))
             {
-                modifiers.FinalDamage *= 1.15f;
+                if (MoltenRose > 1)
+                {
+                    NPC lowestNPC = FindLowestHealthNPC();
+                    if (lowestNPC == target)
+                    {
+                        modifiers.SourceDamage *= MoltenRose;
+                        target.AddBuff(BuffID.OnFire3, 180);
+                    }
+                }
+                if (FrozenLotus > 1)
+                {
+                    NPC highestNPC = FindHighestHealthNPC();
+                    if (highestNPC == target)
+                    {
+                        modifiers.SourceDamage *= FrozenLotus;
+                        target.AddBuff(BuffID.Frostburn2, 180);
+                    }
+                }
+            }
+            if (SlimyLocket && slimyLocketTimer <= 0)
+            {
+                slimyLocketTimer = 180;
+                modifiers.Knockback += 6;
+
+                SoundEngine.PlaySound(SoundID.NPCDeath1, target.Center);
+
+
+                for (var j = 0; j < 20; j++)
+                {
+                    int dust = Dust.NewDust(target.Center + new Vector2(15, 0).RotatedBy(MathHelper.ToRadians((360 / 20) * j)) + new Vector2(-4, -4), 0, 0, DustID.t_Slime, 0f, 0f, 0, Color.SkyBlue, 1f);
+                    Main.dust[dust].scale = 2f;
+                    Main.dust[dust].velocity = new Vector2(4, 0).RotatedBy(MathHelper.ToRadians(360 / 20) * j);
+                    Main.dust[dust].noGravity = true;
+                }
+                if (Player.statLife <= Player.statLifeMax2 / 3)
+                {
+                    Projectile.NewProjectile(Player.GetSource_Accessory(ModContent.GetModItem(ModContent.ItemType<SlimyLocket>()).Item), target.Center, Vector2.Zero, ModContent.ProjectileType<SlimeExplosion>(), 45, 6, Main.myPlayer);
+                }
             }
         }
 
@@ -340,7 +545,16 @@ namespace AwfulGarbageMod.Global
                     }
                 }
             }
+            if (FrigidSeed && (hit.DamageType.CountsAsClass(DamageClass.Magic) || hit.DamageType.CountsAsClass(DamageClass.Summon)))
+            {
+                target.AddBuff(BuffID.Frostburn, 60);
+            }
+            if (MagmaSeed && (hit.DamageType.CountsAsClass(DamageClass.Magic) || hit.DamageType.CountsAsClass(DamageClass.Summon)))
+            {
+                target.AddBuff(BuffID.OnFire3, 60);
+            }
         }
+
         [JITWhenModsEnabled("StramClasses")]
         public static void WorthlessJunkStramClasses(NPC.HitInfo hit, Player player)
         {
@@ -588,7 +802,6 @@ namespace AwfulGarbageMod.Global
             } 
         }
 
-
         public override void PostUpdateRunSpeeds()
         {
             if (ThrushGliders)
@@ -600,6 +813,16 @@ namespace AwfulGarbageMod.Global
             {
                 Player.accRunSpeed *= 1.5f;
                 Player.maxRunSpeed *= 1.5f;
+            }
+            if (UmbragelBonus)
+            {
+                Player.accRunSpeed *= 1.22f;
+                Player.maxRunSpeed *= 1.22f;
+            }
+            if (Player.HasBuff(ModContent.BuffType<SprintBuff>()))
+            {
+                Player.accRunSpeed *= 1.12f;
+                Player.maxRunSpeed *= 1.12f;
             }
         }
 
@@ -668,6 +891,10 @@ namespace AwfulGarbageMod.Global
                     Main.dust[dust].scale *= Main.rand.NextFloat(0.5f, 1f);
                 }
             }
+            if (FlailAtMaxLengthPrev)
+            {
+                Player.statDefense += FortifyingLink;
+            }
         }
 
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
@@ -678,7 +905,8 @@ namespace AwfulGarbageMod.Global
         public override void OnEnterWorld()
         {
             messageTimer = 180;
-            
+            umbragelPos.Clear();
+            umbragelVel.Clear();
         }
 
         public override void ResetEffects()
@@ -744,8 +972,10 @@ namespace AwfulGarbageMod.Global
             flailSpinSpd = 1;
             flailRange = 1;
             DoubleVisionBand = false;
-            jungleSporeFlail = 0; 
+            jungleSporeFlail = 0;
             mechanicalArm = 1;
+            mechanicalLens = 1;
+            mechanicalScope = 1;
             poisonSigil = 0;
             waterSigil = 0;
             fireSigil = false;
@@ -779,7 +1009,7 @@ namespace AwfulGarbageMod.Global
             CandescentBonus = false;
             HellShellSparks = 0;
             PotentVenomGland = false;
-            OverflowingVenom = false;
+            OverflowingVenom = 1;
             wingTimeMultiplier = 1;
             AncientFlierBonus = false;
             HorizontalWingSpdMult = 1;
@@ -790,6 +1020,30 @@ namespace AwfulGarbageMod.Global
             EarthenAmulet = false;
             EarthenAmuletTimer--;
             PumpkinRocket = false;
+            MoltenRose = 1;
+            FrozenLotus = 1;
+            CursedHammer = 0;
+            CrimsonAxe = 0;
+            EnchantedSword = 0;
+            FleshyAmalgam = false;
+            flailRetractDmg = 1;
+            FortifyingLink = 0;
+            DemonClaw = false;
+            FlailAtMaxLengthPrev = FlailAtMaxLength;
+            FlailAtMaxLength = false;
+            FieryGrip = 0;
+            SwampyGrip = 0;
+            flailExtendSpeed = 1;
+            flailRetractSpeed = 1;
+            UmbragelBonus = false;
+            SlimyLocket = false;
+            extraWhipTagDamage = 0;
+            FrigidSeed = false;
+            MagmaSeed = false;
+            InfectionSeed = false;
+            IchorSeed = false;
+            CursedSeed = false;
+            BagOfSeeds = false;
         }
 
         public NPC FindClosestNPC(float maxDetectDistance)
@@ -860,6 +1114,72 @@ namespace AwfulGarbageMod.Global
             }
             distance = sqrMaxDetectDistance;
             return closestNPC;
+        }
+        public NPC FindLowestHealthNPC()
+        {
+            NPC lowestNPC = null;
+
+            // Using squared values in distance checks will let us skip square root calculations, drastically improving this method's speed.
+            float lowestHP = -1;
+
+            // Loop through all NPCs(max always 200)
+            for (int k = 0; k < Main.maxNPCs; k++)
+            {
+                NPC target = Main.npc[k];
+                // Check if NPC able to be targeted. It means that NPC is
+                // 1. active (alive)
+                // 2. chaseable (e.g. not a cultist archer)
+                // 3. max life bigger than 5 (e.g. not a critter)
+                // 4. can take damage (e.g. moonlord core after all it's parts are downed)
+                // 5. hostile (!friendly)
+                // 6. not immortal (e.g. not a target dummy)
+                if (target.CanBeChasedBy())
+                {
+                    // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
+                    float targetHP = target.life;
+                    // Check if it is within the radius
+                    if (targetHP < lowestHP || lowestHP == -1)
+                    {
+                        lowestHP = targetHP;
+                        lowestNPC = target;
+                    }
+                }
+            }
+
+            return lowestNPC;
+        }
+        public NPC FindHighestHealthNPC()
+        {
+            NPC highestNPC = null;
+
+            // Using squared values in distance checks will let us skip square root calculations, drastically improving this method's speed.
+            float highestHP = -1;
+
+            // Loop through all NPCs(max always 200)
+            for (int k = 0; k < Main.maxNPCs; k++)
+            {
+                NPC target = Main.npc[k];
+                // Check if NPC able to be targeted. It means that NPC is
+                // 1. active (alive)
+                // 2. chaseable (e.g. not a cultist archer)
+                // 3. max life bigger than 5 (e.g. not a critter)
+                // 4. can take damage (e.g. moonlord core after all it's parts are downed)
+                // 5. hostile (!friendly)
+                // 6. not immortal (e.g. not a target dummy)
+                if (target.CanBeChasedBy())
+                {
+                    // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
+                    float targetHP = target.life;
+                    // Check if it is within the radius
+                    if (targetHP > highestHP || highestHP == -1)
+                    {
+                        highestHP = targetHP;
+                        highestNPC = target;
+                    }
+                }
+            }
+
+            return highestNPC;
         }
     }
 }

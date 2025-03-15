@@ -50,7 +50,7 @@ namespace AwfulGarbageMod.Buffs
             {
                 SoundEngine.PlaySound(SoundID.Item94, npc.Center);
 
-                Projectile.NewProjectile(projectile.GetSource_FromThis(), npc.Top + new Vector2(0, -800), new Vector2(0, 12), Mod.Find<ModProjectile>("ThundercrackLightning").Type, (int)(projectile.damage * 1.2f), 0, projectile.owner);
+                Projectile.NewProjectile(projectile.GetSource_FromThis(), npc.Top + new Vector2(0, -800), new Vector2(0, 12), Mod.Find<ModProjectile>("ThundercrackLightning").Type, projectile.damage, 0, projectile.owner);
                 for (int i = 0; i < npc.buffType.Length; i++)
                 {
                      int type = npc.buffType[i];

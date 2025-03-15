@@ -232,10 +232,10 @@ namespace AwfulGarbageMod.Projectiles
             Main.projectile[proj].hostile = false;
             Main.projectile[proj].friendly = true;
             Main.projectile[proj].usesLocalNPCImmunity = true;
-            Main.projectile[proj].localNPCHitCooldown = 12;
+            Main.projectile[proj].localNPCHitCooldown = 18;
             Main.projectile[proj].penetrate = 3;
 
-            timer = 30;
+            timer = 32;
         }
         public NPC FindClosestNPC(float maxDetectDistance)
         {

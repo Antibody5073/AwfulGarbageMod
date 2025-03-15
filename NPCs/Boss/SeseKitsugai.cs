@@ -141,7 +141,7 @@ namespace AwfulGarbageMod.NPCs.Boss
         public override void OnSpawn(IEntitySource source)
         {
 
-            NPC.lifeMax *= (ModContent.GetInstance<Config>().BossHealthMultiplier / 100);
+            NPC.lifeMax = NPC.lifeMax * ModContent.GetInstance<Config>().BossHealthMultiplier / 100;
             NPC.life = NPC.lifeMax;
         }
 

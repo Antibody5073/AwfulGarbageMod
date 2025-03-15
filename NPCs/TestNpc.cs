@@ -66,7 +66,7 @@ namespace AwfulGarbageMod.NPCs
             NPC.aiStyle = 0; // This npc has a completely unique AI, so we set this to -1. The default aiStyle 0 will face the player, which might conflict with custom AI code.
             NPC.damage = 0; // The amount of damage that this npc deals
             NPC.defense = 0; // The amount of defense that this npc has
-            NPC.lifeMax = 999999999; // The amount of health that this npc has
+            NPC.lifeMax = 99999999; // The amount of health that this npc has
             NPC.HitSound = SoundID.NPCHit5; // The sound the NPC will make when being hit.
             NPC.DeathSound = SoundID.Item30; // The sound the NPC will make when it dies.
             NPC.value = 5000f; // How many copper coins the NPC will drop when killed.

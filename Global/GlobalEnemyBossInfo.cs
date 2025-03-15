@@ -31,5 +31,7 @@ namespace AwfulGarbageMod.Global
         public bool orbitalsDealDamage;
 
         public bool finishedAtk;
+
+        public float attack;
     }
 }

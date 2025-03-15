@@ -49,9 +49,11 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statDefense += 12;
-            player.GetArmorPenetration(DamageClass.Generic) += 12;
-            player.GetModPlayer<GlobalPlayer>().OverflowingVenom = true;
-
+            player.GetArmorPenetration(DamageClass.Generic) += 10;
+            if (player.GetModPlayer<GlobalPlayer>().OverflowingVenom < 1.1f)
+            {
+                player.GetModPlayer<GlobalPlayer>().OverflowingVenom = 1.1f;
+            }
             player.hasPaladinShield = true;
             player.noKnockback = true;
 
@@ -63,7 +65,7 @@ namespace AwfulGarbageMod.Items.Accessories
             player.starCloakItem = Item;
 
             player.GetModPlayer<GlobalPlayer>().MeatShield += 0.3f;
-            player.GetModPlayer<GlobalPlayer>().ScaledShadeShield += 30f;
+            player.GetModPlayer<GlobalPlayer>().ScaledShadeShield += 12f;
             player.GetModPlayer<GlobalPlayer>().necroPotence += 210;
             player.buffImmune[46] = true;
             player.buffImmune[33] = true;

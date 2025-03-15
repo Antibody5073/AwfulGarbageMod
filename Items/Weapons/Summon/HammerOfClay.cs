@@ -47,7 +47,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
 		public override void SetDefaults()
 		{
-            Item.damage = 7;
+            Item.damage = 9;
             Item.knockBack = 3f;
             Item.mana = 10; // mana cost
             Item.width = 32;
@@ -86,14 +86,21 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             return false;
         }
         public override void AddRecipes()
-		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.ClayBlock, 50);
-            recipe.AddIngredient(ItemID.WoodenHammer);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.ClayBlock, 50)
+                .AddIngredient(ItemID.WoodenHammer)
+                .AddIngredient(ItemID.SilverBar, 7)
+                .AddTile(TileID.Anvils)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.ClayBlock, 50)
+                .AddIngredient(ItemID.WoodenHammer)
+                .AddIngredient(ItemID.TungstenBar, 7)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
-	}
+    }
 
     // This minion shows a few mandatory things that make it behave properly.
     // Its attack pattern is simple: If an enemy is in range of 43 tiles, it will fly to it and deal contact damage
@@ -131,8 +138,8 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             Projectile.DamageType = DamageClass.Summon; // Declares the damage type (needed for it to deal damage)
             Projectile.minionSlots = 1f; // Amount of slots this minion occupies from the total minion slots available to the player (more on that later)
             Projectile.penetrate = -1; // Needed so the minion doesn't despawn on collision with enemies or tiles
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 12;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 12;
         }
 
         // Here you can decide if your minion breaks things like grass or pots
@@ -281,7 +288,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
                         bool lineOfSight = Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height);
                         // Additional check for this specific minion behavior, otherwise it will stop attacking once it dashed through an enemy while flying though tiles afterwards
                         // The number depends on various parameters seen in the movement code below. Test different ones out until it works alright
-                        bool closeThroughWall = between < 100f;
+                        bool closeThroughWall = between < 75f || Collision.CanHitLine(owner.Center - new Vector2(2, 2), 4, 4, npc.Center - new Vector2(2, 2), 4, 4);
 
                         if (((closest && inRange) || !foundTarget) && (lineOfSight || closeThroughWall))
                         {
@@ -321,11 +328,11 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
                 }
                 else if (!isDashing)
                 {
-                    dashCooldown = 27;
+                    dashCooldown = 31;
                     isDashing = true;
                     Vector2 direction = targetCenter - Projectile.Center;
                     direction.Normalize();
-                    direction *= speed;
+                    direction *= 7;
                     dashVel = direction;
                 }
                 if (dashCooldown > 0)
@@ -343,6 +350,8 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             }
             else
             {
+                dashCooldown -= 1;
+
                 // Minion doesn't have a target: return to player and idle
                 if (distanceToIdlePosition > 600f)
                 {

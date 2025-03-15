@@ -27,8 +27,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 60;
 			Item.height = 60;
-			Item.useTime = 30;
-			Item.useAnimation = 30;
+			Item.useTime = 37;
+			Item.useAnimation = 37;
 			Item.knockBack = 7;
 			Item.value = 5000;
 			Item.rare = 1;
@@ -62,7 +62,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
     public class FlintSpearProj : ModProjectile
     {
         protected virtual float HoldoutRangeMin => 44f;
-        protected virtual float HoldoutRangeMax => 132f;
+        protected virtual float HoldoutRangeMax => 114f;
 
         public override void SetStaticDefaults()
         {

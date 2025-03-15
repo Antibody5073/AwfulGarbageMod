@@ -47,22 +47,22 @@ namespace AwfulGarbageMod.Items.Consumables
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Lens, 5);
-            recipe.AddIngredient(ItemID.RainCloud, 50);
-            recipe.AddIngredient(ItemID.SnowBlock, 50);
-            recipe.AddIngredient(ItemID.Feather, 5);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.Register();
-            Recipe recipe2 = CreateRecipe();
-            recipe2.AddIngredient(ItemID.Lens, 5);
-            recipe2.AddIngredient(ItemID.RainCloud, 50);
-            recipe2.AddIngredient(ItemID.SnowBlock, 50);
-            recipe2.AddIngredient(ItemID.Feather, 5);
-            recipe2.AddIngredient(ItemID.CrimtaneBar, 8);
-            recipe2.AddTile(TileID.DemonAltar);
-            recipe2.Register();
+            CreateRecipe()
+                .AddIngredient<StormEssence>()
+                .AddIngredient(ItemID.Lens, 4)
+                .AddIngredient(ItemID.Cloud, 50)
+                .AddIngredient(ItemID.RainCloud, 50)
+                .AddIngredient(ItemID.DemoniteBar, 8)
+                .AddTile(TileID.DemonAltar)
+                .Register();
+            CreateRecipe()
+                .AddIngredient<StormEssence>()
+                .AddIngredient(ItemID.Lens, 4)
+                .AddIngredient(ItemID.Cloud, 50)
+                .AddIngredient(ItemID.RainCloud, 50)
+                .AddIngredient(ItemID.CrimtaneBar, 8)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
     }
 }

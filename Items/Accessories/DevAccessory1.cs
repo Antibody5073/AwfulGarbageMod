@@ -12,11 +12,12 @@ using AwfulGarbageMod.DamageClasses;
 using Terraria.Localization;
 using System.Collections.Generic;
 using Terraria.UI;
+using StramClasses;
 
 namespace AwfulGarbageMod.Items.Accessories
 {
-
-    public class DevAccessory1 : ModItem
+    [ExtendsFromMod("StramClasses")]
+    public class DevAccessoryPaladin : ModItem
 	{
 
         public override void SetStaticDefaults()
@@ -40,7 +41,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.GetModPlayer<GlobalPlayer>().empowermentCooldowMultiplier *= 0.75f;
+			player.paladin().statDivinity++;
         }
     }
 }

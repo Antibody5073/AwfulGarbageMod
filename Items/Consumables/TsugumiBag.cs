@@ -47,6 +47,8 @@ namespace AwfulGarbageMod.Items.Consumables
             // We have to replicate the expert drops from MinionBossBody here
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<ThrushGliders>()));
 
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<SoulOfIghtImaHeadOut>(), 1, 12, 16));
+
             itemLoot.Add(ItemDropRule.FewFromOptions(1, 1, ModContent.ItemType<KitchenKnife>(), ModContent.ItemType<HorseSnapper>()));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<TsugumiUmatachi>()));
         }

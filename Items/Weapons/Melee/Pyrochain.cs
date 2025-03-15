@@ -18,6 +18,7 @@ using System.Diagnostics.Contracts;
 using StramClasses.Classes.Rogue;
 using StramClasses;
 using AwfulGarbageMod.DamageClasses;
+using AwfulGarbageMod.Items.Placeable.OresBars;
 
 namespace AwfulGarbageMod.Items.Weapons.Melee
 {
@@ -37,7 +38,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Item.knockBack = 5.5f; // The knockback of your flail, this is dynamically adjusted in the projectile code.
             Item.width = 32; // Hitbox width of the item.
             Item.height = 32; // Hitbox height of the item.
-            Item.damage = 99; // The damage of your flail, this is dynamically adjusted in the projectile code.
+            Item.damage = 118; // The damage of your flail, this is dynamically adjusted in the projectile code.
             Item.noUseGraphic = true; // This makes sure the item does not get shown when the player swings his hand
             Item.shoot = ModContent.ProjectileType<PyrochainProj>(); // The flail projectile
             Item.shootSpeed = 12f; // The speed of the projectile measured in pixels per frame.
@@ -53,6 +54,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             Main.projectile[proj].flailProjectile().spinOffset = MathHelper.ToDegrees(velocity.ToRotation());
+            Main.projectile[proj].originalDamage = Item.damage;
             return false;
         }
 
@@ -65,11 +67,10 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe()
-                //.AddIngredient<Pyrogem>(20)
-                //.AddIngredient<FrigidiumBar>(16)
-                .AddIngredient(ItemID.HellstoneBar, 30)
-                .AddIngredient(ItemID.SoulofLight, 20)
-                .AddIngredient(ItemID.SoulofNight, 20)
+                .AddIngredient<CandesciteBar>(30)
+                .AddIngredient<Pyrogem>(18)
+                .AddIngredient(ItemID.SoulofLight, 10)
+                .AddIngredient(ItemID.SoulofNight, 10)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }
@@ -90,12 +91,12 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             ProjectileID.Sets.HeldProjDoesNotUsePlayerGfxOffY[Type] = true;
         }
         public override float MaxSpinDistance => 180;
-        public override float SpinSpd => 1.2f;
+        public override float SpinSpd => 0.7f;
         public override float SpinDistanceIncrease => 0.1f;
         public override bool MeleeSpdToRange => true;
         public override float MeleeSpdEffectiveness => 0.5f;
         public override bool canHitThroughWalls => false;
-        public override int spinHitCooldown => 60;
+        public override int spinHitCooldown => 65;
         public override float RetractSpd => 0.2f;
         public override float MaxRetractSpd => 8f;
 

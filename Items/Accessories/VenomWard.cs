@@ -35,8 +35,11 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             player.statDefense += 6;
             player.GetArmorPenetration(DamageClass.Generic) += 12;
-            player.GetModPlayer<GlobalPlayer>().OverflowingVenom = true;
 
+            if (player.GetModPlayer<GlobalPlayer>().OverflowingVenom < 1.15f)
+            {
+                player.GetModPlayer<GlobalPlayer>().OverflowingVenom = 1.15f;
+            }
             player.hasPaladinShield = true;
             player.noKnockback = true;
             if (player.statLife <= player.statLifeMax2 / 2)

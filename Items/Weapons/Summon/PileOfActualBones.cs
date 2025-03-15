@@ -295,7 +295,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
                         bool lineOfSight = Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height);
                         // Additional check for this specific minion behavior, otherwise it will stop attacking once it dashed through an enemy while flying though tiles afterwards
                         // The number depends on various parameters seen in the movement code below. Test different ones out until it works alright
-                        bool closeThroughWall = between < 100f;
+                        bool closeThroughWall = between < 75f || Collision.CanHitLine(owner.Center - new Vector2(2, 2), 4, 4, npc.Center - new Vector2(2, 2), 4, 4);
 
                         if (((closest && inRange) || !foundTarget) && (lineOfSight || closeThroughWall))
                         {
@@ -325,7 +325,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             if (foundTarget)
             {
                 atkTimer++;
-                if (atkTimer % 33 == 0)
+                if (atkTimer % 34 == 0)
                 {
                     Projectile.frame = 1;
                     Projectile.frameCounter = 0;

@@ -43,7 +43,8 @@ namespace AwfulGarbageMod.Items.Accessories
 			Item.width = 20;
 			Item.height = 20;
             Item.value = 1500;
-            Item.rare = ItemRarityID.Blue;
+            Item.rare = ItemRarityID.Expert;
+            Item.expert = true;
             Item.accessory = true;
         }
 

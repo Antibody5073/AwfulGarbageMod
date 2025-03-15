@@ -34,7 +34,10 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.GetModPlayer<GlobalPlayer>().OverflowingVenom = true;
+            if (player.GetModPlayer<GlobalPlayer>().OverflowingVenom < 1.15f)
+            {
+                player.GetModPlayer<GlobalPlayer>().OverflowingVenom = 1.15f;
+            }
         }
         public override void AddRecipes()
         {

@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Terraria.Map;
 using Terraria.IO;
 using AwfulGarbageMod.Tiles.OresBars;
+using AwfulGarbageMod.Configs;
 
 namespace AwfulGarbageMod.Items.Consumables
 {
@@ -47,9 +48,29 @@ namespace AwfulGarbageMod.Items.Consumables
             {
                 OreGeneration.GenerateFrigidium();
             }
+            if (AGUtils.GetTileCounts(ModContent.TileType<CandesciteOre>()) <= 0)
+            {
+                OreGeneration.GenerateCandescite();
+            }
             if (AGUtils.GetTileCounts(ModContent.TileType<FlintDirt>()) <= 0)
             {
                 OreGeneration.GenerateFlint();
+            }
+            if (!Structures.SkyStructure)
+            {
+                Structures.GenerateEotsStructure(Mod);
+            }
+            if (!Structures.TrashStructure)
+            {
+                Structures.GenerateTrashStructure(Mod);
+            }
+            if (!Structures.SnakeCharmerStructure)
+            {
+                Structures.GenerateSnakeCharmerStructure(Mod);
+            }
+            if (Main.hardMode && !Structures.HardmodeStructures)
+            {
+                Structures.GenerateHardmodeStructures(Mod);
             }
             return true;
         }

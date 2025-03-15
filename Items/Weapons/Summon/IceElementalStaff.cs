@@ -51,7 +51,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
 		public override void SetDefaults()
 		{
-            Item.damage = 41;
+            Item.damage = 37;
             Item.knockBack = 5f;
             Item.mana = 5; // mana cost
             Item.width = 24;
@@ -115,7 +115,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             // Sets the amount of frames this minion has on its spritesheet
-            Main.projFrames[Projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 4;
             // This is necessary for right-click targeting
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 
@@ -197,6 +197,33 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             return true;
         }
 
+        public override bool PreDraw(ref Color lightColor)
+        {
+            // SpriteEffects helps to flip texture horizontally and vertically
+            SpriteEffects spriteEffects = SpriteEffects.None;
+
+            // Getting texture of projectile
+            Texture2D texture = TextureAssets.Npc[169].Value;
+
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int startY = frameHeight * Projectile.frame;
+
+            // Get this frame on texture
+            Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+
+            Vector2 origin = sourceRectangle.Size() / 2f;
+            // Applying lighting and draw current frame
+            Color drawColor = Projectile.GetAlpha(lightColor);
+            Texture2D projectileTexture = texture;
+            Vector2 drawOrigin = origin;
+            spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Main.EntitySpriteDraw(texture,
+                Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
+                sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+
+            // It's important to return false, otherwise we also draw the original texture.
+            return false;
+        }
         private void GeneralBehavior(Player owner, out Vector2 vectorToIdlePosition, out float distanceToIdlePosition)
         {
             Vector2 idlePosition = owner.Center;
@@ -292,7 +319,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
                         bool lineOfSight = Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height);
                         // Additional check for this specific minion behavior, otherwise it will stop attacking once it dashed through an enemy while flying though tiles afterwards
                         // The number depends on various parameters seen in the movement code below. Test different ones out until it works alright
-                        bool closeThroughWall = between < 100f;
+                        bool closeThroughWall = between < 75f || Collision.CanHitLine(owner.Center - new Vector2(2, 2), 4, 4, npc.Center - new Vector2(2, 2), 4, 4);
 
                         if (((closest && inRange) || !foundTarget) && (lineOfSight || closeThroughWall))
                         {
@@ -396,7 +423,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
         private void Visuals(bool foundTarget, Vector2 targetCenter, Vector2 vectorToIdlePosition)
         {
-            
+
             // So it will lean slightly towards the direction it's moving
             if (foundTarget)
             {
@@ -422,21 +449,19 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             }
 
             // This is a simple "loop through all frames from top to bottom" animation
-            int frameSpeed = 5  ;
-            if (Projectile.frame > 0)
+            int frameSpeed = 8;
+            Projectile.frameCounter++;
+
+            if (Projectile.frameCounter >= frameSpeed)
             {
-                Projectile.frameCounter++;
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
 
-                if (Projectile.frameCounter >= frameSpeed)
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
                 {
-                    Projectile.frameCounter = 0;
-                    Projectile.frame++;
-
-                    if (Projectile.frame >= Main.projFrames[Projectile.type])
-                    {
-                        Projectile.frame = 0;
-                    }
+                    Projectile.frame = 0;
                 }
+
             }
             // Some visuals here
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.78f);

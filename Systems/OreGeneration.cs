@@ -56,6 +56,45 @@ namespace AwfulGarbageMod.Systems
                 }
             }
         }
+        public static void GenerateCandescite()
+        {
+            Main.NewText("Generated Candescite", Color.OrangeRed);
+            
+            for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY) * 1E-03); i++)
+            {
+                int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+                int y = WorldGen.genRand.Next(Main.maxTilesY * 2 / 3, Main.maxTilesY);
+
+                Tile tile = Framing.GetTileSafely(x, y);
+                if (tile.HasTile && (tile.TileType == TileID.Ash || tile.TileType == TileID.Stone))
+                {
+                    WorldGen.OreRunner(x, y, WorldGen.genRand.NextFloat(2, 3f), WorldGen.genRand.Next(15, 35), (ushort)ModContent.TileType<CandesciteOre>());
+                }
+            }
+
+            for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY) * 3E-05); i++)
+            {
+                int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+                int y = WorldGen.genRand.Next(Main.maxTilesY * 4 / 5, Main.maxTilesY);
+
+                Tile tile = Framing.GetTileSafely(x, y);
+                if (tile.HasTile && (tile.TileType == TileID.Ash || tile.TileType == TileID.Stone))
+                {
+                    WorldGen.OreRunner(x, y, WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(12, 20), (ushort)ModContent.TileType<CandesciteOre>());
+                }
+            }
+            for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY) * 1E-05); i++)
+            {
+                int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+                int y = WorldGen.genRand.Next(Main.maxTilesY * 9 / 10, Main.maxTilesY);
+
+                Tile tile = Framing.GetTileSafely(x, y);
+                if (tile.HasTile && (tile.TileType == TileID.Ash || tile.TileType == TileID.Stone))
+                {
+                    WorldGen.OreRunner(x, y, WorldGen.genRand.NextFloat(4, 5), WorldGen.genRand.Next(24, 40), (ushort)ModContent.TileType<CandesciteOre>());
+                }
+            }
+        }
         public static void GenerateFlint()
         {
             Main.NewText("Generated Flint", Color.DarkSlateGray);
@@ -66,11 +105,24 @@ namespace AwfulGarbageMod.Systems
                 int y = WorldGen.genRand.Next(0, (int)GenVars.rockLayerLow);
 
                 Tile tile = Framing.GetTileSafely(x, y);
-                Tile tileAbove = Framing.GetTileSafely(x, y - 2);
-                if (tile.HasTile && (tile.TileType == TileID.Dirt) && (tileAbove.TileType == TileID.Dirt || tileAbove.TileType == TileID.Grass))
+                if (tile.HasTile && (tile.TileType == TileID.Dirt))
                 {
-                    WorldGen.TileRunner(x, y, WorldGen.genRand.NextFloat(1, 2.5f), WorldGen.genRand.Next(15, 55), ModContent.TileType<FlintDirt>());
+                    WorldGen.OreRunner(x, y, WorldGen.genRand.NextFloat(1, 2.5f), WorldGen.genRand.Next(15, 55), (ushort)ModContent.TileType<FlintDirt>());
                 }
+            }
+        }
+    }
+    internal class CandesciteGen : GenPass
+    {
+        public CandesciteGen(string name, float weight) : base(name, weight) { }
+
+        protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
+        {
+
+            //Candescite
+            if (ModContent.GetInstance<ConfigClient>().ShouldGenerateCandesciteOre)
+            {
+                OreGeneration.GenerateCandescite();
             }
         }
     }

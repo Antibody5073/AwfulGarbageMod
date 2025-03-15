@@ -51,30 +51,13 @@ namespace AwfulGarbageMod.Projectiles
                 // Getting texture of projectile
                 Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture);
 
-                // Calculating frameHeight and current Y pos dependence of frame
-                // If texture without animation frameHeight is always texture.Height and startY is always 0
                 int frameHeight = texture.Height / Main.projFrames[Projectile.type];
                 int startY = frameHeight * Projectile.frame;
 
                 // Get this frame on texture
                 Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
 
-                // Alternatively, you can skip defining frameHeight and startY and use this:
-                // Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
-
                 Vector2 origin = sourceRectangle.Size() / 2f;
-
-                // If image isn't centered or symmetrical you can specify origin of the sprite
-                // (0,0) for the upper-left corner
-                /*
-                float offsetX = 0;
-                origin.X = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Width - offsetX : offsetX);
-
-                float offsetY = 0;
-                origin.Y = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Height - offsetY : offsetY);
-                */
-
-                // Applying lighting and draw current frame
                 Color drawColor = Projectile.GetAlpha(lightColor);
 
                 Texture2D projectileTexture = TextureAssets.Projectile[Projectile.type].Value;

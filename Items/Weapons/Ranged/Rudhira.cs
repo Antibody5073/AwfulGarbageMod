@@ -161,6 +161,10 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                     Main.dust[dust].scale = 2f;
                     Main.dust[dust].noGravity = true;
                 }
+                if (Projectile.timeLeft > 300 && !nearMouse)
+                {
+                    nearMouse = true;
+                }
             }
 
             public override bool OnTileCollide(Vector2 oldVelocity)
@@ -178,12 +182,13 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                 {
                     nearMouse = true;
                 }
-                if (bounceCount >= 3)
+                if (bounceCount >= 5)
                 {
                     return true;
                 }
                 if (Projectile.velocity.X != oldVelocity.X) Projectile.velocity.X = -oldVelocity.X;
                 if (Projectile.velocity.Y != oldVelocity.Y) Projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.ResetLocalNPCHitImmunity();
                 return false;
             }
 

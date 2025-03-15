@@ -37,7 +37,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Item.knockBack = 4f; // The knockback of your flail, this is dynamically adjusted in the projectile code.
             Item.width = 32; // Hitbox width of the item.
             Item.height = 32; // Hitbox height of the item.
-            Item.damage = 112; // The damage of your flail, this is dynamically adjusted in the projectile code.
+            Item.damage = 93; // The damage of your flail, this is dynamically adjusted in the projectile code.
             Item.noUseGraphic = true; // This makes sure the item does not get shown when the player swings his hand
             Item.shoot = ModContent.ProjectileType<TheTumblerProj>(); // The flail projectile
             Item.shootSpeed = 12f; // The speed of the projectile measured in pixels per frame.
@@ -53,7 +53,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             Main.projectile[proj].flailProjectile().spinOffset = MathHelper.ToDegrees(velocity.ToRotation());
-    
+            Main.projectile[proj].originalDamage = Item.damage;
+
             return false;
         }
 
@@ -88,16 +89,16 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             ProjectileID.Sets.HeldProjDoesNotUsePlayerGfxOffY[Type] = true;
         }
         public override float MaxSpinDistance => 150;
-        public override float SpinSpd => 1f;
+        public override float SpinSpd => 0.8f;
         public override float SpinDistanceIncrease => 0.6f;
         public override bool MeleeSpdToRange => true;
         public override float MeleeSpdEffectiveness => 0.5f;
         public override bool canHitThroughWalls => false;
-        public override int spinHitCooldown => 50;
+        public override int spinHitCooldown => 60;
         public override float RetractSpd => 0.25f;
         public override float MaxRetractSpd => 6f;
-        public override float flailHeadRotationRetract => 180;
-        public override float flailHeadRotation => 90;
+        public override float flailHeadRotationRetract => 0;
+        public override float flailHeadRotation => 0;
 
         public override void Dusts()
         {
@@ -115,7 +116,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             if (timer % 4 == 0)
             {
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TheTumblerProj2>(), (int)(Projectile.damage * 0.2f), 0, player.whoAmI);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TheTumblerProj2>(), (int)(Projectile.damage * 0.25f), 0, player.whoAmI);
             }
         }
     }

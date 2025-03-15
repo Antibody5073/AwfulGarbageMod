@@ -49,7 +49,10 @@ namespace AwfulGarbageMod.Buffs
 
         public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
         {
-            modifiers.Defense.Flat -= 5;
+            if (HasDefenseDebuff)
+            {
+                modifiers.Defense.Flat -= 5;
+            }
         }
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {

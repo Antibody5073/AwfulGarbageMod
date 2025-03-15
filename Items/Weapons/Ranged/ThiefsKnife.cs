@@ -35,7 +35,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Item.scale = 0f;
             Item.useAnimation = 14;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.knockBack = 1f;
+            Item.knockBack = 2.25f;
             Item.value = 30000;
             Item.rare = 1;
             Item.UseSound = SoundID.Item1;
@@ -46,7 +46,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(6.5f)) * Main.rand.NextFloat(0.9f, 1.3f), type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(4.5f)) * Main.rand.NextFloat(0.9f, 1.3f), type, damage, knockback, player.whoAmI);
 
             return false;
         }
@@ -72,7 +72,6 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Projectile.friendly = true;
             Projectile.penetrate = 8;
             Projectile.timeLeft = 500;
-            Projectile.light = 1f;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 1;
@@ -128,7 +127,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             for (int k = 0; k < Projectile.oldPos.Length && k < StateTimer; k++)
             {
-                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(5f, 5f);
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(Projectile.width / 2, Projectile.height / 2);
                 Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length / 2.5f);
                 Main.spriteBatch.Draw(projectileTexture, drawPos, sourceRectangle, color, Projectile.oldRot[k], drawOrigin, Projectile.scale, spriteEffects, 0f);
             }

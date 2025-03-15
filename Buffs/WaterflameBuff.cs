@@ -53,7 +53,7 @@ namespace AwfulGarbageMod.Buffs
                 {
                     npc.lifeRegen = 0;
                 }
-                npc.lifeRegen -= 30 * 2;
+                npc.lifeRegen -= 25 * 2;
                 if (damage < 10)
                 {
                     damage = 10;
@@ -88,7 +88,14 @@ namespace AwfulGarbageMod.Buffs
             // Only player attacks should benefit from this buff, hence the NPC and trap checks.
             if (hasWaterflame && !projectile.npcProj && !projectile.trap && (projectile.minion || ProjectileID.Sets.MinionShot[projectile.type]) && projectile.type != ModContent.ProjectileType<CursedCandleStaffProj>())
             {
-                modifiers.FinalDamage *= 1.12f;
+
+                int damageBoost = (int)(projectile.damage * 0.12f);
+                if (damageBoost > 4)
+                {
+                    damageBoost = 4;
+                }
+
+                modifiers.FlatBonusDamage += damageBoost;
             }
         }
     }

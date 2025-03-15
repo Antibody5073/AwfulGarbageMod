@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using AwfulGarbageMod.DamageClasses;
 using AwfulGarbageMod.Global;
+using Terraria.GameContent;
 
 namespace AwfulGarbageMod.Items.Weapons.Ranged
 {
@@ -56,9 +57,13 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Slimy Knife"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            Main.projFrames[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         float spinSpd;
+        int StateTimer;
         public override void SetDefaults()
         {
             Projectile.DamageType = ModContent.GetInstance<KnifeDamageClass>();
@@ -81,12 +86,12 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             SpriteEffects spriteEffects = SpriteEffects.None;
 
             // Getting texture of projectile
-            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture);
+            Texture2D texture = (Texture2D)TextureAssets.Projectile[864];
 
             // Calculating frameHeight and current Y pos dependence of frame
             // If texture without animation frameHeight is always texture.Height and startY is always 0
             int frameHeight = texture.Height / Main.projFrames[Projectile.type];
-            int startY = frameHeight * Projectile.frame;
+            int startY = frameHeight * 1;
 
             // Get this frame on texture
             Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
@@ -96,18 +101,22 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
             Vector2 origin = sourceRectangle.Size() / 2f;
 
-            // If image isn't centered or symmetrical you can specify origin of the sprite
-            // (0,0) for the upper-left corner
-            /*
-            float offsetX = 0;
-            origin.X = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Width - offsetX : offsetX);
+            Color drawColor = Projectile.GetAlpha(lightColor);
 
-            float offsetY = 0;
-            origin.Y = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Height - offsetY : offsetY);
-            */
+            Vector2 drawOrigin = origin;
+            spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            for (int k = 0; k < Projectile.oldPos.Length && k < StateTimer; k++)
+            {
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(Projectile.width / 2, Projectile.height / 2);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length / 2);
+                Main.spriteBatch.Draw(texture, drawPos, sourceRectangle, color, Projectile.oldRot[k], drawOrigin, Projectile.scale, spriteEffects, 0f);
+            }
+            startY = frameHeight * 0;
+            sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+            origin = sourceRectangle.Size() / 2f;
+
 
             // Applying lighting and draw current frame
-            Color drawColor = Projectile.GetAlpha(lightColor);
             Main.EntitySpriteDraw(texture,
                 Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
                 sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
@@ -118,6 +127,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override void AI()
         {
+            StateTimer++;
             if (Projectile.ai[0] == 0)
             {
                 float distanceToMouse = Vector2.Distance(Projectile.Center, new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y));
@@ -128,9 +138,9 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vel * 0.8f, ModContent.ProjectileType<CrystalKnivesProj>(), Projectile.damage, 0, Projectile.owner, 1);
                     Main.projectile[proj].GetGlobalProjectile<KnifeProjectile>().canBeEmpowered = false;
                     Main.projectile[proj].GetGlobalProjectile<KnifeProjectile>().Empowerments = Projectile.GetGlobalProjectile<KnifeProjectile>().Empowerments;
-                    proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vel.RotatedBy(MathHelper.ToRadians(12)) * 0.8f, ModContent.ProjectileType<CrystalKnivesProj>(), Projectile.damage * 3 / 4, 0, Projectile.owner, 1);
+                    proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vel.RotatedBy(MathHelper.ToRadians(12)) * 0.8f, ModContent.ProjectileType<CrystalKnivesProj>(), Projectile.damage * 2 / 3, 0, Projectile.owner, 1);
                     Main.projectile[proj].GetGlobalProjectile<KnifeProjectile>().canBeEmpowered = false;
-                    proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vel.RotatedBy(MathHelper.ToRadians(-12)) * 0.8f, ModContent.ProjectileType<CrystalKnivesProj>(), Projectile.damage * 3 / 4, 0, Projectile.owner, 1);
+                    proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vel.RotatedBy(MathHelper.ToRadians(-12)) * 0.8f, ModContent.ProjectileType<CrystalKnivesProj>(), Projectile.damage * 2 / 3, 0, Projectile.owner, 1);
                     Main.projectile[proj].GetGlobalProjectile<KnifeProjectile>().canBeEmpowered = false;
                     Projectile.Kill();
                 }

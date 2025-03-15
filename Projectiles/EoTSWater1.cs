@@ -15,13 +15,12 @@ namespace AwfulGarbageMod.Projectiles
 		public override void SetStaticDefaults()
 		{
             // DisplayName.SetDefault("Water"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
 		{
-            Projectile.width = 8;
-            Projectile.height = 8;
+            Projectile.width = 6;
+            Projectile.height = 6;
             Projectile.aiStyle = -1;
             Projectile.friendly = false;
             Projectile.hostile = true;
@@ -35,8 +34,8 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void AI()
         {
-            DrawOffsetX = -6;
-            DrawOriginOffsetY = -24;
+            DrawOffsetX = -5;
+            DrawOriginOffsetY = -25;
 
             Projectile.damage = 18;
             if (Main.expertMode)
@@ -52,27 +51,11 @@ namespace AwfulGarbageMod.Projectiles
 
             if (Projectile.timeLeft % 3 == 0)
             {
-                int dust = Dust.NewDust(Projectile.position + new Vector2(-6, -5), 20, 20, DustID.Water, 0f, 0f, 0, default(Color), 1f);
+                int dust = Dust.NewDust(Projectile.position + new Vector2(-7, -8), 20, 20, DustID.Water, 0f, 0f, 0, default(Color), 1f);
                 Main.dust[dust].scale = Main.rand.NextFloat(1f, 1.5f);
                 Main.dust[dust].velocity = Projectile.velocity * Main.rand.NextFloat(0.1f, 0.3f);
                 Main.dust[dust].alpha = Projectile.alpha;
                 Main.dust[dust].noGravity = true;
-            }
-
-
-            int frameSpeed = 3;
-
-            Projectile.frameCounter++;
-
-            if (Projectile.frameCounter >= frameSpeed)
-            {
-                Projectile.frameCounter = 0;
-                Projectile.frame++;
-
-                if (Projectile.frame >= Main.projFrames[Projectile.type])
-                {
-                    Projectile.frame = 0;
-                }
             }
         }
     }
@@ -86,8 +69,8 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.width = 16;
-            Projectile.height = 16;
+            Projectile.width = 12;
+            Projectile.height = 12;
             Projectile.aiStyle = -1;
             Projectile.friendly = false;
             Projectile.hostile = true;
@@ -101,8 +84,8 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void AI()
         {
-            DrawOffsetX = -13;
-            DrawOriginOffsetY = -13;
+            DrawOffsetX = -15;
+            DrawOriginOffsetY = -15;
 
             Projectile.damage = 16;
             if (Main.expertMode)

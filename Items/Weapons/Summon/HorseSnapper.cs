@@ -24,7 +24,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         {
             // This method quickly sets the whip's properties.
             // Mouse over to see its parameters.
-            Item.DefaultToWhip(ModContent.ProjectileType<HorseSnapperProj>(), 29, 3, 7f);
+            Item.DefaultToWhip(ModContent.ProjectileType<HorseSnapperProj>(), 28, 3, 6.5f);
             Item.useTime = 30;
             Item.useAnimation = 30;
             Item.rare = 3;

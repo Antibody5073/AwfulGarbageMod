@@ -20,9 +20,21 @@ namespace AwfulGarbageMod.Configs
         public bool ShouldGenerateIcePalace;
 
         [DefaultValue(true)] // This sets the configs default value.
+        public bool ShouldGenerateSkyStructure;
+
+        [DefaultValue(true)] // This sets the configs default value.
         public bool ShouldGenerateFrigidiumOre;
 
         [DefaultValue(true)] // This sets the configs default value.
+        public bool ShouldGenerateCandesciteOre;
+
+        [DefaultValue(true)] // This sets the configs default value.
         public bool ShouldGenerateFlint;
+
+        [DefaultValue(true)] // This sets the configs default value.
+        public bool ShouldGenerateHardmodeStructures;
+
+        [DefaultValue(true)] // This sets the configs default value.
+        public bool ShouldGenerateMiscStructures;
     }
 }

@@ -33,8 +33,8 @@ namespace AwfulGarbageMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Ranged) += 0.16f;
-            player.GetDamage(DamageClass.Summon) += 0.16f;
+            player.GetDamage(DamageClass.Ranged) += 0.12f;
+            player.GetDamage(DamageClass.Summon) += 0.12f;
             player.GetArmorPenetration(DamageClass.Generic) += 4;
             player.GetModPlayer<GlobalPlayer>().wingTimeMultiplier += 0.25f;
             player.GetModPlayer<GlobalPlayer>().HorizontalWingSpdMult -= 0.08f;

@@ -200,7 +200,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.TargetClosest();
             targetPos = Main.player[NPC.target].Center;
 
-            NPC.lifeMax *= (ModContent.GetInstance<Config>().BossHealthMultiplier / 100);
+            NPC.lifeMax = NPC.lifeMax * ModContent.GetInstance<Config>().BossHealthMultiplier / 100;
             NPC.life = NPC.lifeMax;
         }
 

@@ -100,14 +100,21 @@ namespace AwfulGarbageMod.Global
 
         }
 
-        public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public override bool? UseItem(Item item, Player player)
         {
             shotNumber++;
-            if (item.DamageType == ModContent.GetInstance<KnifeDamageClass>())
+
+            return base.UseItem(item, player);
+        }
+        public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            List<float> mechanicalAccessoryStats = [player.GetModPlayer<GlobalPlayer>().mechanicalArm, player.GetModPlayer<GlobalPlayer>().mechanicalLens, player.GetModPlayer<GlobalPlayer>().mechanicalScope];
+            if (shotNumber % 3 == 0)
             {
-                if (player.GetModPlayer<GlobalPlayer>().mechanicalArm > 1)
+                //Mechanical accessories
+                if (item.DamageType == ModContent.GetInstance<KnifeDamageClass>())
                 {
-                    if (shotNumber % 3 == 0)
+                    if (player.GetModPlayer<GlobalPlayer>().mechanicalArm > 1)
                     {
                         NPC target = FindClosestNPC(1600, player);
                         if (target != null)
@@ -120,9 +127,66 @@ namespace AwfulGarbageMod.Global
                         damage = (int)(damage * player.GetModPlayer<GlobalPlayer>().mechanicalArm);
                     }
                 }
+                else if (item.useAmmo == AmmoID.Arrow)
+                {
+                    if (player.GetModPlayer<GlobalPlayer>().mechanicalLens > 1)
+                    {
+                        NPC target = FindClosestNPC(1600, player);
+                        if (target != null)
+                        {
+                            float magnitude = Vector2.Distance(Vector2.Zero, velocity);
+                            velocity = (target.Center - position).SafeNormalize(Vector2.Zero);
+                            velocity *= magnitude;
+
+                        }
+                        damage = (int)(damage * player.GetModPlayer<GlobalPlayer>().mechanicalLens);
+                    }
+                }
+                else if (item.useAmmo == AmmoID.Bullet)
+                {
+                    if (player.GetModPlayer<GlobalPlayer>().mechanicalScope > 1)
+                    {
+                        NPC target = FindClosestNPC(1600, player);
+                        if (target != null)
+                        {
+                            float magnitude = Vector2.Distance(Vector2.Zero, velocity);
+                            velocity = (target.Center - position).SafeNormalize(Vector2.Zero);
+                            velocity *= magnitude;
+
+                        }
+                        damage = (int)(damage * player.GetModPlayer<GlobalPlayer>().mechanicalScope);
+                    }
+                }
+                else if (item.DamageType == DamageClass.Ranged)
+                {
+                    if (player.GetModPlayer<GlobalPlayer>().mechanicalArm > 1 && player.GetModPlayer<GlobalPlayer>().mechanicalScope > 1 && player.GetModPlayer<GlobalPlayer>().mechanicalLens > 1)
+                    {
+                        NPC target = FindClosestNPC(1600, player);
+                        if (target != null)
+                        {
+                            float magnitude = Vector2.Distance(Vector2.Zero, velocity);
+                            velocity = (target.Center - position).SafeNormalize(Vector2.Zero);
+                            velocity *= magnitude;
+                        }
+                        mechanicalAccessoryStats.Sort();
+                        damage = (int)(damage * mechanicalAccessoryStats.First());
+                    }
+                }               
             }
         }
-        
+
+        public override void ModifyWeaponCrit(Item item, Player player, ref float crit)
+        {
+            //Fleshy Amalgam
+            if (player.GetModPlayer<GlobalPlayer>().FleshyAmalgam)
+            {
+                if (shotNumber % 3 == 0)
+                {
+                    crit = 100;
+                }
+            }
+        }
+
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (item.DamageType == ModContent.GetInstance<KnifeDamageClass>())

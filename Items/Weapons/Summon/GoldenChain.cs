@@ -24,7 +24,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         {
             // This method quickly sets the whip's properties.
             // Mouse over to see its parameters.
-            Item.DefaultToWhip(ModContent.ProjectileType<GoldenChainProj>(), 15, 2, 6.5f);
+            Item.DefaultToWhip(ModContent.ProjectileType<GoldenChainProj>(), 13, 2, 5.5f);
             Item.useTime = 30;
             Item.useAnimation = 30;
             Item.rare = 2;
