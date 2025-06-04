@@ -1,7 +1,7 @@
 ﻿using AwfulGarbageMod.BossBars;
 using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items.Placeable.OresBars;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Melee;

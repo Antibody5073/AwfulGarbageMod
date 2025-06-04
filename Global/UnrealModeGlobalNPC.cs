@@ -18,7 +18,7 @@ using AwfulGarbageMod.Items.Tools;
 using System.Linq;
 using Terraria.DataStructures;
 using AwfulGarbageMod.Configs;
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Systems;
 using AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime;
 using AwfulGarbageMod.NPCs.BossUnrealRework.DukeFishron;
@@ -31,7 +31,7 @@ namespace AwfulGarbageMod.Global
         {
             if (item.type == ItemID.SlimeCrown)
             {
-                return !NPC.AnyNPCs(50) & !NPC.AnyNPCs(ModContent.NPCType<KingSlimePhase1>()) & !NPC.AnyNPCs(ModContent.NPCType<KingSlimePhase2>());
+               // return !NPC.AnyNPCs(50) & !NPC.AnyNPCs(ModContent.NPCType<KingSlimePhase1>()) & !NPC.AnyNPCs(ModContent.NPCType<KingSlimePhase2>());
 
             }
             return base.CanUseItem(item, player);
@@ -39,7 +39,7 @@ namespace AwfulGarbageMod.Global
     }
 
     public class UnrealModeGlobalNPC : GlobalNPC
-    {
+    {/*
         public override void OnSpawn(NPC npc, IEntitySource source)
         {
             if (DifficultyModes.Difficulty > 0)
@@ -59,6 +59,6 @@ namespace AwfulGarbageMod.Global
                     npc.HitEffect();
                 }
             }
-        }
+        }*/
     }
 }

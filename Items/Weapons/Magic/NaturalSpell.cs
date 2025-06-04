@@ -22,13 +22,13 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void SetDefaults()
 		{
-			Item.damage = 11;
-			Item.mana = 10;
+			Item.damage = 14;
+			Item.mana = 18;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 30;
 			Item.height = 30;
-			Item.useTime = 30;
-			Item.useAnimation = 30;
+			Item.useTime = 34;
+			Item.useAnimation = 34;
 			Item.useStyle = 5;
 			Item.knockBack = 2;
 			Item.value = 10000;

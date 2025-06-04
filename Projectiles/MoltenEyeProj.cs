@@ -106,7 +106,7 @@ namespace AwfulGarbageMod.Projectiles
             // Applying lighting and draw current frame
             Color drawColor = Projectile.GetAlpha(lightColor);
             Main.EntitySpriteDraw(texture,
-                Projectile.Center - Main.screenPosition + new Vector2(-3f, Projectile.gfxOffY + 12),
+                Projectile.Center - Main.screenPosition + new Vector2(-3f, Projectile.gfxOffY - 5),
                 sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
 
             // It's important to return false, otherwise we also draw the original texture.
@@ -125,7 +125,7 @@ namespace AwfulGarbageMod.Projectiles
 
             Main.EntitySpriteDraw(pupil,
                 Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(pupilMagnitude, 0).RotatedBy(pupilDir),
-                sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+                sourceRectangle, drawColor, MathHelper.Pi, origin, Projectile.scale, spriteEffects, 0);
 
             return false;
         }
@@ -142,7 +142,7 @@ namespace AwfulGarbageMod.Projectiles
             dir = (closestNPC.Center - Projectile.Center).ToRotation();
 
             pupilDir = dir;
-            pupilMagnitude = 5.5f;
+            pupilMagnitude = 4f;
         }
 
         public virtual void SetPositionBasedOnDirection(float direction, Vector2 targetPos)
@@ -188,7 +188,7 @@ namespace AwfulGarbageMod.Projectiles
         }
         public virtual void Visuals()
         {
-            int frameSpeed = 10;
+            int frameSpeed = 8;
 
             Projectile.frameCounter++;
 
@@ -203,6 +203,10 @@ namespace AwfulGarbageMod.Projectiles
                 }
             }
 
+            Dust dust = Dust.NewDustDirect(Projectile.Center + new Vector2(pupilMagnitude, 0).RotatedBy(pupilDir) + new Vector2(-4, -4), 1, 1, DustID.Torch, 0, 0, Scale: 1.25f);
+            dust.noGravity = true;
+            dust.velocity = new Vector2(0, -4);
+            dust.noLight = true; 
 
         }
 

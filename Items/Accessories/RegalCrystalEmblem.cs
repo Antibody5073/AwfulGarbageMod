@@ -41,7 +41,7 @@ namespace AwfulGarbageMod.Items.Accessories
             }
             player.GetDamage(DamageClass.Summon) += 6 / 100f;
             player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += 0.12f;
-            player.whipRangeMultiplier += 0.25f;
+            player.whipRangeMultiplier += 0.12f;
             player.maxMinions += 1; 
             player.maxTurrets += 1;
             player.moveSpeed += 0.12f;

@@ -20,7 +20,7 @@ namespace AwfulGarbageMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            Item.damage = 2; // The damage for projectiles isn't actually 12, it actually is the damage combined with the projectile and the item together.
+            Item.damage = 7; // The damage for projectiles isn't actually 12, it actually is the damage combined with the projectile and the item together.
             Item.DamageType = DamageClass.Ranged;
             Item.width = 8;
             Item.height = 8;
@@ -37,14 +37,14 @@ namespace AwfulGarbageMod.Items.Ammo
         // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe(54);
+            Recipe recipe = CreateRecipe(125);
             recipe.AddIngredient(Mod.Find<ModItem>("SpiritItem").Type, 1);
-            recipe.AddIngredient(Mod.Find<ModItem>("StonePellet").Type, 54);
+            recipe.AddIngredient(Mod.Find<ModItem>("StonePellet").Type, 125);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
-            Recipe recipe2 = CreateRecipe(66);
+            Recipe recipe2 = CreateRecipe(125);
             recipe2.AddIngredient(Mod.Find<ModItem>("SpiritItem").Type, 1);
-            recipe2.AddIngredient(ItemID.MusketBall, 66);
+            recipe2.AddIngredient(ItemID.MusketBall, 125);
             recipe2.AddTile(TileID.Anvils);
             recipe2.Register();
         }

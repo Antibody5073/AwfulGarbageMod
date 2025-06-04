@@ -59,7 +59,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         {
             CreateRecipe()
                 .AddIngredient(ItemID.SpellTome)
-                .AddIngredient<DesertScale>(10)
+                .AddIngredient<DesertScale>(24)
                 .AddTile(TileID.Anvils)
                 .Register();
         }
@@ -135,7 +135,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             for (int k = 0; k < Projectile.oldPos.Length && k < StateTimer; k++)
             {
                 Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(4f, 4f);
-                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length / 2f);
                 Main.spriteBatch.Draw(projectileTexture, drawPos, sourceRectangle, color, Projectile.oldRot[k], drawOrigin, Projectile.scale, spriteEffects, 0f);
             }
 
@@ -167,7 +167,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 Main.dust[dust].noGravity = true;
             }
 
-            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.ToRadians(90);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.ToRadians(45);
 
             
         }

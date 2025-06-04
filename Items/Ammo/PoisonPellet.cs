@@ -36,14 +36,14 @@ namespace AwfulGarbageMod.Items.Ammo
         // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe(48);
+            Recipe recipe = CreateRecipe(75);
             recipe.AddIngredient(Mod.Find<ModItem>("SpiderLeg").Type, 1);
-            recipe.AddIngredient(Mod.Find<ModItem>("StonePellet").Type, 48);
+            recipe.AddIngredient(Mod.Find<ModItem>("StonePellet").Type, 75);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
-            Recipe recipe2 = CreateRecipe(60);
+            Recipe recipe2 = CreateRecipe(75);
             recipe2.AddIngredient(Mod.Find<ModItem>("SpiderLeg").Type, 1);
-            recipe2.AddIngredient(ItemID.MusketBall, 60);
+            recipe2.AddIngredient(ItemID.MusketBall, 75);
             recipe2.AddTile(TileID.Anvils);
             recipe2.Register();
         }

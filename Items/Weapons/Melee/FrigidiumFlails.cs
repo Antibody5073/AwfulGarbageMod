@@ -105,6 +105,11 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override float RetractSpd => 0.15f;
         public override float MaxRetractSpd => 12f;
         public override float flailHeadRotation => 180;
+        float prevDir;
+        public override void OnSpawn(IEntitySource source)
+        {
+            prevDir = MathHelper.ToRadians(Projectile.flailProjectile().spinOffset);
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (var i = 0; i < 10; i++)
@@ -123,8 +128,9 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             offsetFromPlayer = new Vector2(player.direction).RotatedBy((float)Math.PI * (spd) * (currentDir) * player.direction + MathHelper.ToRadians(Projectile.flailProjectile().spinOffset));
             offsetFromPlayer.Y /= 4.5f;
             Vector2 mouse = new Vector2((float)Main.mouseX + Main.screenPosition.X - player.Center.X, (float)Main.mouseY + Main.screenPosition.Y - player.Center.Y);
-            offsetFromPlayer = offsetFromPlayer.RotatedBy(mouse.ToRotation() + MathHelper.ToRadians(Projectile.ai[2]));
 
+            prevDir += AGUtils.TurnTowards(3, mouse, prevDir, Vector2.Zero);
+            offsetFromPlayer = offsetFromPlayer.RotatedBy(prevDir + MathHelper.ToRadians(Projectile.ai[2]));
         }
     }
 }

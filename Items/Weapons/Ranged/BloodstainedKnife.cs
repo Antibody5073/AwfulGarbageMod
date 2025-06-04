@@ -46,7 +46,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         {
             CreateRecipe()
                 .AddIngredient<ShiningKnives>()
-                .AddIngredient<VeinJuice>(20)
+                .AddIngredient<VeinJuice>(30)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

@@ -66,7 +66,7 @@ namespace AwfulGarbageMod.Global
         public float ScepterMaxManaMultPrev;
 
         public bool IgnoreScepterDmgPenalties = false;
-
+        public bool DisabledUnrealBuffNerfs = false;
 
         //Accessory effects
         public bool spiderPendant = false;
@@ -131,6 +131,8 @@ namespace AwfulGarbageMod.Global
         public bool CursedSeed = false;
         public bool IchorSeed = false;
         public bool BagOfSeeds = false;
+        public bool ChloroplastCore = false;
+        public bool ShockAbsorber = false;
 
         public bool lightningRingPrevious;
 
@@ -497,7 +499,7 @@ namespace AwfulGarbageMod.Global
                 }
                 if (Player.statLife <= Player.statLifeMax2 / 3)
                 {
-                    Projectile.NewProjectile(Player.GetSource_Accessory(ModContent.GetModItem(ModContent.ItemType<SlimyLocket>()).Item), target.Center, Vector2.Zero, ModContent.ProjectileType<SlimeExplosion>(), 45, 6, Main.myPlayer);
+                    Projectile.NewProjectile(Player.GetSource_Accessory(ModContent.GetModItem(ModContent.ItemType<SlimyLocket>()).Item), target.Center, Vector2.Zero, ModContent.ProjectileType<SlimeExplosion>(), 60, 6, Main.myPlayer);
                 }
             }
         }
@@ -732,7 +734,10 @@ namespace AwfulGarbageMod.Global
                     }
                 }
             }
-
+            if (ShockAbsorber)
+            {
+                Player.AddBuff(ModContent.BuffType<ShockAbsorberBuff>(), 480);
+            }
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)
@@ -806,8 +811,8 @@ namespace AwfulGarbageMod.Global
         {
             if (ThrushGliders)
             {
-                Player.accRunSpeed *= 1.15f;
-                Player.maxRunSpeed *= 1.15f;
+                Player.accRunSpeed *= 1.12f;
+                Player.maxRunSpeed *= 1.12f;
             }
             if (PumpkinRocket && Player.itemAnimation == 0 && !Player.channel)
             {
@@ -821,11 +826,21 @@ namespace AwfulGarbageMod.Global
             }
             if (Player.HasBuff(ModContent.BuffType<SprintBuff>()))
             {
-                Player.accRunSpeed *= 1.12f;
-                Player.maxRunSpeed *= 1.12f;
+                Player.accRunSpeed *= 1.08f;
+                Player.maxRunSpeed *= 1.08f;
             }
         }
-
+        public override void UpdateBadLifeRegen()
+        {
+            if (Player.HasBuff<ShockAbsorberBuff>())
+            {
+                if (Player.lifeRegen > 0)
+                {
+                    Player.lifeRegen = 0;
+                }
+                Player.lifeRegenTime = 0;
+            }
+        }
         public override void PostUpdateEquips()
         {
             Player player = this.Player;
@@ -894,6 +909,32 @@ namespace AwfulGarbageMod.Global
             if (FlailAtMaxLengthPrev)
             {
                 Player.statDefense += FortifyingLink;
+            }
+            if (ChloroplastCore)
+            {
+                NPC npc = FindClosestNPCAndDistance(800, out float distance);
+                if (npc != null)
+                {
+                    if (player.velocity.X == 0)
+                    {
+                        npc.AddBuff(ModContent.BuffType<ChloroplastCoreBuff2>(), 2);
+                    }
+                    else
+                    {
+                        npc.AddBuff(ModContent.BuffType<ChloroplastCoreBuff>(), 2);
+                    }
+                }
+            }
+            if (ShockAbsorber)
+            {
+                if (Player.statDefense * 0.12f < 3)
+                {
+                    Player.statDefense += 3;
+                }
+                else
+                {
+                    Player.statDefense += Player.statDefense * 0.12f;
+                }
             }
         }
 
@@ -1044,6 +1085,9 @@ namespace AwfulGarbageMod.Global
             IchorSeed = false;
             CursedSeed = false;
             BagOfSeeds = false;
+            ChloroplastCore = false;
+            ShockAbsorber = false;
+            DisabledUnrealBuffNerfs = false;
         }
 
         public NPC FindClosestNPC(float maxDetectDistance)

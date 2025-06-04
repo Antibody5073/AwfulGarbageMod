@@ -19,7 +19,7 @@ using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items.Vanity;
 using Terraria.UI;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,6 +27,7 @@ using Terraria.GameContent;
 using System.Collections.Generic;
 using AwfulGarbageMod.Items.Weapons.Rogue;
 using AwfulGarbageMod.Configs;
+using AwfulGarbageMod.ItemDropRules;
 
 namespace AwfulGarbageMod.NPCs.Boss
 {
@@ -222,6 +223,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             notExpertRule.OnSuccess(ItemDropRule.Common(ItemID.ArmorPolish, 10));
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SuwaHat>(), 15));
 
+            npcLoot.Add(ItemDropRule.ByCondition(new UnrealCondition(), ModContent.ItemType<ChloroplastCore>(), 1, 1, 1));
 
 
             // Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode

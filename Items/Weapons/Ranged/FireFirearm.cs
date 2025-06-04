@@ -60,8 +60,8 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         {
             CreateRecipe()
                 .AddIngredient<HotGlock>()
-                .AddIngredient<CandesciteBar>(15)
-                .AddIngredient<Pyrogem>(12)
+                .AddIngredient<CandesciteBar>(25)
+                .AddIngredient<Pyrogem>(35)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

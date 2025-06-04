@@ -66,7 +66,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.FallenStar, 5)
+                .AddIngredient(ItemID.FallenStar, 7)
                 .AddIngredient(ItemID.Chain, 15)
                 .AddTile(TileID.Anvils)
                 .Register();

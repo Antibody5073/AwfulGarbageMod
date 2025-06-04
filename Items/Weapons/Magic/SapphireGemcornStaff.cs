@@ -22,15 +22,15 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
 		public override void SetDefaults()
 		{
-			Item.damage = 27;
-			Item.mana = 8;
+			Item.damage = 23;
+			Item.mana = 20;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 42;
 			Item.height = 46;
-			Item.useTime = 28;
-			Item.useAnimation = 28;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
 			Item.useStyle = 5;
-			Item.knockBack = 0.1f;
+			Item.knockBack = 3f;
 			Item.value = 10000;
             Item.rare = 1;
             Item.UseSound = SoundID.Item8;
@@ -44,28 +44,22 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             //Main.NewText((int)(Item.mana * player.manaCost));
-            int proj = Projectile.NewProjectile(source, position, velocity, Mod.Find<ModProjectile>("SapphireGemcornStaffProj").Type, damage, knockback, player.whoAmI, 0, (int)(Item.mana * player.manaCost));
+            int manaCost = (int)(Item.mana * player.manaCost);
+            int[] mana = [manaCost / 4, manaCost / 4, manaCost / 4, manaCost - (manaCost / 4 * 3)];
+            for (int i = 0; i < 4; i++)
+            {
+                Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(8)), Mod.Find<ModProjectile>("SapphireGemcornStaffProj").Type, damage, knockback, player.whoAmI, 0, mana[i]);
+            }
             return false;
         }
 
         public override void AddRecipes()
-		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<AcornStaff>());
-            recipe.AddIngredient(ItemID.GemTreeSapphireSeed, 6);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-            Recipe recipe2 = CreateRecipe();
-            recipe2.AddIngredient(ModContent.ItemType<AcornStaff>());
-            recipe2.AddIngredient(ItemID.GemTreeSapphireSeed, 2);
-            recipe2.AddIngredient(ItemID.SapphireStaff);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.Register();
+        {
             CreateRecipe()
                 .AddIngredient<AcornStaff>()
-                .AddIngredient(ItemID.GemTreeSapphireSeed, 6)
-                .AddIngredient(ItemID.CrimtaneBar, 8)
+                .AddIngredient(ItemID.SapphireStaff)
+                .AddIngredient(ItemID.GemTreeSapphireSeed, 5)
+                .AddIngredient<StormEssence>(1)
                 .AddTile(TileID.DemonAltar)
                 .Register();
         }

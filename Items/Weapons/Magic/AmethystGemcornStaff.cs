@@ -1,3 +1,4 @@
+using AwfulGarbageMod.Items.Placeable.OresBars;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
@@ -7,6 +8,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AwfulGarbageMod.Items.Weapons.Magic
 {
@@ -22,15 +24,15 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
 		public override void SetDefaults()
 		{
-			Item.damage = 24;
-			Item.mana = 7;
+			Item.damage = 26;
+			Item.mana = 16;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 42;
 			Item.height = 46;
-			Item.useTime = 34;
-			Item.useAnimation = 34;
+			Item.useTime = 21;
+			Item.useAnimation = 21;
 			Item.useStyle = 5;
-			Item.knockBack = 0.1f;
+			Item.knockBack = 4f;
 			Item.value = 10000;
             Item.rare = 1;
             Item.UseSound = SoundID.Item8;
@@ -50,22 +52,11 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void AddRecipes()
 		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<AcornStaff>());
-            recipe.AddIngredient(ItemID.GemTreeAmethystSeed, 6);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-            Recipe recipe2 = CreateRecipe();
-            recipe2.AddIngredient(ModContent.ItemType<AcornStaff>());
-            recipe2.AddIngredient(ItemID.GemTreeAmethystSeed, 2);
-            recipe2.AddIngredient(ItemID.AmethystStaff);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.Register();
             CreateRecipe()
                 .AddIngredient<AcornStaff>()
-                .AddIngredient(ItemID.GemTreeAmethystSeed, 6)
-                .AddIngredient(ItemID.CrimtaneBar, 8)
+                .AddIngredient(ItemID.AmethystStaff)
+                .AddIngredient(ItemID.GemTreeAmethystSeed, 5)
+                .AddIngredient(ItemID.FallenStar, 20)
                 .AddTile(TileID.DemonAltar)
                 .Register();
         }
@@ -85,10 +76,12 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.height = 8;
             Projectile.aiStyle = 1;
             Projectile.friendly = true;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 7;
             Projectile.timeLeft = 600;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 7;
         }
 
         bool regenMana = true;
@@ -102,6 +95,22 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 player.statMana += (int)Projectile.ai[1];
                 //Main.NewText((int)Projectile.ai[1]);
                 regenMana = false;
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AmethystGemcornStaffExplosion>(), hit.SourceDamage / 2, 2, player.whoAmI);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    float rotat = Main.rand.NextFloatDirection();
+                    for (int i = 0; i < 32; i++)
+                    {
+                        Vector2 vel = new Vector2((float)Math.Cos(MathHelper.TwoPi * i / 16), (float)Math.Sin(MathHelper.TwoPi * i / 16) * 5);
+                        vel = vel.RotatedBy(rotat);
+                        int dust = Dust.NewDust(Projectile.position + new Vector2(3, 3), Projectile.width - 3, Projectile.height - 3, DustID.GemAmethyst, 0f, 0f, 0, default(Color), 1f);
+                        Main.dust[dust].scale = Main.rand.NextFloat(0.8f, 1.3f);
+                        Main.dust[dust].velocity = vel;
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].alpha = 120;
+                    }
+                }
             }
         }
 
@@ -152,6 +161,33 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GemAmethyst, 0f, 0f, 0, default(Color), 1f);
             }
+        }
+    }
+    public class AmethystGemcornStaffExplosion : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Acorn"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.width = 48;
+            Projectile.height = 48;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 3;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            
+            return false;
         }
     }
 }

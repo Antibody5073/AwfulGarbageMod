@@ -36,6 +36,8 @@ namespace AwfulGarbageMod.Projectiles
         Vector2 origin;
         int startingTimeLeft;
         float distanceToPlayer;
+
+        public Vector2 drift = Vector2.Zero;
         public float Distance
         {
             get => Projectile.ai[0];
@@ -157,7 +159,7 @@ namespace AwfulGarbageMod.Projectiles
         {
             NPC npc = Main.npc[(int)Projectile.ai[1]];
             Projectile.position = origin + Projectile.velocity * MOVE_DISTANCE;
-
+            origin += drift;
 
             // By separating large AI into methods it becomes very easy to see the flow of the AI in a broader sense
             // First we update player variables that are needed to channel the laser
@@ -166,7 +168,7 @@ namespace AwfulGarbageMod.Projectiles
             // Finally we spawn some effects like dusts and light
             // If laser is not charged yet, stop the AI here.
 
-            Projectile.alpha = 255 - Projectile.timeLeft * 200 / startingTimeLeft;
+            Projectile.alpha = 255 - Projectile.timeLeft * 175 / startingTimeLeft;
 
             SetLaserPosition(npc);
         }

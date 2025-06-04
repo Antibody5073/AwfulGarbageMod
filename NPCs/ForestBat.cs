@@ -18,7 +18,7 @@ using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items;
 using Mono.Cecil;
 
@@ -48,7 +48,7 @@ namespace AwfulGarbageMod.NPCs
             NPC.lifeMax = 25; // The amount of health that NPC npc has
             NPC.HitSound = SoundID.NPCHit5; // The sound the NPC will make when being hit.
             NPC.DeathSound = SoundID.NPCDeath4; // The sound the NPC will make when it dies.
-            NPC.value = 0f; // How many copper coins the NPC will drop when killed.
+            NPC.value = 100f; // How many copper coins the NPC will drop when killed.
             NPC.noTileCollide = false;
             NPC.knockBackResist = 0.75f;
             NPC.noGravity = true;

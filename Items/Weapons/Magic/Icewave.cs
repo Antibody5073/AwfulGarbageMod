@@ -84,6 +84,10 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 3;
         }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            return false;
+        }
 
         public override bool? CanDamage()
         {

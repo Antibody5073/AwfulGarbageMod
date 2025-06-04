@@ -97,7 +97,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             CreateRecipe()
                 .AddIngredient<FrigidiumOre>(50)
                 .AddIngredient<FrostShard>(15)
-                .AddIngredient<SpiritItem>(12)
+                .AddIngredient<SpiritItem>(5)
                 .AddTile(TileID.Anvils)
                 .Register();
         }
@@ -137,7 +137,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             Projectile.friendly = true; // Only controls if it deals damage to enemies on contact (more on that later)
             Projectile.minion = true; // Declares this as a minion (has many effects)
             Projectile.DamageType = DamageClass.Summon; // Declares the damage type (needed for it to deal damage)
-            Projectile.minionSlots = 3f; // Amount of slots this minion occupies from the total minion slots available to the player (more on that later)
+            Projectile.minionSlots = 2f; // Amount of slots this minion occupies from the total minion slots available to the player (more on that later)
             Projectile.penetrate = -1; // Needed so the minion doesn't despawn on collision with enemies or tiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -350,7 +350,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             if (foundTarget)
             {
                 atkTimer++;
-                if (atkTimer % 6 == 0)
+                if (atkTimer % 8 == 0)
                 {
                     shotnum++;
                     direction = (targetCenter - Projectile.Center).SafeNormalize(Vector2.Zero);

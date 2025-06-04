@@ -19,7 +19,7 @@ using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using AwfulGarbageMod.Items;
@@ -36,6 +36,8 @@ using Microsoft.Build.Tasks.Deployment.ManifestUtilities;
 namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
 {
     // This ModNPC serves as an example of a completely custom AI.
+
+    
     [AutoloadBossHead]
     public class KingSlimePhase1 : ModNPC
     {

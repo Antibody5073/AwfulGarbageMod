@@ -54,16 +54,16 @@ namespace AwfulGarbageMod.Items.Armor
                 .AddIngredient(ItemID.MeteorSuit)
                 .AddIngredient(ItemID.MoltenBreastplate)
                 .AddIngredient(ItemID.SilverChainmail)
-                .AddIngredient<CandesciteBar>(25)
-                .AddIngredient<Pyrogem>(16)
+                .AddIngredient<CandesciteBar>(30)
+                .AddIngredient<Pyrogem>(24)
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
                 .AddIngredient(ItemID.MeteorSuit)
                 .AddIngredient(ItemID.MoltenBreastplate)
                 .AddIngredient(ItemID.TungstenChainmail)
-                .AddIngredient<CandesciteBar>(25)
-                .AddIngredient<Pyrogem>(16)
+                .AddIngredient<CandesciteBar>(30)
+                .AddIngredient<Pyrogem>(24)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

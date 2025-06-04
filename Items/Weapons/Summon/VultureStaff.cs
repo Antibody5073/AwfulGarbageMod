@@ -49,7 +49,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
 		public override void SetDefaults()
 		{
-            Item.damage = 21;
+            Item.damage = 25;
             Item.knockBack = 3f;
             Item.mana = 10; // mana cost
             Item.width = 32;
@@ -91,14 +91,14 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         {
             CreateRecipe()
                 .AddIngredient(ItemID.BabyBirdStaff)
-                .AddIngredient<DesertScale>(12)
-                .AddIngredient(ItemID.MythrilBar, 20)
+                .AddIngredient<DesertScale>(24)
+                .AddIngredient(ItemID.MythrilBar, 12)
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
                 .AddIngredient(ItemID.BabyBirdStaff)
-                .AddIngredient<DesertScale>(12)
-                .AddIngredient(ItemID.OrichalcumBar, 20)
+                .AddIngredient<DesertScale>(24)
+                .AddIngredient(ItemID.OrichalcumBar, 12)
                 .AddTile(TileID.Anvils)
                 .Register();
         }
@@ -119,7 +119,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             // Sets the amount of frames this minion has on its spritesheet
-            Main.projFrames[Projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 4;
             // This is necessary for right-click targeting
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 
@@ -171,7 +171,8 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             // SpriteEffects helps to flip texture horizontally and vertically
             SpriteEffects spriteEffects = SpriteEffects.None;
             // Getting texture of projectile
-            Texture2D texture = TextureAssets.Npc[61].Value;
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture);
+
 
             int frameHeight = texture.Height / Main.projFrames[Projectile.type];
             int startY = frameHeight * Projectile.frame;
@@ -354,7 +355,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         private void Movement(bool foundTarget, float distanceFromTarget, Vector2 targetCenter, float distanceToIdlePosition, Vector2 vectorToIdlePosition)
         {
             // Default movement parameters (here for attacking)
-            float speed = 10f;
+            float speed = 13f;
             float inertia = 7f;
 
             if (foundTarget)
@@ -371,7 +372,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
                     Projectile.velocity = (Projectile.velocity * (inertia - 1) + direction) / inertia;
                     dashCooldown -= 1;
                 }
-                else if (!isDashing && dashCooldown < -7)
+                else if (!isDashing && dashCooldown < -9)
                 {
                     dashCooldown = 14;
                     isDashing = true;
@@ -475,7 +476,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
                 if (Projectile.frame >= Main.projFrames[Projectile.type])
                 {
-                    Projectile.frame = 1;
+                    Projectile.frame = 0;
                 }
             }
 

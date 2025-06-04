@@ -23,14 +23,14 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 		public override void SetDefaults()
 		{
 			Item.damage = 29;
-			Item.mana = 10;
+			Item.mana = 20;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 42;
 			Item.height = 46;
-			Item.useTime = 34;
-			Item.useAnimation = 34;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
 			Item.useStyle = 5;
-			Item.knockBack = 0.1f;
+			Item.knockBack = 3f;
 			Item.value = 10000;
             Item.rare = 1;
             Item.UseSound = SoundID.Item8;
@@ -50,22 +50,11 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void AddRecipes()
 		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<AcornStaff>());
-            recipe.AddIngredient(ItemID.GemTreeAmberSeed, 6);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-            Recipe recipe2 = CreateRecipe();
-            recipe2.AddIngredient(ModContent.ItemType<AcornStaff>());
-            recipe2.AddIngredient(ItemID.GemTreeAmberSeed, 2);
-            recipe2.AddIngredient(ItemID.AmberStaff);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.Register();
             CreateRecipe()
                 .AddIngredient<AcornStaff>()
-                .AddIngredient(ItemID.GemTreeAmberSeed, 6)
-                .AddIngredient(ItemID.CrimtaneBar, 8)
+                .AddIngredient(ItemID.AmberStaff)
+                .AddIngredient(ItemID.GemTreeAmberSeed, 5)
+                .AddIngredient(ItemID.PinkGel, 5)
                 .AddTile(TileID.DemonAltar)
                 .Register();
         }
@@ -85,10 +74,12 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.height = 8;
             Projectile.aiStyle = 1;
             Projectile.friendly = true;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         bool regenMana = true;
@@ -96,26 +87,11 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (bounces < 4)
+            if (bounces < 10)
             {
-                float maxDetectRadius = 1200f; // The maximum radius at which a projectile can detect a target
-                float projSpeed = Vector2.Distance(new Vector2(0, 0), oldVelocity);
-
-                // Trying to find NPC closest to the projectile
-                NPC closestNPC = FindClosestNPC(maxDetectRadius);
-                if (closestNPC == null)
-                {
-                    if (Projectile.velocity.X != oldVelocity.X) Projectile.velocity.X = -oldVelocity.X;
-                    if (Projectile.velocity.Y != oldVelocity.Y) Projectile.velocity.Y = -oldVelocity.Y;
-                }
-                else
-                {
-
-                    // If found, change the velocity of the projectile and turn it in the direction of the target
-                    // Use the SafeNormalize extension method to avoid NaNs returned by Vector2.Normalize when the vector is zero
-                    Projectile.velocity = (closestNPC.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * projSpeed;
-                    Projectile.rotation = Projectile.velocity.ToRotation();
-                }
+                if (Projectile.velocity.X != oldVelocity.X) Projectile.velocity.X = -oldVelocity.X;
+                if (Projectile.velocity.Y != oldVelocity.Y) Projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.ResetLocalNPCHitImmunity();
                 bounces++;
 
                 return false;
@@ -127,6 +103,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Projectile.velocity *= -1;
             Player player = Main.LocalPlayer;
             if (regenMana)
             {
@@ -135,6 +112,22 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 //Main.NewText((int)Projectile.ai[1]);
                 regenMana = false;
             }
+        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            if (new Rectangle((int)(projHitbox.X - Projectile.velocity.X), projHitbox.Y, projHitbox.Width, projHitbox.Height).Intersects(targetHitbox))
+            {
+                bounces++;
+                Projectile.velocity.X *= -1;
+                return true;
+            }
+            if (new Rectangle(projHitbox.X, (int)(projHitbox.Y - Projectile.velocity.Y), projHitbox.Width, projHitbox.Height).Intersects(targetHitbox))
+            {
+                bounces++;
+                Projectile.velocity.Y *= -1;
+                return true;
+            }
+            return base.Colliding(projHitbox, targetHitbox);
         }
 
         public override bool PreDraw(ref Color lightColor)

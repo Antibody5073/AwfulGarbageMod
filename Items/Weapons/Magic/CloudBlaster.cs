@@ -24,8 +24,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 31;
-            Item.mana = 9;
+            Item.damage = 35;
+            Item.mana = 11;
             Item.DamageType = DamageClass.Magic;
             Item.width = 30;
             Item.height = 30;

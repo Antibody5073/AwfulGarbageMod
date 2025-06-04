@@ -43,7 +43,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         {
             CreateRecipe()
                 .AddIngredient<FrigidiumBar>(22)
-                .AddIngredient<FrostShard>(16)
+                .AddIngredient<FrostShard>(19)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

@@ -94,7 +94,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<Cryogem>(12)
+                .AddIngredient<Cryogem>(30)
                 .AddIngredient<FrigidiumBar>(15)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();

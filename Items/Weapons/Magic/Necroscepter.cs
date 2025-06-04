@@ -56,7 +56,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void SetDefaults()
 		{
-            Item.damage = 62;
+            Item.damage = 77;
             Item.DamageType = ModContent.GetInstance<ScepterDamageClass>();
             Item.mana = 10;
 			Item.width = 42;
@@ -98,9 +98,9 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 		{
 
             CreateRecipe()
-                .AddIngredient(ItemID.Bone, 40)
-                .AddIngredient(ItemID.HellstoneBar, 12)
-                .AddIngredient<FrigidiumBar>(12)
+                .AddIngredient(ItemID.Bone, 100)
+                .AddIngredient(ItemID.HellstoneBar, 24)
+                .AddIngredient<FrigidiumBar>(24)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

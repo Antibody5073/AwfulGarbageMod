@@ -33,29 +33,5 @@ namespace AwfulGarbageMod.Global
                 tooltips.Add(tooltip);
             }
         }
-
-        public override void OnSpawn(Item item, IEntitySource source)
-        {
-            if (DifficultyModes.Difficulty > 0)
-            {
-
-                if (item.type == ItemID.NinjaHood)
-                {
-                    Item.NewItem(source, new Rectangle((int)item.position.X, (int)item.position.Y, 1, 1), ModContent.ItemType<UmbragelHelmet>());
-                    item.active = false;
-                }
-                if (item.type == ItemID.NinjaShirt)
-                {
-                    Item.NewItem(source, new Rectangle((int)item.position.X, (int)item.position.Y, 1, 1), ModContent.ItemType<UmbragelBreastplate>());
-                    item.active = false;
-                }
-                if (item.type == ItemID.NinjaPants)
-                {
-                    Item.NewItem(source, new Rectangle((int)item.position.X, (int)item.position.Y, 1, 1), ModContent.ItemType<UmbragelLeggings>());
-                    item.active = false;
-                }
-
-            }
-        }
     }
 }

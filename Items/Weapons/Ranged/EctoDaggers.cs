@@ -55,12 +55,12 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void AddRecipes()
 		{
             CreateRecipe()
-                .AddIngredient(ItemID.Ectoplasm, 12)
+                .AddIngredient(ItemID.Ectoplasm, 24)
                 .AddIngredient(ItemID.MythrilBar, 10)
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
-                .AddIngredient(ItemID.Ectoplasm, 12)
+                .AddIngredient(ItemID.Ectoplasm, 24)
                 .AddIngredient(ItemID.OrichalcumBar, 10)
                 .AddTile(TileID.Anvils)
                 .Register();

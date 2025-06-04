@@ -24,7 +24,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
 		public override void SetDefaults()
 		{
-			Item.damage = 33;
+			Item.damage = 35;
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 60;
 			Item.height = 60;
@@ -60,17 +60,17 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(Mod.Find<ModItem>("LeafBlade").Type);
-            recipe.AddIngredient(ItemID.JungleSpores, 18);
-            recipe.AddIngredient(ItemID.Stinger, 12);
-            recipe.AddIngredient(ItemID.Vine, 10);
+            recipe.AddIngredient(ItemID.JungleSpores, 20);
+            recipe.AddIngredient(ItemID.Stinger, 15);
+            recipe.AddIngredient(ItemID.Vine, 8);
             recipe.AddIngredient(ItemID.CorruptSeeds, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
             Recipe recipe2 = CreateRecipe();
             recipe2.AddIngredient(Mod.Find<ModItem>("LeafBlade").Type);
-            recipe2.AddIngredient(ItemID.JungleSpores, 18);
-            recipe2.AddIngredient(ItemID.Stinger, 12);
-            recipe2.AddIngredient(ItemID.Vine, 10);
+            recipe2.AddIngredient(ItemID.JungleSpores, 20);
+            recipe2.AddIngredient(ItemID.Stinger, 15);
+            recipe2.AddIngredient(ItemID.Vine, 8);
             recipe2.AddIngredient(ItemID.CrimsonSeeds, 1);
             recipe2.AddTile(TileID.Anvils);
             recipe2.Register();

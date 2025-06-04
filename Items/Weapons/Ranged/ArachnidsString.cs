@@ -65,7 +65,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void AddRecipes()
 		{
             Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(Mod.Find<ModItem>("SpiderLeg").Type, 8);
+			recipe.AddIngredient(Mod.Find<ModItem>("SpiderLeg").Type, 16);
             recipe.AddIngredient(ItemID.Cobweb, 75);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();

@@ -325,18 +325,33 @@ Mods: {
 			}
 
 			RecyclingBinBuff: {
-				DisplayName: Recycling Bin
+				DisplayName: Dumpster
 				Description: Trash slimes won't spawn
 			}
 
 			ExtensionBuff: {
 				DisplayName: Extension Buff
-				Description: Mods.AwfulGarbageMod.Buffs.ExtensionBuff.Description
+				Description: 10% increased flail range
 			}
 
 			SprintBuff: {
 				DisplayName: Sprint Buff
-				Description: Mods.AwfulGarbageMod.Buffs.SprintBuff.Description
+				Description: 8% increased horizontal movement speed
+			}
+
+			ChloroplastCoreBuff: {
+				DisplayName: Chloroplast Core Buff
+				Description: Losing life
+			}
+
+			ChloroplastCoreBuff2: {
+				DisplayName: Chloroplast Core Buff2
+				Description: Losing life
+			}
+
+			ShockAbsorberBuff: {
+				DisplayName: Shock Absorber Buff
+				Description: Life regeneration is disabled!
 			}
 		}
 
@@ -691,6 +706,15 @@ Mods: {
 			DukeFishronProjTornadoBolt.DisplayName: Duke Fishron Proj Tornado Bolt
 			DukeFishronProjTornadoBoltSpawner.DisplayName: Duke Fishron Proj Tornado Bolt Spawner
 			DukeFishronProjTyphoon2.DisplayName: Duke Fishron Proj Typhoon2
+			AmethystGemcornStaffExplosion.DisplayName: Amethyst Gemcorn Staff Explosion
+			EoTSWallCloudTemporary.DisplayName: Eo T S Wall Cloud Temporary
+			EoTSMegumu.DisplayName: Eo T S Megumu
+			EoTSSnowCloud.DisplayName: Eo T S Snow Cloud
+			VitalixProj.DisplayName: Vitalix Proj
+			LashOfLifeProj.DisplayName: Lash Of Life Proj
+			FlintArrowProj.DisplayName: Flint Arrow Proj
+			VitalliumShardProj.DisplayName: Vitallium Shard Proj
+			VitalliumShardSpray.DisplayName: Vitallium Shard Spray
 		}
 
 		Items: {
@@ -1042,7 +1066,7 @@ Mods: {
 
 			MyceliumLeggings: {
 				DisplayName: Mycelium Greaves
-				Tooltip: Increases jump height
+				Tooltip: Increases jump height and 25% increased movement speed
 			}
 
 			RottingBreastplate: {
@@ -1081,7 +1105,7 @@ Mods: {
 				DisplayName: Storm Headgear
 				Tooltip:
 					'''
-					15% increased ranged velocity
+					15% increased ranged velocity and chance not to consume ammo
 					12% increased bullet damage
 					'''
 			}
@@ -1090,7 +1114,7 @@ Mods: {
 				DisplayName: Storm Helmet
 				Tooltip:
 					'''
-					15% increased ranged velocity
+					15% increased ranged velocity and chance not to consume ammo
 					12% increased arrow damage
 					'''
 			}
@@ -1306,6 +1330,7 @@ Mods: {
 					'''
 					Casts a lightning bolt that jumps between up to 6 nearby enemies
 					Direct hits ignore some defense
+					Every third use casts a spread of lightning bolts
 					'''
 			}
 
@@ -1588,7 +1613,7 @@ Mods: {
 				DisplayName: Thundercrack
 				Tooltip:
 					'''
-					Strikes enemies hit by summons with lightning that deals 100% of the summon's damage
+					Enemies hit by summons are struck with lightning that deals 100% of the summon's damage
 					This effect must be refreshed after a minion strikes the enemy
 					2 summon tag damage
 					'''
@@ -2085,7 +2110,7 @@ Mods: {
 					Summons flaming bone toothpicks from the sky 
 					Moves through tiles while above the cursor
 					'''
-				DisplayName: Heat Tipped Toothpick Tome
+				DisplayName: Heat-tipped Toothpick Tome
 			}
 
 			Sandkicker: {
@@ -2141,7 +2166,7 @@ Mods: {
 				DisplayName: Storm Hood
 				Tooltip:
 					'''
-					15% increased ranged velocity
+					15% increased ranged velocity and chance not to consume ammo
 					12% increased knife damage
 					'''
 			}
@@ -2151,7 +2176,7 @@ Mods: {
 				Tooltip:
 					'''
 					Hitting an ememy restores all used mana
-					Pierces two enemies
+					Pierces six enemies and releases a damaging burst on the first enemy hit
 					'''
 			}
 
@@ -2160,7 +2185,7 @@ Mods: {
 				Tooltip:
 					'''
 					Hitting an ememy restores all used mana
-					Leaves a trail of falling topaz sparks
+					Steals 2 HP from the enemy
 					'''
 			}
 
@@ -2169,7 +2194,8 @@ Mods: {
 				Tooltip:
 					'''
 					Hitting an ememy restores all used mana
-					Reduces enemy defense by 5 and inflicts random earlygame debuffs on hit
+					Reduces enemy defense by 5 and inflicts random debuffs on hit
+					May provide the user buffs on hit as well
 					'''
 			}
 
@@ -2179,6 +2205,7 @@ Mods: {
 					'''
 					Hitting an ememy restores all used mana
 					Projectiles are high velocity and are not affected by gravity
+					Fires a spread of gemcorns
 					'''
 			}
 
@@ -2187,8 +2214,7 @@ Mods: {
 				Tooltip:
 					'''
 					Hitting an ememy restores all used mana
-					Bounces off tiles up to 4 times
-					Attempts to bounce towards enemies
+					Bounces off tiles and enemies up to 10 times
 					'''
 			}
 
@@ -2783,7 +2809,7 @@ Mods: {
 					'''
 					Whips emit light
 					Disable visiblity to disable this effect
-					30% increased whip range
+					25% increased whip range
 					'''
 			}
 
@@ -2808,8 +2834,7 @@ Mods: {
 					Whips emit light
 					Disable visiblity to disable this effect
 					Increases max number of minions and sentries by 1
-					25% increased whip range
-					12% increased whip and movement speed
+					12% increased whip range, whip speed, and movement speed
 					6% increased summon damage
 					'''
 			}
@@ -2820,9 +2845,8 @@ Mods: {
 					'''
 					Whips emit light
 					Disable visiblity to disable this effect
-					Increases max number of minions and sentries by 1
-					25% increased whip range
-					12% increased whip and movement speed
+					Increases max number of minions and sentries by 1					
+					12% increased whip range, whip speed, and movement speed
 					6% increased summon damage
 					Releases volatile gelatin periodically that damages enemies
 					Most slimes become friendly
@@ -3233,7 +3257,11 @@ Mods: {
 
 			CrystalKnives: {
 				DisplayName: Crystal Assassin Knives
-				Tooltip: Splits into three when near the mouse pointer
+				Tooltip:
+					'''
+					Splits into three when near the mouse pointer
+					'What is a blade staff?'
+					'''
 			}
 
 			HolyHandOfJudgement: {
@@ -3342,8 +3370,8 @@ Mods: {
 			LavaLamp: {
 				Tooltip:
 					'''
-					A certain hell moth is obsessed with these
 					Must be used in the underworld
+					'Like a moth to a flame...'
 					'''
 				DisplayName: Lava Lamp
 			}
@@ -3657,7 +3685,7 @@ Mods: {
 			}
 
 			DriedBlossom: {
-				DisplayName: Dried Blossom
+				DisplayName: Desert Bloom
 				Tooltip:
 					'''
 					6% increased magic damage and critical strike chance
@@ -3783,7 +3811,7 @@ Mods: {
 					'''
 					Allows flight and slow fall
 					Ascends slower than most wings
-					15% increased horizontal speed; this includes boot speed
+					12% increased horizontal speed; this affects boot and mount speed
 					"If things get rough, I'm makin' a break for it. Don't worry 'bout me."
 					'''
 			}
@@ -3814,7 +3842,7 @@ Mods: {
 				Tooltip:
 					'''
 					50% increased horizontal speed while not using any items
-					This includes boot speed
+					This affects boot, wing, and mount speed
 					'''
 			}
 
@@ -4230,12 +4258,13 @@ Mods: {
 					Use to cycle between the difficulty modes.
 					Use on Expert or Master mode to enable Unreal Mode.
 					Use again on Master Mode to enable Absurdly Extra Mode.
-					[c/B841DC:Unreal Mode: Reworked vanilla bosses, Awful Garbage Mod bosses are harder. Enemy spawns are]
-					[c/B841DC:increased and certain enemies get changes. Certain bosses have Unreal-exclusive drops.]
+					[c/B841DC:Unreal Mode: Reworked vanilla bosses, Awful Garbage Mod bosses are harder. Enemy spawns are increased and]
+					[c/B841DC:certain enemies get changes. Certain bosses have Unreal-exclusive drops. Certain buff potions have weakened effects.]
 					[c/D2ADAD:Absurdly Extra Mode: Do not play if you want a balanced experience. Everything is overtuned]
 					[c/D2ADAD:to be as unfair and unfun as possible. Expect unavoidable boss attacks, telefragging, and projectile spam.]
-					Currently only reworks King Slime and Tree Toad.
-					Candescence has a WIP rework that is probably really stupid and unfair in its' current state, I recommend turning Unreal mode off for Candescence.
+					Currently only reworks the following bosses: King Slime, Tree Toad, Eye of the Storm
+					Candescence and Duke Fishron have a WIP rework that is probably really stupid and unfair in their current states, I recommend turning Unreal mode off for those bosses.
+					Currently does not rework any enemies.
 					'''
 			}
 
@@ -4272,8 +4301,8 @@ Mods: {
 				DisplayName: Slimy Locket
 				Tooltip:
 					'''
-					Every three seconds, a strike will deal massively increased knockback
-					While under 33% HP, the strike will also cause a slimy explosion that deals 45 damage
+					Every three seconds, striking an enemy will deal massively increased knockback
+					While under 33% HP, the strike will also cause a slimy explosion that deals 60 damage
 					15% reduced damage taken while descending
 					'''
 			}
@@ -4295,7 +4324,7 @@ Mods: {
 					Summons an ice spirit to fight for you
 					Shoots rapid-fire medium range ice beams that benefit from 80% of tag effects
 					Penetrates 8 enemy defense
-					Occupies three minion slots
+					Occupies two minion slots
 					'''
 			}
 
@@ -4317,7 +4346,7 @@ Mods: {
 				DisplayName: Vulture Staff
 				Tooltip:
 					'''
-					Summons a vulture to ram enemies
+					Summons a baby vulture to ram enemies
 					'I believe we came from a rock'
 					'''
 			}
@@ -4342,12 +4371,12 @@ Mods: {
 			}
 
 			RecyclingBin: {
-				DisplayName: Recycling Bin
+				DisplayName: Dumpster
 				Tooltip:
 					'''
 					Right click to open and close the lid
 					Prevents trash slimes from spawning nearby when open
-					'What do you mean this stuff is just shipped overseas?'
+					'Hopefully now those town NPCs will stop throwing their trash bags everywhere.'
 					'''
 			}
 
@@ -4435,13 +4464,139 @@ Mods: {
 			}
 
 			SprintPotion: {
-				Tooltip: 12% increased maximum run speed, this affects boot and wing speed
+				Tooltip: 8% increased maximum run speed, this affects boot, wing, and mount speed
 				DisplayName: Sprinting Potion
 			}
 
 			ExtensionPotion: {
 				Tooltip: 10% increased flail range
 				DisplayName: Extension Potion
+			}
+
+			ChloroplastCore: {
+				DisplayName: Chloroplast Core
+				Tooltip:
+					'''
+					Drains 10 life per second from the nearest enemy
+					When standing still, this effect is 3 times as strong
+					Grants minor life regeneration
+					15% reduced damage taken while ascending
+					'''
+			}
+
+			ShockAbsorber: {
+				DisplayName: Shock Absorber
+				Tooltip:
+					'''
+					Increases defense by 12%, minimum defense increase is 3
+					Taking damage will disable life regeneration for 8 seconds
+					15% increased damage while electrified
+					15% reduced damage taken while grounded
+					'''
+			}
+
+			EclecticAmulet: {
+				DisplayName: Eclectic Amulet
+				Tooltip:
+					'''
+					Drains 10 life per second from the nearest enemy
+					When standing still, this effect is 3 times as strong
+					Every three seconds, striking an enemy will deal massively increased knockback
+					While under 33% HP, the strike will also cause a slimy explosion that deals 60 damage
+					Increases defense by 12%, minumum defense increase is 3
+					Taking damage will disable life regeneration for 8 seconds
+					Grants minor life regeneration
+					15% reduced damage taken
+					'''
+			}
+
+			InsectOnAStickUnreal: {
+				DisplayName: Unreal Toad Bait
+				Tooltip:
+					'''
+					Summons Tree Toad
+					Non-consumable
+					'''
+			}
+
+			UnrealEssence: {
+				DisplayName: Essence of Unreality
+				Tooltip: Used to make various Unreal mode exclusive items
+			}
+
+			SlimeCrownUnreal: {
+				DisplayName: Unreal Slime Crown
+				Tooltip:
+					'''
+					Summons King Slime
+					Non-consumable
+					'''
+			}
+
+			VitalliumBar: {
+				DisplayName: Vitallium Bar
+				Tooltip: "'A mineral infused with the essence of vitality, now in rectangular prism form!'"
+			}
+
+			VitalliumOre: {
+				DisplayName: Vitallium Ore
+				Tooltip: "'A mineral infused with the essence of vitality'"
+			}
+
+			Vitalix: {
+				DisplayName: Vitalix
+				Tooltip:
+					'''
+					Throw two agile yoyos
+					Grants three seconds of swiftness, ironskin, and regeneration buffs on throw
+					'''
+			}
+
+			LashOfLife: {
+				DisplayName: Lash of Life
+				Tooltip:
+					'''
+					2 summon tag damage
+					This effect lasts for 2.5 seconds, but can stack with itself
+					'''
+			}
+
+			FlintArrow: {
+				DisplayName: Flint Arrow
+				Tooltip: Pierces one enemy
+			}
+
+			VitalliumShard: {
+				DisplayName: Vitallium Shard
+				Tooltip:
+					'''
+					Fires a vitallium shard that bursts forward
+					If not afflicted with mana sickness, slightly heals the user on hit
+					'''
+			}
+
+			VitalliumBreastplate: {
+				DisplayName: Vitallium Breastplate
+				Tooltip: Effects of Ankh Shield
+			}
+
+			VitalliumHelmet: {
+				DisplayName: Vitallium Helmet
+				Tooltip: Grants a long double jump and immunity to fall damage
+			}
+
+			VitalliumLeggings: {
+				DisplayName: Vitallium Greaves
+				Tooltip: Effects of Terraspark Boots
+			}
+
+			LavaLampUnreal: {
+				DisplayName: Unreal Lamp
+				Tooltip:
+					'''
+					Summons Candescence
+					Non-consumable
+					'''
 			}
 		}
 
@@ -4584,6 +4739,7 @@ Mods: {
 			CandescentCrucible.MapEntry: Candescent Crucible
 			ElementalSmeltery.MapEntry: Elemental Smeltery
 			RecyclingBin.MapEntry: Recycling Bin
+			VitalliumOre.MapEntry: Vitallium Ore
 		}
 
 		WorldGen: {
@@ -4628,6 +4784,45 @@ Mods: {
 				AdditionalTooltip: -1 maximum scepter projectile
 				DisplayName: Restrained
 			}
+		}
+
+		DropConditions: {
+			ExampleSoul: Mods.AwfulGarbageMod.DropConditions.ExampleSoul
+			UnrealEssence: Unreal Mode is on
+			Unreal: Unreal Mode is on
+		}
+
+		UnrealBuffNerfs: {
+			Regeneration:
+				'''
+
+				[c/B841DC:Unreal Mode: Reduced regeneration effect to 1 HP/second]
+				'''
+			Ironskin:
+				'''
+
+				[c/B841DC:Unreal Mode: Reduced defense boost to 5 defense]
+				'''
+			Archery:
+				'''
+
+				[c/B841DC:Unreal Mode: Reduced bow damage boost to 5%]
+				'''
+			Wrath:
+				'''
+
+				[c/B841DC:Unreal Mode: Reduced damage boost to 5%]
+				'''
+			Rage:
+				'''
+
+				[c/B841DC:Unreal Mode: Reduced critical strike chance boost to 5%]
+				'''
+			Endurance:
+				'''
+
+				[c/B841DC:Unreal Mode: Reduced damage reduction to 6%]
+				'''
 		}
 	}
 }

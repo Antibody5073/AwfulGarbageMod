@@ -50,7 +50,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<Pyrogem>(20)
+                .AddIngredient<Pyrogem>(30)
                 //.AddIngredient<FrigidiumBar>(16)
                 .AddTile(TileID.Anvils)
                 .Register();

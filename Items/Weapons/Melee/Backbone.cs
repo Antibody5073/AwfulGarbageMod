@@ -18,7 +18,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
 		public override void SetDefaults()
 		{
-			Item.damage = 23;
+			Item.damage = 22;
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 60;
 			Item.height = 60;
@@ -31,15 +31,15 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;
 			Item.crit = 23;
+            Item.scale = 1.1f;
 		}
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
 			for (var i = 0; i < Main.rand.Next(4, 6); i++)
 			{
-				Vector2 ProjVel = new Vector2(0, Main.rand.NextFloat(-7, -4)).RotatedByRandom(MathHelper.ToRadians(15));
-				Vector2 posOffset = new Vector2(target.width / 2, target.height * -1);
-				Projectile.NewProjectile(player.GetSource_OnHit(target), target.position + posOffset, ProjVel, Mod.Find<ModProjectile>("BackboneProj").Type, damageDone / 4 * 3, hit.Knockback, player.whoAmI);
+				Vector2 ProjVel = new Vector2(0, Main.rand.NextFloat(-7, -4)).RotatedByRandom(MathHelper.ToRadians(13));
+                Projectile.NewProjectile(player.GetSource_OnHit(target), target.Top + ProjVel * 2, ProjVel, Mod.Find<ModProjectile>("BackboneProj").Type, damageDone * 3 / 4, hit.Knockback, player.whoAmI);
 			}
 		}
 	}
@@ -63,7 +63,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Projectile.light = 1f;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
-            Projectile.extraUpdates = 1;
+            Projectile.extraUpdates = 2;
         }
 
 

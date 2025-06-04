@@ -43,8 +43,9 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe()
+                .AddIngredient<DesertScale>(15)
                 .AddRecipeGroup(RecipeGroups.AnyHerb, 5)
-                .AddIngredient<DesertScale>(10)
+                .AddIngredient(ItemID.Cactus, 12)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

@@ -6,6 +6,7 @@ using Terraria.Net;
 using Terraria.GameContent.NetModules;
 using Terraria.GameContent.Creative;
 using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 
 namespace AwfulGarbageMod.Items
 {
@@ -22,6 +23,14 @@ namespace AwfulGarbageMod.Items
 
         }
 
+        public override void PostUpdate()
+        {
+            Lighting.AddLight(Item.Center, Color.WhiteSmoke.ToVector3() * 0.55f * Main.essScale); // Makes this item glow when thrown out of inventory.
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(255, 255, 255); // Makes this item render at full brightness.
+        }
         public override void SetDefaults()
         {
             Item.width = 20; // The item texture's width

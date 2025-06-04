@@ -93,7 +93,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<EnchantedLeaf>(8)
+                .AddIngredient<EnchantedLeaf>(9)
                 .AddRecipeGroup(RecipeGroupID.Wood, 10)
                 .AddTile(TileID.WorkBenches)
                 .Register();
@@ -113,7 +113,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             // Sets the amount of frames this minion has on its spritesheet
-            Main.projFrames[Projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 4;
             // This is necessary for right-click targeting
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 
@@ -150,7 +150,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         {
             if (isDashing)
             {
-                return true;            
+                return true;
             }
             else
             {
@@ -391,7 +391,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
         private void Visuals(bool foundTarget, Vector2 targetCenter, Vector2 vectorToIdlePosition)
         {
-            
+
             // So it will lean slightly towards the direction it's moving
             if (foundTarget)
             {
@@ -417,20 +417,17 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             }
 
             // This is a simple "loop through all frames from top to bottom" animation
-            int frameSpeed = 5  ;
-            if (Projectile.frame > 0)
+            int frameSpeed = 5;
+            Projectile.frameCounter++;
+
+            if (Projectile.frameCounter >= frameSpeed)
             {
-                Projectile.frameCounter++;
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
 
-                if (Projectile.frameCounter >= frameSpeed)
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
                 {
-                    Projectile.frameCounter = 0;
-                    Projectile.frame++;
-
-                    if (Projectile.frame >= Main.projFrames[Projectile.type])
-                    {
-                        Projectile.frame = 0;
-                    }
+                    Projectile.frame = 0;
                 }
             }
             // Some visuals here

@@ -37,16 +37,16 @@ namespace AwfulGarbageMod.Items.Armor
                 .AddIngredient(ItemID.MeteorLeggings)
                 .AddIngredient(ItemID.MoltenGreaves)
                 .AddIngredient(ItemID.SilverGreaves)
-                .AddIngredient<CandesciteBar>(20)
-                .AddIngredient<Pyrogem>(13)
+                .AddIngredient<CandesciteBar>(25)
+                .AddIngredient<Pyrogem>(20)
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
                 .AddIngredient(ItemID.MeteorLeggings)
                 .AddIngredient(ItemID.MoltenGreaves)
                 .AddIngredient(ItemID.TungstenGreaves)
-                .AddIngredient<CandesciteBar>(20)
-                .AddIngredient<Pyrogem>(13)
+                .AddIngredient<CandesciteBar>(25)
+                .AddIngredient<Pyrogem>(20)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

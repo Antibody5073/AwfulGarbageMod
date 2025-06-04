@@ -39,28 +39,38 @@ namespace AwfulGarbageMod.Global
         {
             if (player.GetModPlayer<GlobalPlayer>().lightningRing == true && item.healMana > 0)
             {
-                player.AddBuff(BuffID.Electrified, 2 * 60);
+                if (quickHeal)
+
+                {
+                    player.AddBuff(BuffID.Electrified, 2 * 60);
+                }
                 healValue = (int)(healValue * 1.2f);
             }
             if (player.GetModPlayer<GlobalPlayer>().MyceliumHoodBonus == true && !player.HasBuff(BuffID.ManaSickness))
             {
-                for (int j = 0; j < Main.rand.Next(1, 3); j++)
+                if (quickHeal)
                 {
-                    Vector2 vel = new Vector2(Main.rand.NextFloat(4, 7), 0).RotatedByRandom(MathHelper.ToRadians(360));
-                    Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), player.Center, vel, Mod.Find<ModProjectile>("MyceliumProj").Type, 35, 2, Main.myPlayer, player.manaCost);
+                    for (int j = 0; j < Main.rand.Next(1, 3); j++)
+                    {
+                        Vector2 vel = new Vector2(Main.rand.NextFloat(4, 7), 0).RotatedByRandom(MathHelper.ToRadians(360));
+                        Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), player.Center, vel, Mod.Find<ModProjectile>("MyceliumProj").Type, 35, 2, Main.myPlayer, player.manaCost);
+                    }
                 }
             }
             if (player.GetModPlayer<GlobalPlayer>().HarujionPetal > 0)
             {
-                if (player.GetModPlayer<GlobalPlayer>().HarujionLevel > 5)
+                if (quickHeal)
                 {
-                    for (var i = 0; i < 6; i++)
+                    if (player.GetModPlayer<GlobalPlayer>().HarujionLevel > 5)
                     {
-                        int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), player.Center, new Vector2(0, 7).RotatedByRandom(MathHelper.ToRadians(360)), Mod.Find<ModProjectile>("IceSpiritPikeSpiritProj").Type, (int)player.GetModPlayer<GlobalPlayer>().HarujionLevel, 2f, Main.myPlayer, 2);
-                        Main.projectile[proj].DamageType = DamageClass.Magic;
-                        Main.projectile[proj].penetrate = 1;
+                        for (var i = 0; i < 6; i++)
+                        {
+                            int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), player.Center, new Vector2(0, 7).RotatedByRandom(MathHelper.ToRadians(360)), Mod.Find<ModProjectile>("IceSpiritPikeSpiritProj").Type, (int)player.GetModPlayer<GlobalPlayer>().HarujionLevel, 2f, Main.myPlayer, 2);
+                            Main.projectile[proj].DamageType = DamageClass.Magic;
+                            Main.projectile[proj].penetrate = 1;
+                        }
+                        player.GetModPlayer<GlobalPlayer>().HarujionLevel = 0;
                     }
-                    player.GetModPlayer<GlobalPlayer>().HarujionLevel = 0;
                 }
                 healValue = (int)(healValue * 1.2f);
 
@@ -88,6 +98,10 @@ namespace AwfulGarbageMod.Global
                 return false;
             }
             if (player.body == ModContent.ItemType<AncientFlierBreastplate>() && Main.rand.NextBool(5))
+            {
+                return false;
+            }
+            if ((player.head == ModContent.ItemType<StormHeadgear>() || player.head == ModContent.ItemType<StormHelmet>() || player.head == ModContent.ItemType<StormHood>()) && Main.rand.NextBool(3, 20))
             {
                 return false;
             }

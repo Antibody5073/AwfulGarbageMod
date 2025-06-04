@@ -53,7 +53,7 @@ namespace AwfulGarbageMod.Projectiles
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.78f);
             Projectile.alpha = (int)(Projectile.alpha * 0.8);
 
-            if (Projectile.timeLeft % 3 == 0)
+            if (Projectile.timeLeft % 10 == 0)
             {
                 int dust = Dust.NewDust(Projectile.position + new Vector2(-7, -8), 20, 20, DustID.Water, 0f, 0f, 0, default(Color), 1f);
                 Main.dust[dust].scale = Main.rand.NextFloat(1f, 1.5f);

@@ -51,7 +51,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
 
             CreateRecipe()
-                .AddIngredient<Flint>(16)
+                .AddIngredient<Flint>(19)
                 .AddRecipeGroup(RecipeGroupID.Wood, 12)
                 .AddTile(TileID.WorkBenches)
                 .Register();

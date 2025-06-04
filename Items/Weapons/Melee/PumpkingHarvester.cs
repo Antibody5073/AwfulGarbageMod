@@ -105,8 +105,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
         public override void WidthHeight()
         {
-            Projectile.width = 64;
-            Projectile.height = 64;
+            Projectile.width = 96;
+            Projectile.height = 96;
         }
 
         public override void SpinEffect(Player player, float timer, float length, float maxLength)

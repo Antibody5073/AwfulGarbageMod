@@ -23,15 +23,15 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
 		public override void SetDefaults()
 		{
-			Item.damage = 29;
-			Item.mana = 8;
+			Item.damage = 28;
+			Item.mana = 18;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 42;
 			Item.height = 46;
-			Item.useTime = 33;
-			Item.useAnimation = 33;
+			Item.useTime = 22;
+			Item.useAnimation = 22;
 			Item.useStyle = 5;
-			Item.knockBack = 0.1f;
+			Item.knockBack = 1;
 			Item.value = 10000;
             Item.rare = 1;
             Item.UseSound = SoundID.Item8;
@@ -50,23 +50,12 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         }
 
         public override void AddRecipes()
-		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<AcornStaff>());
-            recipe.AddIngredient(ItemID.GemTreeEmeraldSeed, 6);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-            Recipe recipe2 = CreateRecipe();
-            recipe2.AddIngredient(ModContent.ItemType<AcornStaff>());
-            recipe2.AddIngredient(ItemID.GemTreeEmeraldSeed, 2);
-            recipe2.AddIngredient(ItemID.EmeraldStaff);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.Register();
+        {
             CreateRecipe()
                 .AddIngredient<AcornStaff>()
-                .AddIngredient(ItemID.GemTreeEmeraldSeed, 6)
-                .AddIngredient(ItemID.CrimtaneBar, 8)
+                .AddIngredient(ItemID.EmeraldStaff)
+                .AddIngredient(ItemID.GemTreeEmeraldSeed, 5)
+                .AddIngredient(ItemID.Vine, 8)
                 .AddTile(TileID.DemonAltar)
                 .Register();
         }
@@ -105,23 +94,23 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 regenMana = false;
             }
 
-            target.AddBuff(ModContent.BuffType<EmeraldDefenseBuff>(), 180);
-            int debuff = Main.rand.Next(10);
+            target.AddBuff(ModContent.BuffType<EmeraldDefenseBuff>(), 300);
+            int debuff = Main.rand.Next(17);
             if (debuff == 0 || debuff == 1 || debuff == 2)
             {
-                target.AddBuff(BuffID.OnFire, 75);
+                target.AddBuff(BuffID.OnFire, 105);
             }
             if (debuff == 3 || debuff == 4)
             {
-                target.AddBuff(BuffID.Frostburn, 75);
+                target.AddBuff(BuffID.Frostburn, 105);
             }
             if (debuff == 5 || debuff == 6)
             {
-                target.AddBuff(BuffID.Poisoned, 90);
+                target.AddBuff(BuffID.Poisoned, 120);
             }
             if (debuff == 7)
             {
-                target.AddBuff(BuffID.Confused, 45);
+                target.AddBuff(BuffID.Confused, 60);
             }
             if (debuff == 8)
             {
@@ -130,6 +119,36 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             if (debuff == 9)
             {
                 target.AddBuff(BuffID.Slimed, 150);
+            }
+            if (debuff == 10)
+            {
+                player.AddBuff(BuffID.Regeneration, 180);
+                player.AddBuff(BuffID.ManaRegeneration, 180);
+            }
+            if (debuff == 11)
+            {
+                player.AddBuff(BuffID.Mining, 180);
+            }
+            if (debuff == 12)
+            {
+                player.AddBuff(BuffID.Swiftness, 180);
+            }
+            if (debuff == 13)
+            {
+                player.AddBuff(BuffID.Endurance, 120);
+            }
+            if (debuff == 14)
+            {
+                player.AddBuff(BuffID.Ironskin, 120);
+            }
+            if (debuff == 15)
+            {
+                player.AddBuff(BuffID.NightOwl, 300);
+            }
+            if (debuff == 16)
+            {
+                player.AddBuff(BuffID.ManaRegeneration, 180);
+                player.AddBuff(BuffID.MagicPower, 180);
             }
         }
 

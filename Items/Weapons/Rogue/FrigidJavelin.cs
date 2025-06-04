@@ -66,7 +66,7 @@ namespace AwfulGarbageMod.Items.Weapons.Rogue
             CreateRecipe()
                 .AddIngredient<StramClasses.Classes.Rogue.Weapons.IceSpear>()
                 .AddIngredient<FrigidiumBar>(17)
-                .AddIngredient<SpiritItem>(15)
+                .AddIngredient<SpiritItem>(5)
                 .AddIngredient<FrostShard>(13)
                 .AddTile(TileID.Anvils)
                 .Register();

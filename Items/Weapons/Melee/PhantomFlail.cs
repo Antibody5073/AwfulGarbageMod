@@ -37,7 +37,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Item.knockBack = 4f; // The knockback of your flail, this is dynamically adjusted in the projectile code.
             Item.width = 32; // Hitbox width of the item.
             Item.height = 32; // Hitbox height of the item.
-            Item.damage = 146; // The damage of your flail, this is dynamically adjusted in the projectile code.
+            Item.damage = 136; // The damage of your flail, this is dynamically adjusted in the projectile code.
             Item.noUseGraphic = true; // This makes sure the item does not get shown when the player swings his hand
             Item.shoot = ModContent.ProjectileType<PhantomFlailProj>(); // The flail projectile
             Item.shootSpeed = 12f; // The speed of the projectile measured in pixels per frame.
@@ -65,7 +65,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.SpectreBar, 14)
+                .AddIngredient(ItemID.SpectreBar, 26)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }
@@ -120,8 +120,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         }
         public override void WidthHeight()
         {
-            Projectile.width = 36;
-            Projectile.height = 36;
+            Projectile.width = 48;
+            Projectile.height = 48;
         }
 
     }

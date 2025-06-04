@@ -23,7 +23,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void SetDefaults()
 		{
-			Item.damage = 14;
+			Item.damage = 17;
 			Item.mana = 4;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 30;
@@ -38,7 +38,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 			Item.autoReuse = true;
 			Item.crit = 0;
 			Item.shoot = Mod.Find<ModProjectile>("ShatterTomeProj").Type;
-			Item.shootSpeed = 5f;
+			Item.shootSpeed = 8f;
 			Item.noMelee = true;
 		}
         public override Vector2? HoldoutOffset()
@@ -49,7 +49,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(Mod.Find<ModItem>("FrostShard").Type, 10);
+            recipe.AddIngredient(Mod.Find<ModItem>("FrostShard").Type, 14);
+            recipe.AddIngredient(Mod.Find<ModItem>("SpiritItem").Type, 3);
             recipe.AddIngredient(ItemID.BorealWood, 30);
 			recipe.AddIngredient(ItemID.IceBlock, 30);
             recipe.AddTile(TileID.WorkBenches);
@@ -95,6 +96,17 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Main.dust[dust].velocity *= 0.2f;
             Main.dust[dust].scale = (float)Main.rand.Next(80, 115) * 0.013f;
             Main.dust[dust].noGravity = true;
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            for (var i = 0; i < 5; i++)
+            {
+                float xv = (0f - Projectile.velocity.X) * (float)Main.rand.Next(40, 70) * 0.01f + (float)Main.rand.Next(-20, 21) * 0.4f;
+                float yv = (0f - Projectile.velocity.Y) * (float)Main.rand.Next(40, 70) * 0.01f + (float)Main.rand.Next(-20, 21) * 0.4f;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), new Vector2(Projectile.position.X + xv, Projectile.position.Y + xv), new Vector2(xv, yv), Mod.Find<ModProjectile>("ShatterTomeSplit").Type, Projectile.damage / 3, 0f, Projectile.owner);
+            }
+            return base.OnTileCollide(oldVelocity);
         }
 
         public override void OnKill(int timeLeft)

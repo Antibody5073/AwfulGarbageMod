@@ -59,7 +59,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<IceSpiritPike>());
-            recipe.AddIngredient(ModContent.ItemType<FrigidiumBar>(), 14);
+            recipe.AddIngredient(ModContent.ItemType<FrigidiumBar>(), 17);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }

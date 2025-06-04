@@ -31,7 +31,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Item.useTime = 5;
             Item.noMelee = true;
             Item.useAnimation = 10;
-            Item.reuseDelay = 17;
+            Item.reuseDelay = 19;
             Item.useStyle = 5;
             Item.knockBack = 0f;
             Item.value = 10000;

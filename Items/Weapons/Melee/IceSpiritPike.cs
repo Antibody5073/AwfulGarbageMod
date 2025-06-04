@@ -23,7 +23,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 		public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.Spear);
-			Item.damage = 17;
+			Item.damage = 18;
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 60;
 			Item.height = 60;
@@ -55,8 +55,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(Mod.Find<ModItem>("FrostShard").Type, 10);
-            recipe.AddIngredient(Mod.Find<ModItem>("SpiritItem").Type, 12);
+            recipe.AddIngredient(Mod.Find<ModItem>("FrostShard").Type, 17);
+            recipe.AddIngredient(Mod.Find<ModItem>("SpiritItem").Type, 7);
             recipe.AddIngredient(ItemID.IceBlock, 50);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();

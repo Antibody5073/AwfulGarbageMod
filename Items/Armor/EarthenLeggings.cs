@@ -35,7 +35,7 @@ namespace AwfulGarbageMod.Items.Armor
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<Flint>(20)
+                .AddIngredient<Flint>(25)
                 .AddIngredient(ItemID.DirtBlock, 60)
                 .AddIngredient(ItemID.ClayBlock, 35)
                 .AddIngredient(ItemID.StoneBlock, 35)

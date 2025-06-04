@@ -67,8 +67,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<CandesciteBar>(30)
-                .AddIngredient<Pyrogem>(18)
+                .AddIngredient<CandesciteBar>(34)
+                .AddIngredient<Pyrogem>(23)
                 .AddIngredient(ItemID.SoulofLight, 10)
                 .AddIngredient(ItemID.SoulofNight, 10)
                 .AddTile(TileID.MythrilAnvil)

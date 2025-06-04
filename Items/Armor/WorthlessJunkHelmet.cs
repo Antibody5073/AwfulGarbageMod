@@ -83,7 +83,7 @@ namespace AwfulGarbageMod.Items.Armor
         public override void AddRecipes()
         {
             CreateRecipe()
-               .AddIngredient<Garbage>(75)
+               .AddIngredient<Garbage>(150)
                .AddTile<Tiles.Furniture.TrashMelter>()
                .Register();
         }

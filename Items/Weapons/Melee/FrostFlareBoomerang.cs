@@ -21,7 +21,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
 		public override void SetDefaults()
 		{
-			Item.damage = 21;
+			Item.damage = 23;
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 60;
 			Item.height = 60;
@@ -47,8 +47,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void AddRecipes()
 		{
             CreateRecipe()
-                .AddIngredient<FrigidiumBar>(12)
-                .AddIngredient(ItemID.HellstoneBar, 12)
+                .AddIngredient<FrigidiumBar>(20)
+                .AddIngredient(ItemID.HellstoneBar, 20)
                 .AddIngredient(ItemID.Flamarang)
                 .AddIngredient(ItemID.IceBoomerang)
                 .AddTile(TileID.Anvils)

@@ -33,5 +33,14 @@ namespace AwfulGarbageMod.Items.Armor
             player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.09f;
             player.moveSpeed += 0.1f;
         }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.NinjaPants)
+                .AddIngredient<UnrealEssence>(10)
+                .AddIngredient(ItemID.Gel, 10)
+                .Register();
+        }
     }
 }

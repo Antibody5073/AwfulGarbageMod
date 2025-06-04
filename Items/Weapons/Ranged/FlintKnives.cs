@@ -54,7 +54,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<Flint>(17)
+                .AddIngredient<Flint>(20)
                 .AddRecipeGroup(RecipeGroupID.Wood, 10)
                 .AddTile(TileID.WorkBenches)
                 .Register();

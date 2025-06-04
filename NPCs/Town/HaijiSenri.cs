@@ -27,7 +27,7 @@ using AwfulGarbageMod.NPCs;
 using static Terraria.GameContent.Animations.IL_Actions.NPCs;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Rogue;
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 
 namespace AwfulGarbageMod.NPCs.Town
 {

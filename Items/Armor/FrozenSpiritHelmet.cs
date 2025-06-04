@@ -51,8 +51,8 @@ namespace AwfulGarbageMod.Items.Armor
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(Mod.Find<ModItem>("SpiritItem").Type, 10);
-            recipe.AddIngredient(Mod.Find<ModItem>("FrostShard").Type, 7);
+            recipe.AddIngredient(Mod.Find<ModItem>("SpiritItem").Type, 3);
+            recipe.AddIngredient(Mod.Find<ModItem>("FrostShard").Type, 14);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }

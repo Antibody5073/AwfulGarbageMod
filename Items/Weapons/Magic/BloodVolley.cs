@@ -24,7 +24,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 11;
+            Item.damage = 12;
             Item.mana = 5;
             Item.DamageType = DamageClass.Magic;
             Item.width = 30;
@@ -62,7 +62,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(Mod.Find<ModItem>("BloodBolt").Type);
-            recipe.AddIngredient(Mod.Find<ModItem>("VeinJuice").Type, 20);
+            recipe.AddIngredient(Mod.Find<ModItem>("VeinJuice").Type, 30);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }

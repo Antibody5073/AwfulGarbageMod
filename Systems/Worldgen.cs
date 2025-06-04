@@ -1,4 +1,4 @@
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.NPCs.Boss;
 using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
@@ -39,6 +39,11 @@ namespace AwfulGarbageMod.Systems
             if (shiniesIndex != -1)
             {
                 tasks.Insert(shiniesIndex + 1, new CandesciteGen("Filling the underworld with more hot rocks", 237.4298f));
+            }
+            int surfaceStone = tasks.FindIndex(t => t.Name.Equals("Surface Ore and Stone"));
+            if (surfaceStone != -1)
+            {
+                tasks.Insert(surfaceStone + 1, new SurfaceStructureGen("Creating structures on the surface", 237.4298f, Mod));
             }
         }
     }

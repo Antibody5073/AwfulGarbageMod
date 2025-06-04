@@ -1,5 +1,6 @@
 [b]This mod does not support multiplayer[/b]
 This mod also adds a structure and some ore, so a new world is recommended (though you can manually generate them on the spot using an item if needed)
+In this mod, Summoner is balanced around certain minions using static immunity frames. Mods that change minions' static immunity to local will probably cause certain minions to become absurdly powerful.
 
 Awful Garbage Mod is a mod I have created to just add whatever I want into Terraria, it is also the first Terraria mod I have ever created. While I have "plans" for the mod, they mostly just exist so I feel like I am making progress.
 
@@ -31,9 +32,9 @@ nobisyu for the following:
 Candescite, Candescite bar
 Someone with a short username for the following sprites: 
 Necro Scope, Dried Blossom, Leafstorm, Cobalt Flail, Palladium Flail, Pumpking's Harvester, Phantom Flail, Vortex Storm, Nunchucks, Bonechucks, Lee's Nunchucks, Crystalline Nunchucks
-jolly pil for the following: 
+pil for the following: 
 Corrupted Metal Chunk, Crimson Metal Chunk
-crow attack for the following:
+Many is Always Good for the following:
 High Velocity Arrow
 
 

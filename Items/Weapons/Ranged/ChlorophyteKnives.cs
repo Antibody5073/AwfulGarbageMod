@@ -47,7 +47,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void AddRecipes()
 		{
             CreateRecipe()
-                .AddIngredient(ItemID.ChlorophyteBar, 15)
+                .AddIngredient(ItemID.ChlorophyteBar, 18)
                 .AddIngredient(ItemID.JungleSpores, 12)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();

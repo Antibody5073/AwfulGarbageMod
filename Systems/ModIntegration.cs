@@ -1,4 +1,4 @@
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.NPCs.Boss;
 using AwfulGarbageMod.NPCs.Town;
 using AwfulGarbageMod.Systems;
@@ -111,7 +111,7 @@ namespace AwfulGarbageMod.ModIntegration
             int bossType = ModContent.NPCType<NPCs.Boss.TreeToad>();
 
             // The item used to summon the boss with (if available)
-            int spawnItem = ModContent.ItemType<Items.Consumables.InsectOnAStick>();
+            int spawnItem = ModContent.ItemType<InsectOnAStick>();
 
             // "collectibles" like relic, trophy, mask, pet
             List<int> collectibles = new List<int>()
@@ -210,7 +210,7 @@ namespace AwfulGarbageMod.ModIntegration
             bossType = ModContent.NPCType<NPCs.Boss.SeseKitsugai>();
 
             // The item used to summon the boss with (if available)
-            spawnItem = ModContent.ItemType<Items.Consumables.PileOfFakeBones>();
+            spawnItem = ModContent.ItemType<PileOfFakeBones>();
 
             // "collectibles" like relic, trophy, mask, pet
             collectibles = new List<int>()
@@ -252,7 +252,7 @@ namespace AwfulGarbageMod.ModIntegration
             bossType = ModContent.NPCType<NPCs.Boss.EyeOfTheStorm>();
 
             // The item used to summon the boss with (if available)
-            spawnItem = ModContent.ItemType<Items.Consumables.FoggyLens>();
+            spawnItem = ModContent.ItemType<FoggyLens>();
 
             // "collectibles" like relic, trophy, mask, pet
             collectibles = new List<int>()
@@ -327,7 +327,7 @@ namespace AwfulGarbageMod.ModIntegration
             weight = 5.0001f;
             downed = () => DownedBossSystem.downedTsugumi;
             bossType = ModContent.NPCType<NPCs.Boss.TsugumiUmatachi>();
-            spawnItem = ModContent.ItemType<Items.Consumables.JarOfSpirits>();
+            spawnItem = ModContent.ItemType<JarOfSpirits>();
             collectibles = new List<int>()
             {
                 ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormRelic>(),
@@ -353,7 +353,7 @@ namespace AwfulGarbageMod.ModIntegration
             weight = 7.0001f;
             downed = () => DownedBossSystem.downedFireMoth;
             bossType = ModContent.NPCType<NPCs.Boss.Candescence>();
-            spawnItem = ModContent.ItemType<Items.Consumables.LavaLamp>();
+            spawnItem = ModContent.ItemType<LavaLamp>();
             collectibles = new List<int>()
             {
                 ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormRelic>(),

@@ -72,7 +72,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.JungleSpores, 12)
+                .AddIngredient(ItemID.JungleSpores, 15)
                 .AddIngredient(ItemID.Vine, 7)
                 .AddTile(TileID.WorkBenches)
                 .Register();
@@ -94,7 +94,6 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             // This is necessary for right-click targeting
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 
-            Main.projPet[Projectile.type] = true; // Denotes that this projectile is a pet or minion
             Main.projFrames[Projectile.type] = 3;
 
             ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true; // Make the cultist resistant to this projectile, as it's resistant to all homing projectiles.

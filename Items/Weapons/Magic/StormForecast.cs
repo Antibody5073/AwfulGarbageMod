@@ -21,16 +21,16 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             // Tooltip.SetDefault("Rapidly shoots erratic lightning bolts\nSignificantly less effective at longer ranges");
 
         }
-
+       
         public override void SetDefaults()
         {
-            Item.damage = 20;
+            Item.damage = 22;
             Item.mana = 4;
             Item.DamageType = DamageClass.Magic;
             Item.width = 30;
             Item.height = 30;
-            Item.useTime = 6;
-            Item.useAnimation = 18;
+            Item.useTime = 5;
+            Item.useAnimation = 15;
             Item.useStyle = 5;
             Item.knockBack = 1;
             Item.value = 15000;
@@ -86,6 +86,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
             Projectile.alpha = 255;
+            Projectile.extraUpdates = 1;
         }
 
         int counter = 0;

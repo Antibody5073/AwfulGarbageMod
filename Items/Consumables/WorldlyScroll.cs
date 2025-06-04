@@ -56,6 +56,10 @@ namespace AwfulGarbageMod.Items.Consumables
             {
                 OreGeneration.GenerateFlint();
             }
+            if (DifficultyModes.Difficulty > 0 && NPC.downedBoss2 && AGUtils.GetTileCounts(ModContent.TileType<VitalliumOre>()) <= 0)
+            {
+                OreGeneration.GenerateVitallium();
+            }
             if (!Structures.SkyStructure)
             {
                 Structures.GenerateEotsStructure(Mod);

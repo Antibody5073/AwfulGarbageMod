@@ -52,5 +52,14 @@ namespace AwfulGarbageMod.Items.Accessories
         {
 			player.GetModPlayer<VenomEmpowermentPlayer>().hasSigil = true;
         }
+
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.SpiderFang, 8)
+                .AddTile(TileID.Anvils)
+                .Register();
+        }
     }
 }

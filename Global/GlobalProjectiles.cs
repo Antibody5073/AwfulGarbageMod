@@ -109,13 +109,20 @@ namespace AwfulGarbageMod.Global
                 {
                     if (target.HasBuff(BuffID.OnFire) || target.HasBuff(BuffID.OnFire3))
                     {
-                        modifiers.SourceDamage += 6;
+                        modifiers.FlatBonusDamage += 6;
                     }
                     if (target.HasBuff(BuffID.Frostburn) || target.HasBuff(BuffID.Frostburn2))
                     {
-                        modifiers.SourceDamage += 6;
+                        modifiers.FlatBonusDamage += 6;
                     }
                 }
+                float extraDamage = 0;
+                foreach (var item in target.GetGlobalNPC<ExampleGlobalNPC>().stackableTag)
+                {
+                    extraDamage += item.X;
+                }
+                extraDamage *= ProjectileID.Sets.SummonTagDamageMultiplier[projectile.type];
+                modifiers.FlatBonusDamage += extraDamage;
             }
         }
 

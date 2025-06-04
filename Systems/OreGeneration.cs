@@ -1,4 +1,4 @@
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.NPCs.Boss;
 using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
@@ -59,7 +59,7 @@ namespace AwfulGarbageMod.Systems
         public static void GenerateCandescite()
         {
             Main.NewText("Generated Candescite", Color.OrangeRed);
-            
+
             for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY) * 1E-03); i++)
             {
                 int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
@@ -92,6 +92,23 @@ namespace AwfulGarbageMod.Systems
                 if (tile.HasTile && (tile.TileType == TileID.Ash || tile.TileType == TileID.Stone))
                 {
                     WorldGen.OreRunner(x, y, WorldGen.genRand.NextFloat(4, 5), WorldGen.genRand.Next(24, 40), (ushort)ModContent.TileType<CandesciteOre>());
+                }
+            }
+        }
+        public static void GenerateVitallium()
+        {
+            Main.NewText("Generated Vitallium", Color.Red);
+
+
+            for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY) * 5E-04); i++)
+            {
+                int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+                int y = WorldGen.genRand.Next(Main.maxTilesY * 3 / 5, Main.maxTilesY);
+
+                Tile tile = Framing.GetTileSafely(x, y);
+                if (tile.HasTile && (tile.TileType == TileID.Stone))
+                {
+                    WorldGen.OreRunner(x, y, WorldGen.genRand.Next(3, 5), WorldGen.genRand.Next(5, 12), (ushort)ModContent.TileType<VitalliumOre>());
                 }
             }
         }

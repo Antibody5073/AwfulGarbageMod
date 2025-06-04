@@ -57,7 +57,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<DesertScale>(12)
+                .AddIngredient<DesertScale>(24)
                 .AddIngredient(ItemID.SandBlock, 25)
                 .AddTile(TileID.Anvils)
                 .Register();

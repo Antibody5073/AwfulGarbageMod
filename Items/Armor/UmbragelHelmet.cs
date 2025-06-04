@@ -60,5 +60,13 @@ namespace AwfulGarbageMod.Items.Armor
                 Projectile.NewProjectileDirect(Projectile.GetSource_NaturalSpawn(), player.GetModPlayer<GlobalPlayer>().umbragelPos[0], new Vector2(0, 0), ModContent.ProjectileType<UmbragelShadow>(), 0, 0, Main.myPlayer);
             }
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.NinjaHood)
+                .AddIngredient<UnrealEssence>(10)
+                .AddIngredient(ItemID.Gel, 10)
+                .Register();
+        }
     }
 }

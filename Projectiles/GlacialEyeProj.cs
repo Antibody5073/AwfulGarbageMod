@@ -143,7 +143,7 @@ namespace AwfulGarbageMod.Projectiles
             dir = (closestNPC.Center - Projectile.Center).ToRotation();
 
             pupilDir = dir;
-            pupilMagnitude = 5.5f;
+            pupilMagnitude = 4f;
         }
 
         public virtual void SetPositionBasedOnDirection(float direction, Vector2 targetPos)

@@ -1,3 +1,4 @@
+using AwfulGarbageMod.Items.Placeable.OresBars;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
@@ -23,15 +24,15 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
 		public override void SetDefaults()
 		{
-			Item.damage = 28;
-			Item.mana = 10;
+			Item.damage = 30;
+			Item.mana = 24;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 42;
 			Item.height = 46;
-			Item.useTime = 34;
-			Item.useAnimation = 34;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
 			Item.useStyle = 5;
-			Item.knockBack = 0.1f;
+			Item.knockBack = 7f;
 			Item.value = 10000;
             Item.rare = 1;
             Item.UseSound = SoundID.Item8;
@@ -51,22 +52,12 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void AddRecipes()
 		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<AcornStaff>());
-            recipe.AddIngredient(ItemID.GemTreeRubySeed, 6);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-            Recipe recipe2 = CreateRecipe();
-            recipe2.AddIngredient(ModContent.ItemType<AcornStaff>());
-            recipe2.AddIngredient(ItemID.GemTreeRubySeed, 2);
-            recipe2.AddIngredient(ItemID.RubyStaff);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.Register();
+
             CreateRecipe()
                 .AddIngredient<AcornStaff>()
-                .AddIngredient(ItemID.GemTreeRubySeed, 6)
-                .AddIngredient(ItemID.CrimtaneBar, 8)
+                .AddIngredient(ItemID.RubyStaff)
+                .AddIngredient(ItemID.GemTreeRubySeed, 5)
+                .AddIngredient<CandesciteOre>(30)
                 .AddTile(TileID.DemonAltar)
                 .Register();
         }
@@ -187,12 +178,14 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.height = 8;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
-            Projectile.penetrate = 1;
-            Projectile.timeLeft = 90;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 120;
             Projectile.light = 1f;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
             Projectile.alpha = 255;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

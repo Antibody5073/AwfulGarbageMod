@@ -57,16 +57,16 @@ namespace AwfulGarbageMod.Items.Armor
                 .AddIngredient(ItemID.MeteorHelmet)
                 .AddIngredient(ItemID.MoltenHelmet)
                 .AddIngredient(ItemID.SilverHelmet)
-                .AddIngredient<CandesciteBar>(15)
-                .AddIngredient<Pyrogem>(10)
+                .AddIngredient<CandesciteBar>(20)
+                .AddIngredient<Pyrogem>(16)
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
                 .AddIngredient(ItemID.MeteorHelmet)
                 .AddIngredient(ItemID.MoltenHelmet)
                 .AddIngredient(ItemID.TungstenHelmet)
-                .AddIngredient<CandesciteBar>(15)
-                .AddIngredient<Pyrogem>(10)
+                .AddIngredient<CandesciteBar>(20)
+                .AddIngredient<Pyrogem>(16)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

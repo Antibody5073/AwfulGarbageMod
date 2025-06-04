@@ -24,13 +24,13 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
 		public override void SetDefaults()
 		{
-			Item.damage = 34;
-			Item.mana = 18;
+			Item.damage = 29;
+			Item.mana = 150;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 42;
 			Item.height = 46;
-			Item.useTime = 30;
-			Item.useAnimation = 30;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
 			Item.useStyle = 5;
 			Item.knockBack = 0.1f;
 			Item.value = 10000;
@@ -46,7 +46,12 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             //Main.NewText((int)(Item.mana * player.manaCost));
-            int proj = Projectile.NewProjectile(source, position, velocity, Mod.Find<ModProjectile>("GeodeGemcornStaffProj").Type, damage, knockback, player.whoAmI, 0, (int)(Item.mana * player.manaCost));
+            int manaCost = (int)(Item.mana * player.manaCost);
+            int[] mana = [manaCost / 2, manaCost - (manaCost /2)];
+            for (int i = 0; i < 2; i++)
+            {
+                Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(16)), Mod.Find<ModProjectile>("GeodeGemcornStaffProj").Type, damage, knockback, player.whoAmI, 0, mana[i]);
+            }
             return false;
         }
 
@@ -62,6 +67,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<DiamondGemcornStaff>());
             recipe.AddIngredient(ItemID.Bone, 25);
             recipe.AddIngredient(ItemID.Geode, 3);
+            recipe.AddIngredient(ModContent.ItemType<SoulOfIghtImaHeadOut>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
@@ -98,7 +104,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 1; i++)
             {
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(Main.rand.NextFloat(4, 7), 0).RotatedByRandom(MathHelper.ToRadians(360)), Mod.Find<ModProjectile>("RubyGemcornStaffProj2").Type, Projectile.damage / 3, 0, Projectile.owner, 0);
                 Main.projectile[proj].CritChance = Projectile.CritChance;
@@ -143,34 +149,86 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 player.statMana += (int)Projectile.ai[1];
                 //Main.NewText((int)Projectile.ai[1]);
                 regenMana = false;
+                if (Main.rand.NextBool(3))
+                {
+                    player.HealEffect(1);
+                    player.statLife += 1;
+                    int debuff = Main.rand.Next(17);
+                    if (debuff == 0 || debuff == 1 || debuff == 2)
+                    {
+                        target.AddBuff(BuffID.OnFire, 105);
+                    }
+                    if (debuff == 3 || debuff == 4)
+                    {
+                        target.AddBuff(BuffID.Frostburn, 105);
+                    }
+                    if (debuff == 5 || debuff == 6)
+                    {
+                        target.AddBuff(BuffID.Poisoned, 120);
+                    }
+                    if (debuff == 7)
+                    {
+                        target.AddBuff(BuffID.Confused, 60);
+                    }
+                    if (debuff == 8)
+                    {
+                        target.AddBuff(BuffID.Wet, 150);
+                    }
+                    if (debuff == 9)
+                    {
+                        target.AddBuff(BuffID.Slimed, 150);
+                    }
+                    if (debuff == 10)
+                    {
+                        player.AddBuff(BuffID.Regeneration, 180);
+                        player.AddBuff(BuffID.ManaRegeneration, 180);
+                    }
+                    if (debuff == 11)
+                    {
+                        player.AddBuff(BuffID.Mining, 180);
+                    }
+                    if (debuff == 12)
+                    {
+                        player.AddBuff(BuffID.Swiftness, 180);
+                    }
+                    if (debuff == 13)
+                    {
+                        player.AddBuff(BuffID.Endurance, 120);
+                    }
+                    if (debuff == 14)
+                    {
+                        player.AddBuff(BuffID.Ironskin, 120);
+                    }
+                    if (debuff == 15)
+                    {
+                        player.AddBuff(BuffID.NightOwl, 300);
+                    }
+                    if (debuff == 16)
+                    {
+                        player.AddBuff(BuffID.ManaRegeneration, 180);
+                        player.AddBuff(BuffID.MagicPower, 180);
+                    }
+                }
+                target.AddBuff(ModContent.BuffType<EmeraldDefenseBuff>(), 300);
+
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AmethystGemcornStaffExplosion>(), hit.SourceDamage / 3, 2, player.whoAmI);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    float rotat = Main.rand.NextFloatDirection();
+                    for (int i = 0; i < 32; i++)
+                    {
+                        Vector2 vel = new Vector2((float)Math.Cos(MathHelper.TwoPi * i / 16), (float)Math.Sin(MathHelper.TwoPi * i / 16) * 5);
+                        vel = vel.RotatedBy(rotat);
+                        int dust = Dust.NewDust(Projectile.position + new Vector2(3, 3), Projectile.width - 3, Projectile.height - 3, DustID.GemAmethyst, 0f, 0f, 0, default(Color), 1f);
+                        Main.dust[dust].scale = Main.rand.NextFloat(0.8f, 1.3f);
+                        Main.dust[dust].velocity = vel;
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].alpha = 120;
+                    }
+                }
             }
-            target.AddBuff(ModContent.BuffType<EmeraldDefenseBuff>(), 180);
-            int debuff = Main.rand.Next(10);
-            if (debuff == 0 || debuff == 1 || debuff == 2)
-            {
-                target.AddBuff(BuffID.OnFire, 75);
-            }
-            if (debuff == 3 || debuff == 4)
-            {
-                target.AddBuff(BuffID.Frostburn, 75);
-            }
-            if (debuff == 5 || debuff == 6)
-            {
-                target.AddBuff(BuffID.Poisoned, 90);
-            }
-            if (debuff == 7)
-            {
-                target.AddBuff(BuffID.Confused, 45);
-            }
-            if (debuff == 8)
-            {
-                target.AddBuff(BuffID.Wet, 150);
-            }
-            if (debuff == 9)
-            {
-                target.AddBuff(BuffID.Slimed, 150);
-            }
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 2; i++)
             {
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - Projectile.velocity, new Vector2(Main.rand.NextFloat(4, 7), 0).RotatedByRandom(MathHelper.ToRadians(360)), Mod.Find<ModProjectile>("RubyGemcornStaffProj2").Type, Projectile.damage / 3, 0, Projectile.owner, 0);
                 Main.projectile[proj].CritChance = Projectile.CritChance;
@@ -224,12 +282,6 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextFromList(DustID.GemAmethyst, DustID.GemAmber, DustID.GemTopaz, DustID.GemSapphire, DustID.GemEmerald, DustID.GemRuby, DustID.GemDiamond), 0f, 0f, 0, default(Color), 1f);
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(225f);
-
-            if (Projectile.timeLeft % 10 == 5)
-            {
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, Mod.Find<ModProjectile>("TopazGemcornStaffProj2").Type, Projectile.damage / 3, 0, Projectile.owner, 0);
-                Main.projectile[proj].CritChance = Projectile.CritChance;
-            }
 
             float maxDetectRadius = 300; // The maximum radius at which a projectile can detect a target
 

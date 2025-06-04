@@ -36,6 +36,8 @@ namespace AwfulGarbageMod
             return damageType.CountsAsClass(DamageClass.Summon);
         }
 
+        
+
         public static FlailProjectile flailProjectile(this Projectile proj)
         {
             return proj.GetGlobalProjectile<FlailProjectile>();

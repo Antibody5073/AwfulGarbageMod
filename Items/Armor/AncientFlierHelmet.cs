@@ -61,14 +61,14 @@ namespace AwfulGarbageMod.Items.Armor
                 .AddIngredient(ItemID.NecroHelmet)
                 .AddIngredient(ItemID.BeeHeadgear)
                 .AddIngredient(ItemID.PlatinumHelmet)
-                .AddIngredient<DesertScale>(8)
+                .AddIngredient<DesertScale>(24)
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
                 .AddIngredient(ItemID.NecroHelmet)
                 .AddIngredient(ItemID.BeeHeadgear)
                 .AddIngredient(ItemID.GoldHelmet)
-                .AddIngredient<DesertScale>(8)
+                .AddIngredient<DesertScale>(24)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

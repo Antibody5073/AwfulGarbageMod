@@ -47,7 +47,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void AddRecipes()
 		{
             CreateRecipe()
-                .AddIngredient(ItemID.CobaltBar, 18)
+                .AddIngredient(ItemID.CobaltBar, 22)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

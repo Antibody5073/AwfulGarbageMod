@@ -68,7 +68,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             CreateRecipe()
                 .AddIngredient<Nunchucks>()
-                .AddIngredient(ItemID.Bone, 15)
+                .AddIngredient(ItemID.Bone, 75)
                 .AddTile(TileID.Anvils)
                 .Register();
         }
@@ -101,6 +101,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
 
             Vector2 mouse = new Vector2((float)Main.mouseX + Main.screenPosition.X - player.Center.X, (float)Main.mouseY + Main.screenPosition.Y - player.Center.Y);
+            if (player.direction == 1 && mouse.X < 0) { mouse.X = 0; }
+            if (player.direction == -1 && mouse.X > 0) { mouse.X = 0; }
             offsetCenter = mouse.SafeNormalize(Vector2.Zero) * 27;
             offsetFromPlayer = new Vector2(player.direction).RotatedBy((float)Math.PI * (spd) * (currentDir) * player.direction + MathHelper.ToRadians(Projectile.flailProjectile().spinOffset));
         }

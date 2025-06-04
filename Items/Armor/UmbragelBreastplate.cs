@@ -33,5 +33,13 @@ namespace AwfulGarbageMod.Items.Armor
             player.GetCritChance(DamageClass.Generic) += 7;
             player.maxMinions += 1;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.NinjaShirt)
+                .AddIngredient<UnrealEssence>(10)
+                .AddIngredient(ItemID.Gel, 10)
+                .Register();
+        }
     }
 }

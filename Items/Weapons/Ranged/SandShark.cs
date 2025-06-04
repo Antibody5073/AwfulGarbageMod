@@ -75,7 +75,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                 .AddIngredient(ItemID.Minishark)
                 .AddIngredient<Sandkicker>()
                 .AddIngredient(ItemID.IllegalGunParts)
-                .AddIngredient<DesertScale>(10)
+                .AddIngredient<DesertScale>(22)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

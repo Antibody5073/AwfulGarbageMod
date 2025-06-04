@@ -37,7 +37,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 			Item.autoReuse = true;
 			Item.crit = 0;
 			Item.shoot = Mod.Find<ModProjectile>("SylvanTomeProj").Type;
-			Item.shootSpeed = 5f;
+			Item.shootSpeed = 6f;
 			Item.noMelee = true;
 		}
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

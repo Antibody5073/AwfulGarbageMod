@@ -56,12 +56,12 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(Mod.Find<ModItem>("VeinJuice").Type, 30);
+            recipe.AddIngredient(Mod.Find<ModItem>("VeinJuice").Type, 40);
             recipe.AddIngredient(ItemID.DemonBow);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
             Recipe recipe2 = CreateRecipe();
-            recipe2.AddIngredient(Mod.Find<ModItem>("VeinJuice").Type, 30);
+            recipe2.AddIngredient(Mod.Find<ModItem>("VeinJuice").Type, 40);
             recipe2.AddIngredient(ItemID.TendonBow);
             recipe2.AddTile(TileID.Anvils);
             recipe2.Register();

@@ -81,8 +81,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
         public virtual void WidthHeight()
         {
-            Projectile.width = 24; // The width of your projectile
-            Projectile.height = 24; // The height of your projectile
+            Projectile.width = 36; // The width of your projectile
+            Projectile.height = 36; // The height of your projectile
         }
         public override void SetDefaults()
         {
@@ -157,7 +157,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                 }
             }
             // Kill the projectile if the player dies or gets crowd controlled
-            if (!player.active || player.dead || player.noItems || player.CCed || Vector2.Distance(Projectile.Center, player.Center) > 1200f)
+            if (!player.active || player.dead || player.noItems || player.CCed || Vector2.Distance(Projectile.Center, player.Center) > 2000f)
             {
                 Projectile.Kill();
                 return;
@@ -232,7 +232,6 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                         if (Projectile.owner == Main.myPlayer)
                         {
                             Vector2 unitVectorTowardsMouse = mountedCenter.DirectionTo(Main.MouseWorld).SafeNormalize(Vector2.UnitX * player.direction);
-                            player.ChangeDir((unitVectorTowardsMouse.X > 0f).ToDirectionInt());
                             if (!player.channel) // If the player releases then change to moving forward mode
                             {
                                 CurrentAIState = AIState.Retracting;

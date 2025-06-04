@@ -76,7 +76,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 200;
+            Projectile.timeLeft = 240;
             Projectile.light = 1f;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
@@ -161,7 +161,10 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
             float maxDetectRadius = 450f; // The maximum radius at which a projectile can detect a target
             float projSpeed = 2f; // The speed at which the projectile moves towards the target
-
+            if (Projectile.timeLeft > 225)
+            {
+                projSpeed = 0.25f;
+            }
             // Trying to find NPC closest to the projectile
             NPC closestNPC = FindClosestNPC(maxDetectRadius);
             if (closestNPC == null)

@@ -94,7 +94,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<EnchantedLeaf>(10)
+                .AddIngredient<EnchantedLeaf>(11)
                 .AddIngredient(ItemID.Wood, 15)
                 .AddTile(TileID.WorkBenches)
                 .Register();
@@ -118,7 +118,6 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             // This is necessary for right-click targeting
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 
-            Main.projPet[Projectile.type] = true; // Denotes that this projectile is a pet or minion
             Main.projFrames[Projectile.type] = 5;
 
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true; // This is needed so your minion can properly spawn when summoned and replaced when other minions are summoned
@@ -170,6 +169,10 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         {
             fallThrough = false;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            return false;
         }
         // Here you can decide if your minion breaks things like grass or pots
         public override bool? CanCutTiles()

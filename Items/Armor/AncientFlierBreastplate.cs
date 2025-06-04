@@ -41,14 +41,14 @@ namespace AwfulGarbageMod.Items.Armor
                 .AddIngredient(ItemID.NecroBreastplate)
                 .AddIngredient(ItemID.BeeBreastplate)
                 .AddIngredient(ItemID.PlatinumChainmail)
-                .AddIngredient<DesertScale>(12)
+                .AddIngredient<DesertScale>(36)
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
                 .AddIngredient(ItemID.NecroBreastplate)
                 .AddIngredient(ItemID.BeeBreastplate)
                 .AddIngredient(ItemID.GoldChainmail)
-                .AddIngredient<DesertScale>(12)
+                .AddIngredient<DesertScale>(36)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

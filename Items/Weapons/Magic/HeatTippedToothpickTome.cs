@@ -103,9 +103,9 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.ignoreWater = false;
             Projectile.tileCollide = false;
             Projectile.ArmorPenetration = 8;
-            Projectile.extraUpdates = 2;
+            Projectile.extraUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 15;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

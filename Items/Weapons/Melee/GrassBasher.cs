@@ -67,7 +67,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             CreateRecipe()
                 .AddIngredient(ItemID.Vine, 4)
-                .AddIngredient(ItemID.JungleSpores, 15)
+                .AddIngredient(ItemID.JungleSpores, 18)
                 .AddIngredient(ItemID.Chain, 12)
                 .AddTile(TileID.Anvils)
                 .Register();

@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using System.Linq;
+using System.Diagnostics.Metrics;
 
 namespace AwfulGarbageMod.Items.Weapons.Magic
 {
@@ -20,11 +21,11 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Item.staff[Item.type] = true;
 
         }
-
+        int counter;
         public override void SetDefaults()
         {
-            Item.damage = 24;
-            Item.mana = 7;
+            Item.damage = 23;
+            Item.mana = 12;
             Item.DamageType = DamageClass.Magic;
             Item.width = 30;
             Item.height = 30;
@@ -43,7 +44,13 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI, velocity.X, velocity.Y);
+            counter++;
+            Projectile.NewProjectile(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI, velocity.X, velocity.Y); 
+            if (counter % 3 == 0)
+            {
+                Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(15)), Item.shoot, damage, knockback, player.whoAmI, velocity.X, velocity.Y);
+                Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-15)), Item.shoot, damage, knockback, player.whoAmI, velocity.X, velocity.Y);
+            }
             return false;
         }
 

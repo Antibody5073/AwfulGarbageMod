@@ -9,6 +9,7 @@ using AwfulGarbageMod.DamageClasses;
 using Terraria.Localization;
 using AwfulGarbageMod.Items.Armor;
 using System.Linq;
+using AwfulGarbageMod.Systems;
 
 namespace AwfulGarbageMod.Global.GlobalItems
 {
@@ -53,10 +54,49 @@ namespace AwfulGarbageMod.Global.GlobalItems
             if (item.type == ItemID.TerraBlade)
             {
                 tooltip = new TooltipLine(Mod, "yago", "\n'Made in YagoTM'");
-                line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Material" && x.Mod == "Terraria");
+                line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Knockback" && x.Mod == "Terraria");
                 if (line != null)
                 {
                     line.Text += tooltip.Text;
+                }
+            }
+            if (item.type == ItemID.FlinxStaff || item.type == ItemID.ImpStaff || item.type == ItemID.SlimeStaff || item.type == ItemID.VampireFrogStaff || item.type == ItemID.OpticStaff)
+            {
+                tooltip = new TooltipLine(Mod, "mix", "\nUses static immunity frames; it is suggested you mix minions when using this weapon");
+                line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+                if (line != null)
+                {
+                    line.Text += tooltip.Text;
+                }
+            }
+            if (DifficultyModes.Difficulty > 0 && !player.GetModPlayer<GlobalPlayer>().DisabledUnrealBuffNerfs)
+            {
+                line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
+
+                if (item.type == ItemID.RegenerationPotion)
+                {
+                    line.Text += Language.GetOrRegister("Mods.AwfulGarbageMod.UnrealBuffNerfs.Regeneration");
+                }
+                if (item.type == ItemID.IronskinPotion)
+                {
+                    line.Text += Language.GetOrRegister("Mods.AwfulGarbageMod.UnrealBuffNerfs.Ironskin");
+                }
+                if (item.type == ItemID.EndurancePotion)
+                {
+                    line.Text += Language.GetOrRegister("Mods.AwfulGarbageMod.UnrealBuffNerfs.Endurance");
+                }
+                if (item.type == ItemID.WrathPotion)
+                {
+                    line.Text += Language.GetOrRegister("Mods.AwfulGarbageMod.UnrealBuffNerfs.Wrath");
+
+                }
+                if (item.type == ItemID.RagePotion)
+                {
+                    line.Text += Language.GetOrRegister("Mods.AwfulGarbageMod.UnrealBuffNerfs.Rage");
+                }
+                if (item.type == ItemID.ArcheryPotion)
+                {
+                    line.Text += Language.GetOrRegister("Mods.AwfulGarbageMod.UnrealBuffNerfs.Archery");
                 }
             }
             if (item.type == ItemID.LeadPickaxe || item.type == ItemID.SilverPickaxe)

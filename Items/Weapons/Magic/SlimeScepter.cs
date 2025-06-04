@@ -53,7 +53,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void SetDefaults()
 		{
-			Item.damage = 27;
+			Item.damage = 32;
             Item.DamageType = ModContent.GetInstance<ScepterDamageClass>();
             Item.mana = 5;
 			Item.width = 42;

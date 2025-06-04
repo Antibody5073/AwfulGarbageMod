@@ -21,7 +21,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 12;
+			Item.damage = 11;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 40;
 			Item.height = 40;
@@ -57,7 +57,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void AddRecipes()
 		{
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(Mod.Find<ModItem>("FrostShard").Type, 12);
+            recipe.AddIngredient(Mod.Find<ModItem>("FrostShard").Type, 16);
             recipe.AddIngredient(ItemID.IceBlock, 30);
             recipe.AddTile(TileID.WorkBenches);
             recipe.Register();

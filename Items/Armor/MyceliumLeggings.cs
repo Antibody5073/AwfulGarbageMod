@@ -23,7 +23,8 @@ namespace AwfulGarbageMod.Items.Armor
 		}
 
 		public override void UpdateEquip(Player player) {
-            player.jumpSpeedBoost += 1.2f;
+            player.jumpSpeedBoost += 1.125f;
+            player.moveSpeed += 0.25f;
         }
 
         // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.

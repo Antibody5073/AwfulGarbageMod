@@ -19,7 +19,7 @@ using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using AwfulGarbageMod.Items;
@@ -87,8 +87,8 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
 
         public override void SetDefaults()
         {
-            NPC.width = 98; // The width of the npc's hitbox (in pixels)
-            NPC.height = 92; // The height of the npc's hitbox (in pixels)
+            NPC.width = 78; // The width of the npc's hitbox (in pixels)
+            NPC.height = 90; // The height of the npc's hitbox (in pixels)
             NPC.aiStyle = -1; // This npc has a completely unique AI, so we set this to -1. The default aiStyle 0 will face the player, which might conflict with custom AI code.
             NPC.damage = 27; // The amount of damage that this npc deals
             NPC.defense = 8; // The amount of defense that this npc has
@@ -245,6 +245,7 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
                     AI_Timer = 0;
                     atkUseCounter = 0;
                     atkDelay = 0;
+                    NPC.noTileCollide = true;
                     break;
                 case (float)ActionState.Slam:
                     AI_Timer = 0;
@@ -270,6 +271,7 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
                     atkDelay = 0;
                     lunging = false;
                     jumping = false;
+                    NPC.velocity.Y = 5;
                     break;
             }
         }
@@ -324,7 +326,8 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
             AI_Timer += 1;
             if (AI_Timer == 840)
             {
-                SwitchAttack(ActionState.SlimeRain);
+                SwitchAttack(ActionState.SlimeRain); return;
+
             }
 
             if (jumping && NPC.velocity.Y == 0)
@@ -477,7 +480,8 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
 
             if (AI_Timer == 840)
             {
-                SwitchAttack(ActionState.Slam);
+                SwitchAttack(ActionState.Slam); return;
+
             }
         }
         private void Slam()
@@ -580,7 +584,8 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
 
             if (AI_Timer == 840)
             {
-                SwitchAttack(ActionState.HorizontalLunge);
+                SwitchAttack(ActionState.HorizontalLunge); return;
+
             }
         }
         private void HorizontalLunge()
@@ -590,7 +595,8 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
             AI_Timer += 1;
             if (AI_Timer == 840)
             {
-                SwitchAttack(ActionState.BigSlam);
+                SwitchAttack(ActionState.BigSlam); return;
+
             }
 
             if (jumping && NPC.velocity.Y == 0)
@@ -749,7 +755,8 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
 
             if (AI_Timer == 840)
             {
-                SwitchAttack(ActionState.SpikeDash);
+                SwitchAttack(ActionState.SpikeDash); return;
+
             }
         }
         private void SpikeDash()
@@ -759,7 +766,8 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
             AI_Timer += 1;
             if (AI_Timer == 840)
             {
-                SwitchAttack(ActionState.NormalJump);
+                SwitchAttack(ActionState.NormalJump); return;
+
             }
 
             if (jumping && NPC.velocity.Y == 0)
@@ -781,6 +789,8 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
                         {
                             NPC.velocity.X = 30;
                         }
+                        NPC.velocity.X += player.velocity.X / 2;
+
                         NPC.velocity.Y = 1;
 
                     }
@@ -797,11 +807,11 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
             if (atkDelay > 0)
             {
                 atkDelay--;
-                if (atkDelay % 2 == 0)
+                if (atkDelay % 3 == 0)
                 {
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -2).RotatedByRandom(MathHelper.ToRadians(30)), DifficultyModes.Difficulty == 2 ? ProjectileID.IceSpike : ProjectileID.SpikedSlimeSpike, 9, 0, Main.myPlayer);
                 }
-                if (DifficultyModes.Difficulty == 2 ? atkDelay % 2 == 0 : atkDelay % 5 == 0)
+                if (DifficultyModes.Difficulty == 2 ? atkDelay % 1 == 0 : atkDelay % 6 == 0)
                 {
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -4.5f).RotatedByRandom(MathHelper.ToRadians(45)), ProjectileID.SpikedSlimeSpike, 9, 0, Main.myPlayer);
                 }

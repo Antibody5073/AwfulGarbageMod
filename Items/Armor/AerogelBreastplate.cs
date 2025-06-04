@@ -36,14 +36,14 @@ namespace AwfulGarbageMod.Items.Armor
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Cloud, 25);
-            recipe.AddIngredient(ItemID.GoldBar, 6);
+            recipe.AddIngredient(ItemID.GoldBar, 12);
             recipe.AddIngredient(ItemID.Gel, 18);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
             Recipe recipe4 = CreateRecipe();
             recipe4.AddIngredient(ItemID.Cloud, 25);
             recipe4.AddIngredient(ItemID.Gel, 18);
-            recipe4.AddIngredient(ItemID.PlatinumBar, 6);
+            recipe4.AddIngredient(ItemID.PlatinumBar, 12);
             recipe4.AddTile(TileID.Anvils);
             recipe4.Register();
         }

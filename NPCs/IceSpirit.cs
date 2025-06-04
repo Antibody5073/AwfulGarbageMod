@@ -18,7 +18,7 @@ using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items;
 
 namespace AwfulGarbageMod.NPCs
@@ -91,14 +91,14 @@ namespace AwfulGarbageMod.NPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FrostShard>(), 1, 2, 3));
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpiritItem>(), 1, 4, 7));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpiritItem>(), 1, 4, 6));
             npcLoot.Add(ItemDropRule.OneFromOptions(3, ModContent.ItemType<SigilOfFrost>(), ModContent.ItemType<Items.Weapons.Magic.IceSpiritBeam>()));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneSnow && spawnInfo.Player.ZoneRockLayerHeight)
             {
-                return 0.06f;
+                return 0.03f;
             }
             return 0;
         }

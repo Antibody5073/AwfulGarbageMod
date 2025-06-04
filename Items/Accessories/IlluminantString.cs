@@ -39,7 +39,7 @@ namespace AwfulGarbageMod.Items.Accessories
                 player.GetModPlayer<GlobalPlayer>().IlluminantString = true;
             }
 
-            player.whipRangeMultiplier += 0.3f;
+            player.whipRangeMultiplier += 0.25f;
         }
 
         public override void AddRecipes()

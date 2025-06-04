@@ -68,7 +68,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 		{
             CreateRecipe()
 				.AddIngredient<CactusBow>()
-                .AddIngredient<DesertScale>(12)
+                .AddIngredient<DesertScale>(28)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

@@ -55,13 +55,13 @@ namespace AwfulGarbageMod.Items.Armor
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Cloud, 15);
-            recipe.AddIngredient(ItemID.GoldBar, 5);
+            recipe.AddIngredient(ItemID.GoldBar, 8);
             recipe.AddIngredient(ItemID.Gel, 12);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
             Recipe recipe4 = CreateRecipe();
             recipe4.AddIngredient(ItemID.Cloud, 15);
-            recipe4.AddIngredient(ItemID.PlatinumBar, 5);
+            recipe4.AddIngredient(ItemID.PlatinumBar, 8);
             recipe4.AddIngredient(ItemID.Gel, 12);
             recipe4.AddTile(TileID.Anvils);
             recipe4.Register();

@@ -1,4 +1,4 @@
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.NPCs.Boss;
 using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;

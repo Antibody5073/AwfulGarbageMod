@@ -49,6 +49,8 @@ namespace AwfulGarbageMod.Projectiles
             {
                 Projectile.hostile = true;
                 int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), Projectile.Center + new Vector2(5, 5), Vector2.Normalize(Main.player[Main.myPlayer].Center - Projectile.Center), Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
+                EoTSLightningTele p = (EoTSLightningTele)Main.projectile[proj].ModProjectile;
+                p.drift = Projectile.velocity;
             }
             if (Projectile.timeLeft < 30)
             {

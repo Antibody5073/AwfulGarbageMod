@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using static Terraria.ModLoader.PlayerDrawLayer;
+using AwfulGarbageMod.Systems;
 
 
 namespace AwfulGarbageMod.Projectiles
@@ -39,9 +40,19 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void OnKill(int timeLeft)
         {
-            for (var j = 0; j < 8; j++)
+            if (DifficultyModes.Difficulty == 1)
             {
-                Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), Projectile.Bottom, new Vector2(4.5f, 0).RotatedBy(MathHelper.ToRadians(j * 45)), Mod.Find<ModProjectile>("EoTSSnow").Type, 17, 0, Main.myPlayer);
+                for (var j = 0; j < 4; j++)
+                {
+                    Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), Projectile.Bottom, new Vector2(4.5f, 0).RotatedBy(MathHelper.ToRadians(j * 90)), Mod.Find<ModProjectile>("EoTSSnow").Type, 17, 0, Main.myPlayer);
+                }
+            }
+            else
+            {
+                for (var j = 0; j < 8; j++)
+                {
+                    Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), Projectile.Bottom, new Vector2(4.5f, 0).RotatedBy(MathHelper.ToRadians(j * 45)), Mod.Find<ModProjectile>("EoTSSnow").Type, 17, 0, Main.myPlayer);
+                }
             }
             for (var j = 0; j < 12; j++)
             {
@@ -63,6 +74,8 @@ namespace AwfulGarbageMod.Projectiles
                 Projectile.hostile = true;
                 int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), Projectile.Center + new Vector2(5, 5), Vector2.Normalize(Main.player[Main.myPlayer].Center - Projectile.Center), Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
                 Main.projectile[proj].timeLeft = (int)Projectile.ai[0];
+                EoTSLightningTele p = (EoTSLightningTele)Main.projectile[proj].ModProjectile;
+                p.drift = Projectile.velocity;
             }
             if (++Projectile.frameCounter >= 5)
             {

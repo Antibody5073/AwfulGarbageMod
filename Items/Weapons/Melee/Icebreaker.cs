@@ -37,7 +37,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Item.knockBack = 4f; // The knockback of your flail, this is dynamically adjusted in the projectile code.
             Item.width = 32; // Hitbox width of the item.
             Item.height = 32; // Hitbox height of the item.
-            Item.damage = 21; // The damage of your flail, this is dynamically adjusted in the projectile code.
+            Item.damage = 25; // The damage of your flail, this is dynamically adjusted in the projectile code.
             Item.noUseGraphic = true; // This makes sure the item does not get shown when the player swings his hand
             Item.shoot = ModContent.ProjectileType<IcebreakerProj>(); // The flail projectile
             Item.shootSpeed = 12f; // The speed of the projectile measured in pixels per frame.
@@ -66,15 +66,15 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<FrostShard>(10)
+                .AddIngredient<FrostShard>(14)
                 .AddIngredient(ItemID.IceBlock, 40)
-                .AddIngredient(ItemID.SilverBar, 7)
+                .AddIngredient(ItemID.SilverBar, 11)
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
-                .AddIngredient<FrostShard>(10)
+                .AddIngredient<FrostShard>(14)
                 .AddIngredient(ItemID.IceBlock, 40)
-                .AddIngredient(ItemID.TungstenBar, 7)
+                .AddIngredient(ItemID.TungstenBar, 11)
                 .AddTile(TileID.Anvils)
                 .Register();
         }
@@ -103,6 +103,12 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override int spinHitCooldown => 60;
         public override float RetractSpd => 0.2f;
         public override float MaxRetractSpd => 12f;
+
+        float prevDir;
+        public override void OnSpawn(IEntitySource source)
+        {
+            prevDir = MathHelper.ToRadians(Projectile.flailProjectile().spinOffset);
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (var i = 0; i < 10; i++)
@@ -121,7 +127,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             offsetFromPlayer = new Vector2(player.direction).RotatedBy((float)Math.PI * (spd) * (currentDir) * player.direction + MathHelper.ToRadians(Projectile.flailProjectile().spinOffset));
             offsetFromPlayer.Y /= 4.5f;
             Vector2 mouse = new Vector2((float)Main.mouseX + Main.screenPosition.X - player.Center.X, (float)Main.mouseY + Main.screenPosition.Y - player.Center.Y);
-            offsetFromPlayer = offsetFromPlayer.RotatedBy(mouse.ToRotation());
+            prevDir += AGUtils.TurnTowards(3, mouse, prevDir, Vector2.Zero);
+            offsetFromPlayer = offsetFromPlayer.RotatedBy(prevDir);
 
         }
     }

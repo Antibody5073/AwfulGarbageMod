@@ -1,5 +1,5 @@
 using AwfulGarbageMod.Global;
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.NPCs.Boss;
 using Microsoft.Xna.Framework;
 using Terraria;

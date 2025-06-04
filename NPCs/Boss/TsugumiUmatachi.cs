@@ -18,7 +18,7 @@ using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items.Weapons.Rogue;
 using rail;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -553,13 +553,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     Volume = 0.5f,
                 };
-                int damage = 24;
+                int damage = 28;
                 if (Main.expertMode)
                 {
-                    damage = 23;
+                    damage = 27;
                     if (Main.masterMode)
                     {
-                        damage = 22;
+                        damage = 26;
                     }
                 }
                 SoundEngine.PlaySound(impactSound);
@@ -768,13 +768,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                     {
                         Volume = 0.5f,
                     };
-                    int damage = 23;
+                    int damage = 28;
                     if (Main.expertMode)
                     {
-                        damage = 22;
+                        damage = 27;
                         if (Main.masterMode)
                         {
-                            damage = 21;
+                            damage = 26;
                         }
                     }
                     SoundEngine.PlaySound(impactSound);
@@ -948,13 +948,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                     SoundEngine.PlaySound(impactSound);
                     for (int i = 0; i < 5; i++)
                     {
-                        int damage = 22;
+                        int damage = 26;
                         if (Main.expertMode)
                         {
-                            damage = 20;
+                            damage = 25;
                             if (Main.masterMode)
                             {
-                                damage = 19;
+                                damage = 24;
                             }
                         }
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(4, 0).RotatedBy(MathHelper.ToRadians(atkDir + i * 72)), ModContent.ProjectileType<TsugumiRangeProj>(), damage, 0, Main.myPlayer);
@@ -1122,13 +1122,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                     float spinspd = Main.rand.NextBool() ? (Main.expertMode ? -0.5f : -0.75f) : (Main.expertMode ? 0.5f : 0.75f);
                     float dirrand = MathHelper.ToDegrees(Main.rand.NextFloatDirection());
 
-                    int damage = 24;
+                    int damage = 28;
                     if (Main.expertMode)
                     {
-                        damage = 22;
+                        damage = 27;
                         if (Main.masterMode)
                         {
-                            damage = 21;
+                            damage = 26;
                         }
                     }
                     for (int i = 0; i < (Main.expertMode?12:10); i++)
@@ -1234,13 +1234,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                     };
                     SoundEngine.PlaySound(impactSound);
 
-                    int damage = 20;
+                    int damage = 27;
                     if (Main.expertMode)
                     {
-                        damage = 19;
+                        damage = 26;
                         if (Main.masterMode)
                         {
-                            damage = 18;
+                            damage = 25;
                         }
                     }
                     int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiAccelProj>(), damage, 0, Main.myPlayer, 0.2f, 10f);
@@ -1548,13 +1548,13 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.globalEnemyBossInfo().OrbitDistance += (800 - NPC.globalEnemyBossInfo().OrbitDistance) / 45;
             Player player = Main.player[NPC.target];
 
-            int damage = 24;
+            int damage = 28;
             if (Main.expertMode)
             {
-                damage = 22;
+                damage = 27;
                 if (Main.masterMode)
                 {
-                    damage = 21;
+                    damage = 26;
                 }
             }
             if (AI_Timer % 240 == 0)

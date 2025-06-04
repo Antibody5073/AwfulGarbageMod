@@ -39,7 +39,7 @@ namespace AwfulGarbageMod.Items.Ammo
         // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
         public override void AddRecipes()
         {
-            CreateRecipe(100)
+            CreateRecipe(150)
                 .AddIngredient<SoulOfIghtImaHeadOut>(1)
                 .AddTile(TileID.Anvils)
                 .Register();

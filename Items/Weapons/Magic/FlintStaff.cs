@@ -22,8 +22,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
 		public override void SetDefaults()
 		{
-			Item.damage = 12;
-			Item.mana = 5;
+			Item.damage = 13;
+			Item.mana = 4;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 42;
 			Item.height = 46;
@@ -48,7 +48,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<Flint>(14)
+                .AddIngredient<Flint>(17)
                 .AddRecipeGroup(RecipeGroupID.Wood, 10)
                 .AddTile(TileID.WorkBenches)
                 .Register();
