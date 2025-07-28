@@ -42,7 +42,7 @@ namespace AwfulGarbageMod.Items.Consumables.BossSummon
 
         public override bool? UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, NPCType<Candescence>());
+            //NPC.SpawnOnPlayer(player.whoAmI, NPCType<Candescence>());
             SoundEngine.PlaySound(SoundID.Roar, player.position);
             return true;
         }

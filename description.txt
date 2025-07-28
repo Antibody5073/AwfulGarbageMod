@@ -1,4 +1,4 @@
-[b]This mod does not support multiplayer[/b]
+[b]This mod does not fully support multiplayer yet. I am working on it.[/b]
 This mod also adds a structure and some ore, so a new world is recommended (though you can manually generate them on the spot using an item if needed)
 In this mod, Summoner is balanced around certain minions using static immunity frames. Mods that change minions' static immunity to local will probably cause certain minions to become absurdly powerful.
 

@@ -86,6 +86,12 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         {
             CreateRecipe()
                 .AddIngredient<Garbage>(150)
+                .AddIngredient(ItemID.SilverBow)
+                .AddTile<Tiles.Furniture.TrashMelter>()
+                .Register();
+            CreateRecipe()
+                .AddIngredient<Garbage>(150)
+                .AddIngredient(ItemID.TungstenBow)
                 .AddTile<Tiles.Furniture.TrashMelter>()
                 .Register();
         }

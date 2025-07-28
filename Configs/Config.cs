@@ -17,6 +17,10 @@ namespace AwfulGarbageMod.Configs
         [ReloadRequired]
         public bool MagicArmorAdjust;
 
+        [DefaultValue(true)]
+        [ReloadRequired]
+        public bool HardmodeMetalRework;
+
         [Tooltip("Ranged ammo damage is reduced by half. Balances a few vanilla weapons that are negatively affected by this a lot, like the Minishark.")] // A tooltip is a description showed when you hover your mouse over the option. It can be used as a more in-depth explanation of the option.
         [DefaultValue(true)] // This sets the configs default value.
         [ReloadRequired] // Marking it with [ReloadRequired] makes tModLoader force a mod reload if the option is changed. It should be used for things like item toggles, which only take effect during mod loading

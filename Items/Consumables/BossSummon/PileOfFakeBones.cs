@@ -40,8 +40,25 @@ namespace AwfulGarbageMod.Items.Consumables.BossSummon
 
         public override bool? UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, NPCType<NPCs.Boss.SeseKitsugai>());
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
+            if (player.whoAmI == Main.myPlayer)
+            {
+                // If the player using the item is the client
+                // (explicitly excluded serverside here)
+                SoundEngine.PlaySound(SoundID.Roar, player.position);
+                int type = ModContent.NPCType<SeseKitsugai>();
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    // If the player is not in multiplayer, spawn directly
+                    NPC.SpawnOnPlayer(player.whoAmI, type);
+                }
+                else
+                {
+                    // If the player is in multiplayer, request a spawn
+                    // This will only work if NPCID.Sets.MPAllowedEnemies[type] is true, which we set in MinionBossBody
+                    NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, number: player.whoAmI, number2: type);
+                }
+            }
             return true;
         }
 

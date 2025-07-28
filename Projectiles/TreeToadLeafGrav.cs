@@ -97,14 +97,13 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void OnKill(int timeLeft)
         {
-            if (DifficultyModes.Difficulty > 0)
+            if (DifficultyModes.Difficulty > 0 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (Projectile.ai[0] == 0 || DifficultyModes.Difficulty == 2)
                 {
-                    if (Math.Abs(Projectile.Center.X - Main.player[Projectile.owner].Center.X) < 640 || DifficultyModes.Difficulty == 2)
+                    if (Math.Abs(Projectile.Center.X - Main.player[(int)Projectile.ai[1]].Center.X) < 640 || DifficultyModes.Difficulty == 2)
                     {
-                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
-                        Main.projectile[proj].velocity = (Main.player[Main.myPlayer].Center - Projectile.Center).SafeNormalize(Vector2.Zero) * 8f;
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, (Main.player[(int)Projectile.ai[1]].Center - Projectile.Center).SafeNormalize(Vector2.Zero) * 8f, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0);
                     }
                 } 
             }

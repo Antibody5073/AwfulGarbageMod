@@ -223,7 +223,10 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
             Projectile.timeLeft += 1;
 
-
+            if (Main.myPlayer == Projectile.owner)
+            {
+                Projectile.netUpdate = true;
+            }
             Visuals();
         }
 

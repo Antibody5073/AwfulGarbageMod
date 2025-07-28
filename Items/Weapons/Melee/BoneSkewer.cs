@@ -53,8 +53,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         {
             Projectile.DamageType = DamageClass.Melee;
             Projectile.scale = 1.25f;
-            Projectile.width = 8;
-            Projectile.height = 8;
+            Projectile.width = 16;
+            Projectile.height = 16;
             Projectile.aiStyle = 19;
             Projectile.friendly = true;
             Projectile.hostile = false;

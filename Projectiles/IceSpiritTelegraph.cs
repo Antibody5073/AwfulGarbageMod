@@ -18,8 +18,8 @@ namespace AwfulGarbageMod.Projectiles
 
 		public override void SetDefaults()
 		{
-            Projectile.width = 4;
-            Projectile.height = 4;
+            Projectile.width = 16;
+            Projectile.height = 16;
             Projectile.aiStyle = -1;
             Projectile.friendly = false;
             Projectile.hostile = false;
@@ -35,12 +35,15 @@ namespace AwfulGarbageMod.Projectiles
         {
             if (Vector2.Distance(Projectile.Center, Main.player[Main.myPlayer].Center) < 1000)
             {
-                int dust = Dust.NewDust(Projectile.Center, 1, 1, DustID.Ice, 0f, 0f, 0, default(Color), 1f);
-                Main.dust[dust].scale = 1.35f;
-                Main.dust[dust].velocity *= 0f;
-                Main.dust[dust].noGravity = true;
+                for (int i = 0; i < 2; i++)
+                {
+                    int dust = Dust.NewDust(Projectile.position, 16, 16, DustID.Ice, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[dust].scale = 1.5f;
+                    Main.dust[dust].velocity = Projectile.velocity / 3;
+                    Main.dust[dust].alpha = 0;
+                    Main.dust[dust].noGravity = true;
+                }
             }
-            
         }
 	}
 }

@@ -167,6 +167,10 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void AI()
         {
+            if (Main.myPlayer == Projectile.owner)
+            {
+                Projectile.netUpdate = true;
+            }
             if (Projectile.ai[0] == 1)
             {
                 Projectile.timeLeft++;

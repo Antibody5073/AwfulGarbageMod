@@ -1,6 +1,7 @@
 using AwfulGarbageMod.Items.Placeable.OresBars;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Projectiles;
+using ExampleMod.Content;
 using Microsoft.Xna.Framework;
 using Mono.Cecil;
 using System;
@@ -34,7 +35,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Item.useAnimation = 33;
             Item.knockBack = 7;
             Item.value = 10000;
-            Item.rare = 2;
+            Item.rare = 4;
             Item.autoReuse = true;
             Item.shoot = Mod.Find<ModProjectile>("LavaLanceProj").Type;
             Item.shootSpeed = 15f;

@@ -58,6 +58,15 @@ namespace AwfulGarbageMod.Items.Accessories
               .AddIngredient<ManaBouquet>()
               .AddIngredient(ItemID.CelestialEmblem)
               .AddTile(TileID.TinkerersWorkbench)
+              .Register(); 
+            CreateRecipe()
+              .AddIngredient(ItemID.MagnetFlower)
+              .AddIngredient(ItemID.AvengerEmblem)
+              .AddIngredient<FrozenPetals>()
+              .AddIngredient<PetrifiedRose>()
+              .AddIngredient<BloomingMarrow>()
+              .AddIngredient<BloomingEvil>()
+              .AddTile(TileID.TinkerersWorkbench)
               .Register();
         }
     }

@@ -17,7 +17,7 @@ namespace AwfulGarbageMod.Projectiles
 		{
             Projectile.width = 8;
             Projectile.height = 8;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = -1;
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
@@ -84,14 +84,16 @@ namespace AwfulGarbageMod.Projectiles
         }
         public override void OnKill(int timeLeft)
         {
-            if (Main.expertMode)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 5), Mod.Find<ModProjectile>("TreeToadLeafExpert").Type, 17, 0, Projectile.owner);
-
-            }
-            else 
-            {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 5), ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Projectile.owner);
+                if (Main.expertMode)
+                {
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 5), Mod.Find<ModProjectile>("TreeToadLeafExpert").Type, 17, 0, Projectile.owner, Projectile.ai[0]);
+                }
+                else
+                {
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 5), ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Projectile.owner);
+                }
             }
         }
 

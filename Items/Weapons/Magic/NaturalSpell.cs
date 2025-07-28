@@ -158,6 +158,10 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             StateTimer++;
             Projectile.rotation = Projectile.velocity.ToRotation();
 
+            if (Main.myPlayer == Projectile.owner)
+            {
+                Projectile.netUpdate = true;
+            }
             int dust = Dust.NewDust(Projectile.Center + new Vector2(-4, -4), 1, 1, DustID.Grass, 0f, 0f, 0, default(Color), 1f);
             Main.dust[dust].scale = 1.35f;
             Main.dust[dust].velocity *= 0f;

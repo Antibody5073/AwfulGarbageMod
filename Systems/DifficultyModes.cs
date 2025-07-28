@@ -20,6 +20,15 @@ public class DifficultyModes : ModSystem
 {
     public static int Difficulty = 0;
 
+    public override void NetSend(BinaryWriter writer)
+    {
+        writer.Write(Difficulty);
+    }
+
+    public override void NetReceive(BinaryReader reader)
+    {
+        Difficulty = reader.ReadInt32();
+    }
 
     public override void LoadWorldData(TagCompound tag)
     {

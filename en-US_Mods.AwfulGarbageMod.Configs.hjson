@@ -118,6 +118,11 @@ Config: {
 		Label: Enemy Health Multiplier
 		Tooltip: Multiplies enemy health. 100 = 100% enemy health. Does not affect Awful Garbage Mod bosses or any NPCs whose max HP is less than or equal to 5
 	}
+
+	HardmodeMetalRework: {
+		Label: Hardmode Metal Rework
+		Tooltip: Reworks early hardmode metal progression (currently work-in-progress)
+	}
 }
 
 ConfigClient: {

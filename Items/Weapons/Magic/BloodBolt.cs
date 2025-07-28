@@ -77,7 +77,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 240;
-            Projectile.light = 1f;
+            Projectile.light = 0.15f;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
             Projectile.usesLocalNPCImmunity = true;

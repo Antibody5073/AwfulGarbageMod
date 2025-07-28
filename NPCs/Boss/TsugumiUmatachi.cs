@@ -165,17 +165,13 @@ namespace AwfulGarbageMod.NPCs.Boss
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Boss.SeseKitsugaiTrophy>(), 10));
 
             // ItemDropRule.MasterModeCommonDrop for the relic
-            npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ModContent.ItemType<Items.Placeable.Boss.SeseKitsugaiRelic>()));
+            npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ModContent.ItemType<Items.Placeable.Boss.TsugumiRelic>()));
 
             if (ModLoader.TryGetMod("Gensokyo", out Mod gensokyo))
             {
                 if (gensokyo.TryFind("PointItem", out ModItem pointItem))
                 {
                     npcLoot.Add(ItemDropRule.Common(pointItem.Type, 1, 18, 27));
-                }
-                if (gensokyo.TryFind("PowerItem", out ModItem powerItem))
-                {
-                    npcLoot.Add(ItemDropRule.Common(powerItem.Type, 1, 15, 22));
                 }
             }
 

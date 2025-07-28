@@ -16,11 +16,12 @@ namespace AwfulGarbageMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Vicious Mushroom Flask"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-			// Tooltip.SetDefault("15% increased max movement speed");
-		}
+            // DisplayName.SetDefault("Vicious Mushroom Flask"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            // Tooltip.SetDefault("15% increased max movement speed");
+            ItemID.Sets.ShimmerTransformToItem[ModContent.ItemType<VileMushroomFlask>()] = base.Type;
+        }
 
-		public int counter;
+        public int counter;
 
 		public override void SetDefaults()
 		{
@@ -36,8 +37,9 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.maxRunSpeed *= 1.15f;
-
+            player.GetCritChance(DamageClass.Generic) += 6;
+            player.manaCost *= 0.94f;
+            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.06f;
         }
 
         public override void AddRecipes()
@@ -45,7 +47,7 @@ namespace AwfulGarbageMod.Items.Accessories
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Bottle);
             recipe.AddIngredient(ItemID.ViciousMushroom, 10);
-            recipe.AddIngredient(ItemID.Vertebrae, 3);
+            recipe.AddIngredient(ItemID.Vertebrae, 30);
             recipe.AddTile(TileID.Bottles);
             recipe.Register();
         }

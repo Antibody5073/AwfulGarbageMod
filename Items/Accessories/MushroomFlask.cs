@@ -35,7 +35,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 50;
+            player.statLifeMax2 += 30;
         }
 
         public override void AddRecipes()

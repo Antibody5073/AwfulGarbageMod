@@ -1,10 +1,12 @@
 using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Weapons.Melee;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Projectiles;
 using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -46,13 +48,33 @@ namespace AwfulGarbageMod.NPCs
         float shotXspd;
         Vector2 targetArea;
         Vector2 direction;
-        Vector2 storedVel;
         Vector2 teleportPos;
 
         int frameCounter = 0;
         readonly int[] frameLen = { 10, 1, 10, 1, 1 };
         int frame = 0;
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(NPC.chaseable);
+            writer.Write(AI_State);
+            writer.Write(AI_Timer);
+            writer.Write(targetArea.X);
+            writer.Write(targetArea.Y);
+            writer.Write(direction.X);
+            writer.Write(direction.Y);
+            writer.Write(teleportPos.X);
+            writer.Write(teleportPos.Y);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            NPC.chaseable = reader.ReadBoolean();
+            AI_State = reader.ReadSingle();
+            AI_Timer = reader.ReadSingle();
+            targetArea = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+            direction = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+            teleportPos = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+        }
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 5; // make sure to set this for your modnpcs.
@@ -105,7 +127,10 @@ namespace AwfulGarbageMod.NPCs
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 1, 10, 13));
             npcLoot.Add(ItemDropRule.Common(ItemID.VileMushroom, 1, 2, 3));
-            npcLoot.Add(ItemDropRule.FewFromOptions(1, 2, ModContent.ItemType<SigilOfEvil>(), ModContent.ItemType<BloomingEvil>(), ModContent.ItemType<EvilCharm>()));
+            LeadingConditionRule hardmodeRule = new LeadingConditionRule(new Conditions.IsHardmode());
+
+            hardmodeRule.OnSuccess(ItemDropRule.Common(ItemID.CursedFlame, 1, 2, 4));
+            npcLoot.Add(ItemDropRule.FewFromOptions(1, 2, ModContent.ItemType<VileMushroomFlask>(), ModContent.ItemType<SigilOfEvil>(), ModContent.ItemType<BloomingEvil>(), ModContent.ItemType<EvilCharm>()));
         }
         public override void OnKill()
         {
@@ -124,6 +149,7 @@ namespace AwfulGarbageMod.NPCs
         // Our AI here makes our NPC sit waiting for a player to enter range, jumps to attack, flutter mid-fall to stay afloat a little longer, then falls to the ground. Note that animation should happen in FindFrame
         public override void AI()
         {
+
             // The npc starts in the asleep state, waiting for a player to enter range
             switch (AI_State)
             {
@@ -187,13 +213,13 @@ namespace AwfulGarbageMod.NPCs
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
-            if (AI_State != (float)ActionState.Passive || Vector2.DistanceSquared(Main.LocalPlayer.Center, NPC.Center) < 320 * 320)
+            if (AI_State != (float)ActionState.Passive || Vector2.DistanceSquared(Main.player[projectile.owner].Center, NPC.Center) < 320 * 320)
             {
                 return null;
             }
             return false;
         }
-        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (AI_State == (float)ActionState.Passive)
             {
@@ -202,26 +228,8 @@ namespace AwfulGarbageMod.NPCs
 
                 AI_State = (float)ActionState.Teleport;
                 NPC.chaseable = true;
-
-               
             }
         }
-        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
-        {
-
-
-            if (AI_State == (float)ActionState.Passive)
-            {
-                NPC.TargetClosest(true);
-                AI_Timer = 150;
-
-                AI_State = (float)ActionState.Teleport;
-                NPC.chaseable = true;
-
-            }
-
-        }
-
         private void Teleport()
         {
             NPC.noGravity = true;
@@ -235,8 +243,13 @@ namespace AwfulGarbageMod.NPCs
             else if (AI_Timer == 90)
             {
                 NPC.alpha = 255;
-                teleportPos = GetTeleportPos();
-                teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    teleportPos = GetTeleportPos();
+                    teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                }
+                NPC.netUpdate = true;
+
                 NPC.dontTakeDamage = true;
 
             }
@@ -279,8 +292,13 @@ namespace AwfulGarbageMod.NPCs
             else if (AI_Timer == 90)
             {
                 NPC.alpha = 255;
-                teleportPos = GetTeleportPos();
-                teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    teleportPos = GetTeleportPos();
+                    teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                }
+                NPC.netUpdate = true;
+
                 NPC.dontTakeDamage = true;
 
             }
@@ -323,8 +341,13 @@ namespace AwfulGarbageMod.NPCs
             else if (AI_Timer == 90)
             {
                 NPC.alpha = 255;
-                teleportPos = GetTeleportPos();
-                teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    teleportPos = GetTeleportPos();
+                    teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                }
+                NPC.netUpdate = true;
+
                 NPC.dontTakeDamage = true;
 
             }
@@ -367,8 +390,13 @@ namespace AwfulGarbageMod.NPCs
             else if (AI_Timer == 90)
             {
                 NPC.alpha = 255;
-                teleportPos = GetTeleportPos();
-                teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    teleportPos = GetTeleportPos();
+                    teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                }
+                NPC.netUpdate = true;
+
                 NPC.dontTakeDamage = true;
 
             }
@@ -401,16 +429,15 @@ namespace AwfulGarbageMod.NPCs
         private Vector2 GetTeleportPos()
         {
             NPC.noTileCollide = false;
-
             for (int i = 0; i < 1000; i++)
             {
                 Vector2 teleportPosition = Main.player[NPC.target].Center + new Vector2(Main.rand.NextFloat(-400, 400), -320);
                 Tile tile = Framing.GetTileSafely(teleportPosition);
                 for (int j = 0; j < 64; j++)
                 {
-                    if (tile.HasTile && tile.TileType != TileID.CorruptThorns && tile.TileType != TileID.Cactus && tile.TileType != TileID.Trees && !TileID.Sets.Grass[tile.TileType])
+                    if (tile.HasTile && AGUtils.IsNotAmbientObject(tile.TileType))
                     {
-                        return teleportPosition + new Vector2(0, -16);
+                        return teleportPosition;
                     }
                     else
                     {
@@ -419,6 +446,8 @@ namespace AwfulGarbageMod.NPCs
                     }
                 }
             }
+
+            NPC.netUpdate = true;
             return Main.player[NPC.target].Center;
         }
 
@@ -426,9 +455,11 @@ namespace AwfulGarbageMod.NPCs
         {
             if (AI_Timer % 60 == 30)
             {
-                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ProjectileID.CursedFlameHostile, 8, 0, Main.myPlayer);
-                Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 12f;
-                Main.projectile[proj].tileCollide = false;
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 12f, ProjectileID.CursedFlameHostile, 8, 0, Main.myPlayer);
+                    proj.tileCollide = false;
+                }
             }
 
             AI_Timer--;
@@ -448,9 +479,11 @@ namespace AwfulGarbageMod.NPCs
             }
             if (AI_Timer > 30 && AI_Timer <= 45)
             {
-                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<HostileBoHProj>(), 10, 0, Main.myPlayer, NPC.whoAmI);
-                Main.projectile[proj].velocity = new Vector2(shotXspd, -12);
-                shotXspd += 2.5f;
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(shotXspd, -12), ModContent.ProjectileType<HostileBoHProj>(), 10, 0, Main.myPlayer, NPC.whoAmI);
+                    shotXspd += 2.5f;
+                }
             }
 
             AI_Timer++;
@@ -465,14 +498,17 @@ namespace AwfulGarbageMod.NPCs
         {
             if (AI_Timer % 120 == 60)
             {
-               int nPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.EaterofSouls);
-                Main.npc[nPC].velocity = new Vector2(0, Main.rand.NextFloat(-4, -6)).RotatedByRandom(MathHelper.ToRadians(15));
-                Main.npc[nPC].lifeMax = (int)(Main.npc[nPC].lifeMax * 0.35f);
-                Main.npc[nPC].life = Main.npc[nPC].lifeMax;
-                Main.npc[nPC].damage = (int)(Main.npc[nPC].damage * 0.6f);
-                Main.npc[nPC].knockBackResist = 0.75f;
-
-
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    NPC.netUpdate = true;
+                    NPC nPC = NPC.NewNPCDirect(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.EaterofSouls);
+                    nPC.velocity = new Vector2(0, Main.rand.NextFloat(-4, -6)).RotatedByRandom(MathHelper.ToRadians(15));
+                    nPC.lifeMax = (int)(nPC.lifeMax * 0.35f);
+                    nPC.life = nPC.lifeMax;
+                    nPC.damage = (int)(nPC.damage * 0.6f);
+                    nPC.knockBackResist = 0.75f;
+                    nPC.netUpdate = true;
+                }
             }
 
             AI_Timer--;
@@ -487,9 +523,11 @@ namespace AwfulGarbageMod.NPCs
         {
             if (AI_Timer == 30)
             {
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(160, 0), ModContent.ProjectileType<VilethornSpawner>(), 0, 0, Main.myPlayer);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(-160, 0), ModContent.ProjectileType<VilethornSpawner>(), 0, 0, Main.myPlayer);
-
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(160, 0), ModContent.ProjectileType<VilethornSpawner>(), 0, 0, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(-160, 0), ModContent.ProjectileType<VilethornSpawner>(), 0, 0, Main.myPlayer);
+                }
             }
 
 

@@ -397,22 +397,22 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             {
                 if (Projectile.Center.X > targetCenter.X)
                 {
-                    Projectile.spriteDirection = -1;
+                    Projectile.spriteDirection = 1;
                 }
                 else
                 {
-                    Projectile.spriteDirection = 1;
+                    Projectile.spriteDirection = -1;
                 }
             }
             else
             {
                 if (Projectile.Center.X > Main.player[Projectile.owner].Center.X)
                 {
-                    Projectile.spriteDirection = -1;
+                    Projectile.spriteDirection = 1;
                 }
                 else
                 {
-                    Projectile.spriteDirection = 1;
+                    Projectile.spriteDirection = -1;
                 }
             }
 

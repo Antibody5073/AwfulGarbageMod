@@ -110,6 +110,10 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override bool PreAI()
         {
+            if (Main.myPlayer == Projectile.owner)
+            {
+                Projectile.netUpdate = true;
+            }
             Player owner = Main.player[Projectile.owner];
 
             // Like other whips, this whip updates twice per frame (Projectile.extraUpdates = 1), so 120 is equal to 1 second.
@@ -128,11 +132,17 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                     chargeLevel++;
                     if (chargeLevel == 5)
                     {
-                        SoundEngine.PlaySound(SoundID.Item4, Projectile.Center);
+                        if (owner.whoAmI == Main.myPlayer)
+                        {
+                            SoundEngine.PlaySound(SoundID.Item4, Projectile.Center);
+                        }
                     }
                     else
                     {
-                        SoundEngine.PlaySound(SoundID.MaxMana, Projectile.Center);
+                        if (owner.whoAmI == Main.myPlayer)
+                        {
+                            SoundEngine.PlaySound(SoundID.MaxMana, Projectile.Center);
+                        }
                     }
                     for (var i = 0; i < 8; i++)
                     {

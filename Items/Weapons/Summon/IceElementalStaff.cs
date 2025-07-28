@@ -51,7 +51,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
 		public override void SetDefaults()
 		{
-            Item.damage = 37;
+            Item.damage = 44;
             Item.knockBack = 5f;
             Item.mana = 5; // mana cost
             Item.width = 24;
@@ -96,6 +96,8 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             CreateRecipe()
                 .AddIngredient<Cryogem>(30)
                 .AddIngredient<FrigidiumBar>(15)
+                .AddIngredient<IceSpiritStaff>()
+                .AddIngredient(ItemID.FlinxStaff)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }

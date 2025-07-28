@@ -93,6 +93,8 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.WaterStream);
+            Projectile.width = 4;
+            Projectile.height = 4;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.friendly = true;
             Projectile.penetrate = 5;
@@ -124,8 +126,15 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             for (var i = 0; i < 3; i++)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.DungeonWater, 0, 0);
-                Main.dust[dust].scale = Main.rand.NextFloat(1.25f, 1.75f);
-                Main.dust[dust].velocity *= 0;
+                Main.dust[dust].scale = Main.rand.NextFloat(0.75f, 1.25f);
+                if (Main.rand.NextBool())
+                {
+                    Main.dust[dust].velocity *= 0;
+                }
+                else
+                {
+                    Main.dust[dust].velocity = Projectile.velocity * 0.5f;
+                }
                 Main.dust[dust].noGravity = true;
             }
         }

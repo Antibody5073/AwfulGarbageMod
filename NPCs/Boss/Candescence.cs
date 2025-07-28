@@ -1,36 +1,38 @@
+using AwfulGarbageMod;
+using AwfulGarbageMod.BossBars;
+using AwfulGarbageMod.Configs;
+using AwfulGarbageMod.Global;
+using AwfulGarbageMod.ItemDropRules;
+using AwfulGarbageMod.Items;
+using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Consumables; 
+using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Placeable.OresBars;
+using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Melee;
+using AwfulGarbageMod.Items.Weapons.Ranged;
+using AwfulGarbageMod.Items.Weapons.Summon;
+using AwfulGarbageMod.Projectiles;
+using AwfulGarbageMod.Systems;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Peripherals.RGB;
 using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.PlayerDrawLayer;
-using AwfulGarbageMod;
-using AwfulGarbageMod.Projectiles;
-using AwfulGarbageMod.BossBars;
-using AwfulGarbageMod.Systems;
-using System.Runtime.InteropServices;
-using AwfulGarbageMod.Items.Weapons.Melee;
-using AwfulGarbageMod.Items.Weapons.Ranged;
-using AwfulGarbageMod.Items.Weapons.Magic;
-using AwfulGarbageMod.Items.Weapons.Summon;
-using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Generic;
-using AwfulGarbageMod.Items;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.GameContent;
-using Microsoft.CodeAnalysis;
-using ReLogic.Peripherals.RGB;
-using AwfulGarbageMod.Configs;
 using Terraria.UI;
-using AwfulGarbageMod.Items.Placeable.OresBars;
-using AwfulGarbageMod.Global;
+using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace AwfulGarbageMod.NPCs.Boss
 {
@@ -192,7 +194,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
 
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<CandesciteBar>(), 1, 2, 3));
-            notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 3, ModContent.ItemType<LavaLance>()));
+            notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 1, ModContent.ItemType<LavaLance>()));
+            npcLoot.Add(ItemDropRule.ByCondition(new UnrealCondition(), ModContent.ItemType<CurseOfCandescence>(), 1, 1, 1));
 
             // Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode
             // Boss masks are spawned with 1/7 chance
@@ -231,6 +234,12 @@ namespace AwfulGarbageMod.NPCs.Boss
         public override void OnKill()
         {
             // This sets downedMinionBoss to true, and if it was false before, it initiates a lantern night
+
+            if (!DownedBossSystem.downedFrigidius)
+            {
+                Main.NewText("The downfall of the ancient lava moth empowers accessories with new possible reforges", Color.Red);
+            }
+
             NPC.SetEventFlagCleared(ref DownedBossSystem.downedFireMoth, -1);
             NPC.globalEnemyBossInfo().killOrbitals = true;
 

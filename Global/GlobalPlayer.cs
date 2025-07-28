@@ -61,6 +61,8 @@ namespace AwfulGarbageMod.Global
         public float flailRetractSpeed = 1;
         public int extraWhipTagDamage = 0;
 
+        public float oldManaCost;
+        public float oldManaCost2;
         public float OrbitalDir = 0;
 
         public float ScepterMaxManaMultPrev;
@@ -133,6 +135,7 @@ namespace AwfulGarbageMod.Global
         public bool BagOfSeeds = false;
         public bool ChloroplastCore = false;
         public bool ShockAbsorber = false;
+        public bool MinionSentrySwap = false;
 
         public bool lightningRingPrevious;
 
@@ -174,6 +177,16 @@ namespace AwfulGarbageMod.Global
         public List<Vector2> umbragelPos = [];
         public List<Vector2> umbragelVel = [];
         public int umbragelTimer = 0;
+        public bool MythrilDefense = false;
+        public bool MythrilOffense = false;
+        public bool OrichalcumGun = false;
+        public bool OrichalcumKnife = false;
+        public bool OrichalcumBow = false;
+        public bool AdamantiteMinion = false;
+        public bool AdamantiteSentry = false;
+        public bool TitaniumTank = false;
+        public bool TitaniumOffense = false;
+        public bool TitaniumVariety = false;
 
 
         public bool FrigidHelmet = false;
@@ -238,7 +251,7 @@ namespace AwfulGarbageMod.Global
                 this.Player.AddBuff(ModContent.BuffType<HarujionPetalBuff>(), 3);
             }
             messageTimer--;
-            if (ModContent.GetInstance<ConfigClient>().NotifyMissingStuff && messageTimer == 0)
+            if (ModContent.GetInstance<ConfigClient>().NotifyMissingStuff && messageTimer == 0 && Main.netMode == NetmodeID.SinglePlayer)
             {
                 if (new Vector2(Structures.IcePalacePosX, Structures.IcePalacePosY) == new Vector2(0, 0) || AGUtils.GetTileCounts(ModContent.TileType<CandesciteOre>()) <= 0 || AGUtils.GetTileCounts(ModContent.TileType<FrigidiumOre>()) <= 0 || AGUtils.GetTileCounts(ModContent.TileType<FlintDirt>()) <= 0)
                 {
@@ -450,7 +463,6 @@ namespace AwfulGarbageMod.Global
                 scale *= MeleeWeaponSize;
             }
         }
-
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             NPC closestNPC = FindClosestNPC(1500);
@@ -565,7 +577,6 @@ namespace AwfulGarbageMod.Global
                 player.AddBuff(ModContent.BuffType<NonRogueBuff1>(), 60 * 10);
             }
         }
-
         public override void OnHurt(Player.HurtInfo info)
         {
             if (HoneyOnDamaged > 0)
@@ -738,6 +749,14 @@ namespace AwfulGarbageMod.Global
             {
                 Player.AddBuff(ModContent.BuffType<ShockAbsorberBuff>(), 480);
             }
+            if (MythrilDefense)
+            {
+                if (Player.CheckMana(info.Damage, true, true))
+                {
+                    Player.Heal((int)(info.Damage * 0.3f));
+                    Player.manaRegenDelay = 60;
+                }
+            }
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)
@@ -804,9 +823,27 @@ namespace AwfulGarbageMod.Global
                         FrigidiumDmgBonus = projectileCount;
                     }
                 }
-            } 
+                if (AdamantiteSentry)
+                {
+                    foreach (var projectile in Main.ActiveProjectiles)
+                    {
+                        if (projectile.owner == Player.whoAmI && projectile.sentry)
+                        {
+                            for (int i = 0; i < 25; i++)
+                            {
+                                projectile.Center = Player.Center + Main.rand.NextVector2Circular(200, 200);
+                                Tile tile = Framing.GetTileSafely(projectile.Center);
+                                if (!tile.HasTile || !AGUtils.IsNotAmbientObject(tile.TileType))
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    Player.AddBuff(ModContent.BuffType<ArmorAbilityCooldown>(), 20 * 60);
+                }
+            }
         }
-
         public override void PostUpdateRunSpeeds()
         {
             if (ThrushGliders)
@@ -839,6 +876,20 @@ namespace AwfulGarbageMod.Global
                     Player.lifeRegen = 0;
                 }
                 Player.lifeRegenTime = 0;
+            }
+        }
+        public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
+        {
+            if (MythrilOffense && item.mana > 0)
+            {
+                damage.Flat -= item.mana * oldManaCost2;
+            }
+        }
+        public override void ModifyManaCost(Item item, ref float reduce, ref float mult)
+        {
+            if (MythrilOffense)
+            {
+                mult = 0;
             }
         }
         public override void PostUpdateEquips()
@@ -936,11 +987,39 @@ namespace AwfulGarbageMod.Global
                     Player.statDefense += Player.statDefense * 0.12f;
                 }
             }
-        }
+            if (MinionSentrySwap)
+            {
+                int oldMinions = player.maxMinions;
+                int oldSentries = player.maxTurrets;
+                player.maxMinions = oldSentries;
+                player.maxTurrets = oldMinions;
+            }
+            if (MythrilOffense)
+            {
+                Player.statLifeMax2 += Player.statManaMax2 / 2;
+            }
+            if (OrichalcumBow || OrichalcumGun || OrichalcumKnife)
+            {
+                Player.onHitPetal = false;
+            }
+            if (TitaniumTank)
+            {
+                Player.statDefense += Player.ownedProjectileCounts[ProjectileID.TitaniumStormShard] * 4;
+            }
+            if (TitaniumOffense)
+            {
+                Player.onHitTitaniumStorm = false;
+                int def = Player.statDefense / 4;
+                int defLost = Player.statDefense - def;
+                Player.GetDamage(DamageClass.Melee) += 0.02f * defLost;
+                Player.statDefense -= defLost;
+            }
 
+            oldManaCost2 = Player.manaCost;
+        }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
-            modifiers.SourceDamage *= (ModContent.GetInstance<Config>().EnemyDamageMultiplier / 100);
+            modifiers.SourceDamage *= (ModContent.GetInstance<Config>().EnemyDamageMultiplier / 100);    
         }
 
         public override void OnEnterWorld()
@@ -948,6 +1027,19 @@ namespace AwfulGarbageMod.Global
             messageTimer = 180;
             umbragelPos.Clear();
             umbragelVel.Clear();
+
+
+            Main.instance.LoadNPC(56); //Snatcher
+            Main.instance.LoadNPC(61); // Vulture
+            Main.instance.LoadNPC(169); // Ice Elemental
+            Main.instance.LoadNPC(1); // Slime
+
+            Main.instance.LoadProjectile(864); //Blade Staff
+            Main.instance.LoadProjectile(206); //Leaf
+            Main.instance.LoadProjectile(578); //Vortex Portal
+            Main.instance.LoadProjectile(15); //Fireball
+            Main.instance.LoadProjectile(ProjectileID.TerraBeam); //Terra Blade
+            Main.instance.LoadProjectile(ProjectileID.BoneGloveProj); //Crossbone
         }
 
         public override void ResetEffects()
@@ -1088,6 +1180,17 @@ namespace AwfulGarbageMod.Global
             ChloroplastCore = false;
             ShockAbsorber = false;
             DisabledUnrealBuffNerfs = false;
+            MinionSentrySwap = false;
+            MythrilDefense = false;
+            MythrilOffense = false;
+            OrichalcumBow = false;
+            OrichalcumGun = false;
+            OrichalcumKnife = false;
+            AdamantiteMinion = false;
+            AdamantiteSentry = false;
+            TitaniumTank = false;
+            TitaniumOffense = false;
+            TitaniumVariety = false;
         }
 
         public NPC FindClosestNPC(float maxDetectDistance)

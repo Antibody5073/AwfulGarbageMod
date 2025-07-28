@@ -34,8 +34,8 @@ namespace AwfulGarbageMod.Items.Accessories
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.whipRangeMultiplier += 0.25f;
-			player.GetModPlayer<GlobalPlayer>().flailRange += 0.25f;
+			player.whipRangeMultiplier += 0.16f;
+			player.GetModPlayer<GlobalPlayer>().flailRange += 0.16f;
 		}
 	}
 }

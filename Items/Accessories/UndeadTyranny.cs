@@ -35,7 +35,7 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetDamage(DamageClass.Summon) += 8 / 100f;
-            player.whipRangeMultiplier += 0.18f;
+            player.whipRangeMultiplier += 0.1f;
             player.GetKnockback(DamageClass.Summon).Base += 1f;
             player.GetArmorPenetration(DamageClass.Generic) += 4;
             player.statDefense += 1;

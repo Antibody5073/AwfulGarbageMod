@@ -35,8 +35,8 @@ namespace AwfulGarbageMod
         {
             return damageType.CountsAsClass(DamageClass.Summon);
         }
+        public static readonly float OnePerentJumpSpeed = 0.033333333333333f;
 
-        
 
         public static FlailProjectile flailProjectile(this Projectile proj)
         {
@@ -54,7 +54,7 @@ namespace AwfulGarbageMod
         public static bool IsOnScreen(this Projectile proj, Vector2 spriteDimensions)
         {
             Vector2 offsetFromCamera = Main.Camera.Center - proj.Center;
-            if(Math.Abs(offsetFromCamera.X) - spriteDimensions.X > 960 || Math.Abs(offsetFromCamera.Y) - spriteDimensions.Y > 540)
+            if(Math.Abs(offsetFromCamera.X) - spriteDimensions.X > 1600 || Math.Abs(offsetFromCamera.Y) - spriteDimensions.Y > 900)
             {
                 return false;
             }
@@ -146,15 +146,19 @@ namespace AwfulGarbageMod
 
         public static int GetTileCounts(int tileType)
         {
+            
             int tileCount = 0;
-            for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY)); i++)
+            for (int i = 0; i < (int)((Main.tile.Width * Main.tile.Height)); i++)
             {
-                int x = i % Main.maxTilesX;
-                int y = i / Main.maxTilesY;
-                Tile tile = Framing.GetTileSafely(x, y);
-                if (tile.TileType == tileType)
+                int x = i % Main.tile.Width;
+                int y = i / Main.tile.Height;
+                if (x < Main.tile.Width && y < Main.tile.Height)
                 {
-                    tileCount++;
+                    Tile tile = Main.tile[x, y];
+                    if (tile.TileType == tileType)
+                    {
+                        tileCount++;
+                    }
                 }
             }
             return tileCount;

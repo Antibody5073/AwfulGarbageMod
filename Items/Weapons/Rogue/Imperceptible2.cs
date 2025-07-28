@@ -1,16 +1,17 @@
+using AwfulGarbageMod.DamageClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
 using Steamworks;
+using StramClasses;
+using StramClasses.Classes.Rogue;
 using System;
 using System.Diagnostics.Metrics;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AwfulGarbageMod.DamageClasses;
-using StramClasses;
-using StramClasses.Classes.Rogue;
 
 namespace AwfulGarbageMod.Items.Weapons.Rogue
 
@@ -127,9 +128,7 @@ namespace AwfulGarbageMod.Items.Weapons.Rogue
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            float distanceToMouse = Vector2.Distance(Projectile.Center, new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y));
-
-            if(distanceToMouse < 180)
+            if (Projectile.frame == 0)
             {
 
             }
@@ -163,17 +162,32 @@ namespace AwfulGarbageMod.Items.Weapons.Rogue
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            float distanceToMouse = Vector2.Distance(Projectile.Center, new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y));
-            if (distanceToMouse < 180)
+            if (Main.myPlayer == Projectile.owner)
             {
-                Projectile.frame = 0;
-                Projectile.alpha = 0;
+                Projectile.netUpdate = true;
+                float distanceToMouse = Vector2.Distance(Projectile.Center, new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y));
+                if (distanceToMouse < 180)
+                {
+                    Projectile.frame = 0;
+                    Projectile.alpha = 0;
+                }
+                else
+                {
+                    Projectile.frame = 1;
+                    Projectile.alpha = 175;
+                }
             }
-            else
-            {
-                Projectile.frame = 1;
-                Projectile.alpha = 175;
-            }
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.frame);
+            writer.Write(Projectile.alpha);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.frame = reader.ReadInt32();
+            Projectile.alpha = reader.ReadInt32();
         }
     }
 }

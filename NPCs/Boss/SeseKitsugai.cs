@@ -1,5 +1,20 @@
+using AwfulGarbageMod;
+using AwfulGarbageMod.BossBars;
+using AwfulGarbageMod.Configs;
+using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Consumables; 
+using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Melee;
+using AwfulGarbageMod.Items.Weapons.Ranged;
+using AwfulGarbageMod.Items.Weapons.Rogue;
+using AwfulGarbageMod.Items.Weapons.Summon;
+using AwfulGarbageMod.Projectiles;
+using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
+using System.Runtime.InteropServices;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -8,19 +23,6 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.PlayerDrawLayer;
-using AwfulGarbageMod;
-using AwfulGarbageMod.Projectiles;
-using AwfulGarbageMod.BossBars;
-using AwfulGarbageMod.Systems;
-using System.Runtime.InteropServices;
-using AwfulGarbageMod.Items.Weapons.Melee;
-using AwfulGarbageMod.Items.Weapons.Ranged;
-using AwfulGarbageMod.Items.Weapons.Magic;
-using AwfulGarbageMod.Items.Weapons.Summon;
-using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
-using AwfulGarbageMod.Items.Weapons.Rogue;
-using AwfulGarbageMod.Configs;
 
 namespace AwfulGarbageMod.NPCs.Boss
 {
@@ -76,13 +78,35 @@ namespace AwfulGarbageMod.NPCs.Boss
 		Vector2 targetArea;
 		Vector2 direction;
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(AI_State);
+            writer.Write(AI_Timer);
+            writer.Write(BulletXvel);
+            writer.Write(bossPhase);
+            writer.Write(bulletDirection);
+            writer.Write(targetArea.X);
+            writer.Write(targetArea.Y);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            AI_State = reader.ReadSingle();
+            AI_Timer = reader.ReadSingle();
+            BulletXvel = reader.ReadSingle();
+            bossPhase = reader.ReadSingle();
+            bulletDirection = reader.ReadSingle();
+            targetArea = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+        }
+
 
         public override void SetStaticDefaults() {
 			// DisplayName.SetDefault("Flutter Slime"); // Automatic from localization files
 			Main.npcFrameCount[NPC.type] = 8; // make sure to set this for your modnpcs.
 
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
+            NPCID.Sets.NoMultiplayerSmoothingByType[Type] = true;
             // Specify the debuffs it is immune to
-            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Wet] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Poisoned] = true;
 
         }
 
@@ -166,10 +190,6 @@ namespace AwfulGarbageMod.NPCs.Boss
                 if (gensokyo.TryFind("PointItem", out ModItem pointItem))
                 {
                     npcLoot.Add(ItemDropRule.Common(pointItem.Type, 1, 15, 24));
-                }
-                if (gensokyo.TryFind("PowerItem", out ModItem powerItem))
-                {
-                    npcLoot.Add(ItemDropRule.Common(powerItem.Type, 1, 12, 18));
                 }
             }
             
@@ -445,29 +465,30 @@ namespace AwfulGarbageMod.NPCs.Boss
 		{
             if (AI_Timer % 25 == 0)
             {
-                float bulletSpd = 2f;
                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/e_shot_01")
                 {
                     Volume = 0.5f,
                 };
                 SoundEngine.PlaySound(impactSound);
-                for (var i = 0; i < 9; i++)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    if (Main.expertMode)
+                    float bulletSpd = 2f;
+                    for (var i = 0; i < 9; i++)
                     {
-                        for (var j = -1; j < 2; j++)
+                        if (Main.expertMode)
                         {
-                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(BulletXvel, -9), Mod.Find<ModProjectile>("SeseNonGravProj").Type, 17, 0, Main.myPlayer);
-                            Main.projectile[proj].velocity = ((Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * bulletSpd).RotatedBy(MathHelper.ToRadians(24f * j));
+                            for (var j = -1; j < 2; j++)
+                            {
+                                Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(24f * j)) * bulletSpd, Mod.Find<ModProjectile>("SeseNonGravProj").Type, 17, 0, -1);
 
+                            }
                         }
+                        else
+                        {
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * bulletSpd, Mod.Find<ModProjectile>("SeseNonGravProj").Type, 17, 0, -1);
+                        }
+                        bulletSpd += 1f;
                     }
-                    else
-                    {
-                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(BulletXvel, -9), Mod.Find<ModProjectile>("SeseNonGravProj").Type, 17, 0, Main.myPlayer);
-                        Main.projectile[proj].velocity = ((Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * bulletSpd);
-                    }
-                    bulletSpd += 1f;
                 }
             }
 
@@ -487,6 +508,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 			{
                 AI_State = (float)ActionState.ThrowBones;
 				AI_Timer = 600;
+                NPC.netUpdate = true;
             }
 
         }
@@ -514,13 +536,16 @@ namespace AwfulGarbageMod.NPCs.Boss
             }
 
             if (AI_Timer % timer == 0)
-			{
+            {
                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/e_shot_01")
                 {
                     Volume = 0.5f,
                 };
                 SoundEngine.PlaySound(impactSound);
-                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-5.5f, 5.5f), -10), Mod.Find<ModProjectile>("SeseBoneProj").Type, 17, 0, Main.myPlayer, (Main.rand.Next(0, 2) - 0.5f) * 3.6f);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-5.5f, 5.5f), -10), Mod.Find<ModProjectile>("SeseBoneProj").Type, 17, 0, -1, (Main.rand.Next(0, 2) - 0.5f) * 3.6f);
+                }
             }
 
             AI_Timer -= 1;
@@ -529,6 +554,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.GravityBullets;
                 AI_Timer = 270;
 				BulletXvel = 15f;
+                NPC.netUpdate = true;
             }
         }
 
@@ -542,16 +568,20 @@ namespace AwfulGarbageMod.NPCs.Boss
                         Volume = 0.5f,
                     };
                     SoundEngine.PlaySound(impactSound);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(BulletXvel, -9), Mod.Find<ModProjectile>("SeseBulletProj").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(BulletXvel * -1, -9), Mod.Find<ModProjectile>("SeseBulletProj").Type, 17, 0, Main.myPlayer);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(BulletXvel, -9), Mod.Find<ModProjectile>("SeseBulletProj").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(BulletXvel * -1, -9), Mod.Find<ModProjectile>("SeseBulletProj").Type, 17, 0, -1);
 
-                    BulletXvel += 15f * -3f / 120f;
+                        BulletXvel += 15f * -3f / 120f;
+                    }
                 }
             }
             AI_Timer -= 1;
             if (AI_Timer == 0)
             {
                 AI_State = (float)ActionState.FindTarget;
+                NPC.netUpdate = true;
             }
         }
 
@@ -568,8 +598,11 @@ namespace AwfulGarbageMod.NPCs.Boss
                     Volume = 0.5f,
                 };
                 SoundEngine.PlaySound(impactSound);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("CarcassCadaverProj").Type, 17, 0, Main.myPlayer, 0.04f);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("CarcassCadaverProj").Type, 17, 0, Main.myPlayer, -0.04f);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("CarcassCadaverProj").Type, 17, 0, -1, 0.04f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("CarcassCadaverProj").Type, 17, 0, -1, -0.04f);
+                }
             }
 
             AI_Timer -= 1;
@@ -578,6 +611,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.PositionAbovePlayer2;
                 targetArea = Main.player[NPC.target].Center + new Vector2(0, -540);
                 AI_Timer = 180;
+                NPC.netUpdate = true;
             }
         }
 
@@ -601,6 +635,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.ThatOneNonspell;
                 bulletDirection = 0;
                 AI_Timer = 450;
+                NPC.netUpdate = true;
             }
 
         }
@@ -627,16 +662,17 @@ namespace AwfulGarbageMod.NPCs.Boss
                     Volume = 0.5f,
                 };
                 SoundEngine.PlaySound(impactSound);
-                for (var i = 0; i < 7; i++)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    for (var j = 0; j < 7; j++)
+                    for (var i = 0; i < 7; i++)
                     {
-                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0f, 232f).RotatedBy(MathHelper.ToRadians(60f * i - bulletDirection)), new Vector2(0, 0), ModContent.ProjectileType<SeseNonGravProj>(), 17, 0, Main.myPlayer);
-                        Main.projectile[proj].velocity = ((Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 4.5f).RotatedBy(MathHelper.ToRadians(60f * j + bulletDirection));
-
+                        for (var j = 0; j < 7; j++)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0f, 232f).RotatedBy(MathHelper.ToRadians(60f * i - bulletDirection)), ((Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 4.5f).RotatedBy(MathHelper.ToRadians(60f * j + bulletDirection)), ModContent.ProjectileType<SeseNonGravProj>(), 17, 0, -1);
+                        }
                     }
+                    bulletDirection += 18;
                 }
-                bulletDirection += 18;
             }
 
             AI_Timer -= 1;
@@ -645,6 +681,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.PositionAbovePlayer3;
                 targetArea = Main.player[NPC.target].Center + new Vector2(0, -360);
                 AI_Timer = 180;
+                NPC.netUpdate = true;
             }
         }
         
@@ -667,6 +704,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 AI_State = (float)ActionState.BoneWalls;
                 AI_Timer = 0;
+                NPC.netUpdate = true;
             }
 
         }
@@ -702,9 +740,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                         Volume = 0.5f,
                     };
                     SoundEngine.PlaySound(impactSound);
-                    for (var j = -6; j < 7; j++)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(j * 300, 0), new Vector2(0, -10), ModContent.ProjectileType<SeseBoneProj>(), 17, 0, Main.myPlayer, 1.8f);
+                        for (var j = -6; j < 7; j++)
+                        {
+                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(j * 300, 0), new Vector2(0, -10), ModContent.ProjectileType<SeseBoneProj>(), 17, 0, -1, 1.8f);
+                        }
                     }
                 }
                 if (AI_Timer % timer == timer / 2)
@@ -714,9 +755,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                         Volume = 0.5f,
                     };
                     SoundEngine.PlaySound(impactSound);
-                    for (var j = -5; j < 6; j++)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(j * 300, 0), new Vector2(0, -10), ModContent.ProjectileType<SeseBoneProj>(), 17, 0, Main.myPlayer, -1.8f);
+                        for (var j = -5; j < 6; j++)
+                        {
+                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(j * 300, 0), new Vector2(0, -10), ModContent.ProjectileType<SeseBoneProj>(), 17, 0, -1, -1.8f);
+                        }
                     }
                 }
             }
@@ -725,6 +769,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 AI_State = (float)ActionState.CarcassCadaver;
                 AI_Timer = 420;
+                NPC.netUpdate = true;
             }
         }
 
@@ -741,10 +786,11 @@ namespace AwfulGarbageMod.NPCs.Boss
             direction *= speed;
 
             NPC.velocity = (NPC.velocity * (inertia - 1) + direction) / inertia;
-
-            Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX1, Main.player[NPC.target].Center.Y), new Vector2(0, 0), ModContent.ProjectileType<SeseWallProj>(), 17, 0, Main.myPlayer);
-            Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX2, Main.player[NPC.target].Center.Y), new Vector2(0, 0), ModContent.ProjectileType<SeseWallProj>(), 17, 0, Main.myPlayer);
-
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX1, Main.player[NPC.target].Center.Y), new Vector2(0, 0), ModContent.ProjectileType<SeseWallProj>(), 17, 0, -1);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX2, Main.player[NPC.target].Center.Y), new Vector2(0, 0), ModContent.ProjectileType<SeseWallProj>(), 17, 0, -1);
+            }
             if (Main.player[NPC.target].Center.X > wallX1)
             {
                 Main.player[NPC.target].position.X = wallX1 - (Main.player[NPC.target].Center.X - Main.player[NPC.target].position.X);
@@ -763,9 +809,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                     Volume = 0.5f,
                 };
                 SoundEngine.PlaySound(impactSound);
-                for (var j = -15; j < 16; j++)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX1 - 600 + j * 15, NPC.Center.Y), new Vector2(0, -6), ModContent.ProjectileType<SeseBulletProj>(), 17, 0, Main.myPlayer);
+                    for (var j = -15; j < 16; j++)
+                    {
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX1 - 600 + j * 15, NPC.Center.Y), new Vector2(0, -6), ModContent.ProjectileType<SeseBulletProj>(), 17, 0, -1);
+                    }
                 }
             }
             if (AI_Timer % 480 == 60 || AI_Timer % 480 == 420)
@@ -775,9 +824,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                     Volume = 0.5f,
                 };
                 SoundEngine.PlaySound(impactSound);
-                for (var j = -12; j < 13; j++)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX1 - 1020 + j * 15, NPC.Center.Y), new Vector2(0, -6), ModContent.ProjectileType<SeseBulletProj>(), 17, 0, Main.myPlayer);
+                    for (var j = -12; j < 13; j++)
+                    {
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX1 - 1020 + j * 15, NPC.Center.Y), new Vector2(0, -6), ModContent.ProjectileType<SeseBulletProj>(), 17, 0, -1);
+                    }
                 }
             }
             if (AI_Timer % 480 == 180 || AI_Timer % 480 == 300)
@@ -787,9 +839,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                     Volume = 0.5f,
                 };
                 SoundEngine.PlaySound(impactSound);
-                for (var j = -12; j < 13; j++)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX1 - 180 + j * 15, NPC.Center.Y), new Vector2(0, -6), ModContent.ProjectileType<SeseBulletProj>(), 17, 0, Main.myPlayer);
+                    for (var j = -12; j < 13; j++)
+                    {
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX1 - 180 + j * 15, NPC.Center.Y), new Vector2(0, -6), ModContent.ProjectileType<SeseBulletProj>(), 17, 0, -1);
+                    }
                 }
             }
             if (Main.expertMode)
@@ -800,12 +855,15 @@ namespace AwfulGarbageMod.NPCs.Boss
                     {
                         Volume = 0.5f,
                     };
-                    SoundEngine.PlaySound(impactSound);
-                    for (var j = -8; j < 9; j++)
+                    SoundEngine.PlaySound(impactSound); 
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -4).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<SeseSpinProj>(), 17, 0, Main.myPlayer, 1.5f);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -4).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<SeseSpinProj>(), 17, 0, Main.myPlayer, -1.5f);
+                        for (var j = -8; j < 9; j++)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -4).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<SeseSpinProj>(), 17, 0, -1, 1.5f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -4).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<SeseSpinProj>(), 17, 0, -1, -1.5f);
 
+                        }
                     }
                 }
             }
@@ -818,11 +876,14 @@ namespace AwfulGarbageMod.NPCs.Boss
                         Volume = 0.5f,
                     };
                     SoundEngine.PlaySound(impactSound);
-                    for (var j = -8; j < 9; j++)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -4).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<SeseSpinProj>(), 17, 0, Main.myPlayer, 1.5f);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -4).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<SeseSpinProj>(), 17, 0, Main.myPlayer, -1.5f);
+                        for (var j = -8; j < 9; j++)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -4).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<SeseSpinProj>(), 17, 0, -1, 1.5f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -4).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<SeseSpinProj>(), 17, 0, -1, -1.5f);
 
+                        }
                     }
                 }
             }

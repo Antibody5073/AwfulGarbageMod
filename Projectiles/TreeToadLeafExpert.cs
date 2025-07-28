@@ -38,8 +38,10 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void OnKill(int timeLeft)
         {
-            int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Main.myPlayer);
-            Main.projectile[proj].velocity = (Main.player[Main.myPlayer].Center - Projectile.Center).SafeNormalize(Vector2.Zero) * 8f;
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, (Main.player[(int)Projectile.ai[0]].Center - Projectile.Center).SafeNormalize(Vector2.Zero) * 8f, ModContent.ProjectileType<TreeToadLeaf>(), 17, 0, Projectile.owner);
+            }
         }
         public override void SetStaticDefaults()
         {

@@ -69,7 +69,6 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
-            Projectile.light = 1f;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.usesLocalNPCImmunity = true;
@@ -91,6 +90,12 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Main.dust[dust].velocity *= 0.2f;
             Main.dust[dust].scale = (float)Main.rand.Next(80, 115) * 0.013f;
             Main.dust[dust].noGravity = true;
+        }
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            width = 16;
+            height = 16;
+            return true;
         }
     }
 }

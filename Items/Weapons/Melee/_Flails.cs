@@ -149,6 +149,10 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
+            if (Main.myPlayer == Projectile.owner)
+            {
+                Projectile.netUpdate = true;
+            }
             if (paladin)
             {
                 if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))

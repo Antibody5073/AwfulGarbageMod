@@ -94,7 +94,7 @@ namespace AwfulGarbageMod.Global
                         Main.projectile[proj].ArmorPenetration += 999;
                         Main.projectile[proj].CritChance = 0;
                     }
-                    for (int i = 0; i < Main.rand.Next(2, 4); i++)
+                    for (int i = 0; i < Main.rand.Next(1, 3); i++)
                     {
                         int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Main.rand.NextVector2CircularEdge(6.5f, 3f) + new Vector2(0, 2), ProjectileID.MolotovFire3, hit.Damage / 3, projectile.knockBack / 5, projectile.owner);
                         Main.projectile[proj].ArmorPenetration += 999;

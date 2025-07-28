@@ -47,7 +47,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
 		public override void SetDefaults()
 		{
-            Item.damage = 9;
+            Item.damage = 11;
             Item.knockBack = 3f;
             Item.mana = 10; // mana cost
             Item.width = 32;

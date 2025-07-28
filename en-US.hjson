@@ -4,7 +4,8 @@ Mods: {
 			KnifeDamageClass.DisplayName: ranged (knife) damage
 			ScepterDamageClass.DisplayName: magic (scepter) damage
 			FlailDamageClass.DisplayName: melee (flail) damage
-			MageRangedClass.DisplayName: Mage Ranged Class
+			MageRangedClass.DisplayName: ranged and magic damage
+			MageSummonClass.DisplayName: magic and summon damage
 		}
 
 		Keybinds.ArmorSetAbility.DisplayName: Armor Set Ability
@@ -352,6 +353,16 @@ Mods: {
 			ShockAbsorberBuff: {
 				DisplayName: Shock Absorber Buff
 				Description: Life regeneration is disabled!
+			}
+
+			FireSentryMinionBuff: {
+				DisplayName: Fire Sentry Minion Buff
+				Description: Mods.AwfulGarbageMod.Buffs.FireSentryMinionBuff.Description
+			}
+
+			MothDefenseBuff: {
+				DisplayName: Moth Defense Buff
+				Description: Mods.AwfulGarbageMod.Buffs.MothDefenseBuff.Description
 			}
 		}
 
@@ -715,6 +726,16 @@ Mods: {
 			FlintArrowProj.DisplayName: Flint Arrow Proj
 			VitalliumShardProj.DisplayName: Vitallium Shard Proj
 			VitalliumShardSpray.DisplayName: Vitallium Shard Spray
+			FireDrillProj.DisplayName: Fire Drill Proj
+			FireSentryMinion.DisplayName: Fire Sentry Minion
+			FireSentryProj.DisplayName: Fire Sentry Proj
+			BeheMothProj.DisplayName: Behe Moth Proj
+			MothstormProj.DisplayName: Mothstorm Proj
+			AssProjArrow.DisplayName: Ass Proj Arrow
+			OrichalcumBullet.DisplayName: Orichalcum Bullet
+			OrichalcumArrow.DisplayName: Orichalcum Arrow
+			TitaniumShard.DisplayName: Titanium Shard
+			TitaniumTrident.DisplayName: Titanium Trident
 		}
 
 		Items: {
@@ -731,8 +752,11 @@ Mods: {
 				DisplayName: Amalgamation of Mushrooms
 				Tooltip:
 					'''
-					50 increased maximum life and mana
-					15% increased max movement speed and acceleration
+					40 increased maximum life and mana
+					4% increased damage and critical strike chance
+					4% increased melee speed and ranged velocity
+					4% reduced mana usage
+					15% increased movement speed
 					'''
 			}
 
@@ -793,7 +817,7 @@ Mods: {
 
 			GlowingMushroomFlask: {
 				DisplayName: Glowing Mushroom Flask
-				Tooltip: 50 increased max mana
+				Tooltip: 30 increased max mana
 			}
 
 			IceCrystalGeode: {
@@ -866,7 +890,7 @@ Mods: {
 
 			MushroomFlask: {
 				DisplayName: Mushroom Flask
-				Tooltip: 50 increased max HP
+				Tooltip: 30 increased max HP
 			}
 
 			MyceliumGauntlet: {
@@ -1003,12 +1027,21 @@ Mods: {
 
 			ViciousMushroomFlask: {
 				DisplayName: Vicious Mushroom Flask
-				Tooltip: 15% increased max movement speed
+				Tooltip:
+					'''
+					6% increased critical strike chance
+					6% increased ranged velocity
+					6% reduced mana usage
+					'''
 			}
 
 			VileMushroomFlask: {
 				DisplayName: Vile Mushroom Flask
-				Tooltip: 15% increased movement acceleration
+				Tooltip:
+					'''
+					6% increased damage
+					6% increased melee speed
+					'''
 			}
 
 			StonePellet: {
@@ -1187,7 +1220,11 @@ Mods: {
 
 			FrostShard: {
 				DisplayName: Frost Shard
-				Tooltip: '''"Doesn't seem to melt"'''
+				Tooltip:
+					'''
+					Can be used to make orichalcum more efficiently
+					'Doesn't seem to melt'
+					'''
 			}
 
 			TreeToadRelic: {
@@ -1197,7 +1234,11 @@ Mods: {
 
 			SpiderLeg: {
 				DisplayName: Spider Leg
-				Tooltip: '''"Tastes delicious"'''
+				Tooltip:
+					'''
+					Can be used to create titanium more efficiently
+					'Tastes delicious'
+					'''
 			}
 
 			SpiritItem: {
@@ -1207,7 +1248,11 @@ Mods: {
 
 			StormEssence: {
 				DisplayName: Storm Essence
-				Tooltip: Essential for upgrading cloud gear
+				Tooltip:
+					'''
+					Can be used to make titanium more efficiently
+					Essential for upgrading cloud gear
+					'''
 			}
 
 			SuwaHat: {
@@ -1807,7 +1852,11 @@ Mods: {
 
 			VeinJuice: {
 				DisplayName: Vein Juice
-				Tooltip: '''"Blood" was too boring'''
+				Tooltip:
+					'''
+					Can be used to create adamantite more efficiently
+					"Blood" was too boring
+					'''
 			}
 
 			BloodVolley: {
@@ -2033,7 +2082,7 @@ Mods: {
 
 			SpikyThread: {
 				DisplayName: Spiky Thread
-				Tooltip: 25% increased whip range and flail spin range
+				Tooltip: 16% increased whip range and flail spin range
 			}
 
 			FractureKnife: {
@@ -2057,7 +2106,7 @@ Mods: {
 				Tooltip:
 					'''
 					Increases summon damage by 8%
-					Increases whip range by 18%
+					Increases whip range by 10%
 					Increases armor penetration by 4
 					Slightly increases summon knockback
 					Increases defense by 1
@@ -2240,15 +2289,8 @@ Mods: {
 				DisplayName: Geode Gemcorn Staff
 				Tooltip:
 					'''
-					Hitting an ememy restores all used mana
-					Homes in on nearby enemies
-					Leaves a trail of falling topaz sparks
-					Explodes into ruby sparks on tile or enemy impact
-					Bounces off of tiles towards nearby enemies
-					Reduces enemy defense by 5
-					Inflicts random earlygame debuffs
-					Pierces two enemies
-					Projectiles are high velocity and unaffected by gravity
+					Effects of all the gemcorn staves
+					'No, you're not getting your satisfying wall of text this time'
 					'''
 			}
 
@@ -3101,9 +3143,11 @@ Mods: {
 				DisplayName: Worldly Scroll
 				Tooltip:
 					'''
+					Does not work in multiplayer; if you need to generate missing structures, hop in singleplayer and use this item.
 					Manually generates any missing ores and structures into your world
 					May be slightly buggier than generating structures via world creation
 					Does nothing if there isn't anything wrong with your world
+					Right click to check for anything missing
 					'''
 			}
 
@@ -3307,7 +3351,6 @@ Mods: {
 					 - Knife damage is increased by 50 + 50%
 					 - Knife velocity is increased by 15%
 					 - Penetrates through one more enemy
-					 - Creates Night and Light knives upon hitting enemies that deal 50% damage and inflict Shadowflame and Holy Flame respectively
 					'''
 			}
 
@@ -3370,6 +3413,7 @@ Mods: {
 			LavaLamp: {
 				Tooltip:
 					'''
+					Boss is currently unfightable
 					Must be used in the underworld
 					'Like a moth to a flame...'
 					'''
@@ -3496,7 +3540,7 @@ Mods: {
 				Tooltip:
 					'''
 					10% increased melee and magic damage and critical strike chance
-					Increases max mana by 40% and melee speed by 15%
+					Increases max mana by 40 and melee speed by 15%
 					'''
 				DisplayName: Candescent Breastplate
 			}
@@ -3696,7 +3740,11 @@ Mods: {
 
 			Flint: {
 				DisplayName: Flint
-				Tooltip: "'Sharp and easy to shape'"
+				Tooltip:
+					'''
+					Can be used to create mythril more efficiently
+					'Sharp and easy to shape'
+					'''
 			}
 
 			FlintDirt: {
@@ -4139,6 +4187,7 @@ Mods: {
 				Tooltip:
 					'''
 					Able to turn a variety of ores into bars!
+					Enables more efficient smelting recipes
 					Functions as an Adamantite Forge, Frigid Forge, Candescent Crucible, and Trash Melter
 					'''
 			}
@@ -4158,6 +4207,7 @@ Mods: {
 				DisplayName: Demon Claw
 				Tooltip:
 					'''
+					5% increased melee damage
 					Spun flails deal triple damage while retracting
 					This also applies to any on-retract effects
 					'''
@@ -4168,7 +4218,7 @@ Mods: {
 				Tooltip:
 					'''
 					Spun flails deal triple damage while retracting (Does not stack with downgrades)
-					7% increased melee speed
+					8% increased melee damage and speed
 					Increases defense by 8 while spinning a flail at max range (Does not stack with downgrades)
 					Reflects 75% of contact damage
 					'''
@@ -4256,8 +4306,7 @@ Mods: {
 				Tooltip:
 					'''
 					Use to cycle between the difficulty modes.
-					Use on Expert or Master mode to enable Unreal Mode.
-					Use again on Master Mode to enable Absurdly Extra Mode.
+					Use on Master mode to enable Unreal Mode; use again to enable Absurdly Extra Mode.
 					[c/B841DC:Unreal Mode: Reworked vanilla bosses, Awful Garbage Mod bosses are harder. Enemy spawns are increased and]
 					[c/B841DC:certain enemies get changes. Certain bosses have Unreal-exclusive drops. Certain buff potions have weakened effects.]
 					[c/D2ADAD:Absurdly Extra Mode: Do not play if you want a balanced experience. Everything is overtuned]
@@ -4266,6 +4315,9 @@ Mods: {
 					Candescence and Duke Fishron have a WIP rework that is probably really stupid and unfair in their current states, I recommend turning Unreal mode off for those bosses.
 					Currently does not rework any enemies.
 					'''
+				DifficultyOff: All special difficulty modes turned off.
+				Unreal: Unreal Mode: Welcome to unreality.
+				AbEX: Absurdly Extra Mode: This is ridiculous!!!
 			}
 
 			UmbragelBreastplate: {
@@ -4553,12 +4605,8 @@ Mods: {
 			}
 
 			LashOfLife: {
-				DisplayName: Lash of Life
-				Tooltip:
-					'''
-					2 summon tag damage
-					This effect lasts for 2.5 seconds, but can stack with itself
-					'''
+				DisplayName: Vitallium Chain
+				Tooltip: Refreshes all current whip tag effects on the enemy
 			}
 
 			FlintArrow: {
@@ -4594,9 +4642,77 @@ Mods: {
 				DisplayName: Unreal Lamp
 				Tooltip:
 					'''
+					Boss is currently unfightable
 					Summons Candescence
 					Non-consumable
 					'''
+			}
+
+			BlazingTotem: {
+				DisplayName: Blazing Totem
+				Tooltip:
+					'''
+					+1 max sentries
+					10% increased summon damage
+					'''
+			}
+
+			CurseOfCandescence: {
+				DisplayName: Curse of Candescence
+				Tooltip: Your minion and sentry slots are swapped
+			}
+
+			FireDrill: {
+				DisplayName: Fire Drill
+				Tooltip: "'I repeat, this is not a drill! This is the real thing!'"
+			}
+
+			FireSentry: {
+				DisplayName: Fire Fountain
+				Tooltip:
+					'''
+					Summons a fire fountain sentry
+					Shoots bouncy fireballs left and right
+					Scales with both magic and summon damage modifiers
+					'''
+			}
+
+			BeheMoth: {
+				DisplayName: Behe-moth
+				Tooltip:
+					'''
+					Throw a massive molten moth mallet
+					Breaks enemy defense, reducing it by 16
+					'''
+			}
+
+			Mothstorm: {
+				DisplayName: Mothstorm
+				Tooltip:
+					'''
+					Release a storm of lava moths
+					Homes in on enemies marked by whips
+					'''
+			}
+
+			TsugumiRelic: {
+				DisplayName: Tsugumi Relic
+				Tooltip: ""
+			}
+
+			ShieldOfTheFallen: {
+				TooltipWithVar: Mods.AwfulGarbageMod.Items.ShieldOfTheFallen.TooltipWithVar
+				DisplayName: Shield of the Fallen
+				Tooltip:
+					'''
+					+1 max sentries
+					11% increased damage
+					'''
+			}
+
+			SoulOfShight: {
+				DisplayName: Soul of Shight
+				Tooltip: "'The essence of pure garbage'"
 			}
 		}
 
@@ -4698,6 +4814,7 @@ Mods: {
 			}
 
 			DukeFishron.DisplayName: Duke Fishron
+			Ass.DisplayName: Ascended Shadowflame Spirit
 		}
 
 		Bestiary: {
@@ -4783,6 +4900,102 @@ Mods: {
 			PrefixRestrained: {
 				AdditionalTooltip: -1 maximum scepter projectile
 				DisplayName: Restrained
+			}
+
+			PrefixFrigid: {
+				AdditionalTooltip:
+					'''
+					+2% melee and summon damage
+					+3% melee and whip speed
+					'''
+				DisplayName: Frigid
+			}
+
+			PrefixGlacial: {
+				AdditionalTooltip:
+					'''
+					+2 defense
+					+2% damage
+					+2% movement and jump speed
+					'''
+				DisplayName: Glacial
+			}
+
+			PrefixIcy: {
+				AdditionalTooltip:
+					'''
+					+1.5% ranged damage and crit chance
+					+3% ranged velocity
+					'''
+				DisplayName: Icy
+			}
+
+			PrefixSubzero: {
+				AdditionalTooltip:
+					'''
+					+2 defense
+					+2% magic critical strike chance
+					+15 max mana
+					'''
+				DisplayName: Subzero
+			}
+
+			PrefixThawed: {
+				AdditionalTooltip:
+					'''
+					+2 defense
+					+4% movement and jump speed
+					'''
+				DisplayName: Thawed
+			}
+
+			PrefixArdent: {
+				AdditionalTooltip:
+					'''
+					+4% ranged and summon damage
+					+1.5% ranged velocity
+					+1.5% whip speed
+					'''
+				DisplayName: Ardent
+			}
+
+			PrefixBurning: {
+				AdditionalTooltip:
+					'''
+					+2.5% damage
+					+4% whip range and speed
+					'''
+				DisplayName: Burning
+			}
+
+			PrefixCandescent: {
+				AdditionalTooltip:
+					'''
+					+4% melee and magic critical strike chance
+					+1.5% melee speed
+					+10 max mana
+					'''
+				DisplayName: Candescent
+			}
+
+			PrefixInfernal: {
+				AdditionalTooltip:
+					'''
+					+3% damage
+					+2% critical strike chance
+					+5 max life
+					'''
+				DisplayName: Infernal
+			}
+
+			PrefixMetamorphic: {
+				AdditionalTooltip:
+					'''
+					+3 defense
+					+10 max life and mana
+					+1% melee speed and ranged velocity
+					'''
+				DisplayName: Metamorphic
 			}
 		}
 

@@ -26,7 +26,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         {
             // This method quickly sets the whip's properties.
             // Mouse over to see its parameters.
-            Item.DefaultToWhip(ModContent.ProjectileType<LashOfLifeProj>(), 23, 2f, 4.75f);
+            Item.DefaultToWhip(ModContent.ProjectileType<LashOfLifeProj>(), 44, 2f, 4.75f);
             Item.useTime = 30;
             Item.useAnimation = 30;
 
@@ -87,7 +87,14 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.GetGlobalNPC<ExampleGlobalNPC>().stackableTag.Add(new Vector2(2, 150 * Main.player[Projectile.owner].GetModPlayer<GlobalPlayer>().WhipDebuffDurationPrev));
+            //target.GetGlobalNPC<ExampleGlobalNPC>().stackableTag.Add(new Vector2(2, 150 * Main.player[Projectile.owner].GetModPlayer<GlobalPlayer>().WhipDebuffDurationPrev));
+            for (int i = 0; i < target.buffType.Length; i++)
+            {
+                if (BuffID.Sets.IsATagBuff[target.buffType[i]] && target.buffTime[i] < 240)
+                {
+                    target.buffTime[i] = 240;
+                }
+            }
             Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI;
             Projectile.damage = (int)(Projectile.damage * 0.75f);
         }

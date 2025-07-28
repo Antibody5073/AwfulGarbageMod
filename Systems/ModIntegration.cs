@@ -36,17 +36,6 @@ namespace AwfulGarbageMod.ModIntegration
 
             // We can integrate with other mods here by following the same pattern. Some modders may prefer a ModSystem for each mod they integrate with, or some other design.
             // DoMusicDisplayIntegration();
-
-            Main.instance.LoadNPC(56); //Snatcher
-            Main.instance.LoadNPC(61); // Vulture
-            Main.instance.LoadNPC(169); // Ice Elemental
-            Main.instance.LoadNPC(1); // Slime
-
-            Main.instance.LoadProjectile(864); //Blade Staff
-            Main.instance.LoadProjectile(206); //Leaf
-            Main.instance.LoadProjectile(578); //Vortex Portal
-            Main.instance.LoadProjectile(ProjectileID.TerraBeam); //Terra Blade
-            Main.instance.LoadProjectile(ProjectileID.BoneGloveProj); //Crossbone
         }
 
         private void DoCensusIntegration()

@@ -22,8 +22,11 @@ namespace AwfulGarbageMod.Items.Placeable.Furniture
 		public override void AddRecipes() {
 			CreateRecipe()
 				.AddIngredient(ItemID.Hellforge)
-				.AddIngredient<CandesciteBar>(2)
-                .AddIngredient<CandesciteOre>(30)
+				//.AddIngredient<CandesciteBar>(2)
+				.AddIngredient<CandesciteOre>(30)
+                .AddIngredient<SoulOfIghtImaHeadOut>(10)
+                .AddIngredient(ItemID.SoulofNight, 10)
+                .AddIngredient(ItemID.SoulofLight, 10)
                 .AddTile(TileID.Anvils)
 				.Register();
 		}

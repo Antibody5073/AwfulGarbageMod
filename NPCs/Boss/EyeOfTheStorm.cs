@@ -1,34 +1,36 @@
+using AwfulGarbageMod;
+using AwfulGarbageMod.BossBars;
+using AwfulGarbageMod.Configs;
+using AwfulGarbageMod.ItemDropRules;
+using AwfulGarbageMod.Items;
+using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Consumables; 
+using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Melee;
+using AwfulGarbageMod.Items.Weapons.Ranged;
+using AwfulGarbageMod.Items.Weapons.Summon;
+using AwfulGarbageMod.Projectiles;
+using AwfulGarbageMod.Systems;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Peripherals.RGB;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.PlayerDrawLayer;
-using AwfulGarbageMod;
-using AwfulGarbageMod.Projectiles;
-using AwfulGarbageMod.BossBars;
-using AwfulGarbageMod.Systems;
-using System.Runtime.InteropServices;
-using AwfulGarbageMod.Items.Weapons.Melee;
-using AwfulGarbageMod.Items.Weapons.Ranged;
-using AwfulGarbageMod.Items.Weapons.Magic;
-using AwfulGarbageMod.Items.Weapons.Summon;
-using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Generic;
-using AwfulGarbageMod.Items;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.GameContent;
-using Microsoft.CodeAnalysis;
-using ReLogic.Peripherals.RGB;
-using AwfulGarbageMod.Configs;
-using AwfulGarbageMod.ItemDropRules;
 
 namespace AwfulGarbageMod.NPCs.Boss
 {
@@ -98,6 +100,35 @@ namespace AwfulGarbageMod.NPCs.Boss
         Vector2 storedVel; 
         Vector2 storedPos;
 
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(AI_State);
+            writer.Write(AI_Timer);
+            writer.Write(sineWaterMod);
+            writer.Write(sineWaterMult);
+            writer.Write(bossPhase);
+            writer.Write(DashPhase);
+            writer.Write(targetArea.X);
+            writer.Write(targetArea.Y);
+            writer.Write(storedVel.X);
+            writer.Write(storedVel.Y);
+            writer.Write(storedPos.X);
+            writer.Write(storedPos.Y);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            AI_State = reader.ReadSingle();
+            AI_Timer = reader.ReadSingle();
+            sineWaterMod = reader.ReadInt32();
+            sineWaterMult = reader.ReadInt32();
+            bossPhase = reader.ReadSingle();
+            DashPhase = reader.ReadInt32();
+            targetArea = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+            storedVel = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+            storedPos = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+        }
+
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Flutter Slime"); // Automatic from localization files
@@ -106,6 +137,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             // Specify the debuffs it is immune to
             NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire] = true;
             NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire3] = true;
+            NPCID.Sets.NoMultiplayerSmoothingByType[Type] = true;
+            NPCID.Sets.MPAllowedEnemies[Type] = true;
 
             NPCID.Sets.TrailCacheLength[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
@@ -252,7 +285,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile projectile = Main.projectile[i];
-                if ((projectile.type == Mod.Find<ModProjectile>("EoTSWallCloud").Type || projectile.type == Mod.Find<ModProjectile>("EoTSWall").Type) && projectile.owner == player.whoAmI)
+                if ((projectile.type == ModContent.ProjectileType<EoTSWallCloud>() || projectile.type == ModContent.ProjectileType<EoTSWall>()))
                 {
                     projectile.timeLeft = 2;
                 }
@@ -279,12 +312,15 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
                 NPC.TargetClosest(true);
                 wallX = Main.player[NPC.target].Center.X;
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + wallDist, Main.player[NPC.target].Center.Y), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, Main.myPlayer);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - wallDist, Main.player[NPC.target].Center.Y), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, Main.myPlayer);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + wallDist, Main.player[NPC.target].Center.Y + 1200), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, Main.myPlayer);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - wallDist, Main.player[NPC.target].Center.Y + 1200), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, Main.myPlayer);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + wallDist, Main.player[NPC.target].Center.Y - 1200), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, Main.myPlayer);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - wallDist, Main.player[NPC.target].Center.Y - 1200), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, Main.myPlayer);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + wallDist, Main.player[NPC.target].Center.Y), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, -1);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - wallDist, Main.player[NPC.target].Center.Y), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, -1);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + wallDist, Main.player[NPC.target].Center.Y + 1200), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, -1);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - wallDist, Main.player[NPC.target].Center.Y + 1200), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, -1);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + wallDist, Main.player[NPC.target].Center.Y - 1200), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, -1);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - wallDist, Main.player[NPC.target].Center.Y - 1200), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWall").Type, 17, 0, -1);
+                }
                 bossPhase = 1;
                 AI_Timer = 170;
                 AI_State = (float)ActionState.PhaseTransition;
@@ -305,10 +341,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.PhaseTransition;
                 if (Main.expertMode)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + (wallDist - 50), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - (wallDist - 50), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + (wallDist - 100), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - (wallDist - 100), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, Main.myPlayer);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + (wallDist - 50), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - (wallDist - 50), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + (wallDist - 100), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - (wallDist - 100), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, -1);
+                    }
                 }
             }
 
@@ -325,10 +364,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.PhaseTransition;
                 if (Main.expertMode)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + (wallDist - 150), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - (wallDist - 150), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + (wallDist - 200), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - (wallDist - 200), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, Main.myPlayer);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + (wallDist - 150), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - (wallDist - 150), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX + (wallDist - 200), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - (wallDist - 200), Main.player[NPC.target].Center.Y - 360), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSWallCloud").Type, 17, 0, -1);
+                    }
                 }
             }
 
@@ -486,7 +528,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             if (AI_Timer == 0)
             {
                 NPC.dontTakeDamage = false;
-
+                NPC.netUpdate = true;
                 if (bossPhase == 1)
                 {
                     AI_State = (float)ActionState.SineWater1;
@@ -535,16 +577,22 @@ namespace AwfulGarbageMod.NPCs.Boss
                     targetArea = NPC.position;
                     if (DifficultyModes.Difficulty == 2)
                     {
-                        for (int i = -4; i < 5; i++)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 350 + (350 * 2) * i / 11f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSSnowCloud>(), 17, 0, Main.myPlayer, NPC.whoAmI, i * 120);
+                            for (int i = -4; i < 5; i++)
+                            {
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 350 + (350 * 2) * i / 11f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSSnowCloud>(), 17, 0, -1, NPC.whoAmI, i * 120);
+                            }
                         }
                     }
                     else if (DifficultyModes.Difficulty == 1)
                     {
-                        for (int i = -3; i < 4; i++)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 350 + (350 * 2) * i / 11f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSSnowCloud>(), 17, 0, Main.myPlayer, NPC.whoAmI, i * 160);
+                            for (int i = -3; i < 4; i++)
+                            {
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 350 + (350 * 2) * i / 11f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSSnowCloud>(), 17, 0, -1, NPC.whoAmI, i * 160);
+                            }
                         }
                     }
                     if (Main.expertMode)
@@ -583,7 +631,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 NPC.dontTakeDamage = false;
                 AI_State = Next_State;
-
+                NPC.netUpdate = true;
                 if (bossPhase == 1)
                 {
                     if (Next_State == (float)ActionState.SineWater1)
@@ -637,16 +685,22 @@ namespace AwfulGarbageMod.NPCs.Boss
                         targetArea = NPC.position;
                         if (DifficultyModes.Difficulty == 2)
                         {
-                            for (int i = -4; i < 5; i++)
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 350 + (350 * 2) * i / 11f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSSnowCloud>(), 17, 0, Main.myPlayer, NPC.whoAmI, i * 120);
+                                for (int i = -4; i < 5; i++)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 350 + (350 * 2) * i / 11f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSSnowCloud>(), 17, 0, -1, NPC.whoAmI, i * 120);
+                                }
                             }
                         }
                         else if (DifficultyModes.Difficulty == 1)
                         {
-                            for (int i = -3; i < 4; i++)
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 350 + (350 * 2) * i / 11f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSSnowCloud>(), 17, 0, Main.myPlayer, NPC.whoAmI, i * 160);
+                                for (int i = -3; i < 4; i++)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 350 + (350 * 2) * i / 11f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSSnowCloud>(), 17, 0, -1, NPC.whoAmI, i * 160);
+                                }
                             }
                         }
                         if (Main.expertMode)
@@ -690,7 +744,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 NPC.dontTakeDamage = false;
                 AI_State = Next_State;
-
+                NPC.netUpdate = true;
                 if (bossPhase == 1)
                 {
                     if (Next_State == (float)ActionState.Dash1 || Next_State == (float)ActionState.DashAgain1)
@@ -708,17 +762,22 @@ namespace AwfulGarbageMod.NPCs.Boss
                     {
                         if (DifficultyModes.Difficulty == 2)
                         {
-                            for (int i = 0; i < 13; i++)
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 350 + (350 * 2) * i / 11f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSWallCloudTemporary>(), 17, 0, Main.myPlayer, NPC.whoAmI);
+                                for (int i = 0; i < 13; i++)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 350 + (350 * 2) * i / 11f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSWallCloudTemporary>(), 17, 0, -1, NPC.whoAmI);
+                                }
                             }
                         }
                         else if (DifficultyModes.Difficulty == 1)
                         {
-
-                            for (int i = 0; i < 10; i++)
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 480 + (480 * 2) * i / 9f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSWallCloudTemporary>(), 17, 0, Main.myPlayer, NPC.whoAmI);
+                                for (int i = 0; i < 10; i++)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(wallX - 480 + (480 * 2) * i / 9f, NPC.Bottom.Y), new Vector2(0, 0), ModContent.ProjectileType<EoTSWallCloudTemporary>(), 17, 0, -1, NPC.whoAmI);
+                                }
                             }
                         }
                         AI_Timer = 480;
@@ -773,6 +832,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (AI_Timer == 0)
             {
+                NPC.netUpdate = true;
                 NPC.dontTakeDamage = false;
                 AI_State = (float)ActionState.Lightning3;
                 AI_Timer = 0;
@@ -793,8 +853,11 @@ namespace AwfulGarbageMod.NPCs.Boss
                     if ((AI_Timer + sineWaterMod) % 10 < 7)
                     {
                         SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, new Vector2(0, 5.5f), Mod.Find<ModProjectile>("EoTSWater1").Type, 17, 0, Main.myPlayer);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, new Vector2(0, 8f), Mod.Find<ModProjectile>("EoTSWater1").Type, 17, 0, Main.myPlayer);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, new Vector2(0, 5.5f), Mod.Find<ModProjectile>("EoTSWater1").Type, 17, 0, -1);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, new Vector2(0, 8f), Mod.Find<ModProjectile>("EoTSWater1").Type, 17, 0, -1);
+                        }
                     }
                     if ((AI_Timer + sineWaterMod) % 10 == 2)
                     {
@@ -806,7 +869,10 @@ namespace AwfulGarbageMod.NPCs.Boss
                     if ((AI_Timer + sineWaterMod) % 10 < 7)
                     {
                         SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, new Vector2(0, 5.5f), Mod.Find<ModProjectile>("EoTSWater1").Type, 17, 0, Main.myPlayer);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, new Vector2(0, 5.5f), Mod.Find<ModProjectile>("EoTSWater1").Type, 17, 0, -1);
+                        }
                     }
                     if ((AI_Timer + sineWaterMod) % 10 == 2)
                     {
@@ -819,7 +885,10 @@ namespace AwfulGarbageMod.NPCs.Boss
                     if (AI_Timer % 3 == sineWaterMod)
                     {
                         SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, new Vector2(0, 5.5f), Mod.Find<ModProjectile>("EoTSWater1").Type, 17, 0, Main.myPlayer);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, new Vector2(0, 5.5f), Mod.Find<ModProjectile>("EoTSWater1").Type, 17, 0, -1);
+                        }
                     }
                 }
                 else
@@ -827,7 +896,10 @@ namespace AwfulGarbageMod.NPCs.Boss
                     if (AI_Timer % 4 == sineWaterMod)
                     {
                         SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, new Vector2(0, 5.5f), Mod.Find<ModProjectile>("EoTSWater1").Type, 17, 0, Main.myPlayer);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, new Vector2(0, 5.5f), Mod.Find<ModProjectile>("EoTSWater1").Type, 17, 0, -1);
+                        }
                     }
                 }
             }
@@ -835,6 +907,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 AI_State = (float)ActionState.AimedLightning1;
                 AI_Timer = 0;
+                NPC.netUpdate = true;
             }
         }
 
@@ -849,52 +922,61 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 storedPos = NPC.Center;
                 storedVel = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center);
-                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(4, 4), Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center), Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(4, 4), Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center), Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                }
             }
             if (DifficultyModes.Difficulty == 1)
             {
-                if (AI_Timer % 24 == 15)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                }
-                if (AI_Timer % 24 == 18)
-                {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 40, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -40, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
+                    if (AI_Timer % 24 == 15)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                    }
+                    if (AI_Timer % 24 == 18)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 40, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -40, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                    }
                 }
             }
             else if (DifficultyModes.Difficulty == 2)
             {
-                if (AI_Timer % 24 == 13)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                }
-                if (AI_Timer % 24 == 14)
-                {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 40, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -40, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                }
-                if (AI_Timer % 24 == 15)
-                {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20*3, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20*3, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                }
-                if (AI_Timer % 24 == 16)
-                {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20*4, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20*4, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                }
-                if (AI_Timer % 24 == 17)
-                {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20*5, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20*5, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                }
-                if (AI_Timer % 24 == 18)
-                {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20*6, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20*6, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, Main.myPlayer);
+                    if (AI_Timer % 24 == 13)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                    }
+                    if (AI_Timer % 24 == 14)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 40, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -40, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                    }
+                    if (AI_Timer % 24 == 15)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20 * 3, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20 * 3, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                    }
+                    if (AI_Timer % 24 == 16)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20 * 4, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20 * 4, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                    }
+                    if (AI_Timer % 24 == 17)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20 * 5, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20 * 5, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                    }
+                    if (AI_Timer % 24 == 18)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * 20 * 6, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), storedPos + new Vector2(4, 4) + storedVel.RotatedBy(MathHelper.PiOver2) * -20 * 6, storedVel, Mod.Find<ModProjectile>("EoTSLightningTele").Type, 17, 0, -1);
+                    }
                 }
             }
             if (AI_Timer > 240)
@@ -902,6 +984,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.Dash1;
                 AI_Timer = 170;
+                NPC.netUpdate = true;
             }
         }
 
@@ -930,9 +1013,11 @@ namespace AwfulGarbageMod.NPCs.Boss
                     direction *= 21;
                 }
                 storedVel = direction;
-                
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel / 4, ModContent.ProjectileType<BossTelegraph>(), 0, 0, Main.myPlayer, DustID.AncientLight);
-
+                NPC.netUpdate = true;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel / 4, ModContent.ProjectileType<BossTelegraph>(), 0, 0, -1, DustID.AncientLight);
+                }
             }
             else if (AI_Timer % 75 > 50)
             {
@@ -960,22 +1045,23 @@ namespace AwfulGarbageMod.NPCs.Boss
                 direction *= speed;
 
                 NPC.velocity = (NPC.velocity * (inertia - 1) + direction) / inertia;
-
-                if (DifficultyModes.Difficulty == 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    if (AI_Timer % 8 == 6)
+                    if (DifficultyModes.Difficulty == 1)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2CircularEdge(1f, 1f), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, Main.myPlayer, 60);
+                        if (AI_Timer % 8 == 6)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2CircularEdge(1f, 1f), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, -1, 60);
+                        }
+                    }
+                    else if (DifficultyModes.Difficulty == 2)
+                    {
+                        if (AI_Timer % 3 == 2)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2CircularEdge(5f, 5f), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, -1, 60);
+                        }
                     }
                 }
-                else if (DifficultyModes.Difficulty == 2)
-                {
-                    if (AI_Timer % 3 == 2)
-                    {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2CircularEdge(5f, 5f), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, Main.myPlayer, 60);
-                    }
-                }
-
             }
 
             AI_Timer--;
@@ -987,6 +1073,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.CloudAttack1;
                 AI_Timer = 170;
+                NPC.netUpdate = true;
             }
         }
 
@@ -1007,65 +1094,66 @@ namespace AwfulGarbageMod.NPCs.Boss
 
 
             AI_Timer--;
-
-            if (AI_Timer % 65 == 45)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (Main.expertMode)
+                if (AI_Timer % 65 == 45)
                 {
-                    if (Main.masterMode)
+                    if (Main.expertMode)
                     {
-                        for (int i = 0; i < 6; i++)
+                        if (Main.masterMode)
                         {
-                            if (DifficultyModes.Difficulty == 2)
+                            for (int i = 0; i < 6; i++)
                             {
-                                Vector2 dir = Main.rand.NextVector2CircularEdge(4f, 4f);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(450, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), dir, Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, Main.myPlayer, 60);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(450, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), dir.RotatedBy(MathHelper.Pi), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, Main.myPlayer, 60);
-                            }
-                            else if (DifficultyModes.Difficulty == 1)
-                            {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(350, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), Main.rand.NextVector2CircularEdge(1.5f, 1.5f), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, Main.myPlayer, 60);
-                            }
-                            else
-                            {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(250, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, Main.myPlayer, 60);
+                                if (DifficultyModes.Difficulty == 2)
+                                {
+                                    Vector2 dir = Main.rand.NextVector2CircularEdge(4f, 4f);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(450, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), dir, Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, -1, 60);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(450, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), dir.RotatedBy(MathHelper.Pi), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, -1, 60);
+                                }
+                                else if (DifficultyModes.Difficulty == 1)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(350, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), Main.rand.NextVector2CircularEdge(1.5f, 1.5f), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, -1, 60);
+                                }
+                                else
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(250, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, -1, 60);
+                                }
                             }
                         }
+                        else
+                        {
+                            for (int i = 0; i < 5; i++)
+                            {
+                                if (DifficultyModes.Difficulty == 1)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(350, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), Main.rand.NextVector2CircularEdge(1.5f, 1.5f), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, -1, 60);
+                                }
+                                else
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(250, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, -1, 60);
+                                }
+                            }
+                        }
+
                     }
                     else
                     {
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < 4; i++)
                         {
-                            if (DifficultyModes.Difficulty == 1)
-                            {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(350, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), Main.rand.NextVector2CircularEdge(1.5f, 1.5f), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, Main.myPlayer, 60);
-                            }
-                            else
-                            {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(250, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, Main.myPlayer, 60);
-                            }
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(250, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, -1, 60);
                         }
                     }
-                    
-                }
-                else
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + new Vector2(Main.rand.Next(250, 600), 0).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(0, 360))), new Vector2(0, 0), Mod.Find<ModProjectile>("EoTSCloud1").Type, 17, 0, Main.myPlayer, 60);
-                    }
-                }
-                
 
+
+                }
             }
-
-
             if (AI_Timer == 0)
             {
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.DashAgain1;
                 AI_Timer = 170;
+                NPC.netUpdate = true;
             }
         }
 

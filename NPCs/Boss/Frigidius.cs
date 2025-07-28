@@ -148,6 +148,12 @@ namespace AwfulGarbageMod.NPCs.Boss
         public override void OnKill()
         {
             // This sets downedMinionBoss to true, and if it was false before, it initiates a lantern night
+
+            if (!DownedBossSystem.downedFrigidius)
+            {
+                Main.NewText("The downfall of the ancient ice serpent empowers accessories with new possible reforges", Color.LightSteelBlue);
+            }
+
             NPC.SetEventFlagCleared(ref DownedBossSystem.downedFrigidius, -1);
 
             // Since this hook is only ran in singleplayer and serverside, we would have to sync it manually.
@@ -221,7 +227,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             Player player = Main.player[NPC.target];
 
-            if (player.dead)
+            if (!NPC.HasValidTarget)
             {
                 AI_State = (float)ActionState.Despawn;
                 NPC.EncourageDespawn(0);
@@ -1037,16 +1043,16 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 60;
+                NPC.damage = 90;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 80;
+                    NPC.damage = 120;
                 }
             }
             else
             {
-                NPC.damage = 40;
+                NPC.damage = 60;
             }
             Player player = Main.player[NPC.target];
 
@@ -1090,16 +1096,16 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 60;
+                NPC.damage = 90;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 80;
+                    NPC.damage = 120;
                 }
             }
             else
             {
-                NPC.damage = 40;
+                NPC.damage = 60;
             }
             Player player = Main.player[NPC.target];
 
@@ -1381,6 +1387,10 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.velocity -= direction * 0.0002f;
             NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
 
+            if (direction.Length() > 5000)
+            {
+                NPC.active = false;
+            }
         }
     }
 

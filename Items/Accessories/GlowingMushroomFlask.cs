@@ -35,7 +35,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statManaMax2 += 50;
+            player.statManaMax2 += 30;
 
         }
 

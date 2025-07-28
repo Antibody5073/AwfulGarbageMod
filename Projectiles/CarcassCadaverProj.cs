@@ -71,11 +71,13 @@ namespace AwfulGarbageMod.Projectiles
             }
 
 
-            int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,new Vector2(0, 0), Mod.Find<ModProjectile>("CarcassCadaverVisual").Type, 0, 0, Main.myPlayer);
-            Main.projectile[proj].rotation = Projectile.rotation;
-            int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("CarcassCadaverVisual").Type, 0, 0, Main.myPlayer);
-            Main.projectile[proj2].rotation = Projectile.rotation + MathHelper.ToRadians(90);
-
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<CarcassCadaverVisual>(), 0, 0, -1);
+                proj.rotation = Projectile.rotation;
+                proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<CarcassCadaverVisual>(), 0, 0, -1);
+                proj.rotation = Projectile.rotation + MathHelper.ToRadians(90);
+            }
             if (Projectile.timeLeft % 8 == 0)
             {
                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/e_shot_00")
@@ -83,10 +85,13 @@ namespace AwfulGarbageMod.Projectiles
                     Volume = 0.5f,
                 };
                 SoundEngine.PlaySound(impactSound);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -4).RotatedBy(Projectile.rotation), Mod.Find<ModProjectile>("SeseNonGravProj").Type, Projectile.damage, 0, Main.myPlayer);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -4).RotatedBy(Projectile.rotation + MathHelper.ToRadians(90)), Mod.Find<ModProjectile>("SeseNonGravProj").Type, Projectile.damage, 0, Main.myPlayer);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -4).RotatedBy(Projectile.rotation + MathHelper.ToRadians(180)), Mod.Find<ModProjectile>("SeseNonGravProj").Type, Projectile.damage, 0, Main.myPlayer);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -4).RotatedBy(Projectile.rotation + MathHelper.ToRadians(270)), Mod.Find<ModProjectile>("SeseNonGravProj").Type, Projectile.damage, 0, Main.myPlayer);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -4).RotatedBy(Projectile.rotation), Mod.Find<ModProjectile>("SeseNonGravProj").Type, Projectile.damage, 0, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -4).RotatedBy(Projectile.rotation + MathHelper.ToRadians(90)), Mod.Find<ModProjectile>("SeseNonGravProj").Type, Projectile.damage, 0, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -4).RotatedBy(Projectile.rotation + MathHelper.ToRadians(180)), Mod.Find<ModProjectile>("SeseNonGravProj").Type, Projectile.damage, 0, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -4).RotatedBy(Projectile.rotation + MathHelper.ToRadians(270)), Mod.Find<ModProjectile>("SeseNonGravProj").Type, Projectile.damage, 0, Main.myPlayer);
+                }
             }
 
             if (Projectile.timeLeft <= 300)

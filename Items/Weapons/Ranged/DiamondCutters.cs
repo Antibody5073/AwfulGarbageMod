@@ -159,6 +159,10 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override void AI()
         {
+            if (Main.myPlayer == Projectile.owner)
+            {
+                Projectile.netUpdate = true;
+            }
             if (IsStickingToTarget)
             {
                 Projectile.alpha = 100;

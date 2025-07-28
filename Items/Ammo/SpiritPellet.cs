@@ -1,10 +1,12 @@
 using AwfulGarbageMod.Projectiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
 using System;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -146,7 +148,6 @@ namespace AwfulGarbageMod.Items.Ammo
                 }
             }
         }
-
         public NPC FindClosestNPC(float maxDetectDistance)
         {
             NPC closestNPC = null;

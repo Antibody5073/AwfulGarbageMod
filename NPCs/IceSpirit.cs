@@ -1,5 +1,20 @@
+using AwfulGarbageMod;
+using AwfulGarbageMod.BossBars;
+using AwfulGarbageMod.Items;
+using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Consumables; 
+using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Melee;
+using AwfulGarbageMod.Items.Weapons.Ranged;
+using AwfulGarbageMod.Items.Weapons.Summon;
+using AwfulGarbageMod.Projectiles;
+using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
 using System;
+using System.Diagnostics.Metrics;
+using System.IO;
+using System.Runtime.InteropServices;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -7,19 +22,8 @@ using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Terraria.ModLoader.PlayerDrawLayer;
-using AwfulGarbageMod;
-using AwfulGarbageMod.Projectiles;
-using AwfulGarbageMod.BossBars;
-using AwfulGarbageMod.Systems;
-using System.Runtime.InteropServices;
-using AwfulGarbageMod.Items.Weapons.Melee;
-using AwfulGarbageMod.Items.Weapons.Ranged;
-using AwfulGarbageMod.Items.Weapons.Magic;
-using AwfulGarbageMod.Items.Weapons.Summon;
-using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
-using AwfulGarbageMod.Items;
 
 namespace AwfulGarbageMod.NPCs
 {
@@ -53,13 +57,35 @@ namespace AwfulGarbageMod.NPCs
         Vector2 direction;
         Vector2 storedVel;
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(NPC.chaseable);
+            writer.Write(AI_State);
+            writer.Write(AI_Timer);
+            writer.Write(targetArea.X);
+            writer.Write(targetArea.Y);
+            writer.Write(direction.X);
+            writer.Write(direction.Y);
+            writer.Write(storedVel.X);
+            writer.Write(storedVel.Y);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            NPC.chaseable = reader.ReadBoolean();
+            AI_State = reader.ReadSingle();
+            AI_Timer = reader.ReadSingle();
+            targetArea = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+            direction = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+            storedVel = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+
+        }
+
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 1; // make sure to set this for your modnpcs.
 
             // Specify the debuffs it is immune to
             NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Frostburn] = true;
-
         }
 
         public override void SetDefaults()
@@ -106,6 +132,8 @@ namespace AwfulGarbageMod.NPCs
         // Our AI here makes our NPC sit waiting for a player to enter range, jumps to attack, flutter mid-fall to stay afloat a little longer, then falls to the ground. Note that animation should happen in FindFrame
         public override void AI()
         {
+            NPC.netUpdate = true;
+
             // The npc starts in the asleep state, waiting for a player to enter range
             switch (AI_State)
             {
@@ -129,6 +157,7 @@ namespace AwfulGarbageMod.NPCs
                     break;
             }
         }
+        
 
         // Here in FindFrame, we want to set the animation frame our npc will use depending on what it is doing.
         // We set npc.frame.Y to x * frameHeight where x is the xth frame in our spritesheet, counting from 0. For convenience, we have defined a enum above.
@@ -152,8 +181,7 @@ namespace AwfulGarbageMod.NPCs
         {
             return true;
         }
-
-        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (AI_State == (float)ActionState.Passive)
             {
@@ -176,37 +204,10 @@ namespace AwfulGarbageMod.NPCs
                 {
                     NPC.damage = 17;
                 }
+                NetMessage.SendData(MessageID.SyncNPC);
+
             }
         }
-        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
-        {
-
-
-            if (AI_State == (float)ActionState.Passive)
-            {
-                NPC.TargetClosest(true);
-                AI_State = (float)ActionState.Chase;
-                NPC.chaseable = true;
-
-                if (Main.expertMode)
-                {
-                    if (Main.masterMode)
-                    {
-                        NPC.damage = 40;
-                    }
-                    else
-                    {
-                        NPC.damage = 28;
-                    }
-                }
-                else
-                {
-                    NPC.damage = 17;
-                }
-            }
-
-        }
-
 
         private void Move()
         {
@@ -275,9 +276,10 @@ namespace AwfulGarbageMod.NPCs
                 direction *= 16;
 
                 storedVel = direction;
-                
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel, Mod.Find<ModProjectile>("IceSpiritTelegraph").Type, 0, 0, Main.myPlayer);
-
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel, Mod.Find<ModProjectile>("IceSpiritTelegraph").Type, 0, 0);
+                }
             }
             else if (AI_Timer % 75 > 60)
             {
@@ -291,7 +293,7 @@ namespace AwfulGarbageMod.NPCs
             }
             else
 
-            targetArea = Main.player[NPC.target].Center;
+                targetArea = Main.player[NPC.target].Center;
             float speed = 3f;
             float inertia = 32f;
             direction = targetArea - NPC.Center;
@@ -328,15 +330,20 @@ namespace AwfulGarbageMod.NPCs
             {
                 if (AI_Timer % 48 == 23)
                 {
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel / 2, Mod.Find<ModProjectile>("IceSpiritBeam").Type, 8, 0, Main.myPlayer);
-                    SoundEngine.PlaySound(SoundID.Item109, NPC.Center);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel / 2, Mod.Find<ModProjectile>("IceSpiritBeam").Type, 8, 0);
+                        SoundEngine.PlaySound(SoundID.Item109, NPC.Center);
+                    }
                 }
                 if (AI_Timer % 48 == 0)
                 {
                     NPC.TargetClosest(true);
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("IceSpiritTelegraph").Type, 8, 0, Main.myPlayer);
-                    Main.projectile[proj].velocity = ((Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 16);
-                    storedVel = Main.projectile[proj].velocity;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 16, Mod.Find<ModProjectile>("IceSpiritTelegraph").Type, 8, 0);
+                    }
+                    storedVel = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 16;
                 }
             }
             AI_Timer--;

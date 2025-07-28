@@ -145,6 +145,11 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                         Projectile.velocity *= 0.85f;
                     }
                 }
+
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    Projectile.netUpdate = true;
+                }
             }
         }
     }

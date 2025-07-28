@@ -223,6 +223,32 @@ namespace AwfulGarbageMod.Global
 
                     }
                 }
+
+                if (player.GetModPlayer<GlobalPlayer>().OrichalcumKnife && projectile.GetGlobalProjectile<KnifeProjectile>().hasEmpowerment == true)
+                {
+
+                    int num20 = projectile.direction;
+                    float num12 = Main.screenPosition.X;
+                    if (num20 < 0)
+                    {
+                        num12 += (float)Main.screenWidth;
+                    }
+                    float y2 = Main.screenPosition.Y;
+                    y2 += (float)Main.rand.Next(Main.screenHeight);
+                    Vector2 vector2 = new Vector2(num12, y2);
+                    float num13 = target.Center.X - vector2.X;
+                    float num14 = target.Center.Y - vector2.Y;
+                    num13 += (float)Main.rand.Next(-50, 51) * 0.1f;
+                    num14 += (float)Main.rand.Next(-50, 51) * 0.1f;
+                    float num15 = (float)Math.Sqrt(num13 * num13 + num14 * num14);
+                    num15 = 24f / num15;
+                    num13 *= num15;
+                    num14 *= num15;
+                    int p = Projectile.NewProjectile(projectile.GetSource_OnHit(target), num12, y2, num13, num14, 221, projectile.damage * 3 / 4, 0f, projectile.owner);
+                    Projectile proj = Main.projectile[p];
+                    proj.usesLocalNPCImmunity = true;
+                    proj.localNPCHitCooldown = 30;
+                }
             }
 
             if (projectile.type == ProjectileID.MoonlordBullet && projectile.ai[1] == -15f)

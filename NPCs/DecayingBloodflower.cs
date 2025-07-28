@@ -5,6 +5,7 @@ using AwfulGarbageMod.Projectiles;
 using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -51,7 +52,27 @@ namespace AwfulGarbageMod.NPCs
         int frameCounter = 0;
         readonly int[] frameLen = { 10, 1, 10, 1, 1 };
         int frame = 0;
-
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(NPC.chaseable);
+            writer.Write(AI_State);
+            writer.Write(AI_Timer);
+            writer.Write(targetArea.X);
+            writer.Write(targetArea.Y);
+            writer.Write(direction.X);
+            writer.Write(direction.Y);
+            writer.Write(teleportPos.X);
+            writer.Write(teleportPos.Y);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            NPC.chaseable = reader.ReadBoolean();
+            AI_State = reader.ReadSingle();
+            AI_Timer = reader.ReadSingle();
+            targetArea = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+            direction = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+            teleportPos = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+        }
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 5; // make sure to set this for your modnpcs.
@@ -102,8 +123,11 @@ namespace AwfulGarbageMod.NPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.Vertebrae, 1, 10, 13));
-            npcLoot.Add(ItemDropRule.Common(ItemID.ViciousMushroom, 1, 2, 3));
-            npcLoot.Add(ItemDropRule.FewFromOptions(1, 2, ModContent.ItemType<SigilOfEvil>(), ModContent.ItemType<BloomingEvil>(), ModContent.ItemType<EvilCharm>()));
+            npcLoot.Add(ItemDropRule.Common(ItemID.ViciousMushroom, 1, 2, 3)); 
+            LeadingConditionRule hardmodeRule = new LeadingConditionRule(new Conditions.IsHardmode());
+
+            hardmodeRule.OnSuccess(ItemDropRule.Common(ItemID.Ichor, 1, 2, 4));
+            npcLoot.Add(ItemDropRule.FewFromOptions(1, 2, ModContent.ItemType<ViciousMushroomFlask>(), ModContent.ItemType<SigilOfEvil>(), ModContent.ItemType<BloomingEvil>(), ModContent.ItemType<EvilCharm>()));
         }
         public override void OnKill()
         {
@@ -193,7 +217,7 @@ namespace AwfulGarbageMod.NPCs
             }
             return false;
         }
-        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (AI_State == (float)ActionState.Passive)
             {
@@ -202,24 +226,7 @@ namespace AwfulGarbageMod.NPCs
 
                 AI_State = (float)ActionState.Teleport;
                 NPC.chaseable = true;
-
-               
             }
-        }
-        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
-        {
-
-
-            if (AI_State == (float)ActionState.Passive)
-            {
-                NPC.TargetClosest(true);
-                AI_Timer = 150;
-
-                AI_State = (float)ActionState.Teleport;
-                NPC.chaseable = true;
-
-            }
-
         }
 
         private void Teleport()
@@ -234,10 +241,15 @@ namespace AwfulGarbageMod.NPCs
             }
             else if (AI_Timer == 90)
             {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    teleportPos = GetTeleportPos();
+                    teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                }
                 NPC.alpha = 255;
-                teleportPos = GetTeleportPos();
-                teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
-                NPC.dontTakeDamage = true;
+
+                NPC.dontTakeDamage = true; NPC.netUpdate = true;
+
 
             }
             else if (AI_Timer > 61)
@@ -278,10 +290,14 @@ namespace AwfulGarbageMod.NPCs
             }
             else if (AI_Timer == 90)
             {
-                NPC.alpha = 255;
-                teleportPos = GetTeleportPos();
-                teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    teleportPos = GetTeleportPos();
+                    teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                }
                 NPC.dontTakeDamage = true;
+                NPC.alpha = 255;
+                NPC.netUpdate = true;
 
             }
             else if (AI_Timer > 61)
@@ -322,9 +338,14 @@ namespace AwfulGarbageMod.NPCs
             }
             else if (AI_Timer == 90)
             {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    teleportPos = GetTeleportPos();
+                    teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                }
                 NPC.alpha = 255;
-                teleportPos = GetTeleportPos();
-                teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                NPC.netUpdate = true;
+
                 NPC.dontTakeDamage = true;
 
             }
@@ -366,9 +387,14 @@ namespace AwfulGarbageMod.NPCs
             }
             else if (AI_Timer == 90)
             {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    teleportPos = GetTeleportPos();
+                    teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                }
                 NPC.alpha = 255;
-                teleportPos = GetTeleportPos();
-                teleportPos.Y = (float)Math.Floor(teleportPos.Y / 16) * 16;
+                NPC.netUpdate = true;
+
                 NPC.dontTakeDamage = true;
 
             }
@@ -408,9 +434,9 @@ namespace AwfulGarbageMod.NPCs
                 Tile tile = Framing.GetTileSafely(teleportPosition);
                 for (int j = 0; j < 64; j++)
                 {
-                    if (tile.HasTile && tile.TileType != TileID.CorruptThorns && tile.TileType != TileID.Cactus && tile.TileType != TileID.Trees && !TileID.Sets.Grass[tile.TileType])
+                    if (tile.HasTile && AGUtils.IsNotAmbientObject(tile.TileType))
                     {
-                        return teleportPosition + new Vector2(0, -16);
+                        return teleportPosition;
                     }
                     else
                     {
@@ -419,6 +445,9 @@ namespace AwfulGarbageMod.NPCs
                     }
                 }
             }
+
+            NPC.netUpdate = true;
+
             return Main.player[NPC.target].Center;
         }
 
@@ -426,16 +455,19 @@ namespace AwfulGarbageMod.NPCs
         {
             if (AI_Timer % 60 == 30)
             {
-                Vector2 vel;
-                for (int j = 0; j < 3; j++)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    vel = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedByRandom(MathHelper.ToRadians(2.5f)) * 15f;
-                    float distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center, NPC.Center);
-                    vel.Y -= (distanceFromTarget / 7.5f) * 0.02f;
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ProjectileID.GoldenShowerHostile, 8, 0, Main.myPlayer);
-                    Main.projectile[proj].velocity = vel;
-                    Main.projectile[proj].tileCollide = false;
-                    Main.projectile[proj].extraUpdates -= 2;
+                    Vector2 vel;
+                    for (int j = 0; j < 3; j++)
+                    {
+                        vel = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedByRandom(MathHelper.ToRadians(2f)) * 15f;
+                        float distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center, NPC.Center);
+                        vel.Y -= (distanceFromTarget / 7.5f) * 0.02f;
+                        Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, vel, ProjectileID.GoldenShowerHostile, 8, 0, Main.myPlayer);
+                        
+                        proj.tileCollide = false;
+                        proj.extraUpdates -= 2;
+                    }
                 }
             }
 
@@ -453,10 +485,12 @@ namespace AwfulGarbageMod.NPCs
             {
                 shotXspd = -17.5f;
             }
-            if (AI_Timer > 30 && AI_Timer <= 60)
+            if (Main.netMode != NetmodeID.Server)
             {
-                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<HostileForkProj>(), 10, 0, Main.myPlayer, NPC.whoAmI);
-                Main.projectile[proj].velocity = new Vector2(Main.rand.NextFloat(-16, 16), -16);
+                if (AI_Timer > 30 && AI_Timer <= 50)
+                {
+                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-16, 16), -16), ModContent.ProjectileType<HostileForkProj>(), 10, 0, Main.myPlayer, NPC.whoAmI);
+                }
             }
 
             AI_Timer++;
@@ -471,14 +505,18 @@ namespace AwfulGarbageMod.NPCs
         {
             if (AI_Timer % 120 == 60)
             {
-               int nPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.Crimera);
-                Main.npc[nPC].velocity = new Vector2(0, Main.rand.NextFloat(-4, -6)).RotatedByRandom(MathHelper.ToRadians(15));
-                Main.npc[nPC].lifeMax = (int)(Main.npc[nPC].lifeMax * 0.35f);
-                Main.npc[nPC].life = Main.npc[nPC].lifeMax;
-                Main.npc[nPC].damage = (int)(Main.npc[nPC].damage * 0.6f);
-                Main.npc[nPC].knockBackResist = 0.75f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    NPC.netUpdate = true;
 
-
+                    NPC nPC = NPC.NewNPCDirect(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.Crimera);
+                    nPC.velocity = new Vector2(0, Main.rand.NextFloat(-4, -6)).RotatedByRandom(MathHelper.ToRadians(15));
+                    nPC.lifeMax = (int)(nPC.lifeMax * 0.35f);
+                    nPC.life = nPC.lifeMax;
+                    nPC.damage = (int)(nPC.damage * 0.6f);
+                    nPC.knockBackResist = 0.75f;
+                    nPC.netUpdate = true;
+                }
             }
 
             AI_Timer--;
@@ -491,53 +529,53 @@ namespace AwfulGarbageMod.NPCs
         }
         private void Vilethorn()
         {
-            if (AI_Timer == 30)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Vector2 vel;
-                Vector2 targetPosition = Main.player[NPC.target].Center - new Vector2(0, 240);
-                vel = (Main.player[NPC.target].Center - NPC.Center - new Vector2(0, 240)).SafeNormalize(Vector2.Zero) * 6f;
-                float distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center - new Vector2(0, 240), NPC.Center);
+                if (AI_Timer == 30)
+                {
+                    NPC.netUpdate = true;
 
-                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<CrimsonRodHostileProjectile>(), 8, 0, Main.myPlayer, targetPosition.X, targetPosition.Y, NPC.whoAmI);
-                Main.projectile[proj].velocity = vel;
-                Main.projectile[proj].tileCollide = false;
-                Main.projectile[proj].timeLeft = (int)(distanceFromTarget / 6);
-                targetPosition = Main.player[NPC.target].Center - new Vector2(240, 240);
-                vel = (Main.player[NPC.target].Center - NPC.Center - new Vector2(240, 240)).SafeNormalize(Vector2.Zero) * 6f;
-                distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center - new Vector2(240, 240), NPC.Center);
+                    Vector2 vel;
+                    Vector2 targetPosition = Main.player[NPC.target].Center - new Vector2(0, 240);
+                    vel = (Main.player[NPC.target].Center - NPC.Center - new Vector2(0, 240)).SafeNormalize(Vector2.Zero) * 6f;
+                    float distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center - new Vector2(0, 240), NPC.Center);
 
-                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<CrimsonRodHostileProjectile>(), 8, 0, Main.myPlayer, targetPosition.X, targetPosition.Y, NPC.whoAmI);
-                Main.projectile[proj].velocity = vel;
-                Main.projectile[proj].tileCollide = false;
-                Main.projectile[proj].timeLeft = (int)(distanceFromTarget / 6);
-                targetPosition = Main.player[NPC.target].Center - new Vector2(-240, 240);
-                vel = (Main.player[NPC.target].Center - NPC.Center - new Vector2(-240, 240)).SafeNormalize(Vector2.Zero) * 6f;
-                distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center - new Vector2(-240, 240), NPC.Center);
+                    Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, vel, ModContent.ProjectileType<CrimsonRodHostileProjectile>(), 8, 0, -1, targetPosition.X, targetPosition.Y, NPC.whoAmI);
+                    proj.tileCollide = false;
+                    proj.timeLeft = (int)(distanceFromTarget / 6);
+                    
+                    targetPosition = Main.player[NPC.target].Center - new Vector2(240, 240);
+                    vel = (Main.player[NPC.target].Center - NPC.Center - new Vector2(240, 240)).SafeNormalize(Vector2.Zero) * 6f;
+                    distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center - new Vector2(240, 240), NPC.Center);
 
-                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<CrimsonRodHostileProjectile>(), 8, 0, Main.myPlayer, targetPosition.X, targetPosition.Y, NPC.whoAmI);
-                Main.projectile[proj].velocity = vel;
-                Main.projectile[proj].tileCollide = false;
-                Main.projectile[proj].timeLeft = (int)(distanceFromTarget / 6);
-                targetPosition = Main.player[NPC.target].Center - new Vector2(480, 240);
-                vel = (Main.player[NPC.target].Center - NPC.Center - new Vector2(480, 240)).SafeNormalize(Vector2.Zero) * 6f;
-                distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center - new Vector2(480, 240), NPC.Center);
+                    proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, vel, ModContent.ProjectileType<CrimsonRodHostileProjectile>(), 8, 0, -1, targetPosition.X, targetPosition.Y, NPC.whoAmI);
+                    proj.tileCollide = false;
+                    proj.timeLeft = (int)(distanceFromTarget / 6);
+                    targetPosition = Main.player[NPC.target].Center - new Vector2(-240, 240);
+                    vel = (Main.player[NPC.target].Center - NPC.Center - new Vector2(-240, 240)).SafeNormalize(Vector2.Zero) * 6f;
+                    distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center - new Vector2(-240, 240), NPC.Center);
 
-                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<CrimsonRodHostileProjectile>(), 8, 0, Main.myPlayer, targetPosition.X, targetPosition.Y, NPC.whoAmI);
-                Main.projectile[proj].velocity = vel;
-                Main.projectile[proj].tileCollide = false;
-                Main.projectile[proj].timeLeft = (int)(distanceFromTarget / 6);
-                targetPosition = Main.player[NPC.target].Center - new Vector2(-480, 240);
-                vel = (Main.player[NPC.target].Center - NPC.Center - new Vector2(-480, 240)).SafeNormalize(Vector2.Zero) * 6f;
-                distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center - new Vector2(-480, 240), NPC.Center);
+                    proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, vel, ModContent.ProjectileType<CrimsonRodHostileProjectile>(), 8, 0, -1, targetPosition.X, targetPosition.Y, NPC.whoAmI);
+                    proj.tileCollide = false;
+                    proj.timeLeft = (int)(distanceFromTarget / 6);
+                    targetPosition = Main.player[NPC.target].Center - new Vector2(480, 240);
+                    vel = (Main.player[NPC.target].Center - NPC.Center - new Vector2(480, 240)).SafeNormalize(Vector2.Zero) * 6f;
+                    distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center - new Vector2(480, 240), NPC.Center);
 
-                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<CrimsonRodHostileProjectile>(), 8, 0, Main.myPlayer, targetPosition.X, targetPosition.Y, NPC.whoAmI);
-                Main.projectile[proj].velocity = vel;
-                Main.projectile[proj].tileCollide = false;
-                Main.projectile[proj].timeLeft = (int)(distanceFromTarget / 6);
+                    proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, vel, ModContent.ProjectileType<CrimsonRodHostileProjectile>(), 8, 0, -1, targetPosition.X, targetPosition.Y, NPC.whoAmI);
+                    proj.tileCollide = false;
+                    proj.timeLeft = (int)(distanceFromTarget / 6);
+                    targetPosition = Main.player[NPC.target].Center - new Vector2(-480, 240);
+                    vel = (Main.player[NPC.target].Center - NPC.Center - new Vector2(-480, 240)).SafeNormalize(Vector2.Zero) * 6f;
+                    distanceFromTarget = Vector2.Distance(Main.player[NPC.target].Center - new Vector2(-480, 240), NPC.Center);
+
+                    proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, vel, ModContent.ProjectileType<CrimsonRodHostileProjectile>(), 8, 0, -1, targetPosition.X, targetPosition.Y, NPC.whoAmI);
+                    proj.tileCollide = false;
+                    proj.timeLeft = (int)(distanceFromTarget / 6);
 
 
+                }
             }
-
 
             AI_Timer++;
             if (AI_Timer == 240)

@@ -13,6 +13,7 @@ using AwfulGarbageMod.Projectiles;
 using System;
 using Steamworks;
 using AwfulGarbageMod.Items.Armor;
+using AwfulGarbageMod.Items.Ammo;
 
 namespace AwfulGarbageMod.Global
 {
@@ -105,6 +106,10 @@ namespace AwfulGarbageMod.Global
             {
                 return false;
             }
+            if (ModContent.GetInstance<Config>().HardmodeMetalRework && player.legs == ItemID.OrichalcumLeggings && Main.rand.NextBool(7, 20))
+            {
+                return false;
+            }
             if (player.GetModPlayer<GlobalPlayer>().AncientGadgets && Main.rand.NextBool(5))
             {
                 return false;
@@ -187,6 +192,21 @@ namespace AwfulGarbageMod.Global
                     }
                 }               
             }
+
+            if (type == ProjectileID.Bullet)
+            {
+                if (player.GetModPlayer<GlobalPlayer>().OrichalcumGun)
+                {
+                    type = ModContent.ProjectileType<OrichalcumBullet>();
+                }
+            }
+            if (type == ProjectileID.WoodenArrowFriendly)
+            {
+                if (player.GetModPlayer<GlobalPlayer>().OrichalcumBow)
+                {
+                    type = ModContent.ProjectileType<OrichalcumArrow>();
+                }
+            }
         }
 
         public override void ModifyWeaponCrit(Item item, Player player, ref float crit)
@@ -264,7 +284,7 @@ namespace AwfulGarbageMod.Global
                         {
                             for (int i = 0; i < npcs; i++)
                             {
-                                Projectile.NewProjectile(source, npcDistances[i].npc.Bottom + new Vector2(0, 32), Vector2.Zero, ModContent.ProjectileType<TerraWristSwordProj>(), damage * 4/5, 5, player.whoAmI, npcDistances[i].npc.whoAmI);
+                                Projectile.NewProjectile(source, npcDistances[i].npc.Bottom + new Vector2(0, 32), Vector2.Zero, ModContent.ProjectileType<TerraWristSwordProj>(), damage * 4 / 5, 5, player.whoAmI, npcDistances[i].npc.whoAmI);
                             }
                         }
                     }
@@ -295,6 +315,19 @@ namespace AwfulGarbageMod.Global
                         }
                         int proj = Projectile.NewProjectile(source, position, vector2, 496, damage, 2, player.whoAmI, num87, num77);
                         Main.projectile[proj].DamageType = DamageClass.Ranged;
+                    }
+                }
+            }
+            if (player.GetModPlayer<GlobalPlayer>().TitaniumVariety)
+            {
+                if (item.DamageType == DamageClass.Melee)
+                {
+                    if (item.useStyle == ItemUseStyleID.Swing && !item.noMelee)
+                    {
+                        for (int i = 0; i < 2; i++)
+                        {
+                            Projectile.NewProjectile(source, position, new Vector2(Main.mouseX + Main.screenPosition.X - position.X, Main.mouseY + Main.screenPosition.Y - position.Y).SafeNormalize(Vector2.Zero) * 7 + Main.rand.NextVector2CircularEdge(1, 1), ModContent.ProjectileType<TitaniumShard>(), damage / 4, 2);
+                        }
                     }
                 }
             }

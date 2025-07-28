@@ -55,12 +55,19 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 			return offset;
         }
         public override void AddRecipes()
-		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(Mod.Find<ModItem>("FrostShard").Type, 16);
-            recipe.AddIngredient(ItemID.IceBlock, 30);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.Register();
+        {
+            CreateRecipe()
+                .AddIngredient<FrostShard>(16)
+                .AddIngredient(ItemID.IceBlock, 30)
+                .AddIngredient(ItemID.CopperBow)
+                .AddTile(TileID.WorkBenches)
+                .Register();
+            CreateRecipe()
+                .AddIngredient<FrostShard>(16)
+                .AddIngredient(ItemID.IceBlock, 30)
+                .AddIngredient(ItemID.TinBow)
+                .AddTile(TileID.WorkBenches)
+                .Register();
         }
 	}
 

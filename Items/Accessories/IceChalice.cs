@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using AwfulGarbageMod;
 using AwfulGarbageMod.Global;
+using AwfulGarbageMod.Items.Placeable.OresBars;
 
 namespace AwfulGarbageMod.Items.Accessories
 {
@@ -42,7 +43,7 @@ namespace AwfulGarbageMod.Items.Accessories
             CreateRecipe()
                 .AddIngredient<Cryogem>(12)
                 .AddIngredient<BoneChalice>()
-                //.AddIngredient<FrigidiumBar>(16)
+                .AddIngredient<FrigidiumBar>(16)
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
         }

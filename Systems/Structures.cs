@@ -280,6 +280,28 @@ namespace AwfulGarbageMod.Systems
             tag["TrashStructure"] = TrashStructure;
             tag["SnakeCharmerStructure"] = SnakeCharmerStructure;
         }
+        public override void NetSend(BinaryWriter writer)
+        {
+            writer.Write(IcePalacePosX);
+            writer.Write(IcePalacePosY);
+            writer.Write(HarujionPosX);
+            writer.Write(HarujionPosY);
+            writer.Write(HardmodeStructures);
+            writer.Write(SkyStructure);
+            writer.Write(TrashStructure);
+            writer.Write(SnakeCharmerStructure);
+        }
+        public override void NetReceive(BinaryReader reader)
+        {
+            IcePalacePosX = reader.ReadInt32();
+            IcePalacePosY = reader.ReadInt32();
+            HarujionPosX = reader.ReadInt32();
+            HarujionPosY = reader.ReadInt32();
+            HardmodeStructures = reader.ReadBoolean();
+            SkyStructure = reader.ReadBoolean();
+            TrashStructure = reader.ReadBoolean();
+            SnakeCharmerStructure = reader.ReadBoolean();
+        }
     }
     internal class SurfaceStructureGen : GenPass
     {

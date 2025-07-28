@@ -36,12 +36,14 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.maxRunSpeed *= 1.15f;
-            player.runAcceleration *= 1.15f;
-            player.statManaMax2 += 50;
-            player.statLifeMax2 += 50;
-
-
+            player.moveSpeed += 0.15f;
+            player.statManaMax2 += 40;
+            player.statLifeMax2 += 40;
+            player.GetDamage(DamageClass.Generic) += 0.04f;
+            player.GetCritChance(DamageClass.Generic) += 4f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.04f;
+            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.04f;
+            player.manaCost *= 0.96f;
         }
 
         public override void AddRecipes()

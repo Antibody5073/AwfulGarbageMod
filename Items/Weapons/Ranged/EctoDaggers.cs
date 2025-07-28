@@ -57,11 +57,13 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             CreateRecipe()
                 .AddIngredient(ItemID.Ectoplasm, 24)
                 .AddIngredient(ItemID.MythrilBar, 10)
+                .AddIngredient<FlintKnives>()
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
                 .AddIngredient(ItemID.Ectoplasm, 24)
                 .AddIngredient(ItemID.OrichalcumBar, 10)
+                .AddIngredient<FlintKnives>()
                 .AddTile(TileID.Anvils)
                 .Register();
         }

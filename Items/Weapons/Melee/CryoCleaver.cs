@@ -56,6 +56,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             CreateRecipe()
                 .AddIngredient<Cryogem>(35)
                 .AddIngredient<FrigidiumBar>(20)
+                .AddIngredient(ItemID.IceBlade)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

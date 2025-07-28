@@ -589,7 +589,7 @@ namespace AwfulGarbageMod.NPCs
 
                 if (following.type == ModContent.NPCType<FrigidiusHead>())
 				{
-                    worm.NPC.damage = (int)(following.damage / 1.75);
+                    worm.NPC.damage = (int)(following.damage / 1.35);
                 }
 				else
 				{

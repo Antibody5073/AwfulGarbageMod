@@ -77,7 +77,9 @@ namespace AwfulGarbageMod.NPCs
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<EnchantedLeaf>(), 3, 1, 2));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<EnchantedLeaf>(), 3, 2, 3));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotRemixSeed(), ItemID.ChainKnife, 100));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.RemixSeed(), ItemID.KOCannon, 100));
         }
         public override void OnSpawn(IEntitySource source)
         {
@@ -86,7 +88,7 @@ namespace AwfulGarbageMod.NPCs
 
         public override bool PreAI()
         {
-            if (NPC.life != NPC.lifeMax)
+            if (NPC.life != NPC.lifeMax && DifficultyModes.Difficulty > 0)
             {
                 NPC.ai[1] += 1f;
 
@@ -104,8 +106,10 @@ namespace AwfulGarbageMod.NPCs
                 }
                 if (NPC.ai[1] == 390)
                 {
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<Projectiles.ForestBeam>(), 6, 0, Main.myPlayer);
-                    Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 12f;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 12f, ModContent.ProjectileType<Projectiles.ForestBeam>(), 6, 0);
+                    }
                 }
                 if (NPC.ai[1] == 420)
                 {

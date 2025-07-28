@@ -44,11 +44,11 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void AI()
         {
-            if (counter++ % 45 == 0)
+            if (counter++ % 45 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -28), ModContent.ProjectileType<VilethornHostileBase>(), 7, 0, Main.myPlayer, 0, 0);
-                Main.projectile[proj].friendly = false;
-                Main.projectile[proj].hostile = true;
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -28), ModContent.ProjectileType<VilethornHostileBase>(), 7, 0, -1, 0, 0);
+                proj.friendly = false;
+                proj.hostile = true;
                 Projectile.position += Projectile.velocity;
                 teleportPos = GetTeleportPos();
                 Projectile.position = teleportPos - new Vector2(Projectile.width / 2, Projectile.height / 2);
@@ -63,7 +63,7 @@ namespace AwfulGarbageMod.Projectiles
             {
                 for (int j = 0; j < 20; j++)
                 {
-                    if (tile.HasTile && tile.TileType != TileID.CorruptThorns && tile.TileType != TileID.Cactus && tile.TileType != TileID.Trees && !TileID.Sets.Grass[tile.TileType])
+                    if (tile.HasTile && AGUtils.IsNotAmbientObject(tile.TileType))
                     {
                         return teleportPosition;
                     }
@@ -78,7 +78,7 @@ namespace AwfulGarbageMod.Projectiles
             {
                 for (int j = 0; j < 20; j++)
                 {
-                    if (!tile.HasTile || tile.TileType == TileID.CorruptThorns || tile.TileType == TileID.Cactus || tile.TileType == TileID.Trees || TileID.Sets.Grass[tile.TileType])
+                    if (!tile.HasTile || !AGUtils.IsNotAmbientObject(tile.TileType))
                     {
                         return teleportPosition + new Vector2(0, 16);
                     }

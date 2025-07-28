@@ -77,7 +77,10 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void OnKill(int timeLeft)
         {
-            int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), new Vector2(Projectile.ai[0], Projectile.ai[1]), new Vector2(0, 0), ModContent.ProjectileType<CrimsonRodHostileCloud>(), 6, 0, Main.myPlayer, Projectile.ai[2]);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), new Vector2(Projectile.ai[0], Projectile.ai[1]), new Vector2(0, 0), ModContent.ProjectileType<CrimsonRodHostileCloud>(), 6, 0, Main.myPlayer, Projectile.ai[2]);
+            }
         }
 
         public override void AI()
@@ -173,9 +176,12 @@ namespace AwfulGarbageMod.Projectiles
 
             if (Projectile.timeLeft % 180 < 120 && Projectile.timeLeft % 6 == 0)
             {
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Bottom + new Vector2(Main.rand.NextFloat(-8, 8), 8), new Vector2(0, 6), ProjectileID.BloodRain, 6, 0, Main.myPlayer, 0, 0);
-                Main.projectile[proj].friendly = false;
-                Main.projectile[proj].hostile = true;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Bottom + new Vector2(Main.rand.NextFloat(-8, 8), 8), new Vector2(0, 6), ProjectileID.BloodRain, 6, 0, Main.myPlayer, 0, 0);
+                    Main.projectile[proj].friendly = false;
+                    Main.projectile[proj].hostile = true;
+                }
             }
             if (!Main.npc[(int)Projectile.ai[0]].active)
             {

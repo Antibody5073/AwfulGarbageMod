@@ -38,7 +38,8 @@ namespace AwfulGarbageMod.Items.Accessories
             player.GetModPlayer<GlobalPlayer>().DemonClaw = true;
             player.thorns += 0.75f;
 
-            player.GetAttackSpeed(DamageClass.Melee) += 0.07f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.08f;
+            player.GetDamage(DamageClass.Melee) += 0.08f;
             if (player.GetModPlayer<GlobalPlayer>().FortifyingLink < 12) { player.GetModPlayer<GlobalPlayer>().FortifyingLink = 8; }
         }
         public override void AddRecipes()
