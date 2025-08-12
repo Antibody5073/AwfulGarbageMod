@@ -30,7 +30,7 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             Player player = Main.LocalPlayer;
             TooltipLine tooltip;
-            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(AGUtils.ScaleDamage(40, Main.LocalPlayer, DamageClass.Magic)));
+            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(AGUtils.ScaleDamage(5, Main.LocalPlayer, DamageClass.Magic), AGUtils.ScaleDamage(45, Main.LocalPlayer, DamageClass.Magic)));
             tooltips.Add(tooltip);
         }
         public override void SetDefaults()
@@ -45,7 +45,8 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statDefense += 2;
-            player.GetModPlayer<GlobalPlayer>().HellShellSparks += 40;
+            player.GetModPlayer<GlobalPlayer>().HellShellSparks += 5;
+            player.GetModPlayer<GlobalPlayer>().HellShellSparksPercent += 45;
         }
 
 

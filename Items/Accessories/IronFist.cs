@@ -34,7 +34,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Summon) += 0.1f;
+            player.GetDamage(DamageClass.Summon) += 0.13f;
             player.GetKnockback(DamageClass.Summon).Base += 1f;
         }
 	}

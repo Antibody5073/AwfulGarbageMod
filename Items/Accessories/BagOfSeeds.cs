@@ -42,7 +42,7 @@ namespace AwfulGarbageMod.Items.Accessories
             player.buffImmune[BuffID.CursedInferno] = true;
             player.buffImmune[BuffID.Ichor] = true;
             player.GetModPlayer<GlobalPlayer>().BagOfSeeds = true;
-            player.GetModPlayer<GlobalPlayer>().extraWhipTagDamage += 3;
+            player.GetModPlayer<GlobalPlayer>().extraWhipTagDamage += 4;
             player.GetModPlayer<GlobalPlayer>().InfectionSeed = true;
             player.GetModPlayer<GlobalPlayer>().IchorSeed = true;
             player.GetModPlayer<GlobalPlayer>().CursedSeed = true;

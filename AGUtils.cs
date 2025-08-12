@@ -141,7 +141,7 @@ namespace AwfulGarbageMod
 
         public static int ScaleDamage(int origDmg, Player player, DamageClass damageClass)
         {
-            return (int)(origDmg * player.GetTotalDamage(damageClass).Additive * player.GetTotalDamage(damageClass).Multiplicative + player.GetTotalDamage(damageClass).Flat);
+            return (int)(player.GetTotalDamage(damageClass).ApplyTo(origDmg));
         }
 
         public static int GetTileCounts(int tileType)

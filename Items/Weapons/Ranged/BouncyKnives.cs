@@ -25,16 +25,16 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 21;
+			Item.damage = 22;
 			Item.DamageType = ModContent.GetInstance<KnifeDamageClass>();
 			Item.width = 45;
 			Item.height = 45;
-			Item.useTime = 25;
+			Item.useTime = 19;
 			Item.noMelee = true;
 			Item.scale = 0f;
-			Item.useAnimation = 25;
+			Item.useAnimation = 19;
             Item.useStyle = ItemUseStyleID.Swing;
-			Item.knockBack = 1.75f;
+			Item.knockBack = 2.75f;
 			Item.value = 10000;
 			Item.rare = 5;
 			Item.UseSound = SoundID.Item1;

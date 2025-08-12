@@ -29,7 +29,7 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             Player player = Main.LocalPlayer;
             TooltipLine tooltip;
-            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(AGUtils.ScaleDamage(45, Main.LocalPlayer, DamageClass.Ranged), AGUtils.ScaleDamage(50, Main.LocalPlayer, DamageClass.Magic)));
+            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(AGUtils.ScaleDamage(12, Main.LocalPlayer, DamageClass.Ranged), AGUtils.ScaleDamage(36, Main.LocalPlayer, DamageClass.Ranged), AGUtils.ScaleDamage(5, Main.LocalPlayer, DamageClass.Magic), AGUtils.ScaleDamage(40, Main.LocalPlayer, DamageClass.Magic)));
             tooltips.Add(tooltip);
         }
 
@@ -47,9 +47,11 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             player.statDefense += 5;
             player.thorns += 0.75f;
-            player.GetModPlayer<GlobalPlayer>().cactusShell += 45;
+            player.GetModPlayer<GlobalPlayer>().cactusShell += 12;
+            player.GetModPlayer<GlobalPlayer>().cactusShellPercent += 36;
             player.GetModPlayer<GlobalPlayer>().VenomOnDamanged += 150;
-            player.GetModPlayer<GlobalPlayer>().HellShellSparks += 50;
+            player.GetModPlayer<GlobalPlayer>().HellShellSparks += 5;
+            player.GetModPlayer<GlobalPlayer>().HellShellSparksPercent += 40;
             player.longInvince = true;
             player.starCloakItem = Item;
             player.GetModPlayer<GlobalPlayer>().HoneyOnDamaged += 300;

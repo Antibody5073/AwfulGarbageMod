@@ -79,12 +79,14 @@ namespace AwfulGarbageMod.Global
         public int HoneyOnDamaged = 0;
         public bool Bees = false;
         public int necroPotence = 0;
+        public int necroPotencePercent = 0;
         public bool lightningRing = false;
         public float ScaledShadeShield = 0;
         public float MeatShield = 0;
         public float MeatShieldBonus;
         public int VenomOnDamanged = 0;
         public int cactusShell = 0;
+        public int cactusShellPercent = 0;
         public bool EvilWardingCharm = false;
         public bool BottledTrash = false;
         public float HarujionPetal = 0;
@@ -109,6 +111,7 @@ namespace AwfulGarbageMod.Global
         public int GlacialEyeDmg = 0;
         public bool AncientGadgets = false;
         public int HellShellSparks = 0;
+        public int HellShellSparksPercent = 0;
         public bool PotentVenomGland = false;
         public float OverflowingVenom = 1;
         public bool EarthenAmulet = false;
@@ -627,19 +630,19 @@ namespace AwfulGarbageMod.Global
                 for (int j = 0; j < Main.rand.Next(6, 9); j++)
                 {
                     Vector2 vel = new Vector2(Main.rand.NextFloat(4, 7), 0).RotatedByRandom(MathHelper.ToRadians(360));
-                    Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, Mod.Find<ModProjectile>("NecropotenceProj").Type, necroPotence, 2, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, ModContent.ProjectileType<NecropotenceProj>(), AGUtils.ScaleDamage(necroPotence + (int)(info.SourceDamage * (necroPotencePercent / 100f)), Player, DamageClass.Summon), 2, Main.myPlayer);
                 }
                 NPC closestNPC = FindClosestNPC(1500);
 
                 if (closestNPC == null)
                 {
                     Vector2 vel = new Vector2(Main.rand.NextFloat(4, 7), 0).RotatedByRandom(MathHelper.ToRadians(360));
-                    Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, Mod.Find<ModProjectile>("NecropotenceProj").Type, necroPotence, 2, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, ModContent.ProjectileType<NecropotenceProj>(), AGUtils.ScaleDamage(necroPotence + (int)(info.SourceDamage * (necroPotencePercent / 100f)), Player, DamageClass.Summon), 2, Main.myPlayer);
                 }
                 else
                 {
                     Vector2 vel = Vector2.Normalize(closestNPC.Center - this.Player.Center) * Main.rand.NextFloat(6, 8);
-                    Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, Mod.Find<ModProjectile>("NecropotenceProj").Type, necroPotence, 2, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, ModContent.ProjectileType<NecropotenceProj>(), AGUtils.ScaleDamage(necroPotence + (int)(info.SourceDamage * (necroPotencePercent / 100f)), Player, DamageClass.Summon), 2, Main.myPlayer);
                 }
             }
 
@@ -648,7 +651,7 @@ namespace AwfulGarbageMod.Global
                 for (int j = 0; j < Main.rand.Next(6, 9); j++)
                 {
                     Vector2 vel = new Vector2(Main.rand.NextFloat(9, 11), 0).RotatedByRandom(MathHelper.ToRadians(360)) + new Vector2(0, -5);
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, 402, AGUtils.ScaleDamage(HellShellSparks, Player, DamageClass.Magic), 2, Main.myPlayer);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, 402, AGUtils.ScaleDamage(HellShellSparks + (int)(info.SourceDamage * (HellShellSparksPercent / 100f)), Player, DamageClass.Magic), 2, Main.myPlayer);
                     Main.projectile[proj].DamageType = DamageClass.Magic;
                     Main.projectile[proj].usesLocalNPCImmunity = true;
                     Main.projectile[proj].localNPCHitCooldown = 20;
@@ -663,9 +666,9 @@ namespace AwfulGarbageMod.Global
                 vel = new Vector2((float)Main.mouseX + Main.screenPosition.X - this.Player.Center.X, (float)Main.mouseY + Main.screenPosition.Y - this.Player.Center.Y);
                 vel.Normalize();
                 vel *= 7.5f;
-                Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center - new Vector2(4, 4), vel, Mod.Find<ModProjectile>("CactusShellProj").Type, AGUtils.ScaleDamage(cactusShell, Player, DamageClass.Ranged), 1, Main.myPlayer);
-                Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center - new Vector2(4, 4), vel.RotatedBy(MathHelper.ToRadians(10)), Mod.Find<ModProjectile>("CactusShellProj").Type, AGUtils.ScaleDamage(cactusShell, Player, DamageClass.Ranged), 1, Main.myPlayer);
-                Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center - new Vector2(4, 4), vel.RotatedBy(MathHelper.ToRadians(-10)), Mod.Find<ModProjectile>("CactusShellProj").Type, AGUtils.ScaleDamage(cactusShell, Player, DamageClass.Ranged), 1, Main.myPlayer);
+                Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center - new Vector2(4, 4), vel, ModContent.ProjectileType<CactusShellProj>(), AGUtils.ScaleDamage(cactusShell + (int)(info.SourceDamage * (cactusShellPercent/100f)), Player, DamageClass.Ranged), 1, Main.myPlayer);
+                Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center - new Vector2(4, 4), vel.RotatedBy(MathHelper.ToRadians(10)), ModContent.ProjectileType<CactusShellProj>(), AGUtils.ScaleDamage(cactusShell + (int)(info.SourceDamage * (cactusShellPercent / 100f)), Player, DamageClass.Ranged), 1, Main.myPlayer);
+                Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center - new Vector2(4, 4), vel.RotatedBy(MathHelper.ToRadians(-10)), ModContent.ProjectileType<CactusShellProj>(), AGUtils.ScaleDamage(cactusShell + (int)(info.SourceDamage * (cactusShellPercent / 100f)), Player, DamageClass.Ranged), 1, Main.myPlayer);
                 this.Player.AddBuff(ModContent.BuffType<CactusShellCooldown>(), 120);
             }
 
@@ -1059,6 +1062,7 @@ namespace AwfulGarbageMod.Global
             FrozenSpiritBonus = false;
             OrbitalDir += 1;
             necroPotence = 0;
+            necroPotencePercent = 0;
             MyceliumHoodBonus = false;
             MyceliumMaskBonus = false;
             RottingBonus = false;
@@ -1078,6 +1082,7 @@ namespace AwfulGarbageMod.Global
             MaxScepterBoost = 0;
             VenomOnDamanged = 0;
             cactusShell = 0;
+            cactusShellPercent = 0;
             BoneGloveDamage = 0;
             EvilWardingCharm = false;
             BottledTrash = false;
@@ -1141,6 +1146,7 @@ namespace AwfulGarbageMod.Global
             AncientGadgets = false;
             CandescentBonus = false;
             HellShellSparks = 0;
+            HellShellSparksPercent = 0;
             PotentVenomGland = false;
             OverflowingVenom = 1;
             wingTimeMultiplier = 1;

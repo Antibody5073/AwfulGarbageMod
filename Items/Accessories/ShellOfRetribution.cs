@@ -29,7 +29,7 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             Player player = Main.LocalPlayer;
             TooltipLine tooltip;
-            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(AGUtils.ScaleDamage(35, Main.LocalPlayer, DamageClass.Ranged)));
+            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(AGUtils.ScaleDamage(10, Main.LocalPlayer, DamageClass.Ranged), AGUtils.ScaleDamage(30, Main.LocalPlayer, DamageClass.Ranged)));
             tooltips.Add(tooltip);
         }
 
@@ -47,7 +47,8 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             player.statDefense += 3;
             player.thorns += 0.5f;
-            player.GetModPlayer<GlobalPlayer>().cactusShell += 35;
+            player.GetModPlayer<GlobalPlayer>().cactusShell += 10;
+            player.GetModPlayer<GlobalPlayer>().cactusShellPercent += 30;
             player.GetModPlayer<GlobalPlayer>().VenomOnDamanged += 120;
         }
 

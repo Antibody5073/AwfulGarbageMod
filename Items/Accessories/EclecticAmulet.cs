@@ -57,7 +57,7 @@ namespace AwfulGarbageMod.Items.Accessories
                 .AddIngredient<EnchantedLeaf>(20)
                 .AddIngredient<SpiderLeg>(20)
                 .AddIngredient<VeinJuice>(20)
-                .AddIngredient<VitalliumBar>(20)
+                //.AddIngredient<VitalliumBar>(20)
                 .AddIngredient<UnrealEssence>(20)
                 .AddTile(TileID.DemonAltar)
                 .Register();

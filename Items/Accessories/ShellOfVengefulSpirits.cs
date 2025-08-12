@@ -29,7 +29,7 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             Player player = Main.LocalPlayer;
             TooltipLine tooltip;
-            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(AGUtils.ScaleDamage(170, Main.LocalPlayer, DamageClass.Ranged), AGUtils.ScaleDamage(230, Main.LocalPlayer, DamageClass.Magic)));
+            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(AGUtils.ScaleDamage(30, Main.LocalPlayer, DamageClass.Ranged), AGUtils.ScaleDamage(100, Main.LocalPlayer, DamageClass.Ranged), AGUtils.ScaleDamage(15, Main.LocalPlayer, DamageClass.Magic), AGUtils.ScaleDamage(120, Main.LocalPlayer, DamageClass.Magic), AGUtils.ScaleDamage(30, Main.LocalPlayer, DamageClass.Summon), AGUtils.ScaleDamage(110, Main.LocalPlayer, DamageClass.Ranged)));
             tooltips.Add(tooltip);
         }
 
@@ -58,15 +58,18 @@ namespace AwfulGarbageMod.Items.Accessories
             player.noKnockback = true;
 
             player.thorns += 0.75f;
-            player.GetModPlayer<GlobalPlayer>().cactusShell += 170;
+            player.GetModPlayer<GlobalPlayer>().cactusShell += 30;
+            player.GetModPlayer<GlobalPlayer>().cactusShellPercent += 100;
             player.GetModPlayer<GlobalPlayer>().VenomOnDamanged += 180;
-            player.GetModPlayer<GlobalPlayer>().HellShellSparks += 230;
+            player.GetModPlayer<GlobalPlayer>().HellShellSparks += 15;
+            player.GetModPlayer<GlobalPlayer>().HellShellSparksPercent += 120;
             player.longInvince = true;
             player.starCloakItem = Item;
 
             player.GetModPlayer<GlobalPlayer>().MeatShield += 0.3f;
             player.GetModPlayer<GlobalPlayer>().ScaledShadeShield += 12f;
-            player.GetModPlayer<GlobalPlayer>().necroPotence += 210;
+            player.GetModPlayer<GlobalPlayer>().necroPotence += 30;
+            player.GetModPlayer<GlobalPlayer>().necroPotencePercent += 110;
             player.buffImmune[46] = true;
             player.buffImmune[33] = true;
             player.buffImmune[36] = true;

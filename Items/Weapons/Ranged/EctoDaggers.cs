@@ -27,7 +27,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 49;
+			Item.damage = 69;
             Item.DamageType = ModContent.GetInstance<KnifeDamageClass>();
 			Item.width = 60;
 			Item.height = 60;

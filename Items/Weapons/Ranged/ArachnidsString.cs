@@ -57,6 +57,10 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             return false;
         }
 
+        public override bool CanConsumeAmmo(Item ammo, Player player)
+        {
+            return Main.rand.NextBool(3, 10);
+        }
         public override Vector2? HoldoutOffset()
         {
 			Vector2 offset = new Vector2(8, 0);

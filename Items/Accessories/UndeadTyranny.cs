@@ -29,28 +29,29 @@ namespace AwfulGarbageMod.Items.Accessories
             Item.value = 1500;
             Item.rare = 3;
             Item.accessory = true;
+            Item.defense = 4;
         }
 
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Summon) += 8 / 100f;
+            player.GetDamage(DamageClass.Summon) += 0.1f;
             player.whipRangeMultiplier += 0.1f;
             player.GetKnockback(DamageClass.Summon).Base += 1f;
             player.GetArmorPenetration(DamageClass.Generic) += 4;
-            player.statDefense += 1;
-
+            player.thorns += 1f;
         }
 
         public override void AddRecipes()
-		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(Mod.Find<ModItem>("IronFist").Type);
-            recipe.AddIngredient(Mod.Find<ModItem>("SpikyThread").Type);
-            recipe.AddIngredient(ItemID.SharkToothNecklace);
-            recipe.AddIngredient(ItemID.Shackle);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.Register();
+        {
+            CreateRecipe()
+                .AddIngredient<IronFist>()
+                .AddIngredient<SpikyThread>()
+                .AddIngredient(ItemID.SharkToothNecklace)
+                .AddIngredient<ThornyShackle>()
+                .AddIngredient<SoulOfIghtImaHeadOut>(20)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
 	}
 }

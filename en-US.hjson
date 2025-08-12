@@ -906,26 +906,29 @@ Mods: {
 
 			NecroAegis: {
 				DisplayName: Necro Aegis
-				Tooltip:
+				Tooltip: ""
+				TooltipWithVar:
 					'''
 					79 damage
 					8 defense
-					Increases defense the lower your health, up to a max of 20 defense below 30% health
+					Increases defense the lower your health, up to a max of 15 defense below 30% health
 					Increases health healed by potions the lower your health, up to a max of 30% extra health below 15% health
 					Grants immunity to knockback, most debuffs, and fire blocks
 					Increases life regeneration
-					Taking damage causes you to release powerful bone toothpicks
+					Taking damage causes you to release powerful bone toothpicks, dealing {0} + {1}% summon damage
 					"You're a bad guy! The Pelvis of Justice, Sese, shall punish you!"
 					'''
 			}
 
 			Necropotence: {
 				DisplayName: Necropotence
-				Tooltip:
+				Tooltip: ""
+				TooltipWithVar:
 					'''
-					34 damage
+					{0} + {1}% summon damage
 					3 defense
 					Taking damage causes you to release bone toothpicks
+					% damage is based on damage of incoming hit
 					Stacking with its' upgrades increases toothpick damage
 					"Argh, fine! I'll hit you with this and turn you into a couple of cremated reliquaries!"
 					'''
@@ -1520,7 +1523,11 @@ Mods: {
 
 			ArachnidsString: {
 				DisplayName: Arachnid's String
-				Tooltip: Periodically shoots arrows in 8 directions
+				Tooltip:
+					'''
+					Periodically shoots arrows in 8 directions
+					30% chance not to consume ammo
+					'''
 			}
 
 			BlinkrootBow: {
@@ -1788,6 +1795,7 @@ Mods: {
 					'''
 					Fires two arrows in rapid succession
 					Converts wooden arrows into Neural arrows which chase the mouse pointer
+					30% chance not to consume ammo
 					'''
 			}
 
@@ -1877,10 +1885,12 @@ Mods: {
 				DisplayName: Cactus Shell
 				TooltipWithVar:
 					'''
-					{0} ranged damage
+					{0} + {1}% ranged damage
 					2 defense
 					Taking damage shoots a spread of cactus spines towards the cursor
+					% damage is based on damage of incoming hit
 					Has a cooldown of two seconds
+					Stacking with its' upgrades increases spine damage
 					'''
 				Tooltip: ""
 			}
@@ -1898,7 +1908,7 @@ Mods: {
 				DisplayName: Shell of Retribution
 				TooltipWithVar:
 					'''
-					{0} ranged damage
+					{0} + {1}% ranged damage
 					3 defense
 					Taking damage shoots a spread of cactus spines towards the cursor and briefly 
 					inflicts Venom on nearby enemies
@@ -2010,11 +2020,12 @@ Mods: {
 
 			NecroHand: {
 				DisplayName: Necro Hand
-				Tooltip:
+				Tooltip: ""
+				TooltipWithVar:
 					'''
 					Increases defense by 2
 					Using weapons launches crossbones
-					Taking damage releases bone toothpicks
+					Taking damage releases bone toothpicks, dealing {0} + {1}% summon damage
 					Critical strikes deal 10 more damage
 					'''
 			}
@@ -2077,7 +2088,7 @@ Mods: {
 
 			IronFist: {
 				DisplayName: Iron Fist
-				Tooltip: 10% increased summon damage and slightly increases summon knockback
+				Tooltip: 13% increased summon damage and slightly increases summon knockback
 			}
 
 			SpikyThread: {
@@ -2105,11 +2116,11 @@ Mods: {
 				DisplayName: Undead Tyranny
 				Tooltip:
 					'''
-					Increases summon damage by 8%
+					Increases summon damage by 10%
 					Increases whip range by 10%
 					Increases armor penetration by 4
 					Slightly increases summon knockback
-					Increases defense by 1
+					Reflects 100% of damage taken
 					'''
 			}
 
@@ -2428,14 +2439,14 @@ Mods: {
 
 			NecroGauntlet: {
 				DisplayName: Necro Gauntlet
-				Tooltip:
+				Tooltip: ""
+				TooltipWithVar:
 					'''
 					Increases defense by 2
-					14% increased melee speed
-					7% increased melee damage
-					6% increased movement speed
+					16% increased melee and movement speed
+					8% increased melee damage
 					Using weapons launches crossbones
-					Taking damage releases bone toothpicks
+					Taking damage releases bone toothpicks, dealing {0} + {1}% summon damage
 					Melee critical strikes deal 12 more damage
 					'''
 			}
@@ -2887,7 +2898,7 @@ Mods: {
 					'''
 					Whips emit light
 					Disable visiblity to disable this effect
-					Increases max number of minions and sentries by 1					
+					Increases max number of minions and sentries by 1
 					12% increased whip range, whip speed, and movement speed
 					6% increased summon damage
 					Releases volatile gelatin periodically that damages enemies
@@ -3471,17 +3482,18 @@ Mods: {
 			}
 
 			NecroScope: {
-				Tooltip:
+				Tooltip: ""
+				DisplayName: Necro Scope
+				TooltipWithVar:
 					'''
 					2 defense
 					10% increased ranged damage and critical strike chance
 					5% increased bullet damage
 					Using weapons shoots crossbones
-					Taking damage launches bone toothpicks
+					Taking damage launches bone toothpicks, dealing {0} + {1}% summon damage
 					Enemies are less likely to target you
 					Increases view range for guns (Right click to zoom)
 					'''
-				DisplayName: Necro Scope
 			}
 
 			MechanicalQuiver: {
@@ -3553,9 +3565,11 @@ Mods: {
 			HellShell: {
 				TooltipWithVar:
 					'''
-					{0} magic damage
+					{0} + {1}% magic damage
 					2 defense
 					Taking damage releases multiple sparks
+					% damage is based on damage of incoming hit
+					Stacking with its' upgrades increases spark damage
 					'''
 				DisplayName: Hell Shell
 				Tooltip: ""
@@ -3568,8 +3582,8 @@ Mods: {
 					Increases length of invincibility after taking damage
 					Reflects 75% of contact damage
 					Upon taking damage, the following effects will take place:
-					 - With a 2 second cooldown, releases three Cactus Spines toward the cursor, dealing {0} ranged damage. Stacks with downgrades
-					 - Releases multiple sparks, dealing {1} magic damage. Stacks with downgrades
+					 - With a 2 second cooldown, releases three Cactus Spines toward the cursor, dealing {0} + {1}% ranged damage. Stacks with downgrades
+					 - Releases multiple sparks, dealing {2} + {3}% magic damage. Stacks with downgrades
 					 - Briefly inflicts Venom on nearby enemies. Stacks with downgrades
 					 - Causes stars to fall
 					 - Releases bees to chase enemies (Toggled with visibility)
@@ -3580,7 +3594,7 @@ Mods: {
 			}
 
 			OverflowingVenomVial: {
-				DisplayName: Overflowing Venom Vial
+				DisplayName: Hyperconcentrated Venom
 				Tooltip:
 					'''
 					Emit a larger venomous aura
@@ -3589,7 +3603,7 @@ Mods: {
 			}
 
 			PotentVenomGland: {
-				DisplayName: Potent Venom Gland
+				DisplayName: Recluse Venom Flask
 				Tooltip:
 					'''
 					Emit a venomous aura
@@ -3630,10 +3644,10 @@ Mods: {
 					Increases life regeneration
 					Reflects 75% of contact damage
 					Upon taking damage, the following effects will take place:
-					 - With a 2 second cooldown, releases three Cactus Spines toward the cursor, dealing {0} ranged damage. Stacks with downgrades
-					 - Releases multiple sparks, dealing {1} magic damage. Stacks with downgrades
+					 - With a 2 second cooldown, releases three Cactus Spines toward the cursor, dealing {0} + {1}% ranged damage. Stacks with downgrades
+					 - Releases multiple sparks, dealing {2} + {3}% magic damage. Stacks with downgrades
 					 - Briefly inflicts Venom on nearby enemies. Stacks with downgrades
-					 - Releases multiple bone toothpicks. Stacks with downgrades
+					 - Releases multiple bone toothpicks, dealing {4} + {5}% summon damage. Stacks with downgrades
 					 - Causes stars to fall
 					 - Releases bees to chase enemies (Toggled with visibility)
 					 - Douses the user in honey
@@ -4458,7 +4472,7 @@ Mods: {
 					Increases whips' summon tag damage by 1
 					'Of course it's not enough to keep you well fed'
 					'''
-				DisplayName: Sunflower Seed
+				DisplayName: Sunflower Seeds
 			}
 
 			SoulflowerSeed: {
@@ -4468,7 +4482,7 @@ Mods: {
 					Grants immunity to Cursed Inferno
 					Increases defense by 4
 					'''
-				DisplayName: Soulflower Seed
+				DisplayName: Soulflower Seeds
 			}
 
 			SeedOfInfection: {
@@ -4483,12 +4497,12 @@ Mods: {
 
 			MagmaSeed: {
 				Tooltip: Magic and Summon attacks briefly inflict Hellfire
-				DisplayName: Magma Seed
+				DisplayName: Magma Seeds
 			}
 
 			FrigidSeed: {
 				Tooltip: Magic and Summon attacks briefly inflict Frostburn
-				DisplayName: Frigid Seed
+				DisplayName: Frigid Seeds
 			}
 
 			BloodflowerSeed: {
@@ -4498,13 +4512,13 @@ Mods: {
 					Grants immunity to Ichor
 					Increases damage by 5%
 					'''
-				DisplayName: Bloodflower Seed
+				DisplayName: Bloodflower Seeds
 			}
 
 			BagOfSeeds: {
 				Tooltip:
 					'''
-					Increases whips' summon tag damage by 3
+					Increases whips' summon tag damage by 4
 					Minions deal an extra 6 damage to enemies inflicted with On Fire or Hellfire
 					Minions deal an extra 6 damage to enemies inflicted with Frostburn or Frostbite
 					Minions deal 1.12x damage to enemies inflicted with Poisoned
