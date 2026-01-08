@@ -38,10 +38,10 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<GlobalPlayer>().SwampyGrip += 40;
-            player.GetModPlayer<GlobalPlayer>().flailRetractSpeed += 0.1f;
+            player.GetModPlayer<GlobalPlayer>().flailRetractSpeed += 0.15f;
 
             player.GetModPlayer<GlobalPlayer>().FieryGrip += 25;
-            player.GetModPlayer<GlobalPlayer>().flailExtendSpeed += 0.1f;
+            player.GetModPlayer<GlobalPlayer>().flailExtendSpeed += 0.15f;
         }
         public override void AddRecipes()
         {

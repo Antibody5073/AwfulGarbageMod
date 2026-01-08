@@ -119,7 +119,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.damage = 40; // The amount of damage that this npc deals
             NPC.defense = 15; // The amount of defense that this npc has
             NPC.lifeMax = 21000; // The amount of health that this npc has
-            NPC.HitSound = SoundID.NPCHit2; // The sound the NPC will make when being hit.
+            NPC.HitSound = SoundID.NPCHit1; // The sound the NPC will make when being hit.
             NPC.DeathSound = SoundID.NPCDeath1; // The sound the NPC will make when it dies.
             NPC.value = 50000f; // How many copper coins the NPC will drop when killed.
             NPC.knockBackResist = 0f;
@@ -139,13 +139,16 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = 27000;
-            if (Main.masterMode)
+            if (!Main.GameModeInfo.IsJourneyMode)
             {
-                NPC.lifeMax = 33000; // Increase by 5 if expert or master mode
-                if (Main.getGoodWorld || Main.zenithWorld)
+                NPC.lifeMax = 27000;
+                if (Main.masterMode)
                 {
-                    NPC.lifeMax = 39000;
+                    NPC.lifeMax = 33000; // Increase by 5 if expert or master mode
+                    if (Main.getGoodWorld || Main.zenithWorld)
+                    {
+                        NPC.lifeMax = 39000;
+                    }
                 }
             }
         }
@@ -162,7 +165,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<TsugumiBag>()));
 
             // Trophies are spawned with 1/10 chance
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Boss.SeseKitsugaiTrophy>(), 10));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Boss.TsugumiTrophy>(), 10));
 
             // ItemDropRule.MasterModeCommonDrop for the relic
             npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ModContent.ItemType<Items.Placeable.Boss.TsugumiRelic>()));
@@ -670,7 +673,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
                 {
-                    Volume = 0.5f,
+                    Volume = 0.35f,
                 };
                 SoundEngine.PlaySound(impactSound);
                 NPC.velocity = new Vector2(0, 0.5f);
@@ -1014,7 +1017,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
                 {
-                    Volume = 0.5f,
+                    Volume = 0.35f,
                 };
                 SoundEngine.PlaySound(impactSound);
                 NPC.velocity = new Vector2(0, 0.5f);
@@ -1310,7 +1313,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
                 {
-                    Volume = 0.5f,
+                    Volume = 0.35f,
                 };
                 SoundEngine.PlaySound(impactSound);
                 NPC.velocity = new Vector2(0, 0.5f);
@@ -1459,7 +1462,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
                 {
-                    Volume = 0.5f,
+                    Volume = 0.35f,
                 };
                 SoundEngine.PlaySound(impactSound);
                 NPC.velocity = new Vector2(0, 0.5f);

@@ -156,7 +156,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 Main.dust[dust].velocity *= 0f;
                 Main.dust[dust].noGravity = true;
             }
-
+            Player player = Main.player[Projectile.owner];
+            
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.ToRadians(90);
 
             float maxDetectRadius = 450f; // The maximum radius at which a projectile can detect a target
@@ -164,6 +165,29 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             if (Projectile.timeLeft > 225)
             {
                 projSpeed = 0.25f;
+            }
+            if (player.HasMinionAttackTargetNPC)
+            {
+                NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                float between = Vector2.Distance(npc.Center, Projectile.Center);
+
+                // Reasonable distance away so it doesn't target across multiple screens
+                if (between < 1000f)
+                {
+                    bool lineOfSight = Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height);
+                    bool closeThroughWall = between < 75f || Collision.CanHitLine(player.Center - new Vector2(2, 2), 4, 4, npc.Center - new Vector2(2, 2), 4, 4);
+                    if (lineOfSight || closeThroughWall)
+                    {
+                        Projectile.velocity += (npc.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * projSpeed;
+                        if (Vector2.Distance(new Vector2(0, 0), Projectile.velocity) > 10f)
+                        {
+                            Projectile.velocity.Normalize();
+                            Projectile.velocity *= 10;
+                        }
+                        Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.ToRadians(90);
+                        return;
+                    }
+                }
             }
             // Trying to find NPC closest to the projectile
             NPC closestNPC = FindClosestNPC(maxDetectRadius);

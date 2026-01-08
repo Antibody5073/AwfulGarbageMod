@@ -30,7 +30,7 @@ namespace AwfulGarbageMod.Items.Consumables
             Item.useTime = 17;
             Item.useTurn = true;
             Item.UseSound = SoundID.Item3;
-            Item.maxStack = 30;
+            Item.maxStack = 9999;
             Item.consumable = true;
             Item.rare = ItemRarityID.LightRed;
             Item.value = Item.buyPrice(gold: 1);

@@ -1,6 +1,7 @@
 using AwfulGarbageMod.DamageClasses;
 using AwfulGarbageMod.Global;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Weapons.Melee.Hardmode;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
@@ -222,11 +223,12 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Projectile.localNPCHitCooldown = (int)(spinHitCooldown / spinSpdMultiplier);
             Projectile.tileCollide = false;
             float maxSpinRange = MaxSpinDistance * Projectile.flailProjectile().rangeMultiplier * player.HeldItem.scale * player.GetModPlayer<GlobalPlayer>().flailRange;
+            /*
             if (MeleeSpdToRange)
             {
                 maxSpinRange *= ((meleeSpeedMultiplier - 1) * MeleeSpdEffectiveness + 1);
             }
-           
+           */
 
             switch (CurrentAIState)
             {
@@ -259,10 +261,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                         SpinningStateTimer += 1f;
                         // This line creates a unit vector that is constantly rotated around the player. 10f controls how fast the projectile visually spins around the player
                         float tempSpinSpd = SpinSpd * Projectile.flailProjectile().spinSpdMultiplier * 45 / player.HeldItem.useTime * spinSpdMultiplier;
-                        if (!MeleeSpdToRange)
-                        {
-                            tempSpinSpd *= ((meleeSpeedMultiplier - 1) * MeleeSpdEffectiveness + 1);
-                        }
+                        
                         DoFlailPositioning(player, tempSpinSpd, SpinningStateTimer / 60, out Vector2 offsetFromPlayer);
                         Projectile.Center = mountedCenter + offsetFromPlayer * spinDistance + new Vector2(0, player.gfxOffY);
 
@@ -355,7 +354,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
         public virtual void SetDistance(Player player)
         {
-            spinDistance += SpinDistanceIncrease * Projectile.flailProjectile().distanceIncreaseMultiplier * player.GetModPlayer<GlobalPlayer>().flailExtendSpeed;
+            spinDistance += SpinDistanceIncrease * Projectile.flailProjectile().distanceIncreaseMultiplier * player.GetModPlayer<GlobalPlayer>().flailExtendSpeed * player.GetTotalAttackSpeed(DamageClass.Melee);
         }
         public virtual void SetRotation(Vector2 offsetFromPlayer, float rotation, Player player)
         {

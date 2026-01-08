@@ -109,8 +109,8 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
     {
 
         int atkTimer = 0;
-
-        readonly int[] frameLen = { 10, 1, 10, 1, 1 };
+        bool atk;
+        readonly int[] frameLen = { 1, 1, 1, 1, 1, 1, 1, 1, 25, 1, 1, 1, 1 };
 
         public override void SetStaticDefaults()
         {
@@ -118,7 +118,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             // This is necessary for right-click targeting
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 
-            Main.projFrames[Projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 13;
 
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true; // This is needed so your minion can properly spawn when summoned and replaced when other minions are summoned
             ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true; // Make the cultist resistant to this projectile, as it's resistant to all homing projectiles.
@@ -161,7 +161,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             Vector2 drawOrigin = origin;
             spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Main.EntitySpriteDraw(texture,
-                Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
+                Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(0, -10),
                 sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
             return false;
         }
@@ -185,7 +185,10 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
         {
             return false;
         }
-
+        public override void OnSpawn(IEntitySource source)
+        {
+            Projectile.frame = 8;
+        }
         // The AI of this minion is split into multiple methods to avoid bloat. This method just passes values between calls actual parts of the AI.
         public override void AI()
         {
@@ -194,18 +197,37 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             Projectile.velocity = new Vector2(0, 12);
             Shoot();
 
-
-            int frameSpeed = 4;
-            Projectile.frameCounter++;
-
-            if (Projectile.frameCounter >= frameSpeed * frameLen[Projectile.frame])
+            if (atk)
             {
-                Projectile.frameCounter = 0;
-                Projectile.frame++;
 
-                if (Projectile.frame >= Main.projFrames[Projectile.type])
+                int frameSpeed = 6;
+                Projectile.frameCounter++;
+
+                if (Projectile.frameCounter >= frameSpeed * frameLen[Projectile.frame])
                 {
-                    Projectile.frame = 0;
+                    Projectile.frameCounter = 0;
+                    Projectile.frame++;
+
+                    if (Projectile.frame >= 8)
+                    {
+                        Projectile.frame = 0;
+                    }
+                }
+            }
+            else
+            {
+                int frameSpeed = 6;
+                Projectile.frameCounter++;
+
+                if (Projectile.frameCounter >= frameSpeed * frameLen[Projectile.frame])
+                {
+                    Projectile.frameCounter = 0;
+                    Projectile.frame++;
+
+                    if (Projectile.frame >= 13)
+                    {
+                        Projectile.frame = 8;
+                    }
                 }
             }
         }
@@ -229,8 +251,9 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             if (closestNPC == null || Vector2.DistanceSquared(Projectile.Center, closestNPC.Center) <= maxDetectRadius * maxDetectRadius)
             {
                 closestNPC = AGUtils.GetClosestNPC(Projectile.Center, maxDetectRadius);
-                if (closestNPC == null) { return; }
+                if (closestNPC == null) { if (atk) { atk = false; Projectile.frame = 0; Projectile.frameCounter = 0; } return; }
             }
+            if (!atk) { atk = true; Projectile.frame = 9; Projectile.frameCounter = 0; }
             Vector2 direction;
             Player player = Main.player[Projectile.owner];
 

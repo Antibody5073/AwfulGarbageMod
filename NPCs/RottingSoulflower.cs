@@ -1,3 +1,5 @@
+using AwfulGarbageMod.Buffs;
+using AwfulGarbageMod.Global;
 using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.Items.Weapons.Melee;
@@ -90,13 +92,13 @@ namespace AwfulGarbageMod.NPCs
             NPC.aiStyle = -1; // This npc has a completely unique AI, so we set this to -1. The default aiStyle 0 will face the player, which might conflict with custom AI code.
             NPC.damage = 0; // The amount of damage that this npc deals
             NPC.defense = 7; // The amount of defense that this npc has
-            NPC.lifeMax = 500; // The amount of health that this npc has
+            NPC.lifeMax = 600; // The amount of health that this npc has
             if (Main.expertMode)
             {
-                NPC.lifeMax = 650;
+                NPC.lifeMax = 900;
                 if (Main.masterMode)
                 {
-                    NPC.lifeMax = 800; // Increase by 5 if expert or master mode
+                    NPC.lifeMax = 1200; // Increase by 5 if expert or master mode
                 }
             }
             NPC.HitSound = SoundID.NPCHit1; // The sound the NPC will make when being hit.
@@ -107,6 +109,7 @@ namespace AwfulGarbageMod.NPCs
             NPC.noGravity = true;
             NPC.chaseable = false;
             NPC.rarity = 5;
+            NPC.takenDamageMultiplier = 0.4f;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -139,6 +142,10 @@ namespace AwfulGarbageMod.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            if (spawnInfo.Player.GetModPlayer<GlobalPlayer>().NoMiniboss)
+            {
+                return 0;
+            }
             if (spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneOverworldHeight)
             {
                 return 0.09f;
@@ -213,7 +220,7 @@ namespace AwfulGarbageMod.NPCs
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
-            if (AI_State != (float)ActionState.Passive || Vector2.DistanceSquared(Main.player[projectile.owner].Center, NPC.Center) < 320 * 320)
+            if (AI_State != (float)ActionState.Passive || (Vector2.DistanceSquared(Main.player[projectile.owner].Center, NPC.Center) < 320 * 320 && !projectile.IsMinionOrSentryRelated))
             {
                 return null;
             }
@@ -229,6 +236,14 @@ namespace AwfulGarbageMod.NPCs
                 AI_State = (float)ActionState.Teleport;
                 NPC.chaseable = true;
             }
+        }
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
+        {
+            player.AddBuff(ModContent.BuffType<MinibossBuff>(), 60 * 10);
+        }
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
+        {
+            Main.player[projectile.owner].AddBuff(ModContent.BuffType<MinibossBuff>(), 60 * 10);
         }
         private void Teleport()
         {
@@ -537,6 +552,7 @@ namespace AwfulGarbageMod.NPCs
                 NPC.alpha = 0;
                 AI_Timer = 150;
                 AI_State = (float)ActionState.Teleport;
+                NPC.takenDamageMultiplier = 1f;
             }
         }
 

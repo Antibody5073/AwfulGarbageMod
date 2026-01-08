@@ -64,7 +64,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             // This method quickly sets the whip's properties.
             Projectile.DefaultToWhip();
             // use these to change from the vanilla defaults
-            Projectile.WhipSettings.Segments = 27;
+            Projectile.WhipSettings.Segments = 16;
             // Projectile.WhipSettings.RangeMultiplier = 1f;
         }
 
@@ -123,7 +123,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             List<Vector2> list = new List<Vector2>();
             Projectile.FillWhipControlPoints(Projectile, list);
 
-            DrawLine(list);
+            //DrawLine(list);
 
             //Main.DrawWhip_WhipBland(Projectile, list);
             // The code below is for custom drawing.
@@ -141,8 +141,8 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             {
                 // These two values are set to suit this projectile's sprite, but won't necessarily work for your own.
                 // You can change them if they don't!
-                Rectangle frame = new Rectangle(0, 0, 14, 26);
-                Vector2 origin = new Vector2(5, 8);
+                Rectangle frame = new Rectangle(0, 0, 26, 26);
+                Vector2 origin = new Vector2(13, 13);
                 float scale = 1;
 
                 // These statements determine what part of the spritesheet to draw for the current segment.
@@ -196,7 +196,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             {
                 if (i == 1)
                 {
-                    int dust = Dust.NewDust(postions[postions.Count - 1], 1, 1, DustID.Blood, 0f, 0f, 0, default(Color), 1f);
+                    int dust = Dust.NewDust(postions[postions.Count - 1], 1, 1, DustID.Frost, 0f, 0f, 0, default(Color), 1f);
                     Main.dust[dust].scale = 1.35f;
                     Main.dust[dust].velocity *= 0f;
                     Main.dust[dust].noGravity = true; 

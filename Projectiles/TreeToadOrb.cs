@@ -30,6 +30,10 @@ namespace AwfulGarbageMod.Projectiles
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
         }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White * Projectile.Opacity;
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             // SpriteEffects helps to flip texture horizontally and vertically

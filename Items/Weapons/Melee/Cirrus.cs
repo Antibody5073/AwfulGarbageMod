@@ -105,6 +105,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Projectile.penetrate = -1; // All vanilla yoyos have infinite penetration. The number of enemies the yoyo can hit before being pulled back in is based on YoyosLifeTimeMultiplier.
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 10f;
 
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 8;
         }
 
         // notes for aiStyle 99: 

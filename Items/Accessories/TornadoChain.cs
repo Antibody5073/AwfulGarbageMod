@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using AwfulGarbageMod;
 using AwfulGarbageMod.Global;
 using AwfulGarbageMod.DamageClasses;
+using AwfulGarbageMod.Tiles.Furniture;
 
 namespace AwfulGarbageMod.Items.Accessories
 {
@@ -47,7 +48,7 @@ namespace AwfulGarbageMod.Items.Accessories
                .AddRecipeGroup(RecipeGroupID.IronBar, 5)
                .AddIngredient<StormEssence>(7)
                .AddIngredient(ItemID.Chain, 15)
-               .AddTile(TileID.Anvils)
+               .AddTile<StormAnvil>()
                .Register();
         }
 	}

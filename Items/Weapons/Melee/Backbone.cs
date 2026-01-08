@@ -1,3 +1,5 @@
+using gunrightsmod.Content.DamageClasses;
+using Infernus;
 using Microsoft.Xna.Framework;
 using Mono.Cecil;
 using System;
@@ -16,11 +18,20 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 			// Tooltip.SetDefault("Launches bone shards upwards on impact \n\"I've got a strong backbone, you know?\"");
 		}
 
-		public override void SetDefaults()
+        [JITWhenModsEnabled("gunrightsmod")]
+        public static void DoTerMerica(Item item)
+        {
+            item.DamageType = ModContent.GetInstance<MeleeStupidDamage>();
+        }
+        public override void SetDefaults()
 		{
 			Item.damage = 22;
 			Item.DamageType = DamageClass.Melee;
-			Item.width = 60;
+            if (ModLoader.TryGetMod("gunrightsmod", out Mod termerica))
+            {
+                DoTerMerica(Item);
+            }
+            Item.width = 60;
 			Item.height = 60;
 			Item.useTime = 31;
 			Item.useAnimation = 31;
@@ -51,9 +62,18 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             // DisplayName.SetDefault("Bone Shard"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
         }
 
+        [JITWhenModsEnabled("gunrightsmod")]
+        public static void DoTerMerica(Projectile projectile)
+        {
+            projectile.DamageType = ModContent.GetInstance<MeleeStupidDamage>();
+        }
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Melee;
+            if (ModLoader.TryGetMod("gunrightsmod", out Mod termerica))
+            {
+                DoTerMerica(Projectile);
+            }
             Projectile.width = 16;
             Projectile.height = 16;
             Projectile.aiStyle = 1;

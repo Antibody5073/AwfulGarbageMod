@@ -1,3 +1,4 @@
+using AwfulGarbageMod.Global;
 using AwfulGarbageMod.Items.Placeable.OresBars;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +23,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 34;
+			Item.damage = 40;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 40;
 			Item.height = 40;
@@ -37,18 +38,14 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 			Item.autoReuse = true;
 			Item.shoot = 1;
 			Item.useAmmo = AmmoID.Arrow;
-            Item.shootSpeed = 6f;
+            Item.shootSpeed = 12f;
             Item.crit = 0;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(source, position, velocity * 1.5f, type, damage, knockback, player.whoAmI);
-            
-            int proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(7)) * 1.2f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 2, knockback / 2, player.whoAmI);
-            proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-7)) * 1.2f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 2, knockback / 2, player.whoAmI);
-            proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-12)) * 0.8f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 3, knockback / 2, player.whoAmI);
-            proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(12)) * 0.8f, Mod.Find<ModProjectile>("FrostBowShard").Type, damage / 3, knockback / 2, player.whoAmI);
+            Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
+			proj.GetGlobalProjectile<ProjectileWeaponEffect>().GlacialBow = true;
 
             return false;
         }

@@ -12,6 +12,7 @@ using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using AwfulGarbageMod.Global;
+using AwfulGarbageMod.Tiles.Furniture;
 
 namespace AwfulGarbageMod.Items.Weapons.Melee
 {
@@ -61,7 +62,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             recipe.AddIngredient(Mod.Find<ModItem>("Cirrus").Type);
             recipe.AddIngredient(Mod.Find<ModItem>("StormEssence").Type, 6);
             recipe.AddIngredient(ItemID.RainCloud, 24);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile<StormAnvil>();
             recipe.Register();
         }
     }

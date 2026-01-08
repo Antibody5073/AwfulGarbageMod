@@ -210,7 +210,7 @@ namespace AwfulGarbageMod.ModIntegration
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                int[] itemsToPlaceInChests4 = { Mod.Find<ModItem>("BloomingMarrow").Type, Mod.Find<ModItem>("BonePendant").Type, Mod.Find<ModItem>("BoneBadge").Type, Mod.Find<ModItem>("FractureKnife").Type };
+                int[] itemsToPlaceInChests4 = { ItemID.None, Mod.Find<ModItem>("BonePendant").Type, Mod.Find<ModItem>("BoneBadge").Type, Mod.Find<ModItem>("FractureKnife").Type };
 
                 if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 2 * 36)
                 {
@@ -248,7 +248,7 @@ namespace AwfulGarbageMod.ModIntegration
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                int[] itemsToPlaceInChests4 = { Mod.Find<ModItem>("SkullSigil").Type, Mod.Find<ModItem>("IronFist").Type, Mod.Find<ModItem>("SpikyThread").Type, Mod.Find<ModItem>("CursedCandleStaff").Type };
+                int[] itemsToPlaceInChests4 = { Mod.Find<ModItem>("SkullSigil").Type, Mod.Find<ModItem>("IronFist").Type, Mod.Find<ModItem>("SpikyThread").Type, ItemID.None };
 
                 if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 2 * 36)
                 {

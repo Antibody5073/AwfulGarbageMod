@@ -18,6 +18,7 @@ using System.Diagnostics.Contracts;
 using StramClasses.Classes.Rogue;
 using StramClasses;
 using AwfulGarbageMod.DamageClasses;
+using AwfulGarbageMod.Items.Weapons.Melee.Hardmode;
 
 namespace AwfulGarbageMod.Items.Weapons.Melee
 {

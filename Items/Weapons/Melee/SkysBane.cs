@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using AwfulGarbageMod;
 using Microsoft.Xna.Framework.Graphics;
+using AwfulGarbageMod.Tiles.Furniture;
 
 namespace AwfulGarbageMod.Items.Weapons.Melee
 {
@@ -53,7 +54,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             recipe.AddIngredient(Mod.Find<ModItem>("CloudCleaver").Type);
             recipe.AddIngredient(Mod.Find<ModItem>("StormEssence").Type, 6);
             recipe.AddIngredient(ItemID.RainCloud, 24);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile<StormAnvil>();
             recipe.Register();
 
         }

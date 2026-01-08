@@ -4,6 +4,7 @@ using Mono.Cecil;
 using System;
 using System.Diagnostics.Metrics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +34,10 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Item.knockBack = 2f;
             Item.value = 5000;
             Item.rare = 2;
-            Item.UseSound = SoundID.Item11;
+            Item.UseSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/SmallShot5")
+            {
+                Volume = 0.4f
+            };
             Item.autoReuse = true;
             Item.shoot = 1;
             Item.useAmmo = AmmoID.Bullet;

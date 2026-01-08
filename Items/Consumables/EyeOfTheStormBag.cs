@@ -13,6 +13,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AwfulGarbageMod.Items.Armor;
+using AwfulGarbageMod.Items.Placeable.Furniture;
 
 namespace AwfulGarbageMod.Items.Consumables
 {
@@ -51,6 +52,7 @@ namespace AwfulGarbageMod.Items.Consumables
 
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<StormEssence>(), 1, 8, 10));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightningRing>()));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<StormAnvil>()));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<EyeOfTheStorm>()));
         }
 

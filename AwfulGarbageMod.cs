@@ -6,7 +6,8 @@ namespace AwfulGarbageMod
 {
 	public class AwfulGarbageMod : Mod
 	{
-		static bool stramLoaded = ModLoader.HasMod("StramClasses");
+        static bool stramLoaded = ModLoader.HasMod("StramClasses");
+        static bool infernusLoaded = ModLoader.HasMod("Infernus");
 
         public override void Load()
         {

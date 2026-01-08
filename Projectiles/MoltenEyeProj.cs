@@ -25,7 +25,7 @@ namespace AwfulGarbageMod.Projectiles
         public float dir;
         public float pupilDir;
         public float pupilMagnitude;
-        public int[] frames = {0, 1, 2, 1};
+        public int[] frames = {0, 1, 2, 3, 4};
 
         public virtual float ProjSpd => 0;
         public virtual int ProjType => -1;
@@ -36,7 +36,7 @@ namespace AwfulGarbageMod.Projectiles
         public override void SetStaticDefaults()
         {
             // Sets the amount of frames this minion has on its spritesheet
-            Main.projFrames[Projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 5;
             // This is necessary for right-click targeting
 
             Main.projPet[Projectile.type] = true; // Denotes that this projectile is a pet or minion
@@ -124,7 +124,7 @@ namespace AwfulGarbageMod.Projectiles
 
 
             Main.EntitySpriteDraw(pupil,
-                Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(pupilMagnitude, 0).RotatedBy(pupilDir),
+                Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(pupilMagnitude, 0).RotatedBy(pupilDir) - new Vector2(4, 0),
                 sourceRectangle, drawColor, MathHelper.Pi, origin, Projectile.scale, spriteEffects, 0);
 
             return false;
@@ -188,7 +188,7 @@ namespace AwfulGarbageMod.Projectiles
         }
         public virtual void Visuals()
         {
-            int frameSpeed = 8;
+            int frameSpeed = 5;
 
             Projectile.frameCounter++;
 
@@ -203,7 +203,7 @@ namespace AwfulGarbageMod.Projectiles
                 }
             }
 
-            Dust dust = Dust.NewDustDirect(Projectile.Center + new Vector2(pupilMagnitude, 0).RotatedBy(pupilDir) + new Vector2(-4, -4), 1, 1, DustID.Torch, 0, 0, Scale: 1.25f);
+            Dust dust = Dust.NewDustDirect(Projectile.Center + new Vector2(pupilMagnitude, 0).RotatedBy(pupilDir) + new Vector2(-8, -4), 1, 1, DustID.Torch, 0, 0, Scale: 1.25f);
             dust.noGravity = true;
             dust.velocity = new Vector2(0, -4);
             dust.noLight = true; 

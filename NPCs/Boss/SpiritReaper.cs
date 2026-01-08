@@ -143,13 +143,16 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = 800000;
-            if (Main.masterMode)
+            if (!Main.GameModeInfo.IsJourneyMode)
             {
-                NPC.lifeMax = 1000000; // Increase by 5 if expert or master mode
-                if (Main.getGoodWorld || Main.zenithWorld)
+                NPC.lifeMax = 800000;
+                if (Main.masterMode)
                 {
-                    NPC.lifeMax = 1500000;
+                    NPC.lifeMax = 1000000; // Increase by 5 if expert or master mode
+                    if (Main.getGoodWorld || Main.zenithWorld)
+                    {
+                        NPC.lifeMax = 1500000;
+                    }
                 }
             }
         }

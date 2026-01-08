@@ -33,8 +33,8 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense += 2;
-            player.GetModPlayer<GlobalPlayer>().MeatShield += 0.3f;
+            player.statDefense += 3;
+            player.GetModPlayer<GlobalPlayer>().MeatShield += 0.4f;
         }
 
 
@@ -46,11 +46,6 @@ namespace AwfulGarbageMod.Items.Accessories
             recipe.AddIngredient(ItemID.Shadewood, 30);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
-            Recipe recipe2 = CreateRecipe();
-            recipe2.AddIngredient(ItemID.Ebonwood, 30);
-            recipe2.AddIngredient(ItemID.SoulofNight, 4);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.Register();
         }
 	}
 }

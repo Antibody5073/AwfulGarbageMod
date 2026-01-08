@@ -23,6 +23,7 @@ using Terraria.Localization;
 using AwfulGarbageMod.Items.Accessories;
 using Microsoft.CodeAnalysis;
 using Terraria.WorldBuilding;
+using AwfulGarbageMod.Items.Accessories.Hardmode;
 
 namespace AwfulGarbageMod.Global
 {
@@ -31,11 +32,12 @@ namespace AwfulGarbageMod.Global
     {
         public override bool InstancePerEntity => true;
         public float VelocityMultiplier = 0;
+        public bool alreadyHit = false;
         public static class Sets
         {
             public static bool[] IsScepterProjectile = ProjectileID.Sets.Factory.CreateBoolSet();
             public static bool[] OverrideSummonDamageClass = ProjectileID.Sets.Factory.CreateBoolSet();
-            public static bool[] DontUseAdjustedVelocityModifier = ProjectileID.Sets.Factory.CreateBoolSet(ProjectileID.MolotovFire, ProjectileID.MolotovFire2, ProjectileID.MolotovFire3, ProjectileID.Grenade, ProjectileID.GrenadeI, ProjectileID.GrenadeII, ProjectileID.GrenadeIII, ProjectileID.GrenadeIV, ProjectileID.ClusterGrenadeI, ProjectileID.ClusterGrenadeII, ProjectileID.DryGrenade, ProjectileID.HoneyGrenade, ProjectileID.LavaGrenade, ProjectileID.MiniNukeGrenadeI, ProjectileID.MiniNukeGrenadeII, ProjectileID.WetGrenade, ProjectileID.ProximityMineI, ProjectileID.ProximityMineII, ProjectileID.ProximityMineIII, ProjectileID.ProximityMineIV, ProjectileID.ClusterMineI, ProjectileID.ClusterMineII, ProjectileID.DryMine, ProjectileID.HoneyMine, ProjectileID.LavaMine, ProjectileID.MiniNukeMineI, ProjectileID.MiniNukeMineII, ProjectileID.WetMine);
+            public static bool[] DontUseAdjustedVelocityModifier = ProjectileID.Sets.Factory.CreateBoolSet(ProjectileID.MolotovFire, ProjectileID.MolotovFire2, ProjectileID.MolotovFire3, ProjectileID.Grenade, ProjectileID.GrenadeI, ProjectileID.GrenadeII, ProjectileID.GrenadeIII, ProjectileID.GrenadeIV, ProjectileID.ClusterGrenadeI, ProjectileID.ClusterGrenadeII, ProjectileID.DryGrenade, ProjectileID.HoneyGrenade, ProjectileID.LavaGrenade, ProjectileID.MiniNukeGrenadeI, ProjectileID.MiniNukeGrenadeII, ProjectileID.WetGrenade, ProjectileID.ProximityMineI, ProjectileID.ProximityMineII, ProjectileID.ProximityMineIII, ProjectileID.ProximityMineIV, ProjectileID.ClusterMineI, ProjectileID.ClusterMineII, ProjectileID.DryMine, ProjectileID.HoneyMine, ProjectileID.LavaMine, ProjectileID.MiniNukeMineI, ProjectileID.MiniNukeMineII, ProjectileID.WetMine, ProjectileID.Flames);
             public static DamageClass[] OrigDamageClass = ProjectileID.Sets.Factory.CreateCustomSet<DamageClass>(DamageClass.Default);
 
         }
@@ -263,6 +265,12 @@ namespace AwfulGarbageMod.Global
             {
                 target.AddBuff(BuffID.Ichor, 20);
             }
+            if (player.HasBuff<ArmorAbilityCooldownWhip>() && ProjectileID.Sets.IsAWhip[projectile.type] && !alreadyHit)
+            {
+                player.buffTime[player.FindBuffIndex(ModContent.BuffType<ArmorAbilityCooldownWhip>())] -= 60;
+                alreadyHit = true;
+            }
+
         }
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {

@@ -34,9 +34,9 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Generic) += 0.08f;
+            player.GetDamage(DamageClass.Generic) += 0.1f;
             player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.25f;
-            player.GetAttackSpeed(DamageClass.Melee) += 0.08f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
         }
 
         public override void AddRecipes()

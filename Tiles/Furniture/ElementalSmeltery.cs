@@ -47,9 +47,9 @@ namespace AwfulGarbageMod.Tiles.Furniture
             
 			// Spend 6 ticks on each of 12 frames, looping
 			frameCounter++;
-			if (frameCounter >= 6) {
+			if (frameCounter >= 8) {
 				frameCounter = 0;
-				if (++frame >= 8) {
+				if (++frame >= 24) {
 					frame = 0;
 				}
 			}

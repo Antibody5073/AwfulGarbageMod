@@ -2,6 +2,7 @@ using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Projectiles;
+using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -43,7 +44,7 @@ namespace AwfulGarbageMod.NPCs
         Vector2 teleportPos;
 
         int frameCounter = 0;
-        readonly int[] frameLen = { 10, 1, 10, 1, 1 };
+        readonly int[] frameLen = { 150, 6, 6, 6, 6, 6, 36, 6, 45, 6, 6, 45, 6, 6, 6, 6, 6, 6, 6 };
         int frame = 0;
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -68,7 +69,7 @@ namespace AwfulGarbageMod.NPCs
         }
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[NPC.type] = 5; // make sure to set this for your modnpcs.
+            Main.npcFrameCount[NPC.type] = 19; // make sure to set this for your modnpcs.
 
             // Specify the debuffs it is immune to
         }
@@ -113,16 +114,16 @@ namespace AwfulGarbageMod.NPCs
             });
         }
 
-
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.Acorn, 1, 3, 6));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<EnchantedLeaf>(), 1, 3, 5));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.ForestBeam>(), 4, 1, 1));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ForestCurse>(), 15));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.ZoneForest && !spawnInfo.Invasion && !spawnInfo.PlayerInTown)
+            if (spawnInfo.Player.ZoneForest && !spawnInfo.Invasion && !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneSkyHeight)
             {
                 return 0.07f;
             }
@@ -157,17 +158,35 @@ namespace AwfulGarbageMod.NPCs
         {
             // This makes the sprite flip horizontally in conjunction with the npc.direction.
             NPC.spriteDirection = 1;
-            if (++frameCounter >= 4 * frameLen[frame])
-            {
-                frameCounter = 0;
-                frame++;
-                if (frame >= 5)
-                {
-                    frame = 0;
-                }
-            }
-            NPC.frame.Y = frame * frameHeight;
 
+            if (AI_State == (float)ActionState.Passive)
+            {
+                if (++frameCounter >= frameLen[frame])
+                {
+                    frameCounter = 0;
+                    frame++;
+                    if (frame >= 13)
+                    {
+                        frame = 0;
+                    }
+                }
+                NPC.frame.Y = frame * frameHeight;
+
+            }
+            else
+            {
+                if (++frameCounter >= frameLen[frame])
+                {
+                    frameCounter = 0;
+                    frame++;
+                    if (frame >= 19)
+                    {
+                        frame = 13;
+                    }
+                }
+                NPC.frame.Y = frame * frameHeight;
+
+            }
         }
 
         // Here, because we use custom AI (aiStyle not set to a suitable vanilla value), we should manually decide when Flutter Slime can fall through platforms
@@ -178,7 +197,7 @@ namespace AwfulGarbageMod.NPCs
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
-            if (AI_State != (float)ActionState.Passive || Vector2.DistanceSquared(Main.player[projectile.owner].Center, NPC.Center) < 320 * 320)
+            if (AI_State != (float)ActionState.Passive || (Vector2.DistanceSquared(Main.player[projectile.owner].Center, NPC.Center) < 320 * 320 && !projectile.IsMinionOrSentryRelated))
             {
                 return null;
             }
@@ -188,11 +207,20 @@ namespace AwfulGarbageMod.NPCs
         {
             if (AI_State == (float)ActionState.Passive)
             {
+                frame = 14;
                 NPC.TargetClosest(true);
                 AI_Timer = 150;
 
                 AI_State = (float)ActionState.Teleport;
                 NPC.chaseable = true;
+            }
+
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                for (int i = 0; i < 18; i++)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(3, 3) + new Vector2(0, -6), GoreID.TreeLeaf_Normal);
+                }
             }
         }
 

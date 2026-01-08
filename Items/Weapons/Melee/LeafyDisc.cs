@@ -21,7 +21,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
 		public override void SetDefaults()
 		{
-			Item.damage = 10;
+			Item.damage = 9;
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 60;
 			Item.height = 60;
@@ -76,6 +76,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Projectile.tileCollide = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 15;
+            Projectile.extraUpdates = 1;
         }
 
         int StateTimer = 0;

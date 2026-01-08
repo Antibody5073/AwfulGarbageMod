@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using AwfulGarbageMod;
 using AwfulGarbageMod.Systems;
 using AwfulGarbageMod.Global;
+using System.Xml;
 
 namespace ShatteredRealm.Content.Prefixes.Shield
 {
@@ -40,7 +41,7 @@ namespace ShatteredRealm.Content.Prefixes.Shield
         // Use this to control if a prefix can be rolled or not.
         public override bool CanRoll(Item item)
         {
-            return DownedBossSystem.downedFrigidius;
+            return DownedBossSystem.downedFrigidius || item.prefix == ModContent.PrefixType<PrefixIcy>();
         }
 
         public override void ApplyAccessoryEffects(Player player)

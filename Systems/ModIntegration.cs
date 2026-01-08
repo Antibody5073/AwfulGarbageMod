@@ -269,7 +269,61 @@ namespace AwfulGarbageMod.ModIntegration
                 }
             );
 
+            internalName = "StarFighter";
 
+            // Value inferred from boss progression, see the wiki for details
+            weight = 3.3302f;
+
+            // Used for tracking checklist progress
+            downed = () => DownedBossSystem.downedStarFighter;
+
+            // The NPC type of the boss
+            bossType = ModContent.NPCType<NPCs.StarFighterHead>();
+
+            // The item used to summon the boss with (if available)
+            // By default, it draws the first frame of the boss, omit if you don't need custom drawing
+            // But we want to draw the bestiary texture instead, so we create the code for that to draw centered on the intended location
+
+
+            bossChecklistMod.Call(
+                "LogMiniBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                }
+            );
+
+            internalName = "DecayingBloodflower";
+
+            // Value inferred from boss progression, see the wiki for details
+            weight = 1.001f;
+
+            // Used for tracking checklist progress
+            downed = () => DownedBossSystem.downedEvilFlowerMiniboss;
+
+            // The NPC type of the boss
+            bossType = ModContent.NPCType<NPCs.DecayingBloodflower>();
+
+            // The item used to summon the boss with (if available)
+            // By default, it draws the first frame of the boss, omit if you don't need custom drawing
+            // But we want to draw the bestiary texture instead, so we create the code for that to draw centered on the intended location
+
+
+            bossChecklistMod.Call(
+                "LogMiniBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                }
+            );
 
             internalName = "Frigidius";
 
@@ -309,11 +363,33 @@ namespace AwfulGarbageMod.ModIntegration
                     ["collectibles"] = collectibles,
                     // Other optional arguments as needed are inferred from the wiki
                 }
-            ); 
-            
+            );
+
+            internalName = "CursedChandelier";
+            weight = 5.0001f;
+            downed = () => DownedBossSystem.downedCursedChandelier;
+            bossType = ModContent.NPCType<NPCs.CursedChandelier>();
+            spawnItem = 0;
+            collectibles = new List<int>()
+            {
+            };
+            bossChecklistMod.Call(
+                "LogMiniBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                    ["spawnItems"] = spawnItem,
+                    ["collectibles"] = collectibles,
+                    // Other optional arguments as needed are inferred from the wiki
+                }
+            );
 
             internalName = "TsugumiUmatachi";
-            weight = 5.0001f;
+            weight = 5.0002f;
             downed = () => DownedBossSystem.downedTsugumi;
             bossType = ModContent.NPCType<NPCs.Boss.TsugumiUmatachi>();
             spawnItem = ModContent.ItemType<JarOfSpirits>();
@@ -335,9 +411,10 @@ namespace AwfulGarbageMod.ModIntegration
                     ["collectibles"] = collectibles,
                     // Other optional arguments as needed are inferred from the wiki
                 }
-            ); 
+            );
 
 
+            /*
             internalName = "Candescence";
             weight = 7.0001f;
             downed = () => DownedBossSystem.downedFireMoth;
@@ -362,6 +439,32 @@ namespace AwfulGarbageMod.ModIntegration
                     // Other optional arguments as needed are inferred from the wiki
                 }
             ); 
+            */
+
+            internalName = "Blightdrasil";
+            weight = 12.0001f;
+            downed = () => DownedBossSystem.downedEvilTree;
+            bossType = ModContent.NPCType<NPCs.Boss.Blightdrasil>();
+            spawnItem = ModContent.ItemType<RootOfEvil>();
+            collectibles = new List<int>()
+            {
+                ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormRelic>(),
+                ModContent.ItemType<Items.Placeable.Boss.EyeOfTheStormTrophy>()
+            };
+            bossChecklistMod.Call(
+                "LogBoss",
+                Mod,
+                internalName,
+                weight,
+                downed,
+                bossType,
+                new Dictionary<string, object>()
+                {
+                    ["spawnItems"] = spawnItem,
+                    ["collectibles"] = collectibles,
+                    // Other optional arguments as needed are inferred from the wiki
+                }
+            );
 
             /*
             internalName = "AwfulGarabage";

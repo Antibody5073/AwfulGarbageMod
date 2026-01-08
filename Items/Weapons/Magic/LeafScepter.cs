@@ -25,7 +25,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void ScepterEffects(Player player)
         {
-            player.GetCritChance(DamageClass.Generic) += 1f;
+            player.GetCritChance(DamageClass.Generic) += 2f;
 
         }
     }
@@ -101,6 +101,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitSpd => -0.7f;
         public override float OffsetDir => 90;
         public override int ProjType => ModContent.ProjectileType<LeafScepterProj>();
+        public override int AssociatedBuff => ModContent.BuffType<LeafScepterBuff>();
+
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Magic;

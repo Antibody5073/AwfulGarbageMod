@@ -6,11 +6,20 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="gunrightsmod">
+      <HintPath>..\ModAssemblies\gunrightsmod_v1.5.6.1.dll</HintPath>
+    </Reference>
+    <Reference Include="Infernus">
+      <HintPath>..\ModAssemblies\Infernus_v1.6.7.dll</HintPath>
+    </Reference>
     <Reference Include="StramClasses">
-      <HintPath>..\ModAssemblies\StramClasses_v1.1.1.1.dll</HintPath>
+      <HintPath>..\..\ModReader\StramClasses\StramClasses.dll</HintPath>
     </Reference>
     <Reference Include="StructureHelper">
       <HintPath>..\ModAssemblies\StructureHelper_v3.0.1.dll</HintPath>
+    </Reference>
+    <Reference Include="SubworldLibrary">
+      <HintPath>..\ModAssemblies\SubworldLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

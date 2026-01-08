@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria.GameContent;
 using Terraria.DataStructures;
+using MonoMod.Logs;
 
 namespace AwfulGarbageMod.Items.Weapons.Summon
 {
@@ -20,7 +21,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             // DisplayName.SetDefault("Cloud Chain"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
             // Tooltip.SetDefault("Enemies struck by summons take 8% increased damage");
         }
-
+        int counter;
         public override void SetDefaults()
         {
             // This method quickly sets the whip's properties.
@@ -35,8 +36,18 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI);
-            return true;
+            counter++;
+            if (counter % 2 == 0)
+            {
+                Projectile.NewProjectile(source, position, velocity, Item.shoot, damage, 0, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, Item.shoot, damage, 0, player.whoAmI);
+            }
+            else
+            {
+                Projectile.NewProjectile(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI);
+            }
+            return false;
         }
 
         // Makes the whip receive melee prefixes
@@ -148,8 +159,8 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             {
                 // These two values are set to suit this projectile's sprite, but won't necessarily work for your own.
                 // You can change them if they don't!
-                Rectangle frame = new Rectangle(0, 0, 16, 26);
-                Vector2 origin = new Vector2(5, 8);
+                Rectangle frame = new Rectangle(0, 0, 18, 26);
+                Vector2 origin = new Vector2(9, 4);
                 float scale = 1;
 
                 // These statements determine what part of the spritesheet to draw for the current segment.
@@ -169,7 +180,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
                     frame.Y = 58;
                     frame.Height = 16;
                 }
-                else if (i > 5)
+                else if (i > 1)
                 {
                     frame.Y = 42;
                     frame.Height = 16;
@@ -203,7 +214,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             {
                 if (i == 1)
                 {
-                    int dust = Dust.NewDust(postions[postions.Count - 1], 1, 1, DustID.Cloud, 0f, 0f, 0, default(Color), 1f);
+                    int dust = Dust.NewDust(postions[postions.Count - 1], 1, 1, DustID.Blood, 0f, 0f, 0, default(Color), 1f);
                     Main.dust[dust].scale = 1.35f;
                     Main.dust[dust].velocity *= 0f;
                     Main.dust[dust].noGravity = true; 

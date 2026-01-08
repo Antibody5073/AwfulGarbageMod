@@ -28,6 +28,8 @@ using System;
 using AwfulGarbageMod.Projectiles;
 using System.Drawing.Imaging;
 using AwfulGarbageMod.Items.Accessories;
+using SubworldLibrary;
+using AwfulGarbageMod.Subworlds;
 
 namespace AwfulGarbageMod.Global
 {
@@ -60,6 +62,8 @@ namespace AwfulGarbageMod.Global
         public float flailExtendSpeed = 1;
         public float flailRetractSpeed = 1;
         public int extraWhipTagDamage = 0;
+        public float PercentArmorIgnore = 1;
+        public float PercentArmorIgnoreSummon = 1;
 
         public float oldManaCost;
         public float oldManaCost2;
@@ -139,6 +143,9 @@ namespace AwfulGarbageMod.Global
         public bool ChloroplastCore = false;
         public bool ShockAbsorber = false;
         public bool MinionSentrySwap = false;
+        public bool RangedInflictBleed = false;
+        public bool NoMiniboss = false;
+        public bool CelestialCurse = false;
 
         public bool lightningRingPrevious;
 
@@ -190,6 +197,8 @@ namespace AwfulGarbageMod.Global
         public bool TitaniumTank = false;
         public bool TitaniumOffense = false;
         public bool TitaniumVariety = false;
+        public bool EquilibriumMinionBonus = false;
+        public bool EquilibriumSentryBonus = false;
 
 
         public bool FrigidHelmet = false;
@@ -248,13 +257,12 @@ namespace AwfulGarbageMod.Global
             {
                 HarujionLevel = HarujionPetal;
             }
-
             if (HarujionLevel > 0)
             {
                 this.Player.AddBuff(ModContent.BuffType<HarujionPetalBuff>(), 3);
             }
             messageTimer--;
-            if (ModContent.GetInstance<ConfigClient>().NotifyMissingStuff && messageTimer == 0 && Main.netMode == NetmodeID.SinglePlayer)
+            if (ModContent.GetInstance<ConfigClient>().NotifyMissingStuff && messageTimer == 0 && Main.netMode == NetmodeID.SinglePlayer && !SubworldSystem.AnyActive())
             {
                 if (new Vector2(Structures.IcePalacePosX, Structures.IcePalacePosY) == new Vector2(0, 0) || AGUtils.GetTileCounts(ModContent.TileType<CandesciteOre>()) <= 0 || AGUtils.GetTileCounts(ModContent.TileType<FrigidiumOre>()) <= 0 || AGUtils.GetTileCounts(ModContent.TileType<FlintDirt>()) <= 0)
                 {
@@ -517,6 +525,13 @@ namespace AwfulGarbageMod.Global
                     Projectile.NewProjectile(Player.GetSource_Accessory(ModContent.GetModItem(ModContent.ItemType<SlimyLocket>()).Item), target.Center, Vector2.Zero, ModContent.ProjectileType<SlimeExplosion>(), 60, 6, Main.myPlayer);
                 }
             }
+            float defensePercent = 1;
+            if (modifiers.DamageType.CountsAsClass(DamageClass.Summon))
+            {
+                defensePercent *= PercentArmorIgnoreSummon;
+            }
+            defensePercent *= PercentArmorIgnore;
+            modifiers.ScalingArmorPenetration += 1 - defensePercent;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -569,6 +584,10 @@ namespace AwfulGarbageMod.Global
             if (MagmaSeed && (hit.DamageType.CountsAsClass(DamageClass.Magic) || hit.DamageType.CountsAsClass(DamageClass.Summon)))
             {
                 target.AddBuff(BuffID.OnFire3, 60);
+            }
+            if (RangedInflictBleed && hit.DamageType.CountsAsClass(DamageClass.Ranged))
+            {
+                target.AddBuff(ModContent.BuffType<AGBleed>(), 240);
             }
         }
 
@@ -724,7 +743,7 @@ namespace AwfulGarbageMod.Global
                 Projectile projectile = Main.projectile[i];
                 if (GlobalProjectiles.Sets.IsScepterProjectile[projectile.type] && projectile.owner == this.Player.whoAmI)
                 {
-                    projectile.timeLeft = 0;
+                    projectile.Kill();
                 }
                 
             }
@@ -764,7 +783,7 @@ namespace AwfulGarbageMod.Global
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (KeybindSystem.ArmorSetAbility.JustPressed && !Player.HasBuff<ArmorAbilityCooldown>())
+            if (KeybindSystem.ArmorSetAbility.JustPressed && !Player.HasBuff<ArmorAbilityCooldown>() && !Player.HasBuff<ArmorAbilityCooldownWhip>())
             {
                 if (MyceliumMaskBonus)
                 {
@@ -844,6 +863,33 @@ namespace AwfulGarbageMod.Global
                         }
                     }
                     Player.AddBuff(ModContent.BuffType<ArmorAbilityCooldown>(), 20 * 60);
+                }
+                if (EquilibriumSentryBonus)
+                {
+                    float maxDist = 600 * 600;
+                    Projectile target = null;
+                    foreach (var projectile in Main.ActiveProjectiles)
+                    {
+                        if (projectile.owner == Player.whoAmI && projectile.sentry)
+                        {
+                            if (!projectile.GetGlobalProjectile<EquilibriumSentry>().boost)
+                            {
+                                float distSq = Vector2.DistanceSquared(projectile.Center, Player.Center);
+                                if (distSq < maxDist)
+                                {
+                                    maxDist = distSq;
+                                    target = projectile;
+                                }
+                            }
+                        }
+                    }
+
+                    if (target != null)
+                    {
+                        target.GetGlobalProjectile<EquilibriumSentry>().boost = true;
+                        target.originalDamage *= 2;
+                        Player.AddBuff(ModContent.BuffType<ArmorAbilityCooldownWhip>(), 20 * 60);
+                    }
                 }
             }
         }
@@ -1014,15 +1060,55 @@ namespace AwfulGarbageMod.Global
                 Player.onHitTitaniumStorm = false;
                 int def = Player.statDefense / 4;
                 int defLost = Player.statDefense - def;
-                Player.GetDamage(DamageClass.Melee) += 0.02f * defLost;
+                Player.GetDamage(DamageClass.Melee) += 0.01f * defLost;
                 Player.statDefense -= defLost;
             }
+            if (TitaniumVariety)
+            {
+                Player.onHitTitaniumStorm = false;
+            }
 
+            if (EquilibriumSentryBonus && Player.HasBuff<ArmorAbilityCooldownWhip>())
+            {
+                Player.whipRangeMultiplier *= 0.7f;
+            }
             oldManaCost2 = Player.manaCost;
+
+            if (CelestialCurse)
+            {
+                if (Player.maxMinions > Player.maxTurrets)
+                {
+                    Player.maxMinions += 2;
+                    Player.maxTurrets -= 1;
+                }
+                else if (Player.maxMinions < Player.maxTurrets)
+                {
+                    Player.maxMinions -= 1;
+                    Player.maxTurrets += 2;
+                }
+                else
+                {
+                    Player.maxMinions += 1;
+                    Player.maxTurrets += 1;
+                    Player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) -= 0.2f;
+                }
+            }
+        }
+        public override void PostUpdateMiscEffects()
+        {
+            if (SubworldSystem.IsActive<EbonwoodBossSubworld>())
+            {
+                Player.noBuilding = true;
+            }
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
             modifiers.SourceDamage *= (ModContent.GetInstance<Config>().EnemyDamageMultiplier / 100);    
+            if (Player.HasBuff<FrosshroomPotionBuff>())
+            {
+                modifiers.FinalDamage *= 0.6f;
+                Player.ClearBuff(ModContent.BuffType<FrosshroomPotionBuff>());
+            }
         }
 
         public override void OnEnterWorld()
@@ -1033,6 +1119,7 @@ namespace AwfulGarbageMod.Global
 
 
             Main.instance.LoadNPC(56); //Snatcher
+            Main.instance.LoadNPC(NPCID.Clinger); //Snatcher
             Main.instance.LoadNPC(61); // Vulture
             Main.instance.LoadNPC(169); // Ice Elemental
             Main.instance.LoadNPC(1); // Slime
@@ -1041,7 +1128,10 @@ namespace AwfulGarbageMod.Global
             Main.instance.LoadProjectile(206); //Leaf
             Main.instance.LoadProjectile(578); //Vortex Portal
             Main.instance.LoadProjectile(15); //Fireball
+            Main.instance.LoadProjectile(253); //Iceball
+            Main.instance.LoadProjectile(95); //Cursed Fireball
             Main.instance.LoadProjectile(ProjectileID.TerraBeam); //Terra Blade
+            Main.instance.LoadProjectile(ProjectileID.TitaniumStormShard); //Titanium Storm
             Main.instance.LoadProjectile(ProjectileID.BoneGloveProj); //Crossbone
         }
 
@@ -1197,8 +1287,14 @@ namespace AwfulGarbageMod.Global
             TitaniumTank = false;
             TitaniumOffense = false;
             TitaniumVariety = false;
+            RangedInflictBleed = false;
+            EquilibriumMinionBonus = false;
+            EquilibriumSentryBonus = false;
+            NoMiniboss = false;
+            CelestialCurse = false;
+            PercentArmorIgnore = 1;
+            PercentArmorIgnoreSummon = 1;
         }
-
         public NPC FindClosestNPC(float maxDetectDistance)
         {
             NPC closestNPC = null;

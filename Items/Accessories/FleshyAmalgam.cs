@@ -34,7 +34,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.GetDamage(DamageClass.Generic) -= 0.07f;
+			player.GetDamage(DamageClass.Generic) -= 0.12f;
             player.GetModPlayer<GlobalPlayer>().FleshyAmalgam = true;
         }
     }

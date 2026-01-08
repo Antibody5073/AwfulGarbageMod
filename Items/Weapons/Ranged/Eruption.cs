@@ -4,6 +4,7 @@ using Mono.Cecil;
 using System;
 using System.Diagnostics.Metrics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,8 +34,11 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Item.knockBack = 5f;
             Item.value = 5000;
             Item.rare = 3;
-            Item.UseSound = SoundID.Item36;
-            Item.autoReuse = true;
+
+            Item.UseSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/SmallShot5")
+            {
+                Volume = 0.4f
+            }; Item.autoReuse = true;
             Item.shoot = 1;
             Item.useAmmo = AmmoID.Bullet;
             Item.shootSpeed = 5.5f;
@@ -66,7 +70,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset()
         {
-            Vector2 offset = new Vector2(8, 0);
+            Vector2 offset = new Vector2(-4, 0);
             return offset;
         }
         public override void AddRecipes()

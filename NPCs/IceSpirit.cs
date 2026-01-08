@@ -1,5 +1,6 @@
 using AwfulGarbageMod;
 using AwfulGarbageMod.BossBars;
+using AwfulGarbageMod.Global;
 using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.Items.Consumables; 
@@ -122,6 +123,10 @@ namespace AwfulGarbageMod.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            if (spawnInfo.Player.GetModPlayer<GlobalPlayer>().NoMiniboss)
+            {
+                return 0;
+            }
             if (spawnInfo.Player.ZoneSnow && spawnInfo.Player.ZoneRockLayerHeight)
             {
                 return 0.03f;

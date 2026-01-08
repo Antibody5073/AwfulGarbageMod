@@ -48,7 +48,7 @@ namespace AwfulGarbageMod.Buffs
                 {
                     npc.lifeRegen = 0;
                 }
-                npc.lifeRegen -= 30 * 2;
+                npc.lifeRegen -= 15 * 2;
                 if (damage < 5)
                 {
                     damage = 5;

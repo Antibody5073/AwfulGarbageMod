@@ -242,7 +242,10 @@ namespace AwfulGarbageMod.Projectiles
             Projectile.tileCollide = false;
             Projectile.alpha = 160;
         }
-
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+            target.endurance *= 0.75f;
+        }
         public override void OnSpawn(IEntitySource source)
         {
             origin = Projectile.position;

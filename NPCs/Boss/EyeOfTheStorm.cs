@@ -6,6 +6,7 @@ using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.Items.Consumables; 
 using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Placeable.Furniture;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Melee;
 using AwfulGarbageMod.Items.Weapons.Ranged;
@@ -219,6 +220,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
 
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<StormEssence>(), 1, 6, 9));
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<StormAnvil>()));
 
             notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 2, ModContent.ItemType<SkysBane>(), ModContent.ItemType<StormSpell>(), ModContent.ItemType<Thundercrack>(), ModContent.ItemType<LightningBurst>(), ModContent.ItemType<StormForecast>(), ModContent.ItemType<TheEyeOfTheStorm>()));
 

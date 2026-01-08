@@ -34,7 +34,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Summon) += 5 / 100f;
+            player.GetModPlayer<GlobalPlayer>().PercentArmorIgnoreSummon *= 0.8f;
             player.moveSpeed += 0.05f;
         }
 

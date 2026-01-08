@@ -24,7 +24,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void ScepterEffects(Player player)
         {
-            player.GetKnockback(DamageClass.Generic) += 0.05f;
+            player.GetKnockback(DamageClass.Generic) += 0.1f;
         }
     }
 
@@ -111,7 +111,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitDistance => 65;
         public override float OrbitSpd => 1.2f;
         public override float OffsetDir => 0;
-        public override int ProjType => ProjectileID.SnowBallFriendly;
+        public override int ProjType => ModContent.ProjectileType<SnowScepterProj>();
+        public override int AssociatedBuff => ModContent.BuffType<SnowScepterBuff>();
 
         public override void SetDefaults()
         {
@@ -131,80 +132,79 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             ReleaseProjectiles((mousePos - Projectile.Center).ToRotation(), ProjSpd, ProjType);
 
         }
-
-        public class SnowScepterProj : ModProjectile
+    }
+    public class SnowScepterProj : ModProjectile
+    {
+        public override void SetStaticDefaults()
         {
-            public override void SetStaticDefaults()
-            {
-                // DisplayName.SetDefault("Snowball"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            }
+            // DisplayName.SetDefault("Snowball"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+        }
 
-            public override void SetDefaults()
-            {
-                Projectile.DamageType = DamageClass.Magic;
-                Projectile.width = 16;
-                Projectile.height = 16;
-                Projectile.aiStyle = -1;
-                Projectile.friendly = true;
-                Projectile.penetrate = 1;
-                Projectile.timeLeft = 600;
-                Projectile.ignoreWater = true;
-                Projectile.tileCollide = true;
-                Projectile.usesLocalNPCImmunity = true;
-                Projectile.localNPCHitCooldown = 12;
-            }
+        public override void SetDefaults()
+        {
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
+        }
 
 
-            public override bool PreDraw(ref Color lightColor)
-            {
-                // SpriteEffects helps to flip texture horizontally and vertically
-                SpriteEffects spriteEffects = SpriteEffects.None;
+        public override bool PreDraw(ref Color lightColor)
+        {
+            // SpriteEffects helps to flip texture horizontally and vertically
+            SpriteEffects spriteEffects = SpriteEffects.None;
 
-                // Getting texture of projectile
-                Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture);
+            // Getting texture of projectile
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture);
 
-                // Calculating frameHeight and current Y pos dependence of frame
-                // If texture without animation frameHeight is always texture.Height and startY is always 0
-                int frameHeight = texture.Height / Main.projFrames[Projectile.type];
-                int startY = frameHeight * Projectile.frame;
+            // Calculating frameHeight and current Y pos dependence of frame
+            // If texture without animation frameHeight is always texture.Height and startY is always 0
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int startY = frameHeight * Projectile.frame;
 
-                // Get this frame on texture
-                Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+            // Get this frame on texture
+            Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
 
-                // Alternatively, you can skip defining frameHeight and startY and use this:
-                // Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
+            // Alternatively, you can skip defining frameHeight and startY and use this:
+            // Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
 
-                Vector2 origin = sourceRectangle.Size() / 2f;
+            Vector2 origin = sourceRectangle.Size() / 2f;
 
-                // If image isn't centered or symmetrical you can specify origin of the sprite
-                // (0,0) for the upper-left corner
-                /*
-                float offsetX = 0;
-                origin.X = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Width - offsetX : offsetX);
+            // If image isn't centered or symmetrical you can specify origin of the sprite
+            // (0,0) for the upper-left corner
+            /*
+            float offsetX = 0;
+            origin.X = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Width - offsetX : offsetX);
 
-                float offsetY = 0;
-                origin.Y = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Height - offsetY : offsetY);
-                */
+            float offsetY = 0;
+            origin.Y = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Height - offsetY : offsetY);
+            */
 
-                // Applying lighting and draw current frame
-                Color drawColor = Projectile.GetAlpha(lightColor);
-                Main.EntitySpriteDraw(texture,
-                    Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
-                    sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+            // Applying lighting and draw current frame
+            Color drawColor = Projectile.GetAlpha(lightColor);
+            Main.EntitySpriteDraw(texture,
+                Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
+                sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
 
-                // It's important to return false, otherwise we also draw the original texture.
-                return false;
-            }
+            // It's important to return false, otherwise we also draw the original texture.
+            return false;
+        }
 
-            public override void AI()
-            {
-                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+        public override void AI()
+        {
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
 
-                int dust = Dust.NewDust(Projectile.Center - new Vector2(Projectile.width / 4, 0), 1, 1, DustID.Snow, 0f, 0f, 0, default(Color), 1f);
-                Main.dust[dust].scale = 1.25f;
-                Main.dust[dust].noGravity = true;
-                Projectile.velocity.Y += 0.05f;
-            }
+            int dust = Dust.NewDust(Projectile.Center - new Vector2(Projectile.width / 4, 0), 1, 1, DustID.Snow, 0f, 0f, 0, default(Color), 1f);
+            Main.dust[dust].scale = 1.25f;
+            Main.dust[dust].noGravity = true;
+            Projectile.velocity.Y += 0.05f;
         }
     }
 }

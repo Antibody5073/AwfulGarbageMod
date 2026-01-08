@@ -53,14 +53,13 @@ namespace AwfulGarbageMod.NPCs.Boss
 		// These are for our benefit and the numbers could easily be used directly in the code below, but this is how we keep code organized.
 		private enum Frame
 		{
-			Right2,
-            Right1,
-            Idle1,
-            Left1,
+			Left3,
             Left2,
-            Idle2,
-            Idle3,
-            Idle4
+            Left1,
+            Idle,
+            Right1,
+            Right2,
+            Right3
 		}
 
 		// These are reference properties. One, for example, lets us write AI_State as if it's NPC.ai[0], essentially giving the index zero our own name.
@@ -101,7 +100,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         public override void SetStaticDefaults() {
 			// DisplayName.SetDefault("Flutter Slime"); // Automatic from localization files
-			Main.npcFrameCount[NPC.type] = 8; // make sure to set this for your modnpcs.
+			Main.npcFrameCount[NPC.type] = 7; // make sure to set this for your modnpcs.
 
             NPCID.Sets.MPAllowedEnemies[Type] = true;
             NPCID.Sets.NoMultiplayerSmoothingByType[Type] = true;
@@ -151,13 +150,16 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
-			NPC.lifeMax = 8500;
-            if (Main.masterMode)
+            if (!Main.GameModeInfo.IsJourneyMode)
             {
-                NPC.lifeMax = 10000; // Increase by 5 if expert or master mode
-                if (Main.getGoodWorld || Main.zenithWorld)
+                NPC.lifeMax = 8500;
+                if (Main.masterMode)
                 {
-                    NPC.lifeMax = 13000;
+                    NPC.lifeMax = 10000; // Increase by 5 if expert or master mode
+                    if (Main.getGoodWorld || Main.zenithWorld)
+                    {
+                        NPC.lifeMax = 13000;
+                    }
                 }
             }
         }
@@ -331,13 +333,25 @@ namespace AwfulGarbageMod.NPCs.Boss
             // This makes the sprite flip horizontally in conjunction with the npc.direction.
             NPC.spriteDirection = 0;
 
-            if (NPC.velocity.X > 3)
+            if (NPC.velocity.X > 4.5)
+            {
+                NPC.frame.Y = (int)Frame.Right3 * frameHeight;
+                idleAnim = 0;
+                animCounter = -30;
+            }
+            else if (NPC.velocity.X < -4.5)
+            {
+                NPC.frame.Y = (int)Frame.Left3 * frameHeight;
+                idleAnim = 0;
+                animCounter = -30;
+            }
+            else if (NPC.velocity.X > 2)
             {
                 NPC.frame.Y = (int)Frame.Right2 * frameHeight;
                 idleAnim = 0;
                 animCounter = -30;
             }
-            else if (NPC.velocity.X < -3)
+            else if (NPC.velocity.X < -2)
             {
                 NPC.frame.Y = (int)Frame.Left2 * frameHeight;
                 idleAnim = 0;
@@ -358,7 +372,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             else
             {
                 animCounter++;
-                if (animCounter >= 15)
+                if (animCounter >= 45)
                 {
                     animCounter = 0;
                     idleAnim++;
@@ -366,23 +380,23 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                 if (animCounter < 0)
                 {
-                    NPC.frame.Y = (int)Frame.Idle1 * frameHeight;
+                    NPC.frame.Y = (int)Frame.Idle * frameHeight;
                 }
                 else
                 {
                     switch (idleAnim % 4)
                     {
                         case 0:
-                            NPC.frame.Y = (int)Frame.Idle2 * frameHeight;
+                            NPC.frame.Y = (int)Frame.Idle * frameHeight;
                             break;
                         case 1:
-                            NPC.frame.Y = (int)Frame.Idle3 * frameHeight;
+                            NPC.frame.Y = (int)Frame.Right1 * frameHeight;
                             break;
                         case 2:
-                            NPC.frame.Y = (int)Frame.Idle4 * frameHeight;
+                            NPC.frame.Y = (int)Frame.Idle * frameHeight;
                             break;
                         case 3:
-                            NPC.frame.Y = (int)Frame.Idle3 * frameHeight;
+                            NPC.frame.Y = (int)Frame.Left1 * frameHeight;
                             break;
                     }
                 }

@@ -5,6 +5,7 @@ using Mono.Cecil;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -67,7 +68,7 @@ namespace AwfulGarbageMod.Items.Ammo
             Projectile.height = 8;
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 1;
             Projectile.timeLeft = 420;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
@@ -84,6 +85,7 @@ namespace AwfulGarbageMod.Items.Ammo
         }
         public override void OnKill(int timeLeft)
         {
+            SoundEngine.PlaySound(SoundID.Item50, Projectile.Center);
             for (var i = 0; i < 6; i++)
             {
                 float xv = Main.rand.NextFloat(-3, 3);
@@ -139,7 +141,7 @@ namespace AwfulGarbageMod.Items.Ammo
             temp--;
             if (temp == 0)
             {
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, Projectile.velocity * 0.8f, Mod.Find<ModProjectile>("FrigidArrowProj2").Type, (int)(Projectile.damage * 0.4f), Projectile.knockBack / 3, Projectile.owner, 0);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, Projectile.velocity * 0.8f, Mod.Find<ModProjectile>("FrigidArrowProj2").Type, (int)(Projectile.damage * 0.35f), Projectile.knockBack / 3, Projectile.owner, 0);
             }
             if (Main.rand.NextBool(2))
             {

@@ -1,24 +1,25 @@
+using AwfulGarbageMod;
 using AwfulGarbageMod.Buffs;
+using AwfulGarbageMod.Configs;
+using AwfulGarbageMod.DamageClasses;
 using AwfulGarbageMod.Items;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Mono.Cecil;
 using System;
+using System.Collections.Generic;
 using System.Drawing.Printing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
+using Terraria.Chat;
+using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using AwfulGarbageMod;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Chat;
-using Terraria.DataStructures;
-using AwfulGarbageMod.Configs;
-using AwfulGarbageMod.DamageClasses;
-using Mono.Cecil;
-using Microsoft.Xna.Framework.Input;
 
 namespace AwfulGarbageMod.Global
 {
@@ -70,6 +71,14 @@ namespace AwfulGarbageMod.Global
         {
             hasSigil = false;
             sigilCooldown -= 1;
+        }
+
+        public override void PostUpdate()
+        {
+            if (sigilCooldown == 0)
+            {
+                SoundEngine.PlaySound(SoundID.MaxMana);
+            }
         }
     }
 }

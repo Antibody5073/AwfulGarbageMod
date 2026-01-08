@@ -27,8 +27,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void ScepterEffects(Player player)
         {
-            player.GetCritChance(DamageClass.Generic) += 3f;
-            player.moveSpeed += 0.1f;
+            player.GetCritChance(DamageClass.Generic) += 4f;
+            player.moveSpeed += 0.15f;
             player.aggro -= 50;
         }
     }
@@ -119,6 +119,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitSpd => 0.7f;
         public override float OffsetDir => 0;
         public override int ProjType => ModContent.ProjectileType<VileScepterProj>();
+        public override int AssociatedBuff => ModContent.BuffType<VileScepterBuff>();
 
         public override void SetDefaults()
         {

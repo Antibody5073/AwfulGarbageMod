@@ -40,7 +40,8 @@ namespace ShatteredRealm.Content.Prefixes.Shield
         // Use this to control if a prefix can be rolled or not.
         public override bool CanRoll(Item item)
         {
-            return DownedBossSystem.downedFireMoth;
+            return DownedBossSystem.downedFireMoth || item.prefix == ModContent.PrefixType<PrefixArdent>();
+            ;
         }
 
         public override void ApplyAccessoryEffects(Player player)

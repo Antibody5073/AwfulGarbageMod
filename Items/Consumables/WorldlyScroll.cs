@@ -1,17 +1,18 @@
 ﻿using AwfulGarbageMod;
+using AwfulGarbageMod.Configs;
+using AwfulGarbageMod.Items.Weapons.Ranged;
+using AwfulGarbageMod.NPCs.Boss;
+using AwfulGarbageMod.Systems;
+using AwfulGarbageMod.Tiles.OresBars;
+using Microsoft.Xna.Framework;
+using SubworldLibrary;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
+using Terraria.IO;
+using Terraria.Map;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using Terraria.Audio;
-using AwfulGarbageMod.NPCs.Boss;
-using AwfulGarbageMod.Items.Weapons.Ranged;
-using AwfulGarbageMod.Systems;
-using Microsoft.Xna.Framework;
-using Terraria.Map;
-using Terraria.IO;
-using AwfulGarbageMod.Tiles.OresBars;
-using AwfulGarbageMod.Configs;
 
 namespace AwfulGarbageMod.Items.Consumables
 {
@@ -40,7 +41,7 @@ namespace AwfulGarbageMod.Items.Consumables
 
         public override bool? UseItem(Player player)
         {
-            if (Main.netMode == NetmodeID.SinglePlayer) 
+            if (Main.netMode == NetmodeID.SinglePlayer && !SubworldSystem.AnyActive()) 
             {
                 if (player.altFunctionUse == 2)
                 {
@@ -97,7 +98,7 @@ namespace AwfulGarbageMod.Items.Consumables
                     }
                     if (Main.hardMode && !Structures.HardmodeStructures)
                     {
-                        Structures.GenerateHardmodeStructures(Mod);
+                        //Structures.GenerateHardmodeStructures(Mod);
                     }
                 }
         }

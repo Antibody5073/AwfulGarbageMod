@@ -1,5 +1,20 @@
+using AwfulGarbageMod;
+using AwfulGarbageMod.BossBars;
+using AwfulGarbageMod.Items;
+using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Consumables; 
+using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Melee;
+using AwfulGarbageMod.Items.Weapons.Ranged;
+using AwfulGarbageMod.Items.Weapons.Summon;
+using AwfulGarbageMod.Projectiles;
+using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
+using Mono.Cecil;
 using System;
+using System.Runtime.InteropServices;
+using System.Threading;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -8,19 +23,6 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.PlayerDrawLayer;
-using AwfulGarbageMod;
-using AwfulGarbageMod.Projectiles;
-using AwfulGarbageMod.BossBars;
-using AwfulGarbageMod.Systems;
-using System.Runtime.InteropServices;
-using AwfulGarbageMod.Items.Weapons.Melee;
-using AwfulGarbageMod.Items.Weapons.Ranged;
-using AwfulGarbageMod.Items.Weapons.Magic;
-using AwfulGarbageMod.Items.Weapons.Summon;
-using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
-using AwfulGarbageMod.Items;
-using Mono.Cecil;
 
 namespace AwfulGarbageMod.NPCs
 {
@@ -37,6 +39,7 @@ namespace AwfulGarbageMod.NPCs
 
         int frameCounter = 0;
         int frame = 0;
+        int tick = 0;
 
         public override void SetDefaults()
         {
@@ -46,7 +49,7 @@ namespace AwfulGarbageMod.NPCs
             NPC.damage = 12; // The amount of damage that NPC npc deals
             NPC.defense = 4; // The amount of defense that NPC npc has
             NPC.lifeMax = 25; // The amount of health that NPC npc has
-            NPC.HitSound = SoundID.NPCHit5; // The sound the NPC will make when being hit.
+            NPC.HitSound = SoundID.NPCHit1; // The sound the NPC will make when being hit.
             NPC.DeathSound = SoundID.NPCDeath4; // The sound the NPC will make when it dies.
             NPC.value = 100f; // How many copper coins the NPC will drop when killed.
             NPC.noTileCollide = false;
@@ -69,7 +72,7 @@ namespace AwfulGarbageMod.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.ZoneForest && !spawnInfo.Invasion)
+            if (spawnInfo.Player.ZoneForest && !spawnInfo.Invasion && !spawnInfo.PlayerInTown && DownedBossSystem.downedTreeToad && !spawnInfo.Player.ZoneSkyHeight)
             {
                 return 0.17f;
             }
@@ -77,7 +80,8 @@ namespace AwfulGarbageMod.NPCs
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<EnchantedLeaf>(), 3, 2, 3));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<EnchantedLeaf>(), 3, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ItemID.GrassSeeds, 5, 2, 3));
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotRemixSeed(), ItemID.ChainKnife, 100));
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.RemixSeed(), ItemID.KOCannon, 100));
         }
@@ -85,10 +89,27 @@ namespace AwfulGarbageMod.NPCs
         {
             NPC.TargetClosest();
         }
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if (Main.netMode != NetmodeID.Server && NPC.life <= 0)
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(3, 3) + new Vector2(0, -6), GoreID.TreeLeaf_VanityTreeYellowWillow);
+                }
+            }
+        }
 
         public override bool PreAI()
         {
-            if (NPC.life != NPC.lifeMax && DifficultyModes.Difficulty > 0)
+            tick++;
+            {
+                if (tick == 30)
+                {
+                    NPC.dontTakeDamage = false;
+                }
+            }
+            if (NPC.life != NPC.lifeMax && DifficultyModes.Difficulty == 1)
             {
                 NPC.ai[1] += 1f;
 
@@ -118,6 +139,48 @@ namespace AwfulGarbageMod.NPCs
                 }
 
                 if (NPC.ai[1] >= 360)
+                {
+                    return false;
+                }
+            }
+            if ((NPC.life != NPC.lifeMax || NPC.ai[3] == 1) && DifficultyModes.Difficulty == 2)
+            {
+                NPC.ai[1] += 1f;
+
+                if (NPC.ai[1] == 90)
+                {
+                    oldVel = NPC.velocity;
+                    NPC.velocity = Vector2.Zero;
+                    for (int i = 0; i < 15; i++)
+                    {
+                        int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GreenFairy, 0f, 0f, 0, default(Color), 1f);
+                        Main.dust[dust].scale = Main.rand.NextFloat(1f, 1.5f);
+                        Main.dust[dust].velocity = Main.rand.NextVector2Circular(8, 8);
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
+                if (NPC.ai[1] == 105)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 12f + Main.rand.NextVector2Circular(1f, 1f), ModContent.ProjectileType<Projectiles.ForestBeam>(), 6, 0);
+                        }
+                        if (NPC.ai[3] == 1)
+                        {
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(20)) * 12f, ModContent.ProjectileType<Projectiles.ForestBeam>(), 6, 0);
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(-20)) * 12f, ModContent.ProjectileType<Projectiles.ForestBeam>(), 6, 0);
+                        }
+                    }
+                }
+                if (NPC.ai[1] == 105)
+                {
+                    NPC.ai[1] = 0;
+                    NPC.velocity = oldVel;
+                }
+
+                if (NPC.ai[1] >= 90)
                 {
                     return false;
                 }

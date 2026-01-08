@@ -38,6 +38,7 @@ namespace AwfulGarbageMod.Items.Accessories
 			player.statDefense += 1;
 			player.GetDamage(DamageClass.Generic) += 0.05f;
             player.GetModPlayer<GlobalPlayer>().EvilWardingCharm = true;
+            player.GetModPlayer<GlobalPlayer>().NoMiniboss = true;
 			player.aggro -= 400;
         }
     }

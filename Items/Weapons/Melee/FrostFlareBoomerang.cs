@@ -25,10 +25,10 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 60;
 			Item.height = 60;
-			Item.useTime = 30;
+			Item.useTime = 40;
 			Item.noMelee = true;
 			Item.scale = 0f;
-			Item.useAnimation = 30;
+			Item.useAnimation = 40;
 			Item.useStyle = 1;
 			Item.knockBack = 4.5f;
 			Item.value = 10000;

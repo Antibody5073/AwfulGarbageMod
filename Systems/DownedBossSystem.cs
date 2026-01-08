@@ -20,10 +20,14 @@ namespace AwfulGarbageMod.Systems
         public static bool downedFrigidius = false;
         public static bool downedTsugumi = false;
         public static bool downedFireMoth = false;
+        public static bool downedEvilTree = false;
         public static bool downedAwfulGarbage = false;
 
         public static bool downedEvilFlowerMiniboss = false;
+        public static bool downedStarFighter = false;
+        public static bool downedCursedChandelier = false;
 
+        public static int numCosmicObserver = 0;
 
         // public static bool downedOtherBoss = false;
 
@@ -35,8 +39,12 @@ namespace AwfulGarbageMod.Systems
             downedFrigidius = false;
             downedTsugumi = false;
             downedFireMoth = false;
+            downedEvilTree = false;
             downedAwfulGarbage = false;
             downedEvilFlowerMiniboss = false;
+            downedStarFighter = false;
+            downedCursedChandelier = false;
+            numCosmicObserver = 0;
             // downedOtherBoss = false;
         }
 
@@ -48,8 +56,12 @@ namespace AwfulGarbageMod.Systems
             downedFrigidius = false;
             downedTsugumi = false;
             downedFireMoth = false;
+            downedEvilTree = false;
             downedAwfulGarbage = false;
             downedEvilFlowerMiniboss= false;
+            downedStarFighter = false;
+            downedCursedChandelier = false;
+            numCosmicObserver = 0;
             // downedOtherBoss = false;
         }
 
@@ -81,6 +93,10 @@ namespace AwfulGarbageMod.Systems
             {
                 tag["downedFireMoth"] = true;
             }
+            if (downedEvilTree)
+            {
+                tag["downedEvilTree"] = true;
+            }
             if (downedAwfulGarbage)
             {
                 tag["downedAwfulGarbage"] = true;
@@ -88,6 +104,14 @@ namespace AwfulGarbageMod.Systems
             if (downedEvilFlowerMiniboss)
             {
                 tag["downedEvilFlowerMiniboss"] = true;
+            }
+            if (downedStarFighter)
+            {
+                tag["downedStarFighter"] = true;
+            }
+            if (downedCursedChandelier)
+            {
+                tag["downedCursedChandelier"] = true;
             }
             // if (downedOtherBoss) {
             //	tag["downedOtherBoss"] = true;
@@ -102,8 +126,11 @@ namespace AwfulGarbageMod.Systems
             downedFrigidius = tag.ContainsKey("downedFrigidius");
             downedTsugumi = tag.ContainsKey("downedTsugumi");
             downedFireMoth = tag.ContainsKey("downedFireMoth");
+            downedEvilTree = tag.ContainsKey("downedEvilTree");
             downedAwfulGarbage = tag.ContainsKey("downedAwfulGarbage");
             downedEvilFlowerMiniboss = tag.ContainsKey("downedEvilFlowerMiniboss");
+            downedStarFighter = tag.ContainsKey("downedStarFighter");
+            downedCursedChandelier = tag.ContainsKey("downedEvilFlowerMiniboss");
 
             // downedOtherBoss = tag.ContainsKey("downedOtherBoss");
         }
@@ -122,7 +149,11 @@ namespace AwfulGarbageMod.Systems
             flags[7] = downedEvilFlowerMiniboss;
             // flags[4] = downedOtherBoss;
             writer.Write(flags);
-
+            var flags2 = new BitsByte();
+            flags2[0] = downedCursedChandelier;
+            flags2[1] = downedStarFighter;
+            flags2[2] = downedEvilTree;
+            writer.Write(flags2);
             /*
 			Remember that Bytes/BitsByte only have up to 8 entries. If you have more than 8 flags you want to sync, use multiple BitsByte:
 				This is wrong:
@@ -179,6 +210,11 @@ namespace AwfulGarbageMod.Systems
             downedFireMoth = flags[5];
             downedAwfulGarbage = flags[6];
             downedEvilFlowerMiniboss = flags[7];
+
+            BitsByte flags2 = reader.ReadByte();
+            downedCursedChandelier = flags2[0];
+            downedStarFighter = flags2[1];
+            downedEvilTree = flags2[2];
 
             // downedOtherBoss = flags[1];
 

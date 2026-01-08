@@ -61,8 +61,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Item.mana = 0;
 			Item.width = 42;
 			Item.height = 46;
-			Item.useTime = 30;
-			Item.useAnimation = 30;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
 			Item.useStyle = 1;
 			Item.knockBack = 7f;
 			Item.value = 50000;
@@ -110,6 +110,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitSpd => -1f;
         public override float OffsetDir => 0;
         public override int ProjType => ProjectileID.Bee;
+        public override int AssociatedBuff => ModContent.BuffType<SwarmScepterBuff>();
 
         public override void SetDefaults()
         {

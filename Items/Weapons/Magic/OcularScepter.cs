@@ -58,8 +58,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Item.mana = 5;
 			Item.width = 42;
 			Item.height = 46;
-			Item.useTime = 30;
-			Item.useAnimation = 30;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
 			Item.useStyle = 1;
 			Item.knockBack = 0.1f;
 			Item.value = 10000;
@@ -73,7 +73,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Item.buffType = ModContent.BuffType<OcularScepterBuff>();
 
             Item.scepterItem().scepter = true;
-            Item.scepterItem().MaxScepterProjectiles = 8;
+            Item.scepterItem().MaxScepterProjectiles = 10;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -122,6 +122,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitSpd => 1f;
         public override float OffsetDir => 0;
         public override int ProjType => ModContent.ProjectileType<OcularScepterProj>();
+        public override int AssociatedBuff => ModContent.BuffType<OcularScepterBuff>();
+
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Magic;

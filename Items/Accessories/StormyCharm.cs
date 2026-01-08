@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using AwfulGarbageMod;
 using AwfulGarbageMod.Global;
+using AwfulGarbageMod.Tiles.Furniture;
 
 namespace AwfulGarbageMod.Items.Accessories
 {
@@ -34,7 +35,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Generic) -= 16 / 100f;
+            player.GetDamage(DamageClass.Generic) -= 20 / 100f;
             player.maxMinions += 1;
             player.maxTurrets += 1;
             player.moveSpeed += 0.08f;
@@ -48,7 +49,7 @@ namespace AwfulGarbageMod.Items.Accessories
                 .AddIngredient<EvilCharm>()
                 .AddIngredient<StormEssence>(6)
                 .AddIngredient(ItemID.RainCloud)
-                .AddTile(TileID.Anvils)
+                .AddTile<StormAnvil>()
                 .Register();
         }
 	}

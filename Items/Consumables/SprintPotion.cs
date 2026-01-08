@@ -30,12 +30,13 @@ namespace AwfulGarbageMod.Items.Consumables
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<SoulOfIghtImaHeadOut>(), 1);
-            recipe.AddIngredient(ItemID.Moonglow);
-            recipe.AddTile(TileID.Bottles);
-            recipe.Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.BottledWater)
+                .AddIngredient(ItemID.Moonglow)
+                .AddIngredient<SoulOfIghtImaHeadOut>()
+                .AddIngredient<Frosshroom>()
+                .AddTile(TileID.Bottles) // Making this recipe be crafted at bottles will automatically make Alchemy Table's effect apply to its ingredients.
+                .Register();
         }
     }
 }

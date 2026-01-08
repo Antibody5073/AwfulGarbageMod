@@ -91,13 +91,6 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 .AddIngredient<NaturalSpell>()
                 .AddTile(TileID.DemonAltar)
                 .Register();
-            CreateRecipe()
-                .AddIngredient<ToothpickTome>()
-                .AddIngredient<ScaleShardStorm>()
-                .AddIngredient<BloodVolley>()
-                .AddIngredient<NaturalSpell>()
-                .AddTile(TileID.DemonAltar)
-                .Register();
         }
     }
 

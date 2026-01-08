@@ -40,7 +40,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
             player.GetAttackSpeed(DamageClass.Melee) += 0.08f;
             player.GetDamage(DamageClass.Melee) += 0.08f;
-            if (player.GetModPlayer<GlobalPlayer>().FortifyingLink < 12) { player.GetModPlayer<GlobalPlayer>().FortifyingLink = 8; }
+            if (player.GetModPlayer<GlobalPlayer>().FortifyingLink < 8) { player.GetModPlayer<GlobalPlayer>().FortifyingLink = 8; }
         }
         public override void AddRecipes()
         {
@@ -48,7 +48,7 @@ namespace AwfulGarbageMod.Items.Accessories
                 .AddIngredient<DemonClaw>()
                 .AddIngredient<DesertGauntlet>()
                 .AddIngredient<ThornyShackle>()
-                .AddIngredient<FrigidiumBar>(5)
+                .AddIngredient(ItemID.BeeWax, 10)
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
         }

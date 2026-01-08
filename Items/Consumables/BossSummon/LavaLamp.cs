@@ -37,12 +37,12 @@ namespace AwfulGarbageMod.Items.Consumables.BossSummon
         public override bool CanUseItem(Player player)
         {
             // "player.ZoneUnderworldHeight" could also be written as "player.position.Y / 16f > Main.maxTilesY - 200"
-            return !NPC.AnyNPCs(NPCType<Candescence>());
+            return !NPC.AnyNPCs(NPCType<Candescence>()) && player.ZoneUnderworldHeight;
         }
 
         public override bool? UseItem(Player player)
         {
-            //NPC.SpawnOnPlayer(player.whoAmI, NPCType<Candescence>());
+            NPC.SpawnOnPlayer(player.whoAmI, NPCType<Candescence>());
             SoundEngine.PlaySound(SoundID.Roar, player.position);
             return true;
         }

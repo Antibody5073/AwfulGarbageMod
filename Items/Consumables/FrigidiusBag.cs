@@ -47,6 +47,7 @@ namespace AwfulGarbageMod.Items.Consumables
             // We have to replicate the expert drops from MinionBossBody here
 
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<FrigidiumBar>(), 1, 2, 3));
+            itemLoot.Add(ItemDropRule.FewFromOptions(1, 3, ModContent.ItemType<FrigidFury>()));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlacialEye>()));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<FrigidiusHead>()));
         }

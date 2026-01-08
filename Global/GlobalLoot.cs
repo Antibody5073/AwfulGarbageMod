@@ -9,7 +9,6 @@ using static Terraria.ModLoader.ModContent;
 using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.Items.Weapons;
 using AwfulGarbageMod.Buffs;
-using AwfulGarbageMod.Items.Weapons.Melee;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Summon;
@@ -18,9 +17,13 @@ using AwfulGarbageMod.Items.Tools;
 using System.Linq;
 using Terraria.DataStructures;
 using AwfulGarbageMod.Configs;
-using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Systems;
 using AwfulGarbageMod.ItemDropRules;
+using AwfulGarbageMod.Items.Weapons.Ranged.Hardmode;
+using AwfulGarbageMod.Items.Weapons.Melee.Hardmode;
+using AwfulGarbageMod.Items.Accessories.Hardmode;
 
 namespace AwfulGarbageMod.Global;
 public class GlobalLoot : GlobalNPC
@@ -62,6 +65,22 @@ public class GlobalLoot : GlobalNPC
         if (npc.type == NPCID.CaveBat)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloodBolt>(), 60, 1, 1));
+        }
+        if (npc.type == NPCID.UndeadViking)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FrozenPetals>(), 60, 1, 1));
+        }
+        if (npc.type == NPCID.SnowFlinx)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BagOfFrozenKnives>(), 60, 1, 1));
+        }
+        if (npc.type == NPCID.ManEater)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BagOfPoisonedKnives>(), 60, 1, 1));
+        }
+        if (npc.type == NPCID.Skeleton || npc.type == NPCID.SkeletonAlien || npc.type == NPCID.SkeletonAstonaut || npc.type == NPCID.BoneThrowingSkeleton || npc.type == NPCID.BoneThrowingSkeleton2 || npc.type == NPCID.BoneThrowingSkeleton3|| npc.type == NPCID.BoneThrowingSkeleton4)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PetrifiedRose>(), 60, 1, 1));
         }
         if (npc.type == NPCID.Drippler || npc.type == NPCID.BloodZombie)
         {
@@ -110,6 +129,10 @@ public class GlobalLoot : GlobalNPC
         if (npc.type == NPCID.GoblinThief)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ThiefsKnife>(), 11, 1, 1));
+        }
+        if (npc.type == NPCID.GoblinArcher)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GoblinArcherTower>(), 11, 1, 1));
         }
         if (npc.type == NPCID.Mothron)
         {

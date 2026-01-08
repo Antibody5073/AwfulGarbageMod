@@ -56,7 +56,7 @@ namespace AwfulGarbageMod.NPCs
             Main.npcFrameCount[NPC.type] = 2; // make sure to set this for your modnpcs.
 
             // Specify the debuffs it is immune to
-            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Poisoned] = true;
 
         }
 
@@ -69,7 +69,7 @@ namespace AwfulGarbageMod.NPCs
             NPC.defense = 0; // The amount of defense that this npc has
             NPC.lifeMax = 107; // The amount of health that this npc has
             NPC.HitSound = SoundID.NPCHit1; // The sound the NPC will make when being hit.
-            NPC.DeathSound = SoundID.Item30; // The sound the NPC will make when it dies.
+            NPC.DeathSound = SoundID.NPCDeath1; // The sound the NPC will make when it dies.
             NPC.value = 1f; // How many copper coins the NPC will drop when killed.
             NPC.noTileCollide = false;
             NPC.knockBackResist = 0.5f;
@@ -116,6 +116,10 @@ namespace AwfulGarbageMod.NPCs
             if (spawnInfo.Player.townNPCs > 2f && !spawnInfo.Invasion && (Condition.DownedEyeOfCthulhu.IsMet() || Condition.DownedKingSlime.IsMet() || Condition.DownedEowOrBoc.IsMet() || DownedBossSystem.downedSeseKitsugai || DownedBossSystem.downedTreeToad) && !spawnInfo.Player.HasBuff<RecyclingBinBuff>())
             {
                 return 0.3f;
+            }
+            if (spawnInfo.Player.ZoneBeach)
+            {
+                return 0.1f;
             }
             return 0;
         }

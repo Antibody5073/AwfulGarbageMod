@@ -21,8 +21,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
 		public override void SetDefaults()
 		{
-			Item.damage = 22;
-			Item.mana = 10;
+			Item.damage = 31;
+			Item.mana = 12;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 42;
 			Item.height = 46;
@@ -54,8 +54,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.width = 4;
-            Projectile.height = 4;
+            Projectile.width = 12;
+            Projectile.height = 12;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.hostile = false;
@@ -75,7 +75,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             int dust = Dust.NewDust(Projectile.Center, 1, 1, DustID.Frost, 0f, 0f, 0, default(Color), 1f);
             Main.dust[dust].scale = 1.35f;
             Main.dust[dust].velocity *= 0f;
-            Main.dust[dust].noGravity = true;
+            Main.dust[dust].noGravity = true; 
+            Main.dust[dust].noLight = true;
 
             counter++;
             if (counter % 1 == 0)
@@ -85,25 +86,31 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 Main.dust[dust2].scale = 1f;
                 Main.dust[dust2].velocity *= 0f;
                 Main.dust[dust2].noGravity = true;
+                Main.dust[dust2].noLight = true;
                 int dust3 = Dust.NewDust(Projectile.Center + new Vector2(0, 15).RotatedBy(MathHelper.ToRadians(dir + 120)), 1, 1, DustID.Frost, 0f, 0f, 0, default(Color), 1f);
                 Main.dust[dust3].scale = 1f;
                 Main.dust[dust3].velocity *= 0f;
                 Main.dust[dust3].noGravity = true;
+                Main.dust[dust3].noLight = true;
                 int dust4 = Dust.NewDust(Projectile.Center + new Vector2(0, 15).RotatedBy(MathHelper.ToRadians(dir - 120)), 1, 1, DustID.Frost, 0f, 0f, 0, default(Color), 1f);
                 Main.dust[dust4].scale = 1f;
                 Main.dust[dust4].velocity *= 0f;
                 Main.dust[dust4].noGravity = true;
+                Main.dust[dust4].noLight = true;
                 int dust5 = Dust.NewDust(Projectile.Center + new Vector2(0, 15).RotatedBy(MathHelper.ToRadians(-dir)), 1, 1, DustID.Frost, 0f, 0f, 0, default(Color), 1f);
                 Main.dust[dust5].scale = 1f;
                 Main.dust[dust5].velocity *= 0f;
                 Main.dust[dust5].noGravity = true;
+                Main.dust[dust5].noLight = true;
                 int dust6 = Dust.NewDust(Projectile.Center + new Vector2(0, 15).RotatedBy(MathHelper.ToRadians(-dir + 120)), 1, 1, DustID.Frost, 0f, 0f, 0, default(Color), 1f);
                 Main.dust[dust6].scale = 1f;
                 Main.dust[dust6].velocity *= 0f;
                 Main.dust[dust6].noGravity = true;
+                Main.dust[dust6].noLight = true;
                 int dust7 = Dust.NewDust(Projectile.Center + new Vector2(0, 15).RotatedBy(MathHelper.ToRadians(-dir - 120)), 1, 1, DustID.Frost, 0f, 0f, 0, default(Color), 1f);
                 Main.dust[dust7].scale = 1f;
                 Main.dust[dust7].velocity *= 0f;
+                Main.dust[dust7].noLight = true;
                 Main.dust[dust7].noGravity = true;
             }
         }

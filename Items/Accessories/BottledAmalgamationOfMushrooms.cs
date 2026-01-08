@@ -52,12 +52,14 @@ namespace AwfulGarbageMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<MushroomFlask>());
             recipe.AddIngredient(ModContent.ItemType<GlowingMushroomFlask>()); 
             recipe.AddIngredient(ModContent.ItemType<VileMushroomFlask>());
+            recipe.AddIngredient(ModContent.ItemType<FrosshroomFlask>());
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.Register();
             Recipe recipe2 = CreateRecipe();
             recipe2.AddIngredient(ModContent.ItemType<MushroomFlask>());
             recipe2.AddIngredient(ModContent.ItemType<GlowingMushroomFlask>());
             recipe2.AddIngredient(ModContent.ItemType<ViciousMushroomFlask>());
+            recipe2.AddIngredient(ModContent.ItemType<FrosshroomFlask>());
             recipe2.AddTile(TileID.TinkerersWorkbench);
             recipe2.Register();
         }

@@ -49,7 +49,7 @@ namespace AwfulGarbageMod.Tiles.Furniture
 			frameCounter++;
 			if (frameCounter >= 6) {
 				frameCounter = 0;
-				if (++frame >= 8) {
+				if (++frame >= 5) {
 					frame = 0;
 				}
 			}

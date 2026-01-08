@@ -29,6 +29,12 @@ namespace AwfulGarbageMod.Projectiles
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
         }
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+            modifiers.ScalingArmorPenetration += 0.4f;
+            modifiers = modifiers with { Dodgeable = false };
+        }
+
 
         public override void AI()
         {
@@ -41,17 +47,22 @@ namespace AwfulGarbageMod.Projectiles
             {
                 Projectile.velocity.Y = Projectile.ai[1];
             }
-            Projectile.damage = 18;
+            Projectile.damage = 17;
             if (Main.expertMode)
             {
-                Projectile.damage = 17;
+                Projectile.damage = 16;
                 if (Main.masterMode)
                 {
-                    Projectile.damage = 16;
+                    Projectile.damage = 15;
                 }
             }
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.78f);
             Projectile.alpha = (int)(Projectile.alpha * 0.8);
+
+            if (Projectile.timeLeft < 210)
+            {
+                Projectile.velocity.Y += 0.05f;
+            }
 
             if (Projectile.timeLeft % 10 == 0)
             {

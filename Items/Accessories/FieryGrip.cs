@@ -35,7 +35,7 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<GlobalPlayer>().FieryGrip += 15;
-            player.GetModPlayer<GlobalPlayer>().flailExtendSpeed += 0.1f;
+            player.GetModPlayer<GlobalPlayer>().flailExtendSpeed += 0.15f;
 
         }
     }

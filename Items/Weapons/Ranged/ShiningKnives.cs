@@ -24,7 +24,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 10;
+            Item.damage = 12;
             Item.DamageType = ModContent.GetInstance<KnifeDamageClass>();
             Item.width = 60;
             Item.height = 60;
@@ -77,8 +77,8 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 1;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 15;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

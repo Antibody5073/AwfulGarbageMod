@@ -42,8 +42,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<LeafstormProj>(); // The flail projectile
             Item.shootSpeed = 12f; // The speed of the projectile measured in pixels per frame.
             Item.UseSound = SoundID.Item1; // The sound that this item makes when used
-            Item.rare = 8; // The color of the name of your item
-            Item.value = Item.sellPrice(gold: 10); // Sells for 1 gold 50 silver
+            Item.rare = 1; // The color of the name of your item
+            Item.value = Item.sellPrice(gold: 3); // Sells for 1 gold 50 silver
             Item.DamageType = ModContent.GetInstance<FlailDamageClass>();
             Item.channel = true;
             Item.noMelee = true; // This makes sure the item does not deal damage from the swinging animation
@@ -87,7 +87,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override int spinHitCooldown => 120;
         public override float RetractSpd => 0.2f;
         public override float MaxRetractSpd => 7f;
-        public override float flailHeadRotationRetract => 180;
+        public override float flailHeadRotationRetract => 90;
         public override float flailHeadRotation => 90;
 
 

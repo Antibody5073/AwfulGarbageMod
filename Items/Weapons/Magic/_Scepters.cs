@@ -33,8 +33,6 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             // Description.SetDefault("Orbiting slimeballs");
             Main.buffNoSave[Type] = true; // This buff won't save when you exit the world
             Main.buffNoTimeDisplay[Type] = true; // The time remaining won't display on this buff
-            Main.debuff[Type] = true;
-            BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
@@ -120,6 +118,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public virtual float OrbitDistance => 100;
         public virtual float OrbitSpd => 1;
         public virtual float OffsetDir => 0;
+        public virtual int AssociatedBuff => 0;
 
 
 
@@ -142,7 +141,11 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void OnKill(int timeLeft)
         {
-            ReleaseProjectiles(dir, ProjSpd, ProjType);
+            Player player = Main.player[Projectile.owner];
+
+            if (player.HasBuff(AssociatedBuff)) {
+                ReleaseProjectiles(dir, ProjSpd, ProjType);
+            } 
         }
 
         public virtual void ReleaseProjectiles(float direction, float spd, int type)
@@ -221,8 +224,10 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
             SetRotation(player, tempDir, OffsetDir);
 
-            Projectile.timeLeft += 1;
-
+            if (player.HasBuff(AssociatedBuff))
+            {
+                Projectile.timeLeft = 3;
+            }
             if (Main.myPlayer == Projectile.owner)
             {
                 Projectile.netUpdate = true;

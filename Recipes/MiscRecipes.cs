@@ -1,14 +1,31 @@
+using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Accessories.Hardmode;
+using AwfulGarbageMod.Items.Placeable.OresBars;
+using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Melee;
+using AwfulGarbageMod.Items.Weapons.Melee.Hardmode;
+using AwfulGarbageMod.Items.Weapons.Ranged;
+using AwfulGarbageMod.Items.Weapons.Summon;
+using AwfulGarbageMod.Items.Weapons.Summon.Hardmode;
+using AwfulGarbageMod.Tiles.Furniture;
+using Infernus.Items.Accesories;
+using Infernus.Items.Materials;
+using Infernus.Items.Weapon.HardMode.Accessories;
+using Infernus.Items.Weapon.HardMode.Ranged;
+using Infernus.Items.Weapon.HardMode.Summon;
+using Infernus.Items.Weapon.Magic;
+using Infernus.Items.Weapon.Melee;
+using Infernus.Items.Weapon.Ranged;
+using Infernus.Items.Weapon.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using AwfulGarbageMod.Configs;
-using AwfulGarbageMod.Tiles.Furniture;
 
 
-namespace ExampleMod.Content
+namespace AwfulGarbageMod.Recipes
 {
     // This class contains thoughtful examples of item recipe creation.
     // Recipes are explained in detail on the https://github.com/tModLoader/tModLoader/wiki/Basic-Recipes and https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes wiki pages. Please visit the wiki to learn more about recipes if anything is unclear.
@@ -32,9 +49,28 @@ namespace ExampleMod.Content
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
             Recipe.Create(ItemID.FlintlockPistol)
-                .AddIngredient<Flint>(18)
-                .AddRecipeGroup(RecipeGroupID.IronBar, 12)
+                .AddIngredient<Flint>(25)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 20)
+                .AddIngredient(ItemID.GoldBar, 10)
                 .AddTile(TileID.Anvils)
+                .Register();
+            Recipe.Create(ItemID.FlintlockPistol)
+                .AddIngredient<Flint>(25)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 20)
+                .AddIngredient(ItemID.PlatinumBar, 10)
+                .AddTile(TileID.Anvils)
+                .Register();
+            Recipe.Create(ItemID.CelestialMagnet)
+                .AddIngredient<Flint>(20)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 12)
+                .AddIngredient<CelestiteShard>(8)
+                .AddTile(TileID.Anvils)
+                .Register();
+            Recipe.Create(ItemID.Extractinator)
+                .AddIngredient<Flint>(15)
+                .AddIngredient<Garbage>(45)
+                .AddIngredient(ItemID.SiltBlock, 40)
+                .AddTile<TrashMelter>()
                 .Register();
             Recipe.Create(ItemID.IceSickle)
                 .AddIngredient<Cryogem>(25)
@@ -126,6 +162,134 @@ namespace ExampleMod.Content
                         recipe.DisableRecipe();
                     }
                 }
+                if (recipe.Mod == null && recipe.HasResult(ItemID.EndurancePotion) && recipe.createItem.stack == 1)
+                {
+                    recipe.AddIngredient<Frosshroom>();
+                }
+                if (recipe.Mod == null && recipe.HasResult(ItemID.MiningPotion) && recipe.createItem.stack == 1)
+                {
+                    recipe.AddIngredient<Frosshroom>();
+                }
+                if (ModLoader.TryGetMod("Infernus", out Mod infernus))
+                {
+                    DoInfernusRecipe(recipe);
+                }
+                if (recipe.HasResult(ItemID.LightningBoots) && recipe.createItem.stack == 1)
+                {
+                    recipe.AddIngredient<StormEssence>(5);
+                    recipe.AddTile<StormAnvil>();
+                }
+            }
+        }
+
+
+        [JITWhenModsEnabled("Infernus")]
+        public static void DoInfernusRecipe(Recipe recipe)
+        {
+            if (recipe.Mod == null) { return; }
+            if (recipe.HasResult<UndeadTyranny>())
+            {
+                recipe.AddIngredient<Cryo_Gauntlet>();
+            }
+            if (recipe.HasResult<DriedBlossom>())
+            {
+                recipe.AddIngredient<Ocean_Crest>();
+            }
+            if (recipe.HasResult<BipolarBouquet>())
+            {
+                recipe.AddIngredient<Undying_Ember>();
+                recipe.AddIngredient<Scroll>();
+            }
+            if (recipe.HasResult<Elemental_Lash>())
+            {
+                recipe.AddIngredient<BlazingTotem>();
+            }
+            if (recipe.HasResult<Blood_Quiver>())
+            {
+                recipe.AddIngredient<ThrushFeather>();
+                recipe.AddIngredient<PoisonPendant>();
+                recipe.AddIngredient<VeinJuice>(20);
+            }
+            if (recipe.HasResult<ShellOfVengefulSpirits>())
+            {
+                recipe.AddIngredient<Effigy_of_might>();
+            }
+            if (recipe.HasResult<Ice_Banner>())
+            {
+                recipe.AddIngredient<FrigidiumBar>(20);
+            }
+            if (recipe.HasResult<CryoCleaver>())
+            {
+                recipe.AddIngredient<Infernus.Items.Weapon.Melee.Ice>();
+            }
+            if (recipe.HasResult<Hellslash>())
+            {
+                recipe.AddIngredient<Infernus.Items.Weapon.Melee.Fire>();
+            }
+            if (recipe.HasResult<TidesTurn>())
+            {
+                recipe.AddIngredient<Infernus.Items.Weapon.Melee.Seashellsword>();
+            }
+            if (recipe.HasResult<Infernus.Items.Weapon.HardMode.Melee.bronzesword>())
+            {
+                recipe.AddIngredient<Items.Weapons.Melee.InfernalBlade>();
+            }
+            if (recipe.HasResult<Infernus.Items.Weapon.HardMode.Melee.Frisbe>())
+            {
+                recipe.AddIngredient<LeafyDisc>(2);
+            }
+            if (recipe.HasResult<Infernus.Items.Weapon.HardMode.Ranged.SoulBow>())
+            {
+                recipe.AddIngredient<LightningBurst>();
+            }
+            if (recipe.HasResult<Eruption>())
+            {
+                recipe.AddIngredient<Mini>();
+            }
+            if (recipe.HasResult<Bomb>())
+            {
+                recipe.AddIngredient<FrigidiumShotgun>();
+            }
+            if (recipe.HasResult<Buther>())
+            {
+                recipe.AddIngredient<FlintStaff>();
+            }
+            if (recipe.HasResult<Storm>())
+            {
+                recipe.AddIngredient<StormForecast>();
+            }
+            if (recipe.HasResult<TerraStaff>())
+            {
+                recipe.AddIngredient<VerdantStaff>();
+            }
+            if (recipe.HasResult<BlazingTotem>())
+            {
+                recipe.AddIngredient<Hot>(15);
+            }
+            if (recipe.HasResult<HeatTippedToothpickTome>())
+            {
+                recipe.AddIngredient<Hot>(20);
+            }
+            if (recipe.HasResult<IceElementalStaff>())
+            {
+                recipe.AddIngredient<BlizStaff>();
+            }
+            if (recipe.HasResult<Light>())
+            {
+                recipe.AddIngredient<SoulOfIghtImaHeadOut>(15);
+            }
+            if (recipe.HasResult<Hellion_Spite>())
+            {
+                recipe.AddIngredient<CandesciteBar>(17);
+            }
+            if (recipe.HasResult<Tree_Band>())
+            {
+                recipe.AddIngredient<EnchantedLeaf>(20);
+            }
+            if (recipe.HasResult<CHARD>())
+            {
+                recipe.AddIngredient<StormEssence>(7);
+                recipe.AddIngredient<SoulOfIghtImaHeadOut>(7);
             }
         }
     }

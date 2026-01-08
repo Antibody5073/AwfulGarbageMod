@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria.GameContent;
+using AwfulGarbageMod.Tiles.Furniture;
 
 namespace AwfulGarbageMod.Items.Weapons.Summon
 {
@@ -44,7 +45,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             recipe.AddIngredient(Mod.Find<ModItem>("CloudChain").Type);
             recipe.AddIngredient(Mod.Find<ModItem>("StormEssence").Type, 6);
             recipe.AddIngredient(ItemID.RainCloud, 24);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile<StormAnvil>();
             recipe.Register();
         }
     }

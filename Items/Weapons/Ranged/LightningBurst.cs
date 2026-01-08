@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using static Terraria.ModLoader.PlayerDrawLayer;
+using AwfulGarbageMod.Tiles.Furniture;
 
 namespace AwfulGarbageMod.Items.Weapons.Ranged
 {
@@ -62,7 +63,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             recipe.AddIngredient(Mod.Find<ModItem>("HeavenlyBurst").Type);
             recipe.AddIngredient(Mod.Find<ModItem>("StormEssence").Type, 6);
             recipe.AddIngredient(ItemID.RainCloud, 24);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile<StormAnvil>();
             recipe.Register();
         }
     }

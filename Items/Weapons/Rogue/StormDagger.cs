@@ -17,6 +17,7 @@ using Terraria.GameContent;
 using StramClasses.Classes.Rogue.Weapons;
 using Microsoft.CodeAnalysis;
 using Terraria.Audio;
+using AwfulGarbageMod.Tiles.Furniture;
 
 namespace AwfulGarbageMod.Items.Weapons.Rogue
 {
@@ -66,7 +67,7 @@ namespace AwfulGarbageMod.Items.Weapons.Rogue
                 .AddIngredient<SkyDagger>()
                 .AddIngredient<StormEssence>(6)
                 .AddIngredient(ItemID.RainCloud, 24)
-                .AddTile(TileID.Anvils)
+                .AddTile<StormAnvil>()
                 .Register();
         }
     }

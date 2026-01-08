@@ -92,7 +92,7 @@ namespace AwfulGarbageMod.Items.Consumables.BossSummon
         {
             CreateRecipe()
                 .AddIngredient<InsectOnAStick>()
-                .AddIngredient<UnrealEssence>(20)
+                .AddIngredient<UnrealEssence>(15)
                 .Register();
         }
     }

@@ -33,6 +33,7 @@ namespace AwfulGarbageMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.GetDamage(DamageClass.Magic) += 0.05f;
+            player.GetCritChance(DamageClass.Magic) += 5f;
             player.GetModPlayer<GlobalPlayer>().ScepterMaxStatMult *= 0.92f;
         }
 

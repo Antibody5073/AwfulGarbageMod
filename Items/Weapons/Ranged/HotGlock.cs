@@ -53,7 +53,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset()
         {
-            Vector2 offset = new Vector2(8, 0);
+            Vector2 offset = new Vector2(0, 0);
             return offset;
         }
         public override void AddRecipes()

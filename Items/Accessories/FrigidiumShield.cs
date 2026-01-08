@@ -30,16 +30,15 @@ namespace AwfulGarbageMod.Items.Accessories
             Item.value = 1500;
             Item.rare = ItemRarityID.Green;
             Item.accessory = true;
-            Item.lifeRegen = 2;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense += 5;
+            player.statDefense += 4;
             player.buffImmune[BuffID.Chilled] = true;
-            player.GetCritChance(DamageClass.Melee) += 5f;
-            player.GetAttackSpeed(DamageClass.Melee) += 0.05f;
-            player.GetDamage(DamageClass.Melee) += 0.05f;
+            player.GetCritChance(DamageClass.Melee) += 4f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.04f;
+            player.GetDamage(DamageClass.Melee) += 0.04f;
         }
 
 

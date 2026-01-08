@@ -61,7 +61,7 @@ namespace AwfulGarbageMod.Projectiles
             Tile tile = Framing.GetTileSafely(teleportPosition);
             if (!tile.HasTile || tile.TileType == TileID.CorruptThorns || tile.TileType == TileID.Cactus || tile.TileType == TileID.Trees || TileID.Sets.Grass[tile.TileType])
             {
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     if (tile.HasTile && AGUtils.IsNotAmbientObject(tile.TileType))
                     {
@@ -76,7 +76,7 @@ namespace AwfulGarbageMod.Projectiles
             }
             else
             {
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     if (!tile.HasTile || !AGUtils.IsNotAmbientObject(tile.TileType))
                     {

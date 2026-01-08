@@ -70,8 +70,6 @@ namespace AwfulGarbageMod.Projectiles
             // Applying lighting and draw current frame
             Color drawColor = Projectile.GetAlpha(lightColor);
 
-            Texture2D projectileTexture = TextureAssets.Projectile[Projectile.type].Value;
-            Vector2 drawOrigin = origin;
             spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             Main.EntitySpriteDraw(texture,

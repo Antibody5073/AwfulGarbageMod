@@ -14,7 +14,7 @@ namespace AwfulGarbageMod.Items.Tools
             Item.DamageType = DamageClass.Melee;
             Item.width = 40;
             Item.height = 40;
-            Item.useTime = 14;
+            Item.useTime = 12;
             Item.useAnimation = 40;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 7;

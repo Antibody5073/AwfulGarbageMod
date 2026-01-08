@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using static Terraria.ModLoader.PlayerDrawLayer;
+using AwfulGarbageMod.Tiles.Furniture;
 
 
 namespace AwfulGarbageMod.Items.Weapons.Magic
@@ -61,7 +62,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             recipe.AddIngredient(Mod.Find<ModItem>("CloudBlaster").Type);
             recipe.AddIngredient(Mod.Find<ModItem>("StormEssence").Type, 6);
             recipe.AddIngredient(ItemID.RainCloud, 24);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile<StormAnvil>();
             recipe.Register();
         }
     }

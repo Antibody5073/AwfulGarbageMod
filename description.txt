@@ -23,10 +23,13 @@ Boss Checklist
 Census
 Stram's Classes (This includes: 1 armor set, 9 weapons)
 
-Coders: 
+Credits:
+Code: 
 Antibody (Main coder)
+Full-body vanity accessory code is based off of code from Calamity Mod 
+Smaller player hitbox code is based off of code from Fargo's Souls
 
-Spriters: 
+Sprites: 
 Kevimipenem (Main spriter)
 nobisyu for the following:
 Candescite, Candescite bar
@@ -41,6 +44,10 @@ High Velocity Arrow
 Music: 
 Antibody (Main musician)
 JynX(For making the original music for the Len'en bosses, the music for those bosses in this mod are remixes)
+
+Sound Effects:
+JynX(This mod uses Len'en sound effects)
+RUOK(https://ruok2000.itch.io/ruok-sfx-pack1)
 
 Other:
 This mod has a lot of Len'en related content, especially Len'en 3: Reactivate majestical imperial

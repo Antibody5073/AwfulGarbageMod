@@ -1,19 +1,22 @@
+using AwfulGarbageMod.Configs;
+using AwfulGarbageMod.DamageClasses;
+using AwfulGarbageMod.Items.Accessories.Hardmode;
+using AwfulGarbageMod.Items.Ammo;
+using AwfulGarbageMod.Items.Ammo.Hardmode;
+using AwfulGarbageMod.Items.Armor;
+using AwfulGarbageMod.Items.Armor.Hardmode;
+using AwfulGarbageMod.Projectiles;
 using Microsoft.Xna.Framework;
+using Mono.Cecil;
+using Steamworks;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AwfulGarbageMod.Configs;
-using System.Collections.Generic;
 using static Humanizer.In;
-using System.Linq;
-using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.DamageClasses;
-using AwfulGarbageMod.Projectiles;
-using System;
-using Steamworks;
-using AwfulGarbageMod.Items.Armor;
-using AwfulGarbageMod.Items.Ammo;
 
 namespace AwfulGarbageMod.Global
 {
@@ -318,22 +321,20 @@ namespace AwfulGarbageMod.Global
                     }
                 }
             }
-            if (player.GetModPlayer<GlobalPlayer>().TitaniumVariety)
-            {
-                if (item.DamageType == DamageClass.Melee)
-                {
-                    if (item.useStyle == ItemUseStyleID.Swing && !item.noMelee)
-                    {
-                        for (int i = 0; i < 2; i++)
-                        {
-                            Projectile.NewProjectile(source, position, new Vector2(Main.mouseX + Main.screenPosition.X - position.X, Main.mouseY + Main.screenPosition.Y - position.Y).SafeNormalize(Vector2.Zero) * 7 + Main.rand.NextVector2CircularEdge(1, 1), ModContent.ProjectileType<TitaniumShard>(), damage / 4, 2);
-                        }
-                    }
-                }
-            }
             return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
         }
-
+        public override void UseAnimation(Item item, Player player)
+        {
+            if (player.GetModPlayer<GlobalPlayer>().TitaniumVariety)
+            {
+                if (item.CountsAsClass(DamageClass.Melee))
+                {
+                        Projectile proj = Projectile.NewProjectileDirect(item.GetSource_FromThis(), player.Center, new Vector2(Main.mouseX + Main.screenPosition.X - player.Center.X, Main.mouseY + Main.screenPosition.Y - player.Center.Y).SafeNormalize(Vector2.Zero) * 7 + Main.rand.NextVector2CircularEdge(1, 1), ModContent.ProjectileType<TitaniumShard>(), AGUtils.ScaleDamage(item.damage, player, DamageClass.Melee) * 3 / 10, 2);
+                        proj.frame = Main.rand.Next(12);
+                }
+            }
+            base.UseAnimation(item, player);
+        }
         public NPC FindClosestNPC(float maxDetectDistance, Player player)
         {
             NPC closestNPC = null;

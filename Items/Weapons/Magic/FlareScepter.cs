@@ -104,6 +104,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitSpd => 1.3f;
         public override float OffsetDir => 45;
         public override int ProjType => ModContent.ProjectileType<FlareScepterProj>();
+        public override int AssociatedBuff => ModContent.BuffType<FlareScepterBuff>();
 
 
         public override void SetDefaults()

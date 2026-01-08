@@ -75,7 +75,7 @@ namespace AwfulGarbageMod.Items.Consumables.BossSummon
         {
             CreateRecipe()
                 .AddIngredient(ItemID.SlimeCrown)
-                .AddIngredient<UnrealEssence>(20)
+                .AddIngredient<UnrealEssence>(15)
                 .Register();
         }
     }

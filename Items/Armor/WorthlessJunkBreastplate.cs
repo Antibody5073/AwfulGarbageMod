@@ -15,8 +15,9 @@ namespace AwfulGarbageMod.Items.Armor
 	{
         public static LocalizedText StramEffect { get; private set; }
 
-        public override void SetStaticDefaults() {
-			base.SetStaticDefaults();
+        public override void SetStaticDefaults()
+        {
+            base.SetStaticDefaults();
             // DisplayName.SetDefault("WorthlessJunk Breastplate");
             // Tooltip.SetDefault("20 increased maximum health\nIncreases maximum number of minions by 1");
             StramEffect = this.GetLocalization(nameof(StramEffect));

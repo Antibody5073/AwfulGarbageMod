@@ -24,7 +24,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void ScepterEffects(Player player)
         {
-            player.statDefense += 2;
+            player.statDefense += 4;
         }
     }
 
@@ -110,6 +110,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitSpd => 0.9f;
         public override float OffsetDir => 0;
         public override int ProjType => ModContent.ProjectileType<SlimeScepterProj>();
+        public override int AssociatedBuff => ModContent.BuffType<SlimeScepterBuff>();
 
         public override void SetDefaults()
         {

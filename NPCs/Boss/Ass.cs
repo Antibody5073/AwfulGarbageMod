@@ -4,8 +4,8 @@ using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.Global;
 using AwfulGarbageMod.ItemDropRules;
 using AwfulGarbageMod.Items;
-using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables; 
+using AwfulGarbageMod.Items.Accessories.Hardmode;
+using AwfulGarbageMod.Items.Consumables;
 using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items.Placeable.OresBars;
 using AwfulGarbageMod.Items.Weapons.Magic;
@@ -136,13 +136,16 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = 50000;
-            if (Main.masterMode)
+            if (!Main.GameModeInfo.IsJourneyMode)
             {
-                NPC.lifeMax = 60000; // Increase by 5 if expert or master mode
-                if (Main.getGoodWorld || Main.zenithWorld)
+                NPC.lifeMax = 50000;
+                if (Main.masterMode)
                 {
-                    NPC.lifeMax = 70000;
+                    NPC.lifeMax = 60000; // Increase by 5 if expert or master mode
+                    if (Main.getGoodWorld || Main.zenithWorld)
+                    {
+                        NPC.lifeMax = 70000;
+                    }
                 }
             }
         }
@@ -258,6 +261,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                     ShadowflameArrows();
                     break;
                 case (float)ActionState.ConvergingFlames:
+                    ConvergingFireballs();
                     break;
             }
         }
@@ -313,32 +317,238 @@ namespace AwfulGarbageMod.NPCs.Boss
             Player player = Main.player[NPC.target];
 
             AI_Timer += 1;
-            if (AI_Timer % 210 < 60)
+            if (DifficultyModes.Difficulty == 2)
             {
-                if (AI_Timer % 210 == 30)
+                if (AI_Timer % 210 < 60)
                 {
-                    NPC.Center = player.Center + targetArea;
-                    targetArea = Main.rand.NextVector2CircularEdge(300, 300);
-
-                    spread = 2f;
-                }
-            }
-            else if (AI_Timer % 210 < 180)
-            {
-                if (AI_Timer % 9 == 0)
-                {
-                    for (int i = -1; i < 2; i++)
+                    if (AI_Timer % 210 == 30)
                     {
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * spread)) * 6f, ModContent.ProjectileType<AssProjArrow>(), 17, 0, Main.myPlayer, 90);
-                    }
-                    spread += 4f;
+                        NPC.Center = player.Center + targetArea;
+                        targetArea = Main.rand.NextVector2CircularEdge(300, 300);
 
+                        spread = 1f;
+                    }
+                }
+                else if (AI_Timer % 210 < 180)
+                {
+                    if (AI_Timer % 8 == 0)
+                    {
+                        for (int i = -2; i < 3; i++)
+                        {
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * spread)) * 6.5f, ModContent.ProjectileType<AssProjArrow>(), 17, 0, Main.myPlayer, 90);
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * spread)) * 4.5f, ModContent.ProjectileType<AssProjArrow>(), 17, 0, Main.myPlayer, 90);
+                        }
+                        spread += 1.75f;
+
+                    }
+                }
+                int dust = Dust.NewDust(player.Center + targetArea, NPC.width, NPC.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dust].scale = 1.35f;
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
+            }
+            else if (DifficultyModes.Difficulty == 1)
+            {
+                if (AI_Timer % 210 < 60)
+                {
+                    if (AI_Timer % 210 == 30)
+                    {
+                        NPC.Center = player.Center + targetArea;
+                        targetArea = Main.rand.NextVector2CircularEdge(300, 300);
+
+                        spread = 1f;
+                    }
+                }
+                else if (AI_Timer % 210 < 180)
+                {
+                    if (AI_Timer % 8 == 0)
+                    {
+                        for (int i = -2; i < 3; i++)
+                        {
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * spread)) * 6.5f, ModContent.ProjectileType<AssProjArrow>(), 17, 0, Main.myPlayer, 90);
+                        }
+                        spread += 1.75f;
+
+                    }
+                }
+                int dust = Dust.NewDust(player.Center + targetArea, NPC.width, NPC.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dust].scale = 1.35f;
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
+            }
+            else if (Main.expertMode)
+            {
+                if (AI_Timer % 150 < 35)
+                {
+                    if (AI_Timer % 150 == 30)
+                    {
+                        NPC.Center = player.Center + targetArea;
+                        targetArea = Main.rand.NextVector2CircularEdge(300, 300);
+
+                        spread = 1.5f;
+                    }
+                }
+                else
+                {
+                    if (AI_Timer % 20 == 0)
+                    {
+                        for (int i = -3; i < 4; i++)
+                        {
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * spread)) * 8f, ModContent.ProjectileType<AssProjArrow>(), 17, 0, Main.myPlayer, 90);
+                        }
+                    }
+                }
+                int dust = Dust.NewDust(player.Center + targetArea, NPC.width, NPC.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dust].scale = 1.35f;
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
+            }
+            else
+            {
+                if (AI_Timer % 150 < 35)
+                {
+                    if (AI_Timer % 150 == 30)
+                    {
+                        NPC.Center = player.Center + targetArea;
+                        targetArea = Main.rand.NextVector2CircularEdge(300, 300);
+
+                        spread = 36f;
+                    }
+                }
+                else
+                {
+                    if (AI_Timer % 20 == 0)
+                    {
+                        for (int i = -1; i < 2; i++)
+                        {
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * spread)) * 8.5f, ModContent.ProjectileType<AssProjArrow>(), 17, 0, Main.myPlayer, 90);
+                        }
+                    }
+                }
+                int dust = Dust.NewDust(player.Center + targetArea, NPC.width, NPC.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dust].scale = 1.35f;
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
+            }
+
+            if (AI_Timer == 1050)
+            {
+
+                AI_State = (float)ActionState.ConvergingFlames;
+                AI_Timer = -30;
+                atkUseCounter = 0;
+            }
+        }
+        private void ConvergingFireballs()
+        {
+            Player player = Main.player[NPC.target];
+
+            AI_Timer += 1;
+            if (AI_Timer < 1)
+            {
+                NPC.alpha = (int)MathHelper.Lerp(0, 255, (30 + AI_Timer)/30);
+            }
+            else
+            {
+                if (DifficultyModes.Difficulty == 2)
+                {
+                    if (AI_Timer % 210 < 60)
+                    {
+                        if (AI_Timer % 210 == 30)
+                        {
+                            NPC.Center = player.Center + targetArea;
+                            targetArea = Main.rand.NextVector2CircularEdge(300, 300);
+
+                            spread = 1f;
+                        }
+                    }
+                    else if (AI_Timer % 210 < 180)
+                    {
+                        if (AI_Timer % 8 == 0)
+                        {
+                            for (int i = -2; i < 3; i++)
+                            {
+                                Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * spread)) * 6.5f, ModContent.ProjectileType<AssProjArrow>(), 17, 0, Main.myPlayer, 90);
+                                Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * spread)) * 4.5f, ModContent.ProjectileType<AssProjArrow>(), 17, 0, Main.myPlayer, 90);
+                            }
+                            spread += 1.75f;
+
+                        }
+                    }
+                    int dust = Dust.NewDust(player.Center + targetArea, NPC.width, NPC.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[dust].scale = 1.35f;
+                    Main.dust[dust].velocity *= 0f;
+                    Main.dust[dust].noGravity = true;
+                }
+                else if (DifficultyModes.Difficulty == 1)
+                {
+                    if (AI_Timer % 60 == 30)
+                    {
+                        targetArea = Main.rand.NextVector2CircularEdge(650, 650);
+
+                        for (int i = 0; i < 5; i++)
+                        {
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), Main.player[NPC.target].Center + targetArea.RotatedBy(i * MathHelper.TwoPi / 5), targetArea.RotatedBy(i * MathHelper.TwoPi / 5).SafeNormalize(Vector2.Zero) * -2f, ModContent.ProjectileType<AssProjFireball>(), 17, 0, Main.myPlayer, 650);
+                        }
+                        spread = 1f;
+
+                    }
+                }
+                else if (Main.expertMode)
+                {
+                    if (AI_Timer % 150 < 35)
+                    {
+                        if (AI_Timer % 150 == 30)
+                        {
+                            NPC.Center = player.Center + targetArea;
+                            targetArea = Main.rand.NextVector2CircularEdge(300, 300);
+
+                            spread = 1.5f;
+                        }
+                    }
+                    else
+                    {
+                        if (AI_Timer % 20 == 0)
+                        {
+                            for (int i = -3; i < 4; i++)
+                            {
+                                Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * spread)) * 8f, ModContent.ProjectileType<AssProjArrow>(), 17, 0, Main.myPlayer, 90);
+                            }
+                        }
+                    }
+                    int dust = Dust.NewDust(player.Center + targetArea, NPC.width, NPC.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[dust].scale = 1.35f;
+                    Main.dust[dust].velocity *= 0f;
+                    Main.dust[dust].noGravity = true;
+                }
+                else
+                {
+                    if (AI_Timer % 180 < 35)
+                    {
+                        if (AI_Timer % 180 == 30)
+                        {
+                            NPC.Center = player.Center + targetArea;
+                            targetArea = Main.rand.NextVector2CircularEdge(300, 300);
+
+                            spread = 36f;
+                        }
+                    }
+                    else if (AI_Timer % 180 < 150)
+                    {
+                        if (AI_Timer % 20 == 0)
+                        {
+                            for (int i = -1; i < 2; i++)
+                            {
+                                Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * spread)) * 8.5f, ModContent.ProjectileType<AssProjArrow>(), 17, 0, Main.myPlayer, 90);
+                            }
+                        }
+                    }
+                    int dust = Dust.NewDust(player.Center + targetArea, NPC.width, NPC.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[dust].scale = 1.35f;
+                    Main.dust[dust].velocity *= 0f;
+                    Main.dust[dust].noGravity = true;
                 }
             }
-            int dust = Dust.NewDust(player.Center + targetArea, NPC.width, NPC.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1f);
-            Main.dust[dust].scale = 1.35f;
-            Main.dust[dust].velocity *= 0f;
-            Main.dust[dust].noGravity = true;
         }
     }
 }

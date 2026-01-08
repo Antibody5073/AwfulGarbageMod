@@ -1,3 +1,4 @@
+using gunrightsmod.Content.DamageClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
@@ -47,7 +48,12 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
         }
 
-		public override void SetDefaults()
+        [JITWhenModsEnabled("gunrightsmod")]
+        public static void DoTerMerica(Item item)
+        {
+            item.DamageType = ModContent.GetInstance<SummonStupidDamage>();
+        }
+        public override void SetDefaults()
 		{
             Item.damage = 12;
             Item.knockBack = 3f;
@@ -64,6 +70,12 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             // These below are needed for a minion weapon
             Item.noMelee = true; // this item doesn't do any melee damage
             Item.DamageType = DamageClass.Summon; // Makes the damage register as summon. If your item does not have any damage type, it becomes true damage (which means that damage scalars will not affect it). Be sure to have a damage type
+
+            if (ModLoader.TryGetMod("gunrightsmod", out Mod termerica))
+            {
+                DoTerMerica(Item);
+            }
+
             Item.buffType = ModContent.BuffType<PileOfActualBonesMinionBuff>();
             // No buffTime because otherwise the item tooltip would say something like "1 minute duration"
             Item.shoot = ModContent.ProjectileType<PileOfActualBonesMinion>(); // This item creates the minion projectile
@@ -128,6 +140,12 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true; // Make the cultist resistant to this projectile, as it's resistant to all homing projectiles.
         }
 
+
+        [JITWhenModsEnabled("gunrightsmod")]
+        public static void DoTerMerica(Projectile projectile)
+        {
+            projectile.DamageType = ModContent.GetInstance<SummonStupidDamage>();
+        }
         public sealed override void SetDefaults()
         {
             Projectile.width = 48;
@@ -142,6 +160,10 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             Projectile.penetrate = -1; // Needed so the minion doesn't despawn on collision with enemies or tiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+            if (ModLoader.TryGetMod("gunrightsmod", out Mod termerica))
+            {
+                DoTerMerica(Projectile);
+            }
         }
 
         // Here you can decide if your minion breaks things like grass or pots
@@ -437,7 +459,6 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
                 }
             }
             // Some visuals here
-            Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.78f);
         }
     }
 
@@ -449,16 +470,24 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
+        [JITWhenModsEnabled("gunrightsmod")]
+        public static void DoTerMerica(Projectile projectile)
+        {
+            projectile.DamageType = ModContent.GetInstance<SummonStupidDamage>();
+        }
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Summon;
+            if (ModLoader.TryGetMod("gunrightsmod", out Mod termerica))
+            {
+                DoTerMerica(Projectile);
+            }
             Projectile.width = 22;
             Projectile.height = 22;
             Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.friendly = true;
             Projectile.penetrate = 3;
             Projectile.timeLeft = 90;
-            Projectile.light = 1f;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.usesLocalNPCImmunity = true;

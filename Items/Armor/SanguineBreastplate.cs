@@ -38,7 +38,7 @@ namespace AwfulGarbageMod.Items.Armor
 
 
         public override void UpdateEquip(Player player) {
-            player.GetDamage<ScepterDamageClass>() += 0.15f;
+            player.GetDamage<ScepterDamageClass>() += 0.25f;
             player.manaRegenBonus += 12;
         }
 

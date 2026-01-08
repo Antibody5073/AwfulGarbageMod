@@ -37,7 +37,7 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<GlobalPlayer>().SwampyGrip += 25;
-            player.GetModPlayer<GlobalPlayer>().flailRetractSpeed += 0.1f;
+            player.GetModPlayer<GlobalPlayer>().flailRetractSpeed += 0.15f;
 
         }
     }

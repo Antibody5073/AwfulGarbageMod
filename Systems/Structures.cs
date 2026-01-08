@@ -141,7 +141,7 @@ namespace AwfulGarbageMod.Systems
             base.PreUpdateWorld();
         }
         public static void GenerateHardmodeStructures(Mod mod)
-        {
+        {/*
             Main.NewText("Structures have been generated in the underground night and light regions", Color.Firebrick);
             HardmodeStructures = true;
 
@@ -225,7 +225,7 @@ namespace AwfulGarbageMod.Systems
                 {
                     break;
                 }
-            }
+            }*/
         }
 
         public override void PostWorldGen()

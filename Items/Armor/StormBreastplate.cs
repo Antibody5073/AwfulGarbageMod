@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AwfulGarbageMod.Tiles.Furniture;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,7 +37,7 @@ namespace AwfulGarbageMod.Items.Armor
             recipe.AddIngredient(Mod.Find<ModItem>("AerogelBreastplate").Type);
             recipe.AddIngredient(Mod.Find<ModItem>("StormEssence").Type, 12);
             recipe.AddIngredient(ItemID.RainCloud, 40);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile<StormAnvil>();
             recipe.Register();
         }
     }

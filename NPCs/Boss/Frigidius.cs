@@ -83,6 +83,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
 
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<FrigidiumBar>(), 1, 2, 3));
+            notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 3, ModContent.ItemType<FrigidFury>()));
 
 
             // Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode
@@ -134,13 +135,16 @@ namespace AwfulGarbageMod.NPCs.Boss
         }
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = 62000;
-            if (Main.masterMode)
+            if (!Main.GameModeInfo.IsJourneyMode)
             {
-                NPC.lifeMax = 70000; // Increase by 5 if expert or master mode
-                if (Main.getGoodWorld || Main.zenithWorld)
+                NPC.lifeMax = 62000;
+                if (Main.masterMode)
                 {
-                    NPC.lifeMax = 99999;
+                    NPC.lifeMax = 70000; // Increase by 5 if expert or master mode
+                    if (Main.getGoodWorld || Main.zenithWorld)
+                    {
+                        NPC.lifeMax = 99999;
+                    }
                 }
             }
         }
@@ -336,20 +340,21 @@ namespace AwfulGarbageMod.NPCs.Boss
         }
         private void PhaseTransition2()
         {
+
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
             {
                 NPC.damage = 60;
             }
-                Player player = Main.player[NPC.target];
+            Player player = Main.player[NPC.target];
 
             NPC.velocity = new Vector2(0, 0);
 
@@ -406,11 +411,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
@@ -519,11 +524,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
@@ -604,11 +609,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
@@ -682,11 +687,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
@@ -773,11 +778,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 60;
+                NPC.damage = 75;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 80;
+                    NPC.damage = 110;
                 }
             }
             else
@@ -805,11 +810,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 60;
+                NPC.damage = 75;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 80;
+                    NPC.damage = 110;
                 }
             }
             else
@@ -837,11 +842,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 60;
+                NPC.damage = 75;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 80;
+                    NPC.damage = 110;
                 }
             }
             else
@@ -872,13 +877,14 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         private void DashTowardsPlayer()
         {
+
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
@@ -914,6 +920,12 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                 NPC.velocity = storedVel;
                 NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
+            }
+            if (AI_Timer % 150 > 60 && AI_Timer % 2 == 0)
+            {
+                Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.SafeNormalize(Vector2.Zero) * 20, ProjectileID.Flames, 25, 0, Main.myPlayer, 1);
+                proj.hostile = true;
+                proj.friendly = false;
             }
 
             if (AI_Timer % 150 == 90)
@@ -960,11 +972,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
@@ -1002,6 +1014,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
             }
 
+            if (AI_Timer % 150 > 60 && AI_Timer % 2 == 0)
+            {
+                Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.SafeNormalize(Vector2.Zero) * 20, ProjectileID.Flames, 25, 0, Main.myPlayer, 1);
+                proj.hostile = true;
+                proj.friendly = false;
+            }
             if (AI_Timer % 150 >= 60 && AI_Timer % 150 <= 140)
             {
                 int tempmod = 3;
@@ -1041,13 +1059,14 @@ namespace AwfulGarbageMod.NPCs.Boss
         }
         private void ChasePlayer()
         {
+
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
@@ -1096,11 +1115,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
@@ -1121,7 +1140,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
                     {
-                        Volume = 0.5f,
+                        Volume = 0.35f,
                     };
                     SoundEngine.PlaySound(impactSound, NPC.Center);
                 }
@@ -1166,7 +1185,12 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 NPC.velocity *= 0.99f;
             }
-
+            if (AI_Timer % 480 > 270 && AI_Timer % 480 < 390 && AI_Timer % 2 == 0)
+            {
+                Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.SafeNormalize(Vector2.Zero) * 15, ProjectileID.Flames, 25, 0, Main.myPlayer, 1);
+                proj.hostile = true;
+                proj.friendly = false;
+            }
 
             NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
 
@@ -1198,13 +1222,14 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         private void DashUp()
         {
+
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
@@ -1241,6 +1266,15 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                 NPC.velocity = storedVel;
                 NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
+            }
+            if (AI_Timer % 150 > 60 && AI_Timer % 2 == 0)
+            {
+
+                Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver2) * 3, ProjectileID.Flames, 25, 0, Main.myPlayer, 1);
+                proj.hostile = true;
+                proj.friendly = false; proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver2) * -3, ProjectileID.Flames, 25, 0, Main.myPlayer, 1);
+                proj.hostile = true;
+                proj.friendly = false;
             }
 
             if (AI_Timer % 180 >= 90 && AI_Timer % 180 <= 140)
@@ -1280,13 +1314,14 @@ namespace AwfulGarbageMod.NPCs.Boss
         }
         private void DashUp2()
         {
+
             if (Main.expertMode)
             {
-                NPC.damage = 90;
+                NPC.damage = 110;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 120;
+                    NPC.damage = 160;
                 }
             }
             else
@@ -1324,7 +1359,14 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = storedVel;
                 NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
             }
-
+            if (AI_Timer % 150 > 60 && AI_Timer % 420 < 140 && AI_Timer % 2 == 0)
+            {
+                Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver2) * 3, ProjectileID.Flames, 25, 0, Main.myPlayer, 1);
+                proj.hostile = true;
+                proj.friendly = false; proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver2) * -3, ProjectileID.Flames, 25, 0, Main.myPlayer, 1);
+                proj.hostile = true;
+                proj.friendly = false;
+            }
             if (AI_Timer % 420 == 90)
             {
                 int proj;
@@ -1368,11 +1410,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             if (Main.expertMode)
             {
-                NPC.damage = 60;
+                NPC.damage = 75;
 
                 if (Main.masterMode)
                 {
-                    NPC.damage = 80;
+                    NPC.damage = 110;
                 }
             }
             else
@@ -1411,7 +1453,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.width = 32;
             NPC.height = 32;
             NPC.aiStyle = -1;
-            NPC.damage = 25; // The amount of damage that this npc deals
+            NPC.damage = 60; // The amount of damage that this npc deals
             NPC.defense = 15; // The amount of defense that this npc has
         }
 
@@ -1448,7 +1490,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.width = 32;
             NPC.height = 32;
             NPC.aiStyle = -1;
-            NPC.damage = 25; // The amount of damage that this npc deals
+            NPC.damage = 60; // The amount of damage that this npc deals
             NPC.defense = 15; // The amount of defense that this npc has
         }
 

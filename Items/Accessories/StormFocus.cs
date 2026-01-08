@@ -43,8 +43,8 @@ namespace AwfulGarbageMod.Items.Accessories
 			Item.width = 20;
 			Item.height = 20;
             Item.value = 1500;
-            Item.rare = ItemRarityID.Expert;
-            Item.expert = true;
+            Item.rare = ModContent.RarityType<UnrealRarity>();
+            Item.GetGlobalItem<ItemTypes>().Unreal = true; 
             Item.accessory = true;
         }
 
@@ -85,6 +85,7 @@ namespace AwfulGarbageMod.Items.Accessories
             CreateRecipe()
                 .AddIngredient<ToadFocus>()
                 .AddIngredient<LightningRing>()
+                .AddIngredient<UnrealEssence>(20)
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
         }

@@ -4,11 +4,11 @@ using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.Global;
 using AwfulGarbageMod.ItemDropRules;
 using AwfulGarbageMod.Items;
-using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables; 
+using AwfulGarbageMod.Items.Accessories.Hardmode;
+using AwfulGarbageMod.Items.Consumables;
 using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items.Placeable.OresBars;
-using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Magic.Hardmode;
 using AwfulGarbageMod.Items.Weapons.Melee;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Summon;
@@ -112,7 +112,7 @@ namespace AwfulGarbageMod.NPCs.Boss
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Flutter Slime"); // Automatic from localization files
-            Main.npcFrameCount[NPC.type] = 5; // make sure to set this for your modnpcs.
+            Main.npcFrameCount[NPC.type] = 4; // make sure to set this for your modnpcs.
 
             // Specify the debuffs it is immune to
             NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire] = true;
@@ -124,14 +124,14 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         public override void SetDefaults()
         {
-            NPC.width = 64; // The width of the npc's hitbox (in pixels)
-            NPC.height = 64; // The height of the npc's hitbox (in pixels)
+            NPC.width = 56; // The width of the npc's hitbox (in pixels)
+            NPC.height = 56; // The height of the npc's hitbox (in pixels)
             NPC.aiStyle = -1; // This npc has a completely unique AI, so we set this to -1. The default aiStyle 0 will face the player, which might conflict with custom AI code.
             NPC.damage = 66; // The amount of damage that this npc deals
             NPC.defense = 59; // The amount of defense that this npc has
             NPC.lifeMax = 35000; // The amount of health that this npc has
             NPC.HitSound = SoundID.NPCHit3; // The sound the NPC will make when being hit.
-            NPC.DeathSound = SoundID.NPCDeath52; // The sound the NPC will make when it dies.
+            NPC.DeathSound = SoundID.NPCDeath66; // The sound the NPC will make when it dies.
             NPC.value = 500000; // How many copper coins the NPC will drop when killed.
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
@@ -162,13 +162,16 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = 40000;
-            if (Main.masterMode)
+            if (!Main.GameModeInfo.IsJourneyMode)
             {
-                NPC.lifeMax = 45000; // Increase by 5 if expert or master mode
-                if (Main.getGoodWorld || Main.zenithWorld)
+                NPC.lifeMax = 40000;
+                if (Main.masterMode)
                 {
-                    NPC.lifeMax = 50000;
+                    NPC.lifeMax = 45000; // Increase by 5 if expert or master mode
+                    if (Main.getGoodWorld || Main.zenithWorld)
+                    {
+                        NPC.lifeMax = 50000;
+                    }
                 }
             }
         }
@@ -194,7 +197,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
 
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<CandesciteBar>(), 1, 2, 3));
-            notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 1, ModContent.ItemType<LavaLance>()));
+            notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 3, ModContent.ItemType<LavaLance>()));
             npcLoot.Add(ItemDropRule.ByCondition(new UnrealCondition(), ModContent.ItemType<CurseOfCandescence>(), 1, 1, 1));
 
             // Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode
@@ -220,7 +223,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             // Finally add the leading rule
             npcLoot.Add(notExpertRule);
         }
-        public override void BossLoot(ref string name, ref int potionType)
+        public override void BossLoot(ref int potionType)
         {
             potionType = ItemID.GreaterHealingPotion;
         }
@@ -235,7 +238,7 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             // This sets downedMinionBoss to true, and if it was false before, it initiates a lantern night
 
-            if (!DownedBossSystem.downedFrigidius)
+            if (!DownedBossSystem.downedFireMoth)
             {
                 Main.NewText("The downfall of the ancient lava moth empowers accessories with new possible reforges", Color.Red);
             }
@@ -263,7 +266,14 @@ namespace AwfulGarbageMod.NPCs.Boss
             Player player = Main.player[NPC.target];
 
             Lighting.AddLight(NPC.Center, Color.Orange.ToVector3() * 2.5f);
-
+            if (!player.ZoneUnderworldHeight)
+            {
+                NPC.dontTakeDamage = true;
+            }
+            else
+            {
+                NPC.dontTakeDamage = false;
+            }
 
             if (player.dead)
             {
@@ -384,6 +394,8 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             // This makes the sprite flip horizontally in conjunction with the npc.direction.
             NPC.spriteDirection = NPC.direction;
+            NPC.rotation = (NPC.velocity.X + recoil.X) * 0.035f;
+
             frameCounter++;
             if (frameCounter > 5)
             {
@@ -403,19 +415,24 @@ namespace AwfulGarbageMod.NPCs.Boss
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            if (true)
+            Vector2 drawOrigin = NPC.frame.Size() / 2;
+            Vector2 drawPos;
+            Color color;
+            for (int k = 0; k < NPC.oldPos.Length; k++)
             {
-                Vector2 drawOrigin = NPC.frame.Size() / 2;
-                for (int k = 0; k < NPC.oldPos.Length; k++)
-                {
-                    Vector2 drawPos = NPC.oldPos[k] - screenPos + new Vector2(NPC.width / 2, NPC.height / 2) + new Vector2(0, NPC.gfxOffY); //.RotatedBy(NPC.rotation);
-                    Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
-                    spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos + new Vector2(0, -6), NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
-                }
+                drawPos = NPC.oldPos[k] - screenPos + new Vector2(NPC.width / 2, NPC.height / 2) + new Vector2(0, NPC.gfxOffY); //.RotatedBy(NPC.rotation);
+                color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+                spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
             }
 
 
-            return true;
+
+            drawPos = NPC.position - screenPos + new Vector2(NPC.width / 2, NPC.height / 2) + new Vector2(0, NPC.gfxOffY); //.RotatedBy(NPC.rotation);
+            color = NPC.GetAlpha(drawColor);
+            spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
+
+            // It's important to return false, otherwise we also draw the original texture.
+            return false;
         }
         // Here, because we use custom AI (aiStyle not set to a suitable vanilla value), we should manually decide when Flutter Slime can fall through platforms
         public override bool? CanFallThroughPlatforms()
@@ -431,6 +448,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             Vector2 direction = player.Center - NPC.Center;
             NPC.velocity = direction * 0.015f + direction.SafeNormalize(Vector2.Zero) * -5f;
+            NPC.direction = Math.Sign(NPC.velocity.X);
             NPC.dontTakeDamage = true;
             AI_Timer += 1;
             if (AI_Timer == 180)
@@ -448,6 +466,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
             NPC.velocity = direction * 0.015f + direction.SafeNormalize(Vector2.Zero) * 1f;
+            NPC.direction = Math.Sign(NPC.velocity.X);
 
             NPC.position += recoil;
             recoil *= 0.98f;
@@ -484,9 +503,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                         }
                         else
                         {
-                            recoil = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * -8;
-                            SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
-                            int projType = DifficultyModes.Difficulty > 0 ? ModContent.ProjectileType<CandescenceProjFireBlastUnreal>() : ModContent.ProjectileType<CandescenceProjFireBlast>();
+                            recoil = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * -9;
+                            SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/BigShot5")
+                            {
+                                Volume = 0.5f,
+                            };
+                            SoundEngine.PlaySound(impactSound, NPC.Center); int projType = DifficultyModes.Difficulty > 0 ? ModContent.ProjectileType<CandescenceProjFireBlastUnreal>() : ModContent.ProjectileType<CandescenceProjFireBlast>();
                             float projSpd = DifficultyModes.Difficulty > 0 ? 1.5f : 8;
 
                             if (DifficultyModes.Difficulty == 2)
@@ -495,14 +517,14 @@ namespace AwfulGarbageMod.NPCs.Boss
                             }
                             if (Main.rand.NextBool())
                             {
-                                for (var i = -2; i < 3; i++)
+                                for (var i = -3; i < 4; i++)
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * 18)) * projSpd, projType, 17, 0, Main.myPlayer, 90);
                                 }
                             }
                             else
                             {
-                                for (var i = -2; i < 2; i++)
+                                for (var i = -3; i < 3; i++)
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * 18 + 9)) * projSpd, projType, 17, 0, Main.myPlayer, 90);
                                 }
@@ -525,17 +547,21 @@ namespace AwfulGarbageMod.NPCs.Boss
                         else
                         {
                             recoil = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * -12;
-                            SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
+                            SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/BigShot5")
+                            {
+                                Volume = 0.5f,
+                            };
+                            SoundEngine.PlaySound(impactSound, NPC.Center);
                             if (Main.rand.NextBool())
                             {
-                                for (var i = -2; i < 3; i++)
+                                for (var i = -3; i < 4; i++)
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * 18)) * 8, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
                                 }
                             }
                             else
                             {
-                                for (var i = -2; i < 2; i++)
+                                for (var i = -3; i < 3; i++)
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians(i * 18 + 9)) * 8, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
                                 }
@@ -594,6 +620,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 AI_State = (float)ActionState.Flamethrower;
                 AI_Timer = 0;
+                recoil = Vector2.Zero;
             }
             AI_Timer += 1;
         }
@@ -604,6 +631,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
             NPC.velocity = direction * 0.02f + direction.SafeNormalize(Vector2.Zero) * -3.5f;
+            NPC.direction = Math.Sign(player.Center.X - NPC.Center.X);
 
             AI_Timer += 1;
             playerPos.Add(player.Center);
@@ -707,11 +735,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 targetArea = Main.player[NPC.target].Center;
                 direction = targetArea - NPC.Center;
 
-                SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
-                {
-                    Volume = 0.4f,
-                };
-                SoundEngine.PlaySound(impactSound, NPC.Center);
+                SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
                 if (direction != new Vector2(0, 0))
                 {
                     direction.Normalize();
@@ -779,7 +803,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projVel.RotatedBy(i * MathHelper.TwoPi / 10), ModContent.ProjectileType<CandescenceProjFireball>(), 17, 0, Main.myPlayer, 0, 0, 0.25f);
                     }
                 }
-                SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                SoundEngine.PlaySound(SoundID.Zombie125, NPC.Center);
             }
             else if (AI_Timer > 90 && AI_Timer < 120)
             {
@@ -838,6 +862,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                     for (var i = 1; i <= 20; i += 1)
                     {
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CandescenceProjLavaOrb>(), 17, 0, Main.myPlayer, NPC.whoAmI, 0, (float)i / 20);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CandescenceProjLavaOrb>(), 17, 0, Main.myPlayer, NPC.whoAmI, 0, (float)i / -20);
                     }
                     NPC.velocity = new Vector2(0, 0);
                     AI_State = (float)ActionState.OrbSpinPrepare;
@@ -860,6 +885,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
             NPC.velocity = direction * 0.015f + direction.SafeNormalize(Vector2.Zero) * -3f;
+            NPC.direction = Math.Sign(player.Center.X - NPC.Center.X);
+
             if (AI_Timer == 150)
             {
                 AI_State = (float)ActionState.OrbSpin;
@@ -876,6 +903,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
             NPC.velocity = direction * 0.01f + direction.SafeNormalize(Vector2.Zero) * 1.5f;
+            NPC.direction = Math.Sign(NPC.velocity.X);
 
             if (AI_Timer == 360)
             {
@@ -897,12 +925,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 if (AI_Timer % 45 == 0)
                 {
-
-                    SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
-                    {
-                        Volume = 0.4f,
-                    };
-                    SoundEngine.PlaySound(impactSound, NPC.Center);
+                    SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
 
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, player.Center - NPC.Center, ModContent.ProjectileType<CandescenceProjWarning>(), 22, 0, Main.myPlayer, NPC.whoAmI, 0);
                 }
@@ -911,12 +934,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 if (AI_Timer % 15 == 0)
                 {
+                    SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
 
-                    SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
-                    {
-                        Volume = 0.4f,
-                    };
-                    SoundEngine.PlaySound(impactSound, NPC.Center);
 
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, player.Center - NPC.Center + Main.rand.NextVector2Circular(128, 128), ModContent.ProjectileType<CandescenceProjWarning>(), 22, 0, Main.myPlayer, NPC.whoAmI, 0);
                 }
@@ -933,6 +952,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
             NPC.velocity = direction * 0.015f + direction.SafeNormalize(Vector2.Zero) * 1.5f;
+            NPC.direction = Math.Sign(NPC.velocity.X);
+
             if (NPC.globalEnemyBossInfo().OrbitDistance <= 0)
             {
                 NPC.globalEnemyBossInfo().killOrbitals = true;
@@ -943,7 +964,6 @@ namespace AwfulGarbageMod.NPCs.Boss
         }
         private void HomingFireball()
         {
-            NPC.velocity = Vector2.Zero;
             if (AI_Timer == 0)
             {
                 Player player = Main.player[NPC.target];
@@ -955,8 +975,17 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     projVel = projVel.RotatedBy(MathHelper.PiOver2);
                 }
+                if (player.Center.X < NPC.Center.X)
+                {
+                    NPC.velocity = new Vector2(3, 0);
+                }
+                else
+                {
+                    NPC.velocity = new Vector2(-2, 0);
+                }
+                NPC.direction = -Math.Sign(NPC.velocity.X);
             }
-            if (AI_Timer > 60 && AI_Timer < 300)
+            if (AI_Timer > 60 && AI_Timer < 420)
             {
                 if (AI_Timer % 5 == 0)
                 {
@@ -969,14 +998,24 @@ namespace AwfulGarbageMod.NPCs.Boss
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projVel * 12, ModContent.ProjectileType<CandescenceProjHomingFireball>(), 15, 0, Main.myPlayer, homingSpd);
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projVel.RotatedBy(MathHelper.Pi) * 12, ModContent.ProjectileType<CandescenceProjHomingFireball>(), 15, 0, Main.myPlayer, homingSpd);
                     }
+                }
+            }
+            if (AI_Timer > 60 && AI_Timer < 300)
+            {
+                if (AI_Timer % 5 == 0)
+                {
+                    if (Main.expertMode)
+                    {
+                        homingSpd += 0.05f;
+                    }
                     homingSpd += 0.075f;
                     if (DifficultyModes.Difficulty == 2)
                     {
-                        homingSpd += 0.01f;
+                        homingSpd -= 0.05f;
                     }
                 }
             }
-            if (AI_Timer == 360)
+            if (AI_Timer == 480)
             {
                 AI_State = (float)ActionState.AlignDash;
                 AI_Timer = 0;
@@ -1001,15 +1040,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 direction *= speed;
 
                 NPC.velocity = (NPC.velocity * (inertia - 1) + direction) / inertia;
-
-                if (NPC.Center.X < Main.player[NPC.target].Center.X)
-                {
-                    NPC.direction = (int)MathHelper.ToRadians(-90);
-                }
-                else
-                {
-                    NPC.direction = (int)MathHelper.ToRadians(90);
-                }
+                NPC.direction = Math.Sign(NPC.velocity.X);
             }
             if (AI_Timer == 60)
             {
@@ -1027,16 +1058,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.Center = player.Center + new Vector2(240, 0).RotatedBy(atkdir);
                 NPC.velocity = Vector2.Zero;
                 storedVel = new Vector2(-22, 0).RotatedBy(atkdir);
+                SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
 
-                SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
-                {
-                    Volume = 0.4f,
-                };
-                SoundEngine.PlaySound(impactSound, NPC.Center);
             }
             if (AI_Timer == 70)
             {
-                SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                SoundEngine.PlaySound(SoundID.Zombie125, NPC.Center);
                 NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = true;
 
                 NPC.velocity = storedVel;
@@ -1062,6 +1089,8 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             Vector2 direction = player.Center - NPC.Center;
             NPC.velocity = direction * 0.015f + direction.SafeNormalize(Vector2.Zero) * -5f;
+            NPC.direction = Math.Sign(NPC.velocity.X);
+
             NPC.dontTakeDamage = true;
             AI_Timer += 1;
             if (AI_Timer == 180)
@@ -1079,6 +1108,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
             NPC.velocity = direction * 0.0175f + direction.SafeNormalize(Vector2.Zero) * -1f;
+            NPC.direction = Math.Sign(NPC.velocity.X);
 
             NPC.position += recoil;
             recoil *= 0.98f;
@@ -1143,6 +1173,11 @@ namespace AwfulGarbageMod.NPCs.Boss
                                 NPC.velocity = Vector2.Zero;
                                 if (AI_Timer % 2 == 0)
                                 {
+                                    SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/BigShot5")
+                                    {
+                                        Volume = 0.5f,
+                                    };
+                                    SoundEngine.PlaySound(impactSound, NPC.Center);
                                     if (rand)
                                     {
                                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center).RotatedBy(MathHelper.ToRadians((AI_Timer % timeBetweenAttack) * 2.35f - 34f)) * 8, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
@@ -1155,7 +1190,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                             }
                             if (AI_Timer % timeBetweenAttack == 20)
                             {
-                                recoil = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * -8f;
+                                recoil = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * -9f;
 
                             }
                         }
@@ -1168,19 +1203,49 @@ namespace AwfulGarbageMod.NPCs.Boss
                                     storedVel = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center);
                                 }
                                 recoil = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * -6f;
-                                SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
+                                SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/BigShot5")
+                                {
+                                    Volume = 0.5f,
+                                };
+                                SoundEngine.PlaySound(impactSound, NPC.Center);
                                 if (rand)
                                 {
-                                    for (var i = -2; i < 3; i++)
+                                    if (DifficultyModes.Difficulty > 0)
                                     {
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel.RotatedBy(MathHelper.ToRadians(i * 20)) * 8, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
+                                        for (var i = -3; i < 4; i++)
+                                        {
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel.RotatedBy(MathHelper.ToRadians(i * 20)) * 6, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel.RotatedBy(MathHelper.ToRadians(i * 20)) * 8, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel.RotatedBy(MathHelper.ToRadians(i * 20)) * 10, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (var i = -3; i < 4; i++)
+                                        {
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel.RotatedBy(MathHelper.ToRadians(i * 20)) * 8, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    for (var i = -3; i < 3; i++)
+                                    if (DifficultyModes.Difficulty > 0)
                                     {
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel.RotatedBy(MathHelper.ToRadians(i * 20 + 10)) * 8, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
+                                        for (var i = -3; i < 3; i++)
+                                        {
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel.RotatedBy(MathHelper.ToRadians(i * 20 + 10)) * 6, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel.RotatedBy(MathHelper.ToRadians(i * 20 + 10)) * 8, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel.RotatedBy(MathHelper.ToRadians(i * 20 + 10)) * 10, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        {
+                                            for (var i = -3; i < 3; i++)
+                                            {
+                                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, storedVel.RotatedBy(MathHelper.ToRadians(i * 20 + 10)) * 8, ModContent.ProjectileType<CandescenceProjFireBlast>(), 17, 0, Main.myPlayer);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -1194,6 +1259,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                         atkUseCounter++;
                         if (atkUseCounter == 7)
                         {
+                            recoil = Vector2.Zero;
+
                             AI_State = (float)ActionState.DancingSparks;
                             AI_Timer = 0;
                             atkUseCounter = 0;
@@ -1202,7 +1269,11 @@ namespace AwfulGarbageMod.NPCs.Boss
                         else
                         {
                             recoil = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * -6;
-                            SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
+                            SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/BigShot5")
+                            {
+                                Volume = 0.5f,
+                            };
+                            SoundEngine.PlaySound(impactSound, NPC.Center);
                             if (Main.rand.NextBool())
                             {
                                 for (var i = -2; i < 3; i++)
@@ -1269,6 +1340,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             }
             if (AI_Timer == 60)
             {
+                recoil = Vector2.Zero;
+
                 AI_State = (float)ActionState.DancingSparks;
                 AI_Timer = 0;
             }
@@ -1281,6 +1354,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
             NPC.velocity = direction * 0.02f + direction.SafeNormalize(Vector2.Zero) * -3.5f;
+            NPC.direction = Math.Sign(player.Center.X - NPC.Center.X);
 
             AI_Timer += 1;
             playerPos.Add(player.Center);
@@ -1321,45 +1395,12 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (AI_Timer == 480)
             {
-                if (DifficultyModes.Difficulty > 0)
-                {
-                    AI_State = (float)ActionState.FireGridDestroy2;
-                    AI_Timer = -60;
-                }
-                else
-                {
-                    AI_State = (float)ActionState.Flamethrower2;
-                    AI_Timer = 0;
-                    atkUseCounter = 0;
-                    atklen = 0;
-                    atklen2 = 0;
-                }
-            }
-        }
-        private void FireGridDestroy2()
-        {
-            Player player = Main.player[NPC.target];
-
-            NPC.velocity = Vector2.Zero;
-            if (AI_Timer == 0)
-            {
-                NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = true;
-
-                SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/hone_shot")
-                {
-                    Volume = 0.5f,
-                };
-                SoundEngine.PlaySound(impactSound, NPC.Center);
-            }
-            if (AI_Timer == 30)
-            {
                 AI_State = (float)ActionState.Flamethrower2;
                 AI_Timer = 0;
                 atkUseCounter = 0;
                 atklen = 0;
                 atklen2 = 0;
             }
-            AI_Timer += 1;
         }
         private void Flamethrower2()
         {
@@ -1368,6 +1409,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
             NPC.velocity = direction * 0.04f + direction.SafeNormalize(Vector2.Zero) * -8f;
+            NPC.direction = Math.Sign(player.Center.X - NPC.Center.X);
 
             AI_Timer += 1;
             if (AI_Timer % 6 == 0)
@@ -1425,24 +1467,69 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
 
             }
-            if (DifficultyModes.Difficulty == 1)
-            {
-                if (AI_Timer % 60 == 0)
-                {
-
-                    SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
-                    {
-                        Volume = 0.4f,
-                    };
-                    SoundEngine.PlaySound(impactSound, NPC.Center);
-
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, player.Center - NPC.Center, ModContent.ProjectileType<CandescenceProjWarning>(), 22, 0, Main.myPlayer, NPC.whoAmI, 0);
-                }
-            }
             if (AI_Timer == 540)
             {
+                if (DifficultyModes.Difficulty > 0)
+                {
+                    AI_State = (float)ActionState.FireGridDestroy2;
+                    AI_Timer = -60;
+                }
+                else
+                {
+                    targetArea = Main.player[NPC.target].Center;
+                    direction = targetArea - NPC.Center;
+
+                    atkdir = MathHelper.ToDegrees(direction.ToRotation());
+                    NPC.globalEnemyBossInfo().OrbitDirection = 0;
+                    NPC.globalEnemyBossInfo().OrbitDistance = 0;
+                    NPC.globalEnemyBossInfo().killOrbitals = false;
+                    NPC.globalEnemyBossInfo().orbitalsDealDamage = true;
+
+                    if (Main.rand.NextBool())
+                    {
+                        spinSpd = 1f;
+                    }
+                    else
+                    {
+                        spinSpd = -1f;
+                    }
+                    for (var i = 1; i <= 20; i += 1)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CandescenceProjLavaOrb>(), 17, 0, Main.myPlayer, NPC.whoAmI, atkdir, (float)i / 20);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CandescenceProjLavaOrb>(), 17, 0, Main.myPlayer, NPC.whoAmI, atkdir + 180, (float)i / 20);
+
+                    }
+                    for (var i = 1; i <= 20; i += 1)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CandescenceProjLavaOrb2>(), 17, 0, Main.myPlayer, NPC.whoAmI, atkdir, (float)i / 20 - 1f / 40);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CandescenceProjLavaOrb2>(), 17, 0, Main.myPlayer, NPC.whoAmI, atkdir + 180, (float)i / 20 - 1f / 40);
+                    }
+                    NPC.velocity = new Vector2(0, 0);
+                    AI_State = (float)ActionState.OrbSpinPrepare2;
+                    AI_Timer = 0;
+                    atkUseCounter = 0;
+                }
+            }
+        }
+        private void FireGridDestroy2()
+        {
+            Player player = Main.player[NPC.target];
+
+            NPC.velocity = Vector2.Zero;
+            if (AI_Timer == 0)
+            {
+                NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = true;
+
+                SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/hone_shot")
+                {
+                    Volume = 0.5f,
+                };
+                SoundEngine.PlaySound(impactSound, NPC.Center);
+            }
+            if (AI_Timer == 30)
+            {
                 targetArea = Main.player[NPC.target].Center;
-                direction = targetArea - NPC.Center;
+                direction = -(targetArea - NPC.Center);
 
                 atkdir = MathHelper.ToDegrees(direction.ToRotation());
                 NPC.globalEnemyBossInfo().OrbitDirection = 0;
@@ -1474,6 +1561,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_Timer = 0;
                 atkUseCounter = 0;
             }
+            AI_Timer += 1;
         }
         private void OrbSpinPrepare2()
         {
@@ -1486,6 +1574,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
             NPC.velocity = direction * 0.015f + direction.SafeNormalize(Vector2.Zero) * -3f;
+            NPC.direction = Math.Sign(player.Center.X - NPC.Center.X);
+
             if (AI_Timer == 150)
             {
                 AI_State = (float)ActionState.OrbSpin2;
@@ -1502,7 +1592,28 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
             NPC.velocity = direction * 0.01f + direction.SafeNormalize(Vector2.Zero) * 1f;
+            NPC.direction = Math.Sign(NPC.velocity.X);
 
+
+            if (DifficultyModes.Difficulty == 1)
+            {
+                if (AI_Timer % 45 == 0)
+                {
+                    SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
+
+
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, player.Center - NPC.Center, ModContent.ProjectileType<CandescenceProjWarning>(), 22, 0, Main.myPlayer, NPC.whoAmI, 0);
+                }
+            }
+            if (DifficultyModes.Difficulty == 2)
+            {
+                if (AI_Timer % 15 == 0)
+                {
+                    SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
+
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, player.Center - NPC.Center + Main.rand.NextVector2Circular(128, 128), ModContent.ProjectileType<CandescenceProjWarning>(), 22, 0, Main.myPlayer, NPC.whoAmI, 0);
+                }
+            }
             if (AI_Timer == 360)
             {
                 AI_State = (float)ActionState.OrbSpinRetract2;
@@ -1533,6 +1644,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.velocity = direction * 0.015f + direction.SafeNormalize(Vector2.Zero) * 1.5f;
             if (NPC.globalEnemyBossInfo().OrbitDistance <= 0)
             {
+                NPC.direction = (int)(NPC.Center.X - player.Center.X);
+
                 NPC.globalEnemyBossInfo().killOrbitals = true;
                 AI_State = (float)ActionState.FireballSpread;
                 AI_Timer = 0;
@@ -1546,11 +1659,15 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (AI_Timer > 60)
             {
-                SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
 
                 if (AI_Timer % 30 == 0)
                 {
 
+                    SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/BigShot5")
+                    {
+                        Volume = 0.5f,
+                    };
+                    SoundEngine.PlaySound(impactSound, NPC.Center);
                     if (AI_Timer == 90)
                     {
                         targetArea = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center);
@@ -1638,15 +1755,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 direction *= speed;
 
                 NPC.velocity = (NPC.velocity * (inertia - 1) + direction) / inertia;
+                NPC.direction = Math.Sign(NPC.velocity.X);
 
-                if (NPC.Center.X < Main.player[NPC.target].Center.X)
-                {
-                    NPC.direction = (int)MathHelper.ToRadians(-90);
-                }
-                else
-                {
-                    NPC.direction = (int)MathHelper.ToRadians(90);
-                }
             }
             if (AI_Timer == 20)
             {
@@ -1669,11 +1779,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = Vector2.Zero;
                 storedVel = new Vector2(-20, 0).RotatedBy(atkdir);
 
-                SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
-                {
-                    Volume = 0.4f,
-                };
-                SoundEngine.PlaySound(impactSound, NPC.Center);
+                SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
             }
             if (AI_Timer > 20 && AI_Timer < 100)
             {
@@ -1689,9 +1795,10 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = true;
 
-                SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                SoundEngine.PlaySound(SoundID.Zombie125, NPC.Center);
 
                 NPC.velocity = storedVel;
+                NPC.direction = Math.Sign(NPC.velocity.X);
             }
             if (AI_Timer == 100)
             {

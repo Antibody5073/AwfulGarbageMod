@@ -65,7 +65,7 @@ namespace AwfulGarbageMod.DamageClasses
 			// For this example, we'll make our class able to activate melee- and magic-specifically effects.
 			if (damageClass == DamageClass.Magic)
 				return true;
-            if (damageClass == DamageClass.Ranged)
+            if (damageClass == DamageClass.Summon)
                 return true;
             return false;
 		}

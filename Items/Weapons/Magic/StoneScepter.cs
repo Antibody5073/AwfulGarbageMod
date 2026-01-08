@@ -110,6 +110,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitSpd => 0.67f;
         public override float OffsetDir => 0;
         public override int ProjType => ModContent.ProjectileType<StoneScepterProj>();
+        public override int AssociatedBuff => ModContent.BuffType<StoneScepterBuff>();
 
         public override void SetDefaults()
         {

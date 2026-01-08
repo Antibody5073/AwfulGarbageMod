@@ -38,7 +38,7 @@ namespace AwfulGarbageMod.Global
         {
             boost = false;
 
-            if (source is EntitySource_Parent { Entity: Projectile { minionPos: 0, IsMinionOrSentryRelated: true } })
+            if (source is EntitySource_Parent { Entity: Projectile { minionPos: 0, IsMinionOrSentryRelated: true, minion: true } })
             {
                 if (Main.player[projectile.owner].GetModPlayer<GlobalPlayer>().AdamantiteMinion)
                 {

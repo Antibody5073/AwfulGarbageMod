@@ -27,7 +27,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void ScepterEffects(Player player)
         {
-            player.statDefense += 3;
+            player.statDefense += 4;
         }
 
         public override bool DoNotReduceNonMagicDmg(Player player)
@@ -90,8 +90,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Item.mana = 5;
 			Item.width = 42;
 			Item.height = 46;
-			Item.useTime = 30;
-			Item.useAnimation = 30;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
 			Item.useStyle = 1;
 			Item.knockBack = 2f;
 			Item.value = 10000;
@@ -137,6 +137,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitDistance => 90;
         public override float OffsetDir => 45;
         public override int ProjType => ModContent.ProjectileType<AsteroidBeltProj>();
+        public override int AssociatedBuff => ModContent.BuffType<AsteroidBeltBuff>();
 
 
         public override void SetDefaults()

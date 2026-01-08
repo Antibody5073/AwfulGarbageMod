@@ -29,7 +29,7 @@ namespace AwfulGarbageMod.Items.Placeable.OresBars
         public override void AddRecipes() {
 			CreateRecipe()
 				.AddIngredient<VitalliumOre>(5)
-				.AddIngredient<UnrealEssence>()
+				//.AddIngredient<UnrealEssence>()
                 .AddTile(TileID.Furnaces)
                 .Register();
 		}

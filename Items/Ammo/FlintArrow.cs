@@ -70,7 +70,6 @@ namespace AwfulGarbageMod.Items.Ammo
             Projectile.arrow = true;
         }
         Vector2 spawnPos;
-        int temp;
         int StateTimer;
         public override void OnKill(int timeLeft)
         {
@@ -137,7 +136,6 @@ namespace AwfulGarbageMod.Items.Ammo
         {
             StateTimer++;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
-            temp--;
             if (Projectile.velocity.Y < 18) {
                 Projectile.velocity.Y += 0.05f;
         } }

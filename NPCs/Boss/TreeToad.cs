@@ -201,18 +201,21 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
-            NPC.lifeMax = 3000;
-            if (Main.masterMode)
+            if (!Main.GameModeInfo.IsJourneyMode)
             {
-                NPC.lifeMax = 3400; // Increase by 5 if expert or master mode
-                if (Main.getGoodWorld || Main.zenithWorld)
+                NPC.lifeMax = 3000;
+                if (Main.masterMode)
                 {
-                    NPC.lifeMax = 4500;
+                    NPC.lifeMax = 3400; // Increase by 5 if expert or master mode
+                    if (Main.getGoodWorld || Main.zenithWorld)
+                    {
+                        NPC.lifeMax = 4500;
+                    }
                 }
-            }
-            if (DifficultyModes.Difficulty > 0)
-            {
-                NPC.lifeMax = (int)(NPC.lifeMax * 1.15f);
+                if (DifficultyModes.Difficulty > 0)
+                {
+                    NPC.lifeMax = (int)(NPC.lifeMax * 1.15f);
+                }
             }
         }
 
@@ -849,6 +852,11 @@ namespace AwfulGarbageMod.NPCs.Boss
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(0, 34), NPC.velocity, Mod.Find<ModGore>($"TreeToad_Gore_Hand").Type);
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(0, 34), NPC.velocity, Mod.Find<ModGore>($"TreeToad_Gore_Wing").Type);
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(0, 34), NPC.velocity, Mod.Find<ModGore>($"TreeToad_Gore_Wing").Type);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(0, 34), NPC.velocity, GoreID.TreeLeaf_Normal);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(0, 34), NPC.velocity, GoreID.TreeLeaf_Normal);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(0, 34), NPC.velocity, GoreID.TreeLeaf_Normal);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(0, 34), NPC.velocity, GoreID.TreeLeaf_Normal);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(0, 34), NPC.velocity, GoreID.TreeLeaf_Normal);
 
             }
         }

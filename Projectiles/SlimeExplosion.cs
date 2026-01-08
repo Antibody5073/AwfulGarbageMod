@@ -22,8 +22,8 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.width = 32;
-            Projectile.height = 32;
+            Projectile.width = 64;
+            Projectile.height = 64;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.penetrate = 4;

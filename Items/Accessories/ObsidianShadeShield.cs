@@ -34,8 +34,8 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense += 4;
-            player.GetModPlayer<GlobalPlayer>().ScaledShadeShield += 15f;
+            player.statDefense += 3;
+            player.GetModPlayer<GlobalPlayer>().ScaledShadeShield += 12f;
             player.fireWalk = true;
             player.noKnockback = true;
         }

@@ -24,6 +24,8 @@ using AwfulGarbageMod.Systems;
 using AwfulGarbageMod.ItemDropRules;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using SubworldLibrary;
+using AwfulGarbageMod.Subworlds;
 
 namespace AwfulGarbageMod.Global;
 public class ExampleGlobalNPC : GlobalNPC
@@ -243,6 +245,20 @@ public class ExampleGlobalNPC : GlobalNPC
         {
             spawnRate = (int)(spawnRate / 1.25f);
             maxSpawns = (int)(maxSpawns * 1.25f);
+        }
+        if (player.HasBuff<MinibossBuff>())
+        {
+            spawnRate = (int)(spawnRate / 0.5f);
+            maxSpawns = (int)(maxSpawns * 0.5f);
+        }
+        if (player.ZoneSkyHeight && Main.invasionType == 0 && (DownedBossSystem.downedTsugumi || NPC.downedBoss2))
+        {
+            spawnRate = (int)(spawnRate / 2f);
+            maxSpawns = (int)(maxSpawns * 2f);
+        }
+        if (SubworldSystem.IsActive<EbonwoodBossSubworld>())
+        {
+            maxSpawns *= 0;
         }
     }
 

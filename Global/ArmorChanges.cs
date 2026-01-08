@@ -1063,6 +1063,8 @@ internal class ArmorChanges
             {
                 player.setBonus = "10% increased summon damage\nThe first minion summoned is powered up with adamantite energy\nPowered up minions deal double damage and benefit twice as much from whip tag effects";
                 player.GetModPlayer<GlobalPlayer>().AdamantiteMinion = true;
+                player.GetDamage(DamageClass.Summon) += 0.1f;
+
             }
         }
     }
@@ -1083,7 +1085,7 @@ internal class ArmorChanges
             player.GetCritChance(DamageClass.Ranged) -= 10f;
 
             player.GetDamage(DamageClass.Generic) += 0.15f;
-            player.GetCritChance(DamageClass.Generic) += 15f;
+            player.GetCritChance(DamageClass.Generic) += 10f;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -1096,7 +1098,7 @@ internal class ArmorChanges
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "Critical strike chance increased by 15%";
+                line2.Text = "Critical strike chance increased by 10%";
             }
         }
         public override string IsArmorSet(Item head, Item body, Item legs)
@@ -1169,6 +1171,7 @@ internal class ArmorChanges
             {
                 player.setBonus = "10% increased summon damage\nPress the Armor Ability key to teleport all your sentries somewhere nearby, with a cooldown of 20 seconds";
                 player.GetModPlayer<GlobalPlayer>().AdamantiteSentry = true;
+                player.GetDamage(DamageClass.Summon) += 0.1f;
             }
         }
 
@@ -1225,6 +1228,7 @@ internal class ArmorChanges
 
             player.moveSpeed += 0.2f;
             player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += 0.2f;
+            player.GetDamage(DamageClass.Summon) += 0.15f;
             player.whipRangeMultiplier += 0.15f;
         }
     }
@@ -1259,9 +1263,9 @@ internal class ArmorChanges
         {
             player.endurance = 1f - (0.88f * (1f - player.endurance));
 
-            player.GetDamage(DamageClass.Melee) -= 0.9f;
+            player.GetDamage(DamageClass.Melee) -= 0.09f;
             player.GetCritChance(DamageClass.Melee) -= 9f;
-            player.GetAttackSpeed(DamageClass.Melee) -= 0.9f;
+            player.GetAttackSpeed(DamageClass.Melee) -= 0.09f;
 
             player.longInvince = true;
 
@@ -1300,7 +1304,7 @@ internal class ArmorChanges
             player.GetDamage(DamageClass.Ranged) -= 0.16f;
             player.GetCritChance(DamageClass.Ranged) -= 7;
 
-            player.GetAttackSpeed(DamageClass.Melee) += 0.27f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.33f;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -1308,7 +1312,7 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "27% increased melee speed";
+                line.Text = "33% increased melee speed";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
@@ -1329,7 +1333,7 @@ internal class ArmorChanges
         {
             if (set.Equals("Titanium Ranged"))
             {
-                player.setBonus = "75% reduced defense\nFor every point of defense lost, gain 2% melee damage";
+                player.setBonus = "75% reduced defense\nFor every point of defense lost, gain 1% melee damage";
                 player.GetModPlayer<GlobalPlayer>().TitaniumOffense = true;
             }
         }
@@ -1382,7 +1386,7 @@ internal class ArmorChanges
         {
             if (set.Equals("Titanium Magic"))
             {
-                player.setBonus = "Swords fling titanium shards, dealing 25% damage\nSpears launch a medium range shadow trident, dealing 75% damage\nIncreases yoyo speed and range";
+                player.setBonus = "Melee weapons fling titanium shards that deal 30% damage\nIncreases yoyo speed and range";
                 player.GetModPlayer<GlobalPlayer>().TitaniumVariety = true;
                 if (ItemID.Sets.Yoyo[player.HeldItem.type])
                 {
@@ -1407,7 +1411,12 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "11% increased melee critical strike chance and melee speed";
+                line.Text = "11% increased melee speed";
+            }
+            TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
+            if (line2 != null)
+            {
+                line2.Text = "11% increased melee critical strike chance";
             }
         }
 

@@ -35,7 +35,7 @@ namespace AwfulGarbageMod
         {
             return damageType.CountsAsClass(DamageClass.Summon);
         }
-        public static readonly float OnePerentJumpSpeed = 0.033333333333333f;
+        public static readonly float OnePerentJumpSpeed = 0.066666666666666f;
 
 
         public static FlailProjectile flailProjectile(this Projectile proj)

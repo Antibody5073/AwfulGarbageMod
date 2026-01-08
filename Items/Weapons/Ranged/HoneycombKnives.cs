@@ -28,10 +28,10 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Item.DamageType = ModContent.GetInstance<KnifeDamageClass>();
             Item.width = 60;
             Item.height = 60;
-            Item.useTime = 21;
+            Item.useTime = 24;
             Item.noMelee = true;
             Item.scale = 0f;
-            Item.useAnimation = 21;
+            Item.useAnimation = 24;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 1.75f;
             Item.value = 10000;
@@ -86,9 +86,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(MathHelper.ToRadians(180)), Main.player[Projectile.owner].beeType(), Main.player[Projectile.owner].beeDamage((int)Projectile.damage / 2), 0, Main.myPlayer);
-            Main.projectile[proj].usesIDStaticNPCImmunity = true;
-            Main.projectile[proj].idStaticNPCHitCooldown = 10;
-            Main.projectile[proj].penetrate = 3;
+            Main.projectile[proj].penetrate = 1;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -198,9 +196,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                     beeTimer = 120;
                     Projectile.penetrate--;
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, oldVel.RotatedBy(MathHelper.ToRadians(180)), Main.player[Projectile.owner].beeType(), Main.player[Projectile.owner].beeDamage((int)(Projectile.damage * 0.65)), 0, Main.myPlayer);
-                    Main.projectile[proj].usesIDStaticNPCImmunity = true;
-                    Main.projectile[proj].idStaticNPCHitCooldown = 10;
-                    Main.projectile[proj].penetrate = 5;
+                    Main.projectile[proj].penetrate = 1;
                     Main.projectile[proj].extraUpdates += 1;
                     Main.projectile[proj].timeLeft /= 2;
 

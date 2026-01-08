@@ -26,7 +26,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void ScepterEffects(Player player)
         {
-            player.GetDamage(DamageClass.Generic) += 3 / 100f;
+            player.GetDamage(DamageClass.Generic) += 6 / 100f;
 
         }
     }
@@ -119,6 +119,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitSpd => -1f;
         public override float OffsetDir => 0;
         public override int ProjType => ModContent.ProjectileType<NecroscepterProj>();
+        public override int AssociatedBuff => ModContent.BuffType<NecroscepterBuff>();
 
         public override void SetDefaults()
         {

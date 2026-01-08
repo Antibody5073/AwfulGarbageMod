@@ -1,3 +1,4 @@
+using AwfulGarbageMod.Tiles.Furniture;
 using Microsoft.Xna.Framework;
 using Mono.Cecil;
 using Steamworks;
@@ -94,7 +95,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             recipe.AddIngredient(Mod.Find<ModItem>("CloudBangasa").Type);
             recipe.AddIngredient(Mod.Find<ModItem>("StormEssence").Type, 6);
             recipe.AddIngredient(ItemID.RainCloud, 24);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile<StormAnvil>();
             recipe.Register();
         }
     }

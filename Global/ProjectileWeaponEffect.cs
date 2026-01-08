@@ -24,6 +24,8 @@ using AwfulGarbageMod.Items.Accessories;
 using Microsoft.CodeAnalysis;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using System.Security.Policy;
+using AwfulGarbageMod.Items.Weapons.Magic.Hardmode;
+using AwfulGarbageMod.Items.Ammo;
 
 namespace AwfulGarbageMod.Global
 {
@@ -38,10 +40,19 @@ namespace AwfulGarbageMod.Global
         public bool FireFirearm = false;
         public bool noDaybreak = false;
         public bool Shadowflame = false;
+        public bool MothRay = false;
+        public bool GlacialBow = false;
 
         public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
         {
             return entity.friendly;
+        }
+        public override void OnKill(Projectile projectile, int timeLeft)
+        {
+            if (GlacialBow)
+            {
+                Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, projectile.oldVelocity / 5, ModContent.ProjectileType<GlacialEcho>(), projectile.damage * 3 / 4, projectile.knockBack, projectile.owner);
+            }
         }
 
         public override void AI(Projectile projectile)
@@ -64,7 +75,26 @@ namespace AwfulGarbageMod.Global
                     Main.dust[dust].noGravity = true;
                 }
             }
+            if (GlacialBow)
+            {
+                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Frost, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dust].scale = 1.35f;
+                Main.dust[dust].velocity = projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero) * 3;
+                Main.dust[dust].noGravity = true;
+                dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Frost, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dust].scale = 1.35f;
+                Main.dust[dust].velocity = projectile.velocity.RotatedBy(-MathHelper.PiOver2).SafeNormalize(Vector2.Zero) * 3;
+                Main.dust[dust].noGravity = true;
+            }
             base.AI(projectile);
+        }
+        public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
+        {
+            if (MothRay)
+            {
+                Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, oldVelocity * -1, ModContent.ProjectileType<MothRaySpawner>(), projectile.damage, projectile.knockBack, projectile.owner);
+            }
+            return base.OnTileCollide(projectile, oldVelocity);
         }
 
 
@@ -76,6 +106,11 @@ namespace AwfulGarbageMod.Global
                 {
                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<DeathStringsProj>(), projectile.damage / 2, projectile.knockBack / 5, projectile.owner, 60, 0.9f);
                 }
+            }
+            if (MothRay)
+            {
+                Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, projectile.velocity * -1, ModContent.ProjectileType<MothRaySpawner>(), projectile.damage, projectile.knockBack, projectile.owner);
+                target.AddBuff(ModContent.BuffType<MothRayBuff>(), 240);
             }
             if (hit.Crit)
             {

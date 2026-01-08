@@ -25,6 +25,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override void ScepterEffects(Player player)
         {
             player.statLifeMax += 20;
+            player.lifeRegen += 1;
         }
     }
 
@@ -114,6 +115,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override float OrbitSpd => 0.4f;
         public override float OffsetDir => 0;
         public override int ProjType => ModContent.ProjectileType<VitalScepterProj>();
+        public override int AssociatedBuff => ModContent.BuffType<VitalScepterBuff>();
 
         public override void SetDefaults()
         {

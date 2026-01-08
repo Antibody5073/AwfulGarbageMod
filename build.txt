@@ -1,5 +1,5 @@
 displayName = Awful Garbage Mod
 author = Antibody
-version = 0.4.1
-modReferences = StructureHelper
-weakReferences = StramClasses@1.0.2
+version = 0.4.5
+modReferences = StructureHelper, SubworldLibrary
+weakReferences = StramClasses@1.0.2, Infernus@1.6.7, gunrightsmod@1.5.6.1
