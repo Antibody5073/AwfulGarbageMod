@@ -36,7 +36,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         {
             // DisplayName.SetDefault("Slime Scepter"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
             // Tooltip.SetDefault("Summons orbital slimeballs that provide 3 defense each, with a max of 6 orbitals. \nTaking damage releases them. \nReduces max mana by 5 and non-magic damage by 8% for each active orbital.");
-            ModItemSets.Sets.MaxScepterProjectiles[Item.type] = 8;
+            ModItemSets.Sets.MaxScepterProjectiles[Item.type] = 10;
             ScepterMax = this.GetLocalization(nameof(ScepterMax));
         }
 
