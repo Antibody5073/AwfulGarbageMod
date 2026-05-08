@@ -1,8 +1,11 @@
 ﻿using AwfulGarbageMod;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Accessories.TerMericaCrossMod;
+using AwfulGarbageMod.Items.Placeable.OresBars;
+using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Melee;
 using AwfulGarbageMod.Items.Weapons.Ranged;
-using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Rogue;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.NPCs.Boss;
 using Microsoft.Xna.Framework;
@@ -12,8 +15,6 @@ using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AwfulGarbageMod.Items.Weapons.Rogue;
-using AwfulGarbageMod.Items.Placeable.OresBars;
 
 namespace AwfulGarbageMod.Items.Consumables
 {
@@ -50,6 +51,10 @@ namespace AwfulGarbageMod.Items.Consumables
             itemLoot.Add(ItemDropRule.FewFromOptions(1, 3, ModContent.ItemType<FrigidFury>()));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<GlacialEye>()));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<FrigidiusHead>()));
+            if (ModLoader.TryGetMod("gunrightsmod", out Mod termerica))
+            {
+                itemLoot.Add(ItemDropRule.FewFromOptions(1, 3, ModContent.ItemType<SnakeOil>()));
+            }
         }
 
         // Below is code for the visuals

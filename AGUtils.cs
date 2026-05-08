@@ -1,19 +1,21 @@
+using AwfulGarbageMod;
+using AwfulGarbageMod.DamageClasses;
+using AwfulGarbageMod.Global;
+using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
+using Steamworks;
+using StramClasses.Classes.Rogue;
 using System;
 using System.Drawing.Text;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AwfulGarbageMod;
-using AwfulGarbageMod.Global;
-using Microsoft.CodeAnalysis;
-using AwfulGarbageMod.DamageClasses;
-using StramClasses.Classes.Rogue;
 using Terraria.WorldBuilding;
-using System.Linq;
 
 namespace AwfulGarbageMod
 {
@@ -47,6 +49,10 @@ namespace AwfulGarbageMod
             return npc.GetGlobalNPC<GlobalEnemyBossInfo>();
         }
 
+        public static ShieldItem shieldItem(this Item item)
+        {
+            return item.GetGlobalItem<ShieldItem>();
+        }
         public static ScepterItem scepterItem(this Item item)
         {
             return item.GetGlobalItem<ScepterItem>();
@@ -144,6 +150,46 @@ namespace AwfulGarbageMod
             return (int)(player.GetTotalDamage(damageClass).ApplyTo(origDmg));
         }
 
+        public static int ScaleShieldEffectPower(int stat, Player player, float effectiveness = 1)
+        {
+            return (int)(stat * ((player.GetModPlayer<EarthenShield>().ShieldEffectPower - 1) * effectiveness + 1));
+        }
+        public static float ScaleShieldEffectPower(float stat, Player player, float effectiveness = 1)
+        {
+            return stat * ((player.GetModPlayer<EarthenShield>().ShieldEffectPower - 1) * effectiveness + 1);
+        }
+        public static int GetTotalShieldDamage(int stat, Player player, float effectiveness = 1)
+        {
+            return ScaleDamage(ScaleShieldEffectPower(stat, player, effectiveness), player, ModContent.GetInstance<SentinelDamageClass>());
+        }
+        public static void DrawCircle(Vector2 center, float radius, Color color, float width, int segments)
+        {
+            Vector2[] vertex = new Vector2[segments];
+            for (int i = 0; i < segments; i++)
+            {
+                vertex[i] = center + new Vector2(radius, 0).RotatedBy(i * MathHelper.TwoPi / segments);
+            }
+            DrawPolygon(vertex, segments, color, width);
+        }
+        public static void DrawPolygon(Vector2[] vertex, int count, Color color, float width)
+        {
+            if (count > 0)
+            {
+                for (int i = 0; i < count - 1; i++)
+                {
+                    DrawLine(vertex[i], vertex[i + 1], color, width);
+                }
+                DrawLine(vertex[count - 1], vertex[0], color, width);
+            }
+        }
+        public static void DrawLine(Vector2 start, Vector2 end, Color color, float width)
+        {
+
+            float angle = (float)Math.Atan2(end.Y - start.Y, end.X - start.X);
+            float length = Vector2.Distance(start, end) / 2f;
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("AwfulGarbageMod/Assets/dot", ReLogic.Content.AssetRequestMode.AsyncLoad).Value,
+                start, (Rectangle?)null, color, angle, Vector2.Zero, new Vector2(length, width), SpriteEffects.None, 0);
+        }
         public static int GetTileCounts(int tileType)
         {
             

@@ -28,8 +28,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 42;
 			Item.height = 46;
-			Item.useTime = 12;
-			Item.useAnimation = 12;
+			Item.useTime = 16;
+			Item.useAnimation = 16;
 			Item.useStyle = 5;
 			Item.knockBack = 2f;
 			Item.value = 10000;

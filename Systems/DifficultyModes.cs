@@ -18,6 +18,11 @@ using AwfulGarbageMod.Configs;
 namespace AwfulGarbageMod.Systems;
 public class DifficultyModes : ModSystem
 {
+    /// <summary>
+    /// 0: no difficulty mode
+    /// 1: unreal mode
+    /// 2: abex mode
+    /// </summary>
     public static int Difficulty = 0;
 
     public override void NetSend(BinaryWriter writer)

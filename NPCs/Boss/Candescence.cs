@@ -68,16 +68,42 @@ namespace AwfulGarbageMod.NPCs.Boss
             HomingFireball2,
             AlignDash2
         }
+        private enum FrameGroups
+        {
+            sideIdle,
+            frontIdle,
+            salvoAtk,
+            sideDash,
+            upDash,
+            downDash
+        }
 
         // Our texture is 36x36 with 2 pixels of padding vertically, so 38 is the vertical spacing.
         // These are for our benefit and the numbers could easily be used directly in the code below, but this is how we keep code organized.
         private enum Frame
         {
-            Spin1,
-            Spin2,
-            Spin3,
-            Spin4,
-            Spin5
+            sideIdle1,
+            sideIdle2,
+            sideIdle3,
+            sideIdle4,
+            frontIdle1,
+            frontIdle2,
+            frontIdle3,
+            frontIdle4,
+            salvoAtk1,
+            salvoatk2,
+            sideDash1,
+            sideDash2,
+            sideDash3,
+            sideDash4,
+            upDash1,
+            upDash2,
+            upDash3,
+            upDash4,
+            downDash1,
+            downDash2,
+            downDash3,
+            downDash4,
         }
 
         // These are reference properties. One, for example, lets us write AI_State as if it's NPC.ai[0], essentially giving the index zero our own name.
@@ -112,7 +138,7 @@ namespace AwfulGarbageMod.NPCs.Boss
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Flutter Slime"); // Automatic from localization files
-            Main.npcFrameCount[NPC.type] = 4; // make sure to set this for your modnpcs.
+            Main.npcFrameCount[NPC.type] = 22; // make sure to set this for your modnpcs.
 
             // Specify the debuffs it is immune to
             NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire] = true;
@@ -230,7 +256,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         public override void OnSpawn(IEntitySource source)
         {
 
-            NPC.lifeMax = NPC.lifeMax * ModContent.GetInstance<Config>().BossHealthMultiplier / 100;
+            NPC.lifeMax = NPC.lifeMax * ModContent.GetInstance<Config>().BossHealthMultiplier / 100; 
+            if (DifficultyModes.Difficulty == 2)
+            {
+                NPC.lifeMax = (int)(NPC.lifeMax * 2.5f);
+            }
             NPC.life = NPC.lifeMax;
         }
 
@@ -240,7 +270,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (!DownedBossSystem.downedFireMoth)
             {
-                Main.NewText("The downfall of the ancient lava moth empowers accessories with new possible reforges", Color.Red);
+                //Main.NewText("The downfall of the ancient lava moth empowers accessories with new possible reforges", Color.Red);
             }
 
             NPC.SetEventFlagCleared(ref DownedBossSystem.downedFireMoth, -1);
@@ -284,6 +314,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (bossPhase == 0)
             {
+                SwitchAnimation(FrameGroups.frontIdle);
                 NPC.TargetClosest(true);
                 bossPhase = 1;
                 AI_Timer = 0;
@@ -291,6 +322,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             }
             if (NPC.life < NPC.lifeMax * 3 / 5 && bossPhase == 1)
             {
+                SwitchAnimation(FrameGroups.frontIdle);
+
                 NPC.TargetClosest(true);
                 NPC.globalEnemyBossInfo().killOrbitals = true;
 
@@ -394,20 +427,111 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             // This makes the sprite flip horizontally in conjunction with the npc.direction.
             NPC.spriteDirection = NPC.direction;
-            NPC.rotation = (NPC.velocity.X + recoil.X) * 0.035f;
+            NPC.rotation = 0;
 
             frameCounter++;
-            if (frameCounter > 5)
+            if (frame < 4)
             {
-                frameCounter = 0;
-                frame++;
-                if (frame >= Main.npcFrameCount[NPC.type])
+                NPC.rotation = (NPC.velocity.X + recoil.X) * 0.035f;
+
+                if (frameCounter > 5)
                 {
-                    frame = 0;
+                    frameCounter = 0;
+                    frame++;
+                    if (frame >= 4)
+                    {
+                        frame = 0;
+                    }
                 }
             }
+            else if (frame < 8)
+            {
 
-            NPC.frame.Y = frame * frameHeight;
+                if (frameCounter > 5)
+                {
+                    frameCounter = 0;
+                    frame++;
+                    if (frame >= 8)
+                    {
+                        frame = 4;
+                    }
+                }
+            }
+            else if (frame < 10)
+            {
+                if (frameCounter > 5)
+                {
+                    frameCounter = 0;
+                    frame++;
+                    if (frame >= 10)
+                    {
+                        frame = 8;
+                    }
+                }
+            }
+            else if (frame < 14)
+            {
+                if (frameCounter > 5)
+                {
+                    frameCounter = 0;
+                    frame++;
+                    if (frame >= 14)
+                    {
+                        frame = 11;
+                    }
+                }
+            }
+            else if (frame < 18)
+            {
+                if (frameCounter > 5)
+                {
+                    frameCounter = 0;
+                    frame++;
+                    if (frame >= 18)
+                    {
+                        frame = 14;
+                    }
+                }
+            }
+            else
+            {
+                if (frameCounter > 5)
+                {
+                    frameCounter = 0;
+                    frame++;
+                    if (frame >= 22)
+                    {
+                        frame = 18;
+                    }
+                }
+            }
+                NPC.frame.Y = frame * frameHeight;
+        }
+
+        private void SwitchAnimation(FrameGroups anim)
+        {
+            frameCounter = 0;
+            switch (anim)
+            {
+                case FrameGroups.sideIdle:
+                    frame = 0;
+                    break;
+                case FrameGroups.frontIdle:
+                    frame = 4;
+                    break;
+                case FrameGroups.salvoAtk:
+                    frame = 8;
+                    break;
+                case FrameGroups.sideDash:
+                    frame = 10;
+                    break;
+                case FrameGroups.upDash:
+                    frame = 14;
+                    break;
+                case FrameGroups.downDash:
+                    frame = 18;
+                    break;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -448,7 +572,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             Vector2 direction = player.Center - NPC.Center;
             NPC.velocity = direction * 0.015f + direction.SafeNormalize(Vector2.Zero) * -5f;
-            NPC.direction = Math.Sign(NPC.velocity.X);
+            NPC.direction = Math.Sign(player.Center.X - NPC.Center.X);
             NPC.dontTakeDamage = true;
             AI_Timer += 1;
             if (AI_Timer == 180)
@@ -457,6 +581,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.FireBlast;
                 AI_Timer = 0;
                 atkUseCounter = 0;
+                SwitchAnimation(FrameGroups.sideIdle);
             }
         }
         private void FireBlast()
@@ -486,7 +611,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                                 AI_State = (float)ActionState.FireGrid;
                                 AI_Timer = -75;
                                 NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = false;
-
+                                SwitchAnimation(FrameGroups.salvoAtk);
                                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/charge_3")
                                 {
                                     Volume = 0.3f,
@@ -495,6 +620,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                             }
                             else
                             {
+                                SwitchAnimation(FrameGroups.frontIdle);
+
                                 AI_State = (float)ActionState.Flamethrower;
                                 AI_Timer = 0;
                             }
@@ -543,6 +670,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                             AI_Timer = 0;
                             atkUseCounter = 0;
                             playerPos.Clear();
+                            SwitchAnimation(FrameGroups.frontIdle);
                         }
                         else
                         {
@@ -621,6 +749,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.Flamethrower;
                 AI_Timer = 0;
                 recoil = Vector2.Zero;
+                SwitchAnimation(FrameGroups.frontIdle);
             }
             AI_Timer += 1;
         }
@@ -693,6 +822,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     AI_State = (float)ActionState.CircleDash;
                     AI_Timer = 0;
+                    SwitchAnimation(FrameGroups.sideIdle);
                 }
                 atkUseCounter = 0;
             }
@@ -716,6 +846,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 AI_State = (float)ActionState.CircleDash;
                 AI_Timer = 0;
+                SwitchAnimation(FrameGroups.sideIdle);
             }
             AI_Timer += 1;
         }
@@ -754,12 +885,27 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
                 storedVel = direction;
                 NPC.velocity = new Vector2(0, 0);
-
+                SwitchAnimation(FrameGroups.salvoAtk);
             }
             else if (AI_Timer == 90)
             {
                 atkUseCounter++;
                 NPC.velocity = storedVel;
+                if (storedVel.X < 3 && storedVel.X > -3)
+                {
+                    if (storedVel.Y > 0)
+                    {
+                        SwitchAnimation(FrameGroups.downDash);
+                    }
+                    else
+                    {
+                        SwitchAnimation(FrameGroups.upDash);
+                    }
+                }
+                else
+                {
+                    SwitchAnimation(FrameGroups.sideDash);
+                }
                 if (Main.expertMode)
                 {
                     if (DifficultyModes.Difficulty > 0)
@@ -817,6 +963,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             }
             else if (AI_Timer == 120)
             {
+                SwitchAnimation(FrameGroups.sideIdle);
                 SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
 
                 int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(NPC.velocity) * 18, ProjectileID.Flames, 22, 0, Main.myPlayer);
@@ -838,6 +985,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                 Main.projectile[proj].hostile = true;
                 Main.projectile[proj].friendly = false;
                 proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(NPC.velocity).RotatedBy(MathHelper.ToRadians(-36)) * 18, ProjectileID.Flames, 22, 0, Main.myPlayer);
+                Main.projectile[proj].hostile = true;
+                Main.projectile[proj].friendly = false;
+                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(NPC.velocity).RotatedBy(MathHelper.ToRadians(48)) * 18, ProjectileID.Flames, 22, 0, Main.myPlayer);
+                Main.projectile[proj].hostile = true;
+                Main.projectile[proj].friendly = false;
+                proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(NPC.velocity).RotatedBy(MathHelper.ToRadians(-48)) * 18, ProjectileID.Flames, 22, 0, Main.myPlayer);
                 Main.projectile[proj].hostile = true;
                 Main.projectile[proj].friendly = false;
                 if (atkUseCounter == 4)
@@ -868,6 +1021,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                     AI_State = (float)ActionState.OrbSpinPrepare;
                     AI_Timer = 0;
                     atkUseCounter = 0;
+                    SwitchAnimation(FrameGroups.frontIdle);
 
                 }
                 AI_Timer = 0;
@@ -960,6 +1114,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.HomingFireball;
                 AI_Timer = 0;
                 atkUseCounter = 0;
+                SwitchAnimation(FrameGroups.sideIdle);
             }
         }
         private void HomingFireball()
@@ -1021,6 +1176,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_Timer = 0;
                 atkUseCounter = 0;
                 atkdir = MathHelper.PiOver2;
+                SwitchAnimation(FrameGroups.sideIdle);
             }
             AI_Timer++;
         }
@@ -1029,6 +1185,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             Player player = Main.player[NPC.target];
             if (AI_Timer == 0)
             {
+                SwitchAnimation(FrameGroups.sideIdle);
                 atkdir += Main.rand.Next(1, 4) * MathHelper.PiOver2;
             }
             if (AI_Timer < 60)
@@ -1059,7 +1216,16 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = Vector2.Zero;
                 storedVel = new Vector2(-22, 0).RotatedBy(atkdir);
                 SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
+                NPC.direction = Math.Sign(storedVel.X);
 
+                if (storedVel.X > 3 || storedVel.X < -3)
+                {
+                    SwitchAnimation(FrameGroups.sideIdle);
+                }
+                else
+                {
+                    SwitchAnimation(FrameGroups.frontIdle);
+                }
             }
             if (AI_Timer == 70)
             {
@@ -1067,17 +1233,34 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = true;
 
                 NPC.velocity = storedVel;
+                if (storedVel.X > 3 || storedVel.X < -3)
+                {
+                    SwitchAnimation(FrameGroups.sideDash);
+                }
+                else
+                {
+                    if (storedVel.Y < 0)
+                    {
+                        SwitchAnimation(FrameGroups.upDash);
+                    }
+                    else
+                    {
+                        SwitchAnimation(FrameGroups.downDash);
+                    }
+                }
             }
             if (AI_Timer == 100)
             {
                 AI_Timer = -1;
                 atkUseCounter++;
+
                 if (atkUseCounter == 6)
                 {
                     recoil = NPC.velocity;
                     AI_State = (float)ActionState.FireBlast;
                     AI_Timer = -90;
                     atkUseCounter = 0;
+                    SwitchAnimation(FrameGroups.sideIdle);
                 }
             }
             AI_Timer++;
@@ -1089,7 +1272,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             Vector2 direction = player.Center - NPC.Center;
             NPC.velocity = direction * 0.015f + direction.SafeNormalize(Vector2.Zero) * -5f;
-            NPC.direction = Math.Sign(NPC.velocity.X);
+            NPC.direction = Math.Sign(player.Center.X - NPC.Center.X);
 
             NPC.dontTakeDamage = true;
             AI_Timer += 1;
@@ -1099,6 +1282,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.FireBlast2;
                 AI_Timer = 0;
                 atkUseCounter = 0;
+                SwitchAnimation(FrameGroups.sideIdle);
             }
         }
         private void FireBlast2()
@@ -1129,6 +1313,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                                 AI_State = (float)ActionState.FireGrid2;
                                 AI_Timer = -75;
                                 NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = false;
+                                SwitchAnimation(FrameGroups.salvoAtk);
 
                                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/charge_3")
                                 {
@@ -1138,6 +1323,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                             }
                             else
                             {
+                                SwitchAnimation(FrameGroups.salvoAtk);
+
                                 AI_State = (float)ActionState.DancingSparks;
                                 AI_Timer = 0;
                             }
@@ -1260,6 +1447,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                         if (atkUseCounter == 7)
                         {
                             recoil = Vector2.Zero;
+                            SwitchAnimation(FrameGroups.salvoAtk);
 
                             AI_State = (float)ActionState.DancingSparks;
                             AI_Timer = 0;
@@ -1341,6 +1529,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             if (AI_Timer == 60)
             {
                 recoil = Vector2.Zero;
+                SwitchAnimation(FrameGroups.salvoAtk);
 
                 AI_State = (float)ActionState.DancingSparks;
                 AI_Timer = 0;
@@ -1395,6 +1584,8 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (AI_Timer == 480)
             {
+                SwitchAnimation(FrameGroups.frontIdle);
+
                 AI_State = (float)ActionState.Flamethrower2;
                 AI_Timer = 0;
                 atkUseCounter = 0;
@@ -1650,7 +1841,9 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.FireballSpread;
                 AI_Timer = 0;
                 atkUseCounter = 0;
-                NPC.velocity = Vector2.Zero;
+                NPC.velocity = Vector2.Zero; 
+                SwitchAnimation(FrameGroups.sideIdle);
+
             }
         }
         private void FireballSpread()
@@ -1731,6 +1924,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_Timer = 0;
                 atkUseCounter = 0;
                 atkdir = MathHelper.PiOver2;
+                SwitchAnimation(FrameGroups.sideIdle);
             }
             AI_Timer++;
         }
@@ -1740,6 +1934,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             if (AI_Timer == 0)
             {
                 atkdir += Main.rand.Next(1, 4) * MathHelper.PiOver2;
+                SwitchAnimation(FrameGroups.sideIdle);
             }
             if (AI_Timer == 1)
             {
@@ -1778,8 +1973,18 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.Center = player.Center + new Vector2(240, 0).RotatedBy(atkdir);
                 NPC.velocity = Vector2.Zero;
                 storedVel = new Vector2(-20, 0).RotatedBy(atkdir);
+                NPC.direction = Math.Sign(storedVel.X);
 
                 SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
+
+                if (storedVel.X > 3 || storedVel.X < -3)
+                {
+                    SwitchAnimation(FrameGroups.sideIdle);
+                }
+                else
+                {
+                    SwitchAnimation(FrameGroups.frontIdle);
+                }
             }
             if (AI_Timer > 20 && AI_Timer < 100)
             {
@@ -1798,6 +2003,21 @@ namespace AwfulGarbageMod.NPCs.Boss
                 SoundEngine.PlaySound(SoundID.Zombie125, NPC.Center);
 
                 NPC.velocity = storedVel;
+                if (storedVel.X > 3 || storedVel.X < -3)
+                {
+                    SwitchAnimation(FrameGroups.sideDash);
+                }
+                else
+                {
+                    if (storedVel.Y < 0)
+                    {
+                        SwitchAnimation(FrameGroups.upDash);
+                    }
+                    else
+                    {
+                        SwitchAnimation(FrameGroups.downDash);
+                    }
+                }
                 NPC.direction = Math.Sign(NPC.velocity.X);
             }
             if (AI_Timer == 100)
@@ -1810,6 +2030,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                     AI_State = (float)ActionState.FireBlast2;
                     AI_Timer = -90;
                     atkUseCounter = 0;
+                    SwitchAnimation(FrameGroups.sideIdle);
+
                 }
             }
             AI_Timer++;

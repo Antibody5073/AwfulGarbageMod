@@ -40,7 +40,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
             player.GetAttackSpeed(DamageClass.Melee) += 0.08f;
             player.GetDamage(DamageClass.Melee) += 0.08f;
-            if (player.GetModPlayer<GlobalPlayer>().FortifyingLink < 8) { player.GetModPlayer<GlobalPlayer>().FortifyingLink = 8; }
+            if (player.GetModPlayer<GlobalPlayer>().FortifyingLink < 4) { player.GetModPlayer<GlobalPlayer>().FortifyingLink = 4; }
         }
         public override void AddRecipes()
         {

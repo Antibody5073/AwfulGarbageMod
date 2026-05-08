@@ -1,3 +1,4 @@
+using AwfulGarbageMod.Buffs;
 using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.DamageClasses;
 using AwfulGarbageMod.Items.Accessories.Hardmode;
@@ -79,11 +80,21 @@ namespace AwfulGarbageMod.Global
                 healValue = (int)(healValue * 1.2f);
 
             }
+            healValue += player.GetModPlayer<GlobalPlayer>().AntediluvianPotionBoost;
             base.GetHealMana(item, player, quickHeal, ref healValue);
         }
 
+        public override bool OnPickup(Item item, Player player)
+        {
+            if ((item.type == 58 || item.type == 1734 || item.type == 1867) && player.GetModPlayer<GlobalPlayer>().ForbiddenFruit)
+            {
+                player.statLife -= 20;
+            }
+            return base.OnPickup(item, player);
+        }
         public override void GetHealLife(Item item, Player player, bool quickHeal, ref int healValue)
         {
+
             if (item.healLife > 0)
             {
                 if (player.GetModPlayer<GlobalPlayer>().MeatShield > 0)
@@ -92,9 +103,26 @@ namespace AwfulGarbageMod.Global
                 }
             }
 
+            healValue += (int)MathHelper.Clamp(player.GetModPlayer<GlobalPlayer>().SaltedTearsEnergy, 0, healValue * 0.5f);
+            healValue += player.GetModPlayer<GlobalPlayer>().AntediluvianPotionBoost;
             base.GetHealLife(item, player, quickHeal, ref healValue);
         }
+        public override void OnConsumeItem(Item item, Player player)
+        {
+            if (item.healLife > 0)
+            {
+                player.GetModPlayer<GlobalPlayer>().SaltedTearsEnergy = 0;
+            }
 
+        }
+        public override bool CanUseItem(Item item, Player player)
+        {
+            if (player.GetModPlayer<GlobalPlayer>().ForbiddenFruit && item.healLife > 0)
+            {
+                return false;
+            }
+            return base.CanUseItem(item, player);
+        }
         public override bool CanConsumeAmmo(Item weapon, Item ammo, Player player)
         {
             if (player.GetModPlayer<GlobalPlayer>().JunkGreaves && Main.rand.NextBool(4))
@@ -102,6 +130,14 @@ namespace AwfulGarbageMod.Global
                 return false;
             }
             if (player.body == ModContent.ItemType<AncientFlierBreastplate>() && Main.rand.NextBool(5))
+            {
+                return false;
+            }
+            if (player.body == ModContent.ItemType<MidnightBreastplate>() && Main.rand.NextBool(10))
+            {
+                return false;
+            }
+            if (player.legs == ModContent.ItemType<GoreKnightLeggings>() && Main.rand.NextBool(15, 100))
             {
                 return false;
             }

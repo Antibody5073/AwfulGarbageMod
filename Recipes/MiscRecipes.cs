@@ -66,6 +66,11 @@ namespace AwfulGarbageMod.Recipes
                 .AddIngredient<CelestiteShard>(8)
                 .AddTile(TileID.Anvils)
                 .Register();
+            Recipe.Create(ItemID.CreativeWings)
+                .AddIngredient<CelestiteShard>(8)
+                .AddIngredient(ItemID.Feather, 3)
+                .AddTile(TileID.Anvils)
+                .Register();
             Recipe.Create(ItemID.Extractinator)
                 .AddIngredient<Flint>(15)
                 .AddIngredient<Garbage>(45)
@@ -174,10 +179,17 @@ namespace AwfulGarbageMod.Recipes
                 {
                     DoInfernusRecipe(recipe);
                 }
-                if (recipe.HasResult(ItemID.LightningBoots) && recipe.createItem.stack == 1)
+                if (ModContent.GetInstance<Config>().MinorProgressionChanges)
                 {
-                    recipe.AddIngredient<StormEssence>(5);
-                    recipe.AddTile<StormAnvil>();
+                    if (recipe.HasResult(ItemID.LightningBoots) && recipe.createItem.stack == 1)
+                    {
+                        recipe.AddIngredient<StormEssence>(5);
+                        recipe.AddTile<StormAnvil>();
+                    }
+                    if (recipe.HasResult(ItemID.TerraBlade) && recipe.createItem.stack == 1)
+                    {
+                        recipe.AddIngredient<HeartOfBlight>();
+                    }
                 }
             }
         }

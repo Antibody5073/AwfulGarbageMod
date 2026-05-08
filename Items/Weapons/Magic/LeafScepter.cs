@@ -31,7 +31,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
     }
 
     public class LeafScepter : ModItem
-	{
+    {
         public static LocalizedText ScepterMax { get; private set; }
 
         public override void SetStaticDefaults()
@@ -54,23 +54,23 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         }
 
         public override void SetDefaults()
-		{
-			Item.damage = 42;
+        {
+            Item.damage = 42;
             Item.DamageType = ModContent.GetInstance<ScepterDamageClass>();
             Item.mana = 5;
-			Item.width = 42;
-			Item.height = 46;
-			Item.useTime = 30;
-			Item.useAnimation = 30;
-			Item.useStyle = 1;
-			Item.knockBack = 0.1f;
-			Item.value = 10000;
+            Item.width = 42;
+            Item.height = 46;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = 1;
+            Item.knockBack = 0.1f;
+            Item.value = 10000;
             Item.rare = 1;
             Item.UseSound = SoundID.Item8;
-			Item.autoReuse = true;
-			Item.crit = 2;
-			Item.shoot = Mod.Find<ModProjectile>("LeafScepterOrbit").Type;
-			Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.crit = 2;
+            Item.shoot = Mod.Find<ModProjectile>("LeafScepterOrbit").Type;
+            Item.noMelee = true;
             Item.buffType = ModContent.BuffType<LeafScepterBuff>();
 
             Item.scepterItem().scepter = true;
@@ -91,7 +91,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             // Since we spawned the projectile manually already, we do not need the game to spawn it for ourselves anymore, so return false
             return false;
         }
-	}
+    }
 
     public class LeafScepterOrbit : ScepterOrbit
     {
@@ -119,12 +119,14 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Slimy Knife"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            Main.projFrames[Projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 3;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 2; 
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             GlobalProjectiles.Sets.IsScepterProjectile[Projectile.type] = true;
 
         }
+        readonly int[] frameOrder = { 0, 1, 2, 1 };
+        int frameIndex = 0;
         int StateTimer;
         public override bool PreDraw(ref Color lightColor)
         {
@@ -132,7 +134,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             SpriteEffects spriteEffects = SpriteEffects.None;
 
             // Getting texture of projectile
-            Texture2D texture = TextureAssets.Projectile[206].Value;
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
 
             // Calculating frameHeight and current Y pos dependence of frame
             // If texture without animation frameHeight is always texture.Height and startY is always 0
@@ -175,20 +177,23 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             // It's important to return false, otherwise we also draw the original texture.
             return false;
         }
-        
+
         public override void Visuals()
         {
             StateTimer++;
+
             if (StateTimer % 5 == 0)
             {
-                Projectile.frame++;
 
-                if (Projectile.frame >= Main.projFrames[Projectile.type])
+                frameIndex++;
+
+                if (frameIndex >= frameOrder.Length)
                 {
-                    Projectile.frame = 0;
+                    frameIndex = 0;
                 }
+                Projectile.frame = frameOrder[frameIndex];
             }
-            Projectile.rotation += MathHelper.PiOver2;
+            Projectile.rotation += MathHelper.Pi;
 
         }
     }
@@ -215,10 +220,12 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Slimy Knife"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            Main.projFrames[Projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 3;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
+        readonly int[] frameOrder = { 0, 1, 2, 1 };
+        int frameIndex = 0;
         int StateTimer;
         public override bool PreDraw(ref Color lightColor)
         {
@@ -226,7 +233,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             SpriteEffects spriteEffects = SpriteEffects.None;
 
             // Getting texture of projectile
-            Texture2D texture = TextureAssets.Projectile[206].Value;
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
 
             // Calculating frameHeight and current Y pos dependence of frame
             // If texture without animation frameHeight is always texture.Height and startY is always 0
@@ -272,21 +279,30 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override void AI()
         {
             StateTimer++;
-            Projectile.rotation = Projectile.velocity.ToRotation();
-
-            int dust = Dust.NewDust(Projectile.Center + new Vector2(-4, -4), 1, 1, DustID.Grass, 0f, 0f, 0, default(Color), 1f);
-            Main.dust[dust].scale = 1.35f;
-            Main.dust[dust].velocity *= 0f;
-            Main.dust[dust].noGravity = true;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             if (StateTimer % 5 == 0)
             {
-                Projectile.frame++;
 
-                if (Projectile.frame >= Main.projFrames[Projectile.type])
+                frameIndex++;
+
+                if (frameIndex >= frameOrder.Length)
                 {
-                    Projectile.frame = 0;
+                    frameIndex = 0;
                 }
+                Projectile.frame = frameOrder[frameIndex];
+            }
+        }
+        public override void OnKill(int timeLeft)
+        {
+
+            for (int i = 0; i < 4; i++)
+            {
+
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.JungleGrass, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dust].scale = 1.35f;
+                Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
+                Main.dust[dust].noGravity = true;
             }
         }
     }

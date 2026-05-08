@@ -2,6 +2,7 @@ using AwfulGarbageMod.Buffs;
 using AwfulGarbageMod.Global;
 using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items.Weapons.Melee;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Projectiles;
@@ -130,6 +131,7 @@ namespace AwfulGarbageMod.NPCs
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 1, 10, 13));
             npcLoot.Add(ItemDropRule.Common(ItemID.VileMushroom, 1, 2, 3));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RootOfEvil>(), 5));
             LeadingConditionRule hardmodeRule = new LeadingConditionRule(new Conditions.IsHardmode());
 
             hardmodeRule.OnSuccess(ItemDropRule.Common(ItemID.CursedFlame, 1, 2, 4));

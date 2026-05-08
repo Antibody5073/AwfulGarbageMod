@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using AwfulGarbageMod;
 using AwfulGarbageMod.Systems;
 
-namespace ShatteredRealm.Content.Prefixes.Shield
+namespace AwfulGarbageMod.Items.Prefixes.Shield
 {
     // [AutoloadHead] and NPC.townNPC are extremely important and absolutely both necessary for any Town NPC to work at all.
     public class PrefixBurning : ModPrefix
@@ -39,6 +39,7 @@ namespace ShatteredRealm.Content.Prefixes.Shield
         // Use this to control if a prefix can be rolled or not.
         public override bool CanRoll(Item item)
         {
+            return false;
             return DownedBossSystem.downedFireMoth || item.prefix == ModContent.PrefixType<PrefixBurning>();
         }
 

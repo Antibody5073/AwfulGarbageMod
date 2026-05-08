@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using AwfulGarbageMod.Items.Weapons.Rogue;
 using AwfulGarbageMod.Items.Placeable.OresBars;
+using AwfulGarbageMod.Items.Accessories.Hardmode;
 
 namespace AwfulGarbageMod.Items.Consumables
 {

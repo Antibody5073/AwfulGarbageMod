@@ -1,13 +1,17 @@
 ﻿using AwfulGarbageMod.BossBars;
 using AwfulGarbageMod.Configs;
+using AwfulGarbageMod.Global;
 using AwfulGarbageMod.Items.Accessories;
-using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Accessories.TerMericaCrossMod;
+using AwfulGarbageMod.Items.Consumables; 
+using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items.Placeable.OresBars;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Melee;
 using AwfulGarbageMod.Items.Weapons.Ranged;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.NPCs;
+using AwfulGarbageMod.Projectiles;
 using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
 using System;
@@ -81,7 +85,10 @@ namespace AwfulGarbageMod.NPCs.Boss
             // All our drops here are based on "not expert", meaning we use .OnSuccess() to add them into the rule, which then gets added
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
 
-
+            if (ModLoader.TryGetMod("gunrightsmod", out Mod termerica))
+            {
+                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 3, ModContent.ItemType<SnakeOil>()));
+            }
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<FrigidiumBar>(), 1, 2, 3));
             notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 3, ModContent.ItemType<FrigidFury>()));
 
@@ -155,7 +162,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (!DownedBossSystem.downedFrigidius)
             {
-                Main.NewText("The downfall of the ancient ice serpent empowers accessories with new possible reforges", Color.LightSteelBlue);
+                //Main.NewText("The downfall of the ancient ice serpent empowers accessories with new possible reforges", Color.LightSteelBlue);
             }
 
             NPC.SetEventFlagCleared(ref DownedBossSystem.downedFrigidius, -1);
@@ -227,7 +234,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         public override void AI()
         {
-            DrawOffsetY = 16;
+            DrawOffsetY = 22;
 
             Player player = Main.player[NPC.target];
 
@@ -554,6 +561,10 @@ namespace AwfulGarbageMod.NPCs.Boss
             Vector2 temp = targetPos - NPC.Center;
 
 
+            if (DifficultyModes.Difficulty > 0)
+            {
+                NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = false;
+            }
 
             NPC.rotation = temp.ToRotation() - MathHelper.ToRadians(0);
 
@@ -567,6 +578,23 @@ namespace AwfulGarbageMod.NPCs.Boss
             }
             else
             {
+                if (AI_Timer % 8 == 0)
+                {
+
+                    Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, temp.SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver2) * -10, ProjectileID.Flames, 25, 0, Main.myPlayer, 1);
+                    proj.hostile = true;
+                    proj.friendly = false;
+                }
+                if (AI_Timer % 26 == 20)
+                {
+
+                    if (DifficultyModes.Difficulty > 0)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item43, NPC.Center);
+
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<IceShardFrigidiusSpin>(), 17, 0, Main.myPlayer, NPC.whoAmI);
+                    }
+                }
                 if (AI_Timer % 90 == 30)
                 {
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
@@ -578,7 +606,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                         Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(24)) * 7f;
                         proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceBolt").Type, 17, 0, Main.myPlayer);
                         Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(-24)) * 7f;
-                    } 
+                    }
                 }
                 else if (AI_Timer % 90 < 30)
                 {
@@ -791,6 +819,13 @@ namespace AwfulGarbageMod.NPCs.Boss
             }
             Player player = Main.player[NPC.target];
 
+            if (AI_Timer == 120)
+            {
+                if (DifficultyModes.Difficulty > 0)
+                {
+                    NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = true;
+                }
+            }
 
             Vector2 direction = player.Center - NPC.Center;
             direction.SafeNormalize(Vector2.Zero);
@@ -896,7 +931,14 @@ namespace AwfulGarbageMod.NPCs.Boss
             if (AI_Timer % 150 == 0)
             {
                 Vector2 oldPos = NPC.position;
-                NPC.position = player.Center + new Vector2(1200, 0).RotatedByRandom(MathHelper.ToRadians(360)) + new Vector2(NPC.width/2, NPC.height/2);
+                if (AI_Timer == 300)
+                {
+                    NPC.Center = player.Center + new Vector2(0, -1200);
+                }
+                else
+                {
+                    NPC.Center = player.Center + new Vector2(1200, 0).RotatedByRandom(MathHelper.ToRadians(360));
+                }
                 NPC.velocity = Vector2.Zero;
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
@@ -911,7 +953,15 @@ namespace AwfulGarbageMod.NPCs.Boss
                 
                 int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("IceSpiritTelegraph").Type, 0, 0, Main.myPlayer);
                 Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 20f;
-                storedVel = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 40f;
+
+                if (AI_Timer == 300)
+                {
+                    storedVel = new Vector2(0, 40f);
+                }
+                else
+                {
+                    storedVel = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 40f;
+                }
             }
 
             if (AI_Timer % 150 == 60)
@@ -930,32 +980,58 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (AI_Timer % 150 == 90)
             {
-                if (Main.expertMode)
+                if (DifficultyModes.Difficulty > 0)
                 {
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceShardFrigidius").Type, 17, 0, Main.myPlayer);
-                    Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 12f;
-                    proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceShardFrigidius").Type, 17, 0, Main.myPlayer);
-                    Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * -12f;
-                    if (Main.masterMode)
+                    SoundEngine.PlaySound(SoundID.Item43, NPC.Center);
+                    NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = false;
+
+                    for (int i = 0; i < 12; i++)
                     {
+                        Projectile porj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<IceShardFrigidiusSpin>(), 17, 0, Main.myPlayer, NPC.whoAmI);
+                        porj.velocity = (NPC.velocity).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(90)) * (6 + 3 * i);
+                        
+                        porj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<IceShardFrigidiusSpin>(), 17, 0, Main.myPlayer, NPC.whoAmI);
+                        porj.velocity = (NPC.velocity).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(-90)) * (6 + 3 * i);
+                    }
+
+                }
+                else
+                {
+
+
+
+                    if (Main.expertMode)
+                    {
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceShardFrigidius").Type, 17, 0, Main.myPlayer);
+                        Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 12f;
                         proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceShardFrigidius").Type, 17, 0, Main.myPlayer);
+                        Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * -12f;
+                        if (Main.masterMode)
+                        {
+                            proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceShardFrigidius").Type, 17, 0, Main.myPlayer);
+                            Main.projectile[proj].velocity = (NPC.velocity).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(90)) * 12f;
+                            proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceShardFrigidius").Type, 17, 0, Main.myPlayer);
+                            Main.projectile[proj].velocity = (NPC.velocity).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(-90)) * 12f;
+                        }
+                    }
+                    else
+                    {
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceShardFrigidius").Type, 17, 0, Main.myPlayer);
                         Main.projectile[proj].velocity = (NPC.velocity).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(90)) * 12f;
                         proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceShardFrigidius").Type, 17, 0, Main.myPlayer);
                         Main.projectile[proj].velocity = (NPC.velocity).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(-90)) * 12f;
                     }
-                }
-                else
-                {
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceShardFrigidius").Type, 17, 0, Main.myPlayer);
-                    Main.projectile[proj].velocity = (NPC.velocity).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(90)) * 12f;
-                    proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, Mod.Find<ModProjectile>("IceShardFrigidius").Type, 17, 0, Main.myPlayer);
-                    Main.projectile[proj].velocity = (NPC.velocity).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(-90)) * 12f;
                 }
             }
 
             if (AI_Timer % 150 == 140)
             {
                 NPC.velocity = Vector2.Zero;
+
+                if (DifficultyModes.Difficulty > 0)
+                {
+                    NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = true;
+                }
             }
 
 
@@ -1255,6 +1331,10 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                 }
 
+                if (DifficultyModes.Difficulty > 0)
+                {
+                    NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = false;
+                }
                 int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, 0), Mod.Find<ModProjectile>("IceSpiritTelegraph").Type, 0, 0, Main.myPlayer);
                 Main.projectile[proj].velocity = new Vector2(0, -20f);
                 storedVel = new Vector2(0, -35f);
@@ -1277,6 +1357,24 @@ namespace AwfulGarbageMod.NPCs.Boss
                 proj.friendly = false;
             }
 
+            if (AI_Timer % 150 == 90)
+            {
+                if (DifficultyModes.Difficulty > 0)
+                {
+                    SoundEngine.PlaySound(SoundID.Item43, NPC.Center);
+                    NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = false;
+
+                    for (int i = 0; i < 12; i++)
+                    {
+                        Projectile porj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<IceShardFrigidiusSpin>(), 17, 0, Main.myPlayer, NPC.whoAmI);
+                        porj.velocity = (NPC.velocity).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(90)) * (6 + 3 * i);
+
+                        porj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<IceShardFrigidiusSpin>(), 17, 0, Main.myPlayer, NPC.whoAmI);
+                        porj.velocity = (NPC.velocity).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(-90)) * (6 + 3 * i);
+                    }
+
+                }
+            }
             if (AI_Timer % 180 >= 90 && AI_Timer % 180 <= 140)
             {
                 if (AI_Timer % 3 == 0)
@@ -1310,6 +1408,11 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                 RotateMagnitude = 1000;
                 RotateDir = MathHelper.ToDegrees((NPC.Center - Main.player[NPC.target].Center).ToRotation());
+
+                if (DifficultyModes.Difficulty > 0)
+                {
+                    NPC.GetGlobalNPC<GlobalEnemyBossInfo>().killOrbitals = true;
+                }
             }
         }
         private void DashUp2()

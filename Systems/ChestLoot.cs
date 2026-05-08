@@ -1,4 +1,5 @@
-using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Consumables; 
+using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.NPCs.Boss;
 using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
@@ -11,6 +12,7 @@ using Terraria;
 using Terraria.ID;
 using AwfulGarbageMod.Items.Weapons.Melee;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Accessories.Shield;
 
 namespace AwfulGarbageMod.ModIntegration
 {
@@ -35,6 +37,7 @@ namespace AwfulGarbageMod.ModIntegration
                         {
                             chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
                             chest.item[inventoryIndex].stack = 1;
+                            chest.item[inventoryIndex].Prefix(-1);
                             itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
                             break;
                         }
@@ -80,6 +83,7 @@ namespace AwfulGarbageMod.ModIntegration
                         {
                             chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
                             chest.item[inventoryIndex].stack = 1;
+                            chest.item[inventoryIndex].Prefix(-1);
                             itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
                             break;
                         }
@@ -129,6 +133,7 @@ namespace AwfulGarbageMod.ModIntegration
                         {
                             chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
                             chest.item[inventoryIndex].stack = 1;
+                            chest.item[inventoryIndex].Prefix(-1);
                             itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
                             break;
                         }
@@ -142,7 +147,7 @@ namespace AwfulGarbageMod.ModIntegration
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                int[] itemsToPlaceInChests4 = { ModContent.ItemType<FortifyingLink>(), ModContent.ItemType<SunflowerSeed>(), ItemID.None };
+                int[] itemsToPlaceInChests4 = { ModContent.ItemType<FortifyingLink>(), ModContent.ItemType<SunflowerSeed>(), ModContent.ItemType<WoodShield>() };
 
                 if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 0 * 36)
                 {
@@ -152,6 +157,7 @@ namespace AwfulGarbageMod.ModIntegration
                         {
                             chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
                             chest.item[inventoryIndex].stack = 1;
+                            chest.item[inventoryIndex].Prefix(-1);
                             itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
                             break;
                         }
@@ -197,6 +203,7 @@ namespace AwfulGarbageMod.ModIntegration
                         {
                             chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
                             chest.item[inventoryIndex].stack = 1;
+                            chest.item[inventoryIndex].Prefix(-1);
                             itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
                             break;
                         }
@@ -224,6 +231,7 @@ namespace AwfulGarbageMod.ModIntegration
                                 {
                                     chest.item[inventoryIndex].SetDefaults(Mod.Find<ModItem>("FractureKnife2").Type);
                                     chest.item[inventoryIndex].stack = 1;
+                                    chest.item[inventoryIndex].Prefix(-1);
                                     break;
                                 }
                             }
@@ -235,6 +243,7 @@ namespace AwfulGarbageMod.ModIntegration
                         {
                             chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
                             chest.item[inventoryIndex].stack = 1;
+                            chest.item[inventoryIndex].Prefix(-1);
                             itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
                             break;
                         }
@@ -258,6 +267,7 @@ namespace AwfulGarbageMod.ModIntegration
                         {
                             chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
                             chest.item[inventoryIndex].stack = 1;
+                            chest.item[inventoryIndex].Prefix(-1);
                             itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
                             break;
                         }
@@ -285,6 +295,7 @@ namespace AwfulGarbageMod.ModIntegration
                                 {
                                     chest.item[inventoryIndex].SetDefaults(Mod.Find<ModItem>("Sunblades2").Type);
                                     chest.item[inventoryIndex].stack = 1;
+                                    chest.item[inventoryIndex].Prefix(-1);
                                     break;
                                 }
                             }
@@ -296,6 +307,8 @@ namespace AwfulGarbageMod.ModIntegration
                         {
                             chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
                             chest.item[inventoryIndex].stack = 1;
+                            chest.item[inventoryIndex].Prefix(-1);
+
                             itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
                             break;
                         }
@@ -309,7 +322,7 @@ namespace AwfulGarbageMod.ModIntegration
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                int[] itemsToPlaceInChests4 = { Mod.Find<ModItem>("CactusShell").Type, ItemID.None };
+                int[] itemsToPlaceInChests4 = { Mod.Find<ModItem>("CactusShell").Type, ModContent.ItemType<LifeMagnet>(), ItemID.None };
 
                 if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers2 && Main.tile[chest.x, chest.y].TileFrameX == 10 * 36)
                 {
@@ -319,6 +332,8 @@ namespace AwfulGarbageMod.ModIntegration
                         {
                             chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
                             chest.item[inventoryIndex].stack = 1;
+                            chest.item[inventoryIndex].Prefix(-1);
+
                             itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
                             break;
                         }

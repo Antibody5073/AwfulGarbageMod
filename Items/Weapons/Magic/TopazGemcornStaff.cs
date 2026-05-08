@@ -90,9 +90,10 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             {
                 player.ManaEffect((int)Projectile.ai[1]);
                 player.statMana += (int)Projectile.ai[1];
-                player.HealEffect(2);
-                player.statLife += 2;
-                //Main.NewText((int)Projectile.ai[1]);
+                if (!Main.player[Projectile.owner].HasBuff(BuffID.MoonLeech))
+                {
+                    player.Heal(2);
+                }//Main.NewText((int)Projectile.ai[1]);
                 regenMana = false;
             }
         }

@@ -23,6 +23,10 @@ namespace AwfulGarbageMod
                 orig.Invoke(i, j);
                 Main.drunkWorld = drunkWorld;
             }
+            else
+            {
+                orig.Invoke(i, j);
+            }
         }
     }
 }

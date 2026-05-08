@@ -27,10 +27,10 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 		public override void SetDefaults()
 		{
 			Item.damage = 50;
-			Item.DamageType = DamageClass.Melee;
+			Item.DamageType = DamageClass.MeleeNoSpeed;
 			Item.width = 60;
 			Item.height = 60;
-			Item.useTime = 96;
+			Item.useTime = 90;
 			Item.useAnimation = 52;
 			Item.useStyle = 1;
 			Item.knockBack = 6;

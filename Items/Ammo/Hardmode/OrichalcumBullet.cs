@@ -41,7 +41,7 @@ namespace AwfulGarbageMod.Items.Ammo.Hardmode
             {
                 for (int i = 0; i < Main.rand.Next(1, 3); i++)
                 {
-                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.Zero) * 5 + Main.rand.NextVector2CircularEdge(1, 1), ProjectileID.FlowerPetal, Projectile.damage / 4, 0, Projectile.owner);
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.Zero) * 5 + Main.rand.NextVector2CircularEdge(1, 1), ProjectileID.FlowerPetal, (int)(Projectile.damage * 0.12f), 0, Projectile.owner);
                     proj.usesLocalNPCImmunity = true;
                     proj.localNPCHitCooldown = 30;
                     proj.ArmorPenetration += Projectile.damage / 2;
@@ -56,7 +56,7 @@ namespace AwfulGarbageMod.Items.Ammo.Hardmode
             {
                 for (int i = 0; i < Main.rand.Next(1, 3); i++)
                 {
-                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, oldVelocity.SafeNormalize(Vector2.Zero) * 5 + Main.rand.NextVector2CircularEdge(1, 1), ProjectileID.FlowerPetal, Projectile.damage / 4, 0, Projectile.owner);
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, oldVelocity.SafeNormalize(Vector2.Zero) * 5 + Main.rand.NextVector2CircularEdge(1, 1), ProjectileID.FlowerPetal, (int)(Projectile.damage * 0.12f), 0, Projectile.owner);
                     proj.usesLocalNPCImmunity = true;
                     proj.localNPCHitCooldown = 30;
                     proj.ArmorPenetration += Projectile.damage / 2;

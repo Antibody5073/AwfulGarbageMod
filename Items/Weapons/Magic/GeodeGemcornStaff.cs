@@ -151,9 +151,11 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 regenMana = false;
                 if (Main.rand.NextBool(3))
                 {
-                    player.HealEffect(1);
-                    player.statLife += 1;
-                    int debuff = Main.rand.Next(17);
+                    if (!Main.player[Projectile.owner].HasBuff(BuffID.MoonLeech))
+                    {
+                        player.Heal(1);
+                    }
+                int debuff = Main.rand.Next(17);
                     if (debuff == 0 || debuff == 1 || debuff == 2)
                     {
                         target.AddBuff(BuffID.OnFire, 105);

@@ -35,6 +35,7 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<GlobalPlayer>().PercentArmorIgnoreSummon *= 0.7f;
+            player.GetModPlayer<GlobalPlayer>().MaxPercentArmorIgnoreSummon += 12;
             player.statLifeMax2 -= (int)Math.Ceiling(player.slotsMinions) * 30;
 			Item.lifeRegen = (int)Math.Ceiling(player.slotsMinions);
         }

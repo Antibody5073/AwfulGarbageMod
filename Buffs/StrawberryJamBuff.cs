@@ -38,6 +38,21 @@ namespace AwfulGarbageMod.Buffs
         {
             lifeRegenDebuff = false;
         }
+        public override void OnHurt(Player.HurtInfo info)
+        {
+
+            if (lifeRegenDebuff)
+            {
+                for (int i = 0; i < Player.buffType.Length; i++)
+                {
+                    int type = Player.buffType[i];
+                    if (type == ModContent.BuffType<StrawberryJamBuff>())
+                    {
+                        Player.buffTime[i] = 0;
+                    }
+                }
+            }
+        }
 
         // Allows you to give the player a negative life regeneration based on its state (for example, the "On Fire!" debuff makes the player take damage-over-time)
         // This is typically done by setting player.lifeRegen to 0 if it is positive, setting player.lifeRegenTime to 0, and subtracting a number from player.lifeRegen

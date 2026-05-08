@@ -1,35 +1,39 @@
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
 using AwfulGarbageMod;
-using AwfulGarbageMod.Items.Armor;
-using Microsoft.Xna.Framework;
-using Steamworks;
-using static Humanizer.In;
 using AwfulGarbageMod.Buffs;
-using Terraria.GameInput;
-using AwfulGarbageMod.Systems;
-using Mono.Cecil;
-using Microsoft.CodeAnalysis;
-using Terraria.Audio;
-using AwfulGarbageMod.DamageClasses;
-using StramClasses;
-using Microsoft.Xna.Framework.Graphics;
-using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Configs;
-using AwfulGarbageMod.Tiles.OresBars;
-using Terraria.Localization;
-using System.Collections.Generic;
-using rail;
-using Terraria.Graphics.Renderers;
-using Microsoft.Build.Evaluation;
-using System;
-using AwfulGarbageMod.Projectiles;
-using System.Drawing.Imaging;
+using AwfulGarbageMod.DamageClasses;
+using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
-using SubworldLibrary;
+using AwfulGarbageMod.Items.Armor;
+using AwfulGarbageMod.Items.Consumables;
+using AwfulGarbageMod.Projectiles;
 using AwfulGarbageMod.Subworlds;
+using AwfulGarbageMod.Systems;
+using AwfulGarbageMod.Tiles.OresBars;
+using JetBrains.Annotations;
+using Microsoft.Build.Evaluation;
+using Microsoft.CodeAnalysis;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Mono.Cecil;
+using rail;
+using Steamworks;
+using StramClasses;
+using SubworldLibrary;
+using System;
+using System.Collections.Generic;
+using System.Drawing.Imaging;
+using System.IO;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.GameInput;
+using Terraria.Graphics.Renderers;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.ModLoader.Default;
+using static Humanizer.In;
 
 namespace AwfulGarbageMod.Global
 {
@@ -64,6 +68,10 @@ namespace AwfulGarbageMod.Global
         public int extraWhipTagDamage = 0;
         public float PercentArmorIgnore = 1;
         public float PercentArmorIgnoreSummon = 1;
+        public int MaxPercentArmorIgnore;
+        public int MaxPercentArmorIgnoreSummon;
+
+        public float bonusluck = 0;
 
         public float oldManaCost;
         public float oldManaCost2;
@@ -146,8 +154,25 @@ namespace AwfulGarbageMod.Global
         public bool RangedInflictBleed = false;
         public bool NoMiniboss = false;
         public bool CelestialCurse = false;
-
+        public bool Proboscis = false;
+        public int ProboscisTimer = 0;
+        public bool LifeMagnet = false;
+        public bool BloodMagnet = false;
+        public bool MagnosBlessing = false;
+        public float SaltedTears = 0;
+        public float SaltedTearsEnergy = 0;
+        public bool ForbiddenFruit = false;
+        public int ForbiddenFruitTimer = 0;
         public bool lightningRingPrevious;
+        public bool ColdHeart = false;
+        public bool GlassetteTape = false;
+        public bool AntediluvianArtifact = false;
+        public int AntediluvianPotionBoost = 0;
+        public bool ShadowstepDodge = false;
+        public int ShadowstepChance = 0;
+        public int ShadowstepTimer = 0;
+        public bool Ataraxia = false;
+        public int AtaraxiaBoost = 0;
 
         public bool JunkGreaves = false;
 
@@ -157,7 +182,9 @@ namespace AwfulGarbageMod.Global
         public bool MyceliumHoodBonus = false;
         public bool MyceliumMaskBonus = false;
         public bool RottingBonus = false;
+        public bool MidnightBonus = false;
         public bool VeinBonus = false;
+        public bool GoreKnightBonus = false;
         public bool StormHeadgearBonus = false;
         public bool StormHelmetBonus = false;
         public bool StormHoodBonus = false;
@@ -211,7 +238,12 @@ namespace AwfulGarbageMod.Global
 
         public string ImportantHoveredTile = "";
 
-
+        public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
+        {
+            return [
+                new Item(ModContent.ItemType<EyeOfSenri>())
+            ];
+        }
         public override void GetFishingLevel(Item fishingRod, Item bait, ref float fishingLevel)
         {
             float sqrMaxDetectDistance = 480 * 480;
@@ -423,8 +455,36 @@ namespace AwfulGarbageMod.Global
                     }
                 }
             }
+            if (ForbiddenFruit)
+            {
+                Player.AddBuff(BuffID.MoonLeech, 3);
+                if (Player.potionDelay > 0)
+                {
+                    Player.potionDelay++;
+                    if (Player.HasBuff(BuffID.PotionSickness))
+                    {
+                        Player.buffTime[Player.FindBuffIndex(BuffID.PotionSickness)]++;
+                    }
+                }
+                if (ForbiddenFruitTimer-- <= 0)
+                {
+                    ForbiddenFruitTimer = 60;
+                    Player.Heal(6);
+                }   
+            }
+            if (ShadowstepDodge && !Player.HasBuff<ShadowstepCooldown>())
+            {
+                if (ShadowstepTimer++ >= 60)
+                {
+                    ShadowstepTimer -= 60;
+                    ShadowstepChance++;
+                    if (ShadowstepChance > 60)
+                    {
+                        ShadowstepChance = 60;
+                    }
+                }
+            }
         }
-
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
             if (UmbragelBonus)
@@ -525,13 +585,16 @@ namespace AwfulGarbageMod.Global
                     Projectile.NewProjectile(Player.GetSource_Accessory(ModContent.GetModItem(ModContent.ItemType<SlimyLocket>()).Item), target.Center, Vector2.Zero, ModContent.ProjectileType<SlimeExplosion>(), 60, 6, Main.myPlayer);
                 }
             }
-            float defensePercent = 1;
+            int defense = target.defense;
             if (modifiers.DamageType.CountsAsClass(DamageClass.Summon))
             {
-                defensePercent *= PercentArmorIgnoreSummon;
+                modifiers.ArmorPenetration += MathHelper.Clamp(defense * (1-PercentArmorIgnoreSummon), 0, MaxPercentArmorIgnoreSummon);
+                defense -= (int)MathHelper.Clamp(defense * (1 - PercentArmorIgnoreSummon), 0, MaxPercentArmorIgnoreSummon);
             }
-            defensePercent *= PercentArmorIgnore;
-            modifiers.ScalingArmorPenetration += 1 - defensePercent;
+
+            modifiers.ArmorPenetration += MathHelper.Clamp(defense * (1 - PercentArmorIgnore), 0, MaxPercentArmorIgnore);
+            defense -= (int)MathHelper.Clamp(defense * (1 - PercentArmorIgnore), 0, MaxPercentArmorIgnore);
+
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -589,6 +652,15 @@ namespace AwfulGarbageMod.Global
             {
                 target.AddBuff(ModContent.BuffType<AGBleed>(), 240);
             }
+            if (Proboscis && ProboscisTimer < 0)
+            {
+                ProboscisTimer = 15 * 60;
+                Item.NewItem(target.GetSource_ReleaseEntity(), target.position, target.Size, ItemID.Heart);
+                if (MagnosBlessing)
+                {
+                    Item.NewItem(target.GetSource_ReleaseEntity(), target.position, target.Size, ItemID.Star);
+                }
+            }
         }
 
         [JITWhenModsEnabled("StramClasses")]
@@ -599,8 +671,114 @@ namespace AwfulGarbageMod.Global
                 player.AddBuff(ModContent.BuffType<NonRogueBuff1>(), 60 * 10);
             }
         }
+
+        public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
+        {
+            if (MagnosBlessing)
+            {
+                if (npc.GetGlobalNPC<ExampleGlobalNPC>().MagnoTimer > 0 && npc.GetGlobalNPC<ExampleGlobalNPC>().MagnoPlayer == Player)
+                {
+                    modifiers.Cancel();
+                }
+                if (!Player.HasBuff<MagnosBlessingCooldown>())
+                {
+                    modifiers.Cancel();
+                    Player.AddBuff(ModContent.BuffType<MagnosBlessingCooldown>(), 60 * 20);
+                    npc.GetGlobalNPC<ExampleGlobalNPC>().MagnoTimer = 60;
+                    npc.GetGlobalNPC<ExampleGlobalNPC>().MagnoPlayer = Player;
+                    Player.velocity += (Player.Center - npc.Center).SafeNormalize(Vector2.One) * 8f;
+                }
+            }
+        }
+
+        public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
+        {
+
+            if (MagnosBlessing)
+            {
+                if (proj.GetGlobalProjectile<GlobalProjectiles>().MagnoTimer > 0 && proj.GetGlobalProjectile<GlobalProjectiles>().MagnoPlayer == Player)
+                {
+                    modifiers.Cancel();
+                }
+                if (!Player.HasBuff<MagnosBlessingCooldown>())
+                {
+                    modifiers.Cancel();
+                    Player.AddBuff(ModContent.BuffType<MagnosBlessingCooldown>(), 60 * 20);
+                    proj.GetGlobalProjectile<GlobalProjectiles>().MagnoTimer = 60;
+                    proj.GetGlobalProjectile<GlobalProjectiles>().MagnoPlayer = Player;
+                    Player.velocity += (Player.Center - proj.Center).SafeNormalize(Vector2.One) * 8f;
+                }
+            }
+        }
+        public override bool FreeDodge(Player.HurtInfo info)
+        {
+            if (ShadowstepDodge && Main.rand.NextBool(ShadowstepChance, 100))
+            {
+                ExampleDodgeEffects();
+                return true;
+            }
+
+            return false;
+        }
+
+        // ExampleDodgeEffects() will be called from ConsumableDodge and HandleExampleDodgeMessage to sync the effect.
+        public void ExampleDodgeEffects()
+        {
+            Player.SetImmuneTimeForAllTypes(Player.longInvince ? 120 : 80);
+
+            // Some sound and visual effects
+            for (int i = 0; i < 50; i++)
+            {
+                Vector2 speed = Main.rand.NextVector2CircularEdge(1f, 1f);
+                Dust d = Dust.NewDustPerfect(Player.Center + speed * 16, DustID.Wraith, speed * 5, Scale: 1.5f);
+                d.noGravity = true;
+            }
+            SoundEngine.PlaySound(SoundID.NPCHit54 with { Pitch = 0.5f });
+
+            // The visual and sound effects happen on all clients, but the code below only runs for the dodging player
+            if (Player.whoAmI != Main.myPlayer)
+            {
+                return;
+            }
+
+            Player.AddBuff(ModContent.BuffType<ShadowstepCooldown>(), 600);
+            ShadowstepChance = 0;
+            ShadowstepTimer = 0;
+            if (Main.netMode != NetmodeID.SinglePlayer)
+            {
+                //SendExampleDodgeMessage(Player.whoAmI);
+            }
+        }
+        /*
+         public static void HandleExampleDodgeMessage(BinaryReader reader, int whoAmI)
+        {
+            int player = reader.ReadByte();
+            if (Main.netMode == NetmodeID.Server)
+            {
+                player = whoAmI;
+            }
+
+            Main.player[player].GetModPlayer<ExampleDamageModificationPlayer>().ExampleDodgeEffects();
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                // If the server receives this message, it sends it to all other clients to sync the effects.
+                SendExampleDodgeMessage(player);
+            }
+        }
+
+        public static void SendExampleDodgeMessage(int whoAmI)
+        {
+            // This code is called by both the initial
+            ModPacket packet = ModContent.GetInstance<AwfulGarbageMod>().GetPacket();
+            packet.Write((byte)AwfulGarbageMod.MessageType.ExampleDodge);
+            packet.Write((byte)whoAmI);
+            packet.Send(ignoreClient: whoAmI);
+        }
+        */
         public override void OnHurt(Player.HurtInfo info)
         {
+
             if (HoneyOnDamaged > 0)
             {
                 this.Player.AddBuff(48, HoneyOnDamaged);
@@ -779,6 +957,11 @@ namespace AwfulGarbageMod.Global
                     Player.manaRegenDelay = 60;
                 }
             }
+            if (GlassetteTape)
+            {
+                Player.Heal(Player.statLifeMax2 / -10);
+            }
+            SaltedTearsEnergy += info.Damage * SaltedTears;
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)
@@ -926,6 +1109,15 @@ namespace AwfulGarbageMod.Global
                 }
                 Player.lifeRegenTime = 0;
             }
+            if (ForbiddenFruit)
+            {
+                if (Player.lifeRegen > 0)
+                {
+                    Player.lifeRegen = 0;
+                }
+                Player.lifeRegenTime = 0;
+                Player.buffImmune[BuffID.Honey] = true;
+            }
         }
         public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
         {
@@ -940,6 +1132,53 @@ namespace AwfulGarbageMod.Global
             {
                 mult = 0;
             }
+        }
+        public override void UpdateEquips()
+        {
+            if (Ataraxia)
+            {
+                int accessorySlots = 8;
+                if (Main.masterMode)
+                {
+                    accessorySlots++;
+                }
+                if (Player.extraAccessory)
+                {
+                    accessorySlots++;
+                }
+
+                for (int i = 3; i < accessorySlots; i++)
+                {
+                    if (Player.armor[i].type == ItemID.None)
+                    {
+                        AtaraxiaBoost++;
+                    }
+                }
+
+                Player.GetDamage(DamageClass.Generic) += AtaraxiaBoost * 0.03f;
+                Player.GetCritChance(DamageClass.Generic) += AtaraxiaBoost * 3f;
+                Player.statDefense += AtaraxiaBoost * 3;
+                Player.lifeRegen += AtaraxiaBoost;
+                Player.moveSpeed += AtaraxiaBoost * 0.05f;
+                Player.GetAttackSpeed(DamageClass.Melee) += AtaraxiaBoost * 0.03f;
+                rangedVelocity += AtaraxiaBoost * 0.03f;
+                Player.statManaMax2 += AtaraxiaBoost * 40;
+
+                if (AtaraxiaBoost >= 3)
+                {
+                    Player.noKnockback = true;
+                    Player.longInvince = true;
+                }
+                if (AtaraxiaBoost >= 5)
+                {
+                    Player.maxMinions += 3;
+                }
+                if (AtaraxiaBoost >= 6 && Player.armor[0].type != ItemID.None)
+                {
+                    Player.GrantArmorBenefits(Player.armor[0]);
+                }
+            }
+
         }
         public override void PostUpdateEquips()
         {
@@ -1036,6 +1275,10 @@ namespace AwfulGarbageMod.Global
                     Player.statDefense += Player.statDefense * 0.12f;
                 }
             }
+            if (GlassetteTape)
+            {
+                Player.statDefense += Player.statDefense * 0.1f;
+            }
             if (MinionSentrySwap)
             {
                 int oldMinions = player.maxMinions;
@@ -1055,6 +1298,7 @@ namespace AwfulGarbageMod.Global
             {
                 Player.statDefense += Player.ownedProjectileCounts[ProjectileID.TitaniumStormShard] * 4;
             }
+            
             if (TitaniumOffense)
             {
                 Player.onHitTitaniumStorm = false;
@@ -1063,9 +1307,13 @@ namespace AwfulGarbageMod.Global
                 Player.GetDamage(DamageClass.Melee) += 0.01f * defLost;
                 Player.statDefense -= defLost;
             }
-            if (TitaniumVariety)
+            if (AntediluvianArtifact)
             {
-                Player.onHitTitaniumStorm = false;
+                Player.statLifeMax2 += Player.statDefense * 4;
+                Player.statManaMax2 += Player.statDefense * 4;
+                Player.maxTurrets += Player.statDefense / 40;
+                AntediluvianPotionBoost = Player.statDefense;
+                Player.statDefense *= 0;
             }
 
             if (EquilibriumSentryBonus && Player.HasBuff<ArmorAbilityCooldownWhip>())
@@ -1093,6 +1341,28 @@ namespace AwfulGarbageMod.Global
                     Player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) -= 0.2f;
                 }
             }
+            if (Player.GetModPlayer<EarthenShield>().verdantStimulant)
+            {
+                Player.GetModPlayer<EarthenShield>().flatBonusDurability += player.statLifeMax2 / 3;
+                player.statLifeMax2 -= player.statLifeMax2 / 3;
+            }
+            if (Player.statLife <= MathF.Ceiling(Player.statLifeMax2 / 2))
+            {
+                if (SaltedTears > 0)
+                {
+                    Player.GetDamage(DamageClass.Generic) += 0.1f;
+                }
+            }
+        }
+        public override void PostUpdate()
+        {
+            if (ColdHeart)
+            {
+                if (Player.statLife > MathF.Ceiling(Player.statLifeMax2 / 2))
+                {
+                    Player.statLife = (int)MathF.Ceiling(Player.statLifeMax2 / 2);
+                }
+            }
         }
         public override void PostUpdateMiscEffects()
         {
@@ -1103,7 +1373,11 @@ namespace AwfulGarbageMod.Global
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
-            modifiers.SourceDamage *= (ModContent.GetInstance<Config>().EnemyDamageMultiplier / 100);    
+            modifiers.SourceDamage *= (ModContent.GetInstance<Config>().EnemyDamageMultiplier / 100);
+            if (DifficultyModes.Difficulty == 2)
+            {
+                modifiers.SourceDamage *= 1.5f;
+            }
             if (Player.HasBuff<FrosshroomPotionBuff>())
             {
                 modifiers.FinalDamage *= 0.6f;
@@ -1292,8 +1566,40 @@ namespace AwfulGarbageMod.Global
             EquilibriumSentryBonus = false;
             NoMiniboss = false;
             CelestialCurse = false;
+            Proboscis = false;
             PercentArmorIgnore = 1;
             PercentArmorIgnoreSummon = 1;
+            bonusluck = 0;
+            ProboscisTimer--;
+            LifeMagnet = false;
+            BloodMagnet = false;
+            MagnosBlessing = false;
+            MaxPercentArmorIgnore = 0;
+            MaxPercentArmorIgnoreSummon = 0;
+            if (SaltedTears == 0)
+            {
+                SaltedTearsEnergy = 0;
+            }
+            SaltedTears = 0;
+            ForbiddenFruit = false;
+            ColdHeart = false;
+            MidnightBonus = false;
+            GoreKnightBonus = false;
+            GlassetteTape = false;
+            AntediluvianArtifact = false;
+            AntediluvianPotionBoost = 0;
+            if (!ShadowstepDodge)
+            {
+                ShadowstepChance = 0;
+                ShadowstepTimer = 0;
+            }
+            ShadowstepDodge = false;
+            Ataraxia = false;
+            AtaraxiaBoost = 0;
+        }
+        public override void ModifyLuck(ref float luck)
+        {
+            luck += bonusluck;
         }
         public NPC FindClosestNPC(float maxDetectDistance)
         {

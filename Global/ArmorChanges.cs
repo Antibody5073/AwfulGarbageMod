@@ -33,7 +33,7 @@ internal class ArmorChanges
 
         public override void SetDefaults(Item item) 
         {
-            item.defense -= 1;
+            item.defense = 5;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -41,26 +41,29 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "8% increased melee damage and 6% increased melee critical strike chance";
+                line.Text = "6% increased melee damage, melee critical strike chance, and melee speed";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "15% increased flail spin speed";
+                line2.Text = "10% increased flail spin speed";
             }
         }
 
         public override void UpdateEquip(Item item, Player player)
         {
+            player.GetDamage(DamageClass.Melee) -= 0.15f;
             player.moveSpeed -= 0.1f;
+
             player.GetCritChance(DamageClass.Melee) += 6f;
-            player.GetModPlayer<GlobalPlayer>().flailSpinSpd += 0.15f;
-            player.GetDamage(DamageClass.Melee) -= 0.07f;
+            player.GetDamage(DamageClass.Melee) += 0.06f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.06f;
+            player.GetModPlayer<GlobalPlayer>().flailSpinSpd += 0.1f;
         }
 
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == 372 && body.type == 374 && legs.type == 375)
+            if (head.type == 372 && body.type == 374 && legs.type == 375 && GetInstance<Config>().MagicArmorAdjust)
             {
                 return "Cobalt Melee";
             }
@@ -71,8 +74,9 @@ internal class ArmorChanges
         {
             if (set.Equals("Cobalt Melee"))
             {
-                player.setBonus = "15% increased melee speed\nAt max range, striking enemies with flail heads grant a stacking boost to defense\nThis boost has a max of 24 defense and wears off after 10 seconds of not striking enemies with a flail";
+                player.setBonus = "Grants an additional passive flail head that deals" + AGUtils.ScaleDamage(60, player, ModContent.GetInstance<FlailDamageClass>()) + "melee (flail) damage";
                 player.GetModPlayer<GlobalPlayer>().CobaltMelee = true;
+                player.GetAttackSpeed(DamageClass.Melee) -= 0.15f;
             }
         }
     }
@@ -86,7 +90,7 @@ internal class ArmorChanges
 
         public override void SetDefaults(Item item)
         {
-            item.defense += 1;
+            item.defense = 4;
         }
 
         public override void UpdateEquip(Item item, Player player)
@@ -94,10 +98,10 @@ internal class ArmorChanges
             player.GetDamage(DamageClass.Ranged) -= 0.10f;
             player.GetCritChance(DamageClass.Ranged) -= 10;
 
-            player.GetDamage(DamageClass.Ranged) += 0.15f;
-            player.GetDamage<KnifeDamageClass>() += 0.06f;
-            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.15f;
-            player.GetModPlayer<GlobalPlayer>().knifeVelocity += 0.06f;
+            player.GetDamage(DamageClass.Ranged) += 0.07f;
+            player.GetCritChance(DamageClass.Ranged) += 7f;
+            player.GetModPlayer<GlobalPlayer>().empowermentCooldowMultiplier *= 0.9f;
+            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.10f;
 
         }
 
@@ -106,18 +110,18 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "15% increased ranged damage and velocity";
+                line.Text = "7% increased ranged damage and ranged critical strike chance";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "6% further increased knife damage and velocity";
+                line2.Text = "10% increased ranged velocity and faster knife empowerment cooldowns";
             }
         }
 
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == 373 && body.type == 374 && legs.type == 375)
+            if (head.type == 373 && body.type == 374 && legs.type == 375 && GetInstance<Config>().MagicArmorAdjust)
             {
                 return "Cobalt Ranged";
             }
@@ -144,7 +148,7 @@ internal class ArmorChanges
 
         public override void SetDefaults(Item item)
         {
-            item.defense += 3;
+            item.defense = 3;
         }
 
         public override void UpdateEquip(Item item, Player player)
@@ -156,9 +160,9 @@ internal class ArmorChanges
 
             player.GetDamage(DamageClass.Magic) += 0.15f;
             player.GetDamage<ScepterDamageClass>() += 0.15f;
-            player.statManaMax2 += 40;
-
+            player.statManaMax2 += 100;
             player.GetModPlayer<GlobalPlayer>().MaxScepterBoost += 3;
+
 
         }
 
@@ -177,13 +181,13 @@ internal class ArmorChanges
             TooltipLine line3 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip2" && x.Mod == "Terraria");
             if (line3 != null)
             {
-                line3.Text = "Increases maximum mana by 40 and maximum scepter projectiles by 3";
+                line3.Text = "Increases maximum mana by 100 and maximum scepter projectiles by 2";
             }
         }
 
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == 371 && body.type == 374 && legs.type == 375)
+            if (head.type == 371 && body.type == 374 && legs.type == 375 && GetInstance<Config>().MagicArmorAdjust)
             {
                 return "Cobalt Magic";
             }
@@ -194,9 +198,8 @@ internal class ArmorChanges
         {
             if (set.Equals("Cobalt Magic"))
             {
-                player.setBonus = "Reduces mana usage by 10%\nPress ArmorSetAbility key to deal 10% of your max health as damage to yourself, triggering on-hit effects and releasing scepter projectiles\nThis effect has a cooldown of 12 seconds, during this cooldown magic damage is boosted by 15%";
+                player.setBonus = "Press ArmorSetAbility key to deal 10% of your max health as damage to yourself, triggering on-hit effects and releasing scepter projectiles\nGain 3% scepter damage every second, caps out at +45% scepter damage\nThis bonus resets upon taking damage";
                 player.manaCost += 0.14f;
-                player.manaCost *= 0.9f;
                 player.GetModPlayer<GlobalPlayer>().CobaltMagic = true;
             }
         }
@@ -208,12 +211,16 @@ internal class ArmorChanges
             return GetInstance<Config>().MagicArmorAdjust && item.type == 374;
         }
 
+        public override void SetDefaults(Item item)
+        {
+            item.defense = 5;
+        }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "8% increased flail, knife, and scepter damage and critical strike chance and 10% reduced mana usage";
+                line.Text = "8% increased flail, knife, and scepter damage and critical strike chance\n+3 maximum scepter projectiles\n5% increased damage taken";
             }   
         }
 
@@ -229,8 +236,9 @@ internal class ArmorChanges
             player.GetCritChance<FlailDamageClass>() += 8;
             player.GetCritChance<KnifeDamageClass>() += 8;
             player.GetCritChance<ScepterDamageClass>() += 8;
-            
-            player.manaCost *= 0.9f;
+
+            player.GetModPlayer<GlobalPlayer>().MaxScepterBoost += 3;
+            player.endurance = 1f - (1.05f * (1f - player.endurance));
         }
     }
     public class CobaltLegs : GlobalItem
@@ -239,12 +247,16 @@ internal class ArmorChanges
         {
             return GetInstance<Config>().MagicArmorAdjust && item.type == 375;
         }
+        public override void SetDefaults(Item item)
+        {
+            item.defense = 4;
+        }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "5% increased damage and movement speed; provides knockback immunity";
+                line.Text = "12% increased damage and movement speed\n5% increased knife velocity, increased flail range, and reduced scepter stat penalties\nRemoves the non-magic damage penalties of scepters\n5% increased damage taken";
             }
         }
 
@@ -253,9 +265,14 @@ internal class ArmorChanges
             player.GetDamage(DamageClass.Generic) -= 0.03f;
             player.moveSpeed -= 0.1f;
 
-            player.moveSpeed += 0.05f;
-            player.GetDamage(DamageClass.Generic) += 0.05f;
-            player.noKnockback = true;
+            player.moveSpeed += 0.12f;
+            player.GetDamage(DamageClass.Generic) += 0.12f;
+            player.endurance = 1f - (1.05f * (1f - player.endurance));
+
+            player.GetModPlayer<GlobalPlayer>().knifeVelocity += 0.05f;
+            player.GetModPlayer<GlobalPlayer>().flailRange += 0.05f;
+            player.GetModPlayer<GlobalPlayer>().ScepterMaxStatMult *= 0.95f;
+            player.GetModPlayer<GlobalPlayer>().IgnoreScepterDmgPenalties = true;
         }
     }
 
@@ -268,7 +285,7 @@ internal class ArmorChanges
 
         public override void SetDefaults(Item item)
         {
-            item.defense -= 1;
+            item.defense = 14;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -276,26 +293,26 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "9% increased melee damage and speed";
+                line.Text = "10% increased melee damage";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "10% increased flail spin speed and 6% further increased flail damage";
+                line2.Hide();
             }
         }
 
         public override void UpdateEquip(Item item, Player player)
         {
-            player.GetAttackSpeed(DamageClass.Melee) -= 0.01f;
-            player.GetDamage(DamageClass.Melee) -= 0.01f;
-            player.GetModPlayer<GlobalPlayer>().flailSpinSpd += 0.1f;
-            player.GetDamage<FlailDamageClass>() += 0.06f;
+            player.GetAttackSpeed(DamageClass.Melee) -= 0.12f;
+            player.GetDamage(DamageClass.Melee) -= 0.12f;
+            player.GetDamage(DamageClass.Melee) += 0.1f;
+
         }
 
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == 1205 && body.type == 1208 && legs.type == 1209)
+            if (head.type == 1205 && body.type == 1208 && legs.type == 1209 && GetInstance<Config>().MagicArmorAdjust)
             {
                 return "Palladium Melee";
             }
@@ -305,12 +322,10 @@ internal class ArmorChanges
         {
             if (set.Equals("Palladium Melee"))
             {
-                player.setBonus = "Increases life regeneration based on the enemy closest to the player\nLife regeneration scales based on how close the enemy is and maxes out at 6 hp/sec\nFlail heads deal 15% more multiplicative damage to the closest enemy\n6% increased flail critical strike chance and 6% increased melee speed";
-                player.GetModPlayer<GlobalPlayer>().PalladiumMelee = true;
-                player.GetCritChance<FlailDamageClass>() += 6f;
-                player.GetAttackSpeed(DamageClass.Melee) += 0.06f;
-                player.buffImmune[BuffID.RapidHealing] = true;
-
+                player.setBonus = "Greatly increases life regeneration after striking an enemy\n7% increased melee speed and sword size";
+                player.GetModPlayer<GlobalPlayer>().MeleeWeaponSize += 0.07f;
+                player.GetAttackSpeed(DamageClass.Melee) += 0.07f;
+                player.onHitRegen = true;
             }
         }
     }
@@ -322,7 +337,7 @@ internal class ArmorChanges
         }
         public override void SetDefaults(Item item)
         {
-            item.defense += 1;
+            item.defense = 13;
         }
 
         public override void UpdateEquip(Item item, Player player)
@@ -330,9 +345,8 @@ internal class ArmorChanges
             player.GetDamage(DamageClass.Ranged) -= 0.09f;
             player.GetCritChance(DamageClass.Ranged) -= 9;
 
-            player.GetDamage(DamageClass.Ranged) += 0.8f;
+            player.GetDamage(DamageClass.Ranged) += 0.10f;
             player.GetCritChance(DamageClass.Ranged) += 8;
-            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.12f;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -340,17 +354,17 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "8% increased ranged damage and critical strike chance";
+                line.Text = "10% increased ranged damage";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "12% increased ranged velocity";
+                line2.Hide();
             }
         }
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == 1206 && body.type == 1208 && legs.type == 1209)
+            if (head.type == 1206 && body.type == 1208 && legs.type == 1209 && GetInstance<Config>().MagicArmorAdjust)
             {
                 return "Palladium Ranged";
             }
@@ -361,12 +375,11 @@ internal class ArmorChanges
         {
             if (set.Equals("Palladium Ranged"))
             {
-                player.setBonus = "Grants an extra accessory slot dedicated for knife empowerments\nOnly accessories which provide an empowerment and nothing else can go in this slot\nOn strike, empowered knives temporarily boost life regeneration\n5% increased knife critical strike chance and ranged damage";
-                player.GetModPlayer<GlobalPlayer>().EmpowermentSlot = true;
-                player.GetModPlayer<GlobalPlayer>().CobaltRanged = true;
+                player.setBonus = "Greatly increases life regeneration after striking an enemy\n20% increased ranged velocity and chance not to consume ammo";
+                player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.2f;
+                player.ammoCost80 = true;
+                player.onHitRegen = true;
 
-                player.GetCritChance<KnifeDamageClass>() += 5f;
-                player.GetDamage(DamageClass.Ranged) += 0.05f;
             }
         }
     }
@@ -379,7 +392,7 @@ internal class ArmorChanges
 
         public override void SetDefaults(Item item)
         {
-            item.defense += 3;
+            item.defense = 12;
         }
 
         public override void UpdateEquip(Item item, Player player)
@@ -389,12 +402,7 @@ internal class ArmorChanges
             player.statManaMax2 -= 60;
 
 
-            player.GetDamage(DamageClass.Magic) += 0.08f;
-            player.GetCritChance(DamageClass.Magic) += 8;
-            player.statManaMax2 += 40;
-            player.manaCost *= 0.93f;
-            player.GetModPlayer<GlobalPlayer>().MaxScepterBoost += 2;
-
+            player.GetDamage(DamageClass.Magic) += 0.10f;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -402,17 +410,17 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "8% increased magic damage and critical strike chance and 7% reduced mana cost";
+                line.Text = "10% increased magic damage";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "Increases maximum mana by 40 and scepter projectiles by 2";
+                line2.Hide();
             }
         }
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == 1207 && body.type == 1208 && legs.type == 1209)
+            if (head.type == 1207 && body.type == 1208 && legs.type == 1209 && GetInstance<Config>().MagicArmorAdjust)
             {
                 return "Palladium Magic";
             }
@@ -423,14 +431,11 @@ internal class ArmorChanges
         {
             if (set.Equals("Palladium Magic"))
             {
-                player.setBonus = "Press ArmorSetAbility key to deal 10% of your max health as damage to yourself, triggering on-hit effects and releasing scepter projectiles\nThis effect has a cooldown of 8 seconds, during this cooldown, life regeneration is increased by 3 hp/sec\nEvery 30 seconds, self-damage will be reduced to 1";
-                player.buffImmune[BuffID.RapidHealing] = true;
+                player.setBonus = "Greatly increases life regeneration after striking an enemy\n10% reduced mana usage and +60 max mana";
+                player.statManaMax2 += 60;
+                player.manaCost *= 0.9f;
+                player.onHitRegen = true;
 
-                if (player.HasBuff<ArmorAbilityCooldown>())
-                {
-                    player.lifeRegen += 6;
-                }
-                player.GetModPlayer<GlobalPlayer>().PalladiumMagic = true;
             }
         }
 
@@ -442,25 +447,29 @@ internal class ArmorChanges
             return GetInstance<Config>().MagicArmorAdjust && item.type == 1208;
         }
 
+        public override void SetDefaults(Item item)
+        {
+            item.defense = 14;
+        }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "5% increased damage and critical strike chance";
+                line.Text = "Grants immunity to knockback";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "Increases life regeneration";
+                line2.Hide();
             }
         }
 
         public override void UpdateEquip(Item item, Player player)
         {
-            player.GetDamage(DamageClass.Generic) += 0.05f;
-            player.GetCritChance(DamageClass.Generic) += 5;
-            player.lifeRegen += 3;
+            player.GetDamage(DamageClass.Generic) -= 0.03f;
+            player.GetCritChance(DamageClass.Generic) -= 2;
+            player.noKnockback = true;
         }
     }
     public class PalladiumLegs : GlobalItem
@@ -470,24 +479,28 @@ internal class ArmorChanges
             return GetInstance<Config>().MagicArmorAdjust && item.type == 1209;
         }
 
+        public override void SetDefaults(Item item)
+        {
+            item.defense = 12;
+        }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "3% increased damage and critical strike chance";
+                line.Text = "6% reduced damage taken";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "6% reduced damage taken";
+                line2.Hide();
             }
         }
 
         public override void UpdateEquip(Item item, Player player)
         {
-            player.GetDamage(DamageClass.Generic) += 0.03f;
-            player.GetCritChance(DamageClass.Generic) += 3f;
+            player.GetDamage(DamageClass.Generic) -= 0.02f;
+            player.GetCritChance(DamageClass.Generic) -= 1f;
             player.endurance = 1f - (0.94f * (1f - player.endurance));
 
         }
@@ -640,7 +653,7 @@ internal class ArmorChanges
 
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.MythrilHelmet && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves)
+            if (head.type == ItemID.MythrilHelmet && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Mythril Melee";
             }
@@ -660,7 +673,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.MythrilHat;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.MythrilHat;
         }
         public override void SetDefaults(Item item)
         {
@@ -672,8 +685,8 @@ internal class ArmorChanges
             player.GetDamage(DamageClass.Ranged) -= 0.12f;
             player.GetCritChance(DamageClass.Ranged) -= 7f;
 
-            player.GetDamage(DamageClass.Magic) += 0.13f;
-            player.GetCritChance(DamageClass.Magic) += 13;
+            player.GetDamage(DamageClass.Magic) += 0.09f;
+            player.GetCritChance(DamageClass.Magic) += 9;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -681,17 +694,17 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "13% increased magic damage";
+                line.Text = "9% increased magic damage";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "13% increased magic critical strike chance";
+                line2.Text = "9% increased magic critical strike chance";
             }
         }
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.MythrilHat && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves)
+            if (head.type == ItemID.MythrilHat && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Mythril Ranged";
             }
@@ -712,7 +725,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.MythrilHood;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.MythrilHood;
         }
 
         public override void SetDefaults(Item item)
@@ -744,7 +757,7 @@ internal class ArmorChanges
         }
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.MythrilHood && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves)
+            if (head.type == ItemID.MythrilHood && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Mythril Magic";
             }
@@ -767,7 +780,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.MythrilChainmail;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.MythrilChainmail;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -775,22 +788,22 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "13% increased magic damage and reduced mana usage";
+                line.Text = "12% increased magic damage and reduced mana usage";
             }
         }
 
         public override void UpdateEquip(Item item, Player player)
         {
             player.GetDamage(DamageClass.Generic) -= 0.07f;
-            player.GetDamage(DamageClass.Magic) += 0.13f;
-            player.manaCost *= 0.87f;
+            player.GetDamage(DamageClass.Magic) += 0.12f;
+            player.manaCost *= 0.88f;
         }
     }
     public class MythrilLegs : GlobalItem
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.MythrilGreaves;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.MythrilGreaves;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -798,15 +811,15 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "12% increased magic critical strike chance and movement speed";
+                line.Text = "11% increased magic critical strike chance and movement speed";
             }
         }
 
         public override void UpdateEquip(Item item, Player player)
         {
             player.GetCritChance(DamageClass.Generic) -= 10f;
-            player.GetCritChance(DamageClass.Magic) += 12f;
-            player.moveSpeed += 0.12f;
+            player.GetCritChance(DamageClass.Magic) += 11f;
+            player.moveSpeed += 0.11f;
         }
     }
 
@@ -847,7 +860,7 @@ internal class ArmorChanges
 
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.OrichalcumMask && body.type == ItemID.OrichalcumBreastplate && legs.type == ItemID.OrichalcumLeggings)
+            if (head.type == ItemID.OrichalcumMask && body.type == ItemID.OrichalcumBreastplate && legs.type == ItemID.OrichalcumLeggings && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Orichalcum Melee";
             }
@@ -857,7 +870,7 @@ internal class ArmorChanges
         {
             if (set.Equals("Orichalcum Melee"))
             {
-                player.setBonus = "Musket balls are converted to Orichalcum Bullets\nOrichalcum Bullets burst forward into flower petals on impact, dealing 25% damage";
+                player.setBonus = "Musket balls are converted to Orichalcum Bullets\nOrichalcum Bullets burst forward into flower petals on impact, dealing 12% damage";
                 player.GetModPlayer<GlobalPlayer>().OrichalcumGun = true;
             }
         }
@@ -866,7 +879,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.OrichalcumHelmet;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.OrichalcumHelmet;
         }
         public override void SetDefaults(Item item)
         {
@@ -898,7 +911,7 @@ internal class ArmorChanges
         }
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.OrichalcumHelmet && body.type == ItemID.OrichalcumBreastplate && legs.type == ItemID.OrichalcumLeggings)
+            if (head.type == ItemID.OrichalcumHelmet && body.type == ItemID.OrichalcumBreastplate && legs.type == ItemID.OrichalcumLeggings && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Orichalcum Ranged";
             }
@@ -919,7 +932,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.OrichalcumHeadgear;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.OrichalcumHeadgear;
         }
 
         public override void SetDefaults(Item item)
@@ -962,7 +975,7 @@ internal class ArmorChanges
         {
             if (set.Equals("Orichalcum Magic"))
             {
-                player.setBonus = "Wooden Arrows are converted to Orichalcum Arrows\nOrichalcum Arrows pierce and summon a flower petal strike on hit enemies, dealing 33% damage";
+                player.setBonus = "Wooden Arrows are converted to Orichalcum Arrows\nOrichalcum Arrows pierce and summon a flower petal strike on hit enemies, dealing 25% damage";
                 player.GetModPlayer<GlobalPlayer>().OrichalcumBow = true;
             }
         }
@@ -972,7 +985,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.OrichalcumBreastplate;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.OrichalcumBreastplate;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -980,22 +993,22 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "11% increased ranged damage and critical strike chance";
+                line.Text = "9% increased ranged damage and critical strike chance";
             }
         }
 
         public override void UpdateEquip(Item item, Player player)
         {
             player.GetCritChance(DamageClass.Generic) -= 6f;
-            player.GetDamage(DamageClass.Ranged) += 0.11f;
-            player.GetCritChance(DamageClass.Ranged) += 11; 
+            player.GetDamage(DamageClass.Ranged) += 0.09f;
+            player.GetCritChance(DamageClass.Ranged) += 9; 
         }
     }
     public class OrichalcumLegs : GlobalItem
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.OrichalcumLeggings;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.OrichalcumLeggings;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -1051,7 +1064,7 @@ internal class ArmorChanges
 
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.AdamantiteHelmet && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings)
+            if (head.type == ItemID.AdamantiteHelmet && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Adamantite Melee";
             }
@@ -1061,10 +1074,8 @@ internal class ArmorChanges
         {
             if (set.Equals("Adamantite Melee"))
             {
-                player.setBonus = "10% increased summon damage\nThe first minion summoned is powered up with adamantite energy\nPowered up minions deal double damage and benefit twice as much from whip tag effects";
+                player.setBonus = "The first minion summoned is powered up with adamantite energy\nPowered up minions deal double damage and benefit twice as much from whip tag effects\nSlightly less effective for each additional minion slot the empowered minion occupies";
                 player.GetModPlayer<GlobalPlayer>().AdamantiteMinion = true;
-                player.GetDamage(DamageClass.Summon) += 0.1f;
-
             }
         }
     }
@@ -1072,7 +1083,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.AdamantiteMask;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.AdamantiteMask;
         }
         public override void SetDefaults(Item item)
         {
@@ -1084,8 +1095,8 @@ internal class ArmorChanges
             player.GetDamage(DamageClass.Ranged) -= 0.14f;
             player.GetCritChance(DamageClass.Ranged) -= 10f;
 
-            player.GetDamage(DamageClass.Generic) += 0.15f;
-            player.GetCritChance(DamageClass.Generic) += 10f;
+            player.GetDamage(DamageClass.Generic) += 0.05f;
+            player.GetCritChance(DamageClass.Generic) += 15f;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -1093,17 +1104,17 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "Increases all damage by 15%";
+                line.Text = "Increases all damage by 5%";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "Critical strike chance increased by 10%";
+                line2.Text = "Critical strike chance increased by 15%";
             }
         }
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.AdamantiteMask && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings)
+            if (head.type == ItemID.AdamantiteMask && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Adamantite Ranged";
             }
@@ -1126,7 +1137,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.AdamantiteHeadgear;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.AdamantiteHeadgear;
         }
 
         public override void SetDefaults(Item item)
@@ -1158,7 +1169,7 @@ internal class ArmorChanges
         }
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.AdamantiteHeadgear && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings)
+            if (head.type == ItemID.AdamantiteHeadgear && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Adamantite Magic";
             }
@@ -1180,7 +1191,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.AdamantiteBreastplate;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.AdamantiteBreastplate;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -1204,7 +1215,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.AdamantiteLeggings;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.AdamantiteLeggings;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -1273,7 +1284,7 @@ internal class ArmorChanges
 
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.TitaniumMask && body.type == ItemID.TitaniumBreastplate && legs.type == ItemID.TitaniumLeggings)
+            if (head.type == ItemID.TitaniumMask && body.type == ItemID.TitaniumBreastplate && legs.type == ItemID.TitaniumLeggings && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Titanium Melee";
             }
@@ -1292,11 +1303,11 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.TitaniumHelmet;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.TitaniumHelmet;
         }
         public override void SetDefaults(Item item)
         {
-            item.defense = 7;
+            item.defense = 0;
         }
 
         public override void UpdateEquip(Item item, Player player)
@@ -1322,7 +1333,7 @@ internal class ArmorChanges
         }
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.TitaniumHelmet && body.type == ItemID.TitaniumBreastplate && legs.type == ItemID.TitaniumLeggings)
+            if (head.type == ItemID.TitaniumHelmet && body.type == ItemID.TitaniumBreastplate && legs.type == ItemID.TitaniumLeggings && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Titanium Ranged";
             }
@@ -1342,7 +1353,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.TitaniumHeadgear;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.TitaniumHeadgear;
         }
 
         public override void SetDefaults(Item item)
@@ -1375,7 +1386,7 @@ internal class ArmorChanges
         }
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            if (head.type == ItemID.TitaniumHeadgear && body.type == ItemID.TitaniumBreastplate && legs.type == ItemID.TitaniumLeggings)
+            if (head.type == ItemID.TitaniumHeadgear && body.type == ItemID.TitaniumBreastplate && legs.type == ItemID.TitaniumLeggings && GetInstance<Config>().HardmodeMetalRework)
             {
                 return "Titanium Magic";
             }
@@ -1400,7 +1411,7 @@ internal class ArmorChanges
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.TitaniumBreastplate;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.TitaniumBreastplate;
         }
         public override void SetDefaults(Item item)
         {
@@ -1411,12 +1422,12 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "11% increased melee speed";
+                line.Text = "10% increased melee speed";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "11% increased melee critical strike chance";
+                line2.Text = "10% increased melee critical strike chance";
             }
         }
 
@@ -1426,15 +1437,15 @@ internal class ArmorChanges
             player.GetDamage(DamageClass.Generic) -= 0.04f;
 
 
-            player.GetAttackSpeed(DamageClass.Melee) += 0.11f;
-            player.GetCritChance(DamageClass.Melee) += 11;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.10f;
+            player.GetCritChance(DamageClass.Melee) += 10;
         }
     }
     public class TitaniumLegs : GlobalItem
     {
         public override bool AppliesToEntity(Item item, bool lateInstatiation)
         {
-            return GetInstance<Config>().MagicArmorAdjust && item.type == ItemID.TitaniumLeggings;
+            return GetInstance<Config>().HardmodeMetalRework && item.type == ItemID.TitaniumLeggings;
         }
         public override void SetDefaults(Item item)
         {
@@ -1445,12 +1456,12 @@ internal class ArmorChanges
             TooltipLine line = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip0" && x.Mod == "Terraria");
             if (line != null)
             {
-                line.Text = "17% increased melee damage and movement speed";
+                line.Text = "17% increased melee damage";
             }
             TooltipLine line2 = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "Tooltip1" && x.Mod == "Terraria");
             if (line2 != null)
             {
-                line2.Text = "5% increased melee critical strike chance";
+                line2.Text = "25% increased movement speed";
             }
         }
 
@@ -1460,10 +1471,8 @@ internal class ArmorChanges
             player.GetCritChance(DamageClass.Generic) -= 3f;
             player.moveSpeed -= 0.06f;
 
-            player.moveSpeed += 0.17f;
+            player.moveSpeed += 0.25f;
             player.GetDamage(DamageClass.Melee) += 0.17f;
-            player.GetCritChance(DamageClass.Melee) += 5;
-            
         }
     }
 }

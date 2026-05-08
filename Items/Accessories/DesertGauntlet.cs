@@ -36,7 +36,7 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetAttackSpeed(DamageClass.Melee) += 0.06f;
-            if (player.GetModPlayer<GlobalPlayer>().FortifyingLink < 7) { player.GetModPlayer<GlobalPlayer>().FortifyingLink = 7; }
+            if (player.GetModPlayer<GlobalPlayer>().FortifyingLink < 3) { player.GetModPlayer<GlobalPlayer>().FortifyingLink = 3; }
 
         }
 

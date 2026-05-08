@@ -2,8 +2,10 @@ using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables
 using AwfulGarbageMod.NPCs.Boss;
 using AwfulGarbageMod.NPCs.Town;
 using AwfulGarbageMod.Systems;
+using gunrightsmod.Content.DamageClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -36,8 +38,26 @@ namespace AwfulGarbageMod.ModIntegration
 
             // We can integrate with other mods here by following the same pattern. Some modders may prefer a ModSystem for each mod they integrate with, or some other design.
             // DoMusicDisplayIntegration();
+            DoRecipeBrowserIntegration();
         }
+        private void DoRecipeBrowserIntegration()
+        {
 
+            if (ModLoader.TryGetMod("RecipeBrowser", out Mod mod) && !Main.dedServ)
+            {
+                mod.Call(
+                [
+                    "AddItemCategory",
+                    "Shields",
+                    "Accessories",
+                    Mod.Assets.Request<Texture2D>("Items/Accessories/Shield/StoneShield", AssetRequestMode.AsyncLoad), // 24x24 icon
+			        (Predicate<Item>)((Item item) =>
+                    {
+                            return item.shieldItem().shield;
+                     })
+                ]);
+            }
+        }
         private void DoCensusIntegration()
         {
             // We figured out how to add support by looking at it's Call method: https://github.com/JavidPack/Census/blob/1.4/Census.cs
@@ -414,7 +434,7 @@ namespace AwfulGarbageMod.ModIntegration
             );
 
 
-            /*
+            
             internalName = "Candescence";
             weight = 7.0001f;
             downed = () => DownedBossSystem.downedFireMoth;
@@ -439,7 +459,7 @@ namespace AwfulGarbageMod.ModIntegration
                     // Other optional arguments as needed are inferred from the wiki
                 }
             ); 
-            */
+            
 
             internalName = "Blightdrasil";
             weight = 12.0001f;

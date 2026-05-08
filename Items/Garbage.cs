@@ -31,7 +31,7 @@ namespace AwfulGarbageMod.Items
         {
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useAnimation = 15;
-            Item.useTime = 10;
+            Item.useTime = 4;
             Item.autoReuse = true;
             Item.width = 20; // The item texture's width
             Item.height = 20; // The item texture's height

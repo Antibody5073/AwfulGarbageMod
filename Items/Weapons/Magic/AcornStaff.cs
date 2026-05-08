@@ -71,7 +71,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.width = 8;
             Projectile.height = 8;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
@@ -132,6 +132,10 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
 
         public override void AI()
         {
+            if (Projectile.velocity.Y > -16)
+            {
+                Projectile.velocity.Y += 0.03f;
+            }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(225f);
         }
     }

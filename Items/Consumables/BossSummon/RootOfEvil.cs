@@ -30,7 +30,7 @@ namespace AwfulGarbageMod.Items.Consumables.BossSummon
             Item.width = 20;
             Item.height = 20;
             Item.maxStack = 20;
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.LightPurple;
             Item.useAnimation = 45;
             Item.useTime = 45;
             Item.useStyle = ItemUseStyleID.HoldUp;

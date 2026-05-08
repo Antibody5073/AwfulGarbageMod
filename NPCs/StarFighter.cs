@@ -732,7 +732,12 @@ namespace AwfulGarbageMod.NPCs
             {
                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/LaserBeam1");
 
-                SoundEngine.FindActiveSound(impactSound).Stop();
+
+                ActiveSound sound = SoundEngine.FindActiveSound(impactSound);
+                if (sound != null)
+                {
+                    sound.Stop();
+                }
             }
 
             float turn = AGUtils.TurnTowards(temp, player.Center, NPC.velocity.ToRotation(), NPC.Center);

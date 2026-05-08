@@ -1,18 +1,23 @@
 ﻿using AwfulGarbageMod;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Accessories.InfernusCrossMod;
+using AwfulGarbageMod.Items.Accessories.TerMericaCrossMod;
+using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Melee;
 using AwfulGarbageMod.Items.Weapons.Ranged;
-using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Rogue;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.NPCs.Boss;
+using gunrightsmod.Content.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AwfulGarbageMod.Items.Weapons.Rogue;
 
 namespace AwfulGarbageMod.Items.Consumables
 {
@@ -44,14 +49,24 @@ namespace AwfulGarbageMod.Items.Consumables
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             // We have to replicate the expert drops from MinionBossBody here
+
+
+            List<int> options = [ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<Leafstorm>(), ModContent.ItemType<PlantyShieldCoating>()];
+
             if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))
             {
-                itemLoot.Add(ItemDropRule.FewFromOptions(3, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<Leafstorm>(), ModContent.ItemType<TreeChopper>()));
+                options.Add(ModContent.ItemType<TreeChopper>());
             }
-            else
+            if (ModLoader.TryGetMod("gunrightsmod", out Mod termerica))
             {
-                itemLoot.Add(ItemDropRule.FewFromOptions(3, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<Leafstorm>()));
+                if (termerica.TryFind("WeedLeaves", out ModItem item))
+                {
+                    itemLoot.Add(ItemDropRule.Common(item.Type, 1, 6, 12));
+                }
+                options.Add(ModContent.ItemType<HerbalSupplement>());
             }
+            itemLoot.Add(ItemDropRule.FewFromOptions(options.Count / 3, 1, options.ToArray()));
+
             itemLoot.Add(ItemDropRule.Common(ItemID.ArmorPolish, 8));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<WitheredLeaf>()));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<TreeToad>()));

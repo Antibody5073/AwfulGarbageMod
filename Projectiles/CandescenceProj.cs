@@ -164,7 +164,7 @@ namespace AwfulGarbageMod.Projectiles
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.Zero) * 0.1f, ModContent.ProjectileType<CandescenceProjFireball>(), 17, 0, Main.myPlayer, 0, 0, 0.22f);
                     CandescenceProjFireball fireballProj = Main.projectile[proj].ModProjectile as CandescenceProjFireball;
                     fireballProj.counter = 115;
-                    Main.projectile[proj].timeLeft = 150;
+                    Main.projectile[proj].timeLeft = 180;
                 }
             }
         }

@@ -47,11 +47,13 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
         {
             CreateRecipe()
                 .AddIngredient(ItemID.SoulofLight, 20)
+                .AddIngredient<SoulOfIghtImaHeadOut>(20)
                 .AddIngredient(ItemID.CobaltBar, 10)
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
                 .AddIngredient(ItemID.SoulofLight, 20)
+                .AddIngredient<SoulOfIghtImaHeadOut>(20)
                 .AddIngredient(ItemID.PalladiumBar, 10)
                 .AddTile(TileID.Anvils)
                 .Register();

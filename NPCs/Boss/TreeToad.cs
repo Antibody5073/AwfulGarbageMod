@@ -3,6 +3,8 @@ using AwfulGarbageMod.BossBars;
 using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.ItemDropRules;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Accessories.InfernusCrossMod;
+using AwfulGarbageMod.Items.Accessories.TerMericaCrossMod;
 using AwfulGarbageMod.Items.Consumables; 
 using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items.Vanity;
@@ -14,12 +16,14 @@ using AwfulGarbageMod.Items.Weapons.Rogue;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.Projectiles;
 using AwfulGarbageMod.Systems;
+using gunrightsmod.Content.Items;
 using Microsoft.Build.Locator;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Terraria;
 using Terraria.Audio;
@@ -116,6 +120,15 @@ namespace AwfulGarbageMod.NPCs.Boss
         bool treeToadRest = false;
         float attackSpeed = 1;
         float attackVariation;
+        int slamEffect = -1;
+        int slamEffectTimer = 0;
+        Vector2 slamPos = new Vector2(0, 0);
+        private void SlamEffect()
+        {
+            slamEffect = 0;
+            slamEffectTimer = 5;
+            slamPos = NPC.Bottom;
+        }
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(AI_State);
@@ -224,7 +237,17 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
 
             NPC.lifeMax = NPC.lifeMax * ModContent.GetInstance<Config>().BossHealthMultiplier / 100;
+            if (DifficultyModes.Difficulty == 2)
+            {
+                NPC.lifeMax = (int)(NPC.lifeMax * 2.5f);
+            }
             NPC.life = NPC.lifeMax;
+        }
+
+        [JITWhenModsEnabled("gunrightsmod")]
+        public void DoTerMerica(ref LeadingConditionRule notExpertRule)
+        {
+
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
@@ -245,14 +268,23 @@ namespace AwfulGarbageMod.NPCs.Boss
             // All our drops here are based on "not expert", meaning we use .OnSuccess() to add them into the rule, which then gets added
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
 
+            List<int> options = [ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<Leafstorm>(), ModContent.ItemType<PlantyShieldCoating>()];
+
             if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))
             {
-                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(2, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<Leafstorm>(), ModContent.ItemType<TreeChopper>()));
+                options.Add(ModContent.ItemType<TreeChopper>());
             }
-            else
+            if (ModLoader.TryGetMod("gunrightsmod", out Mod termerica))
             {
-                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(2, 1, ItemID.FrogLeg, ModContent.ItemType<LeafBlade>(), ModContent.ItemType<ToadEyes>(), ModContent.ItemType<SylvanTome>(), ModContent.ItemType<ToadsTongue>(), ModContent.ItemType<LeafScepter>(), ModContent.ItemType<Phloem>(), ModContent.ItemType<Leafstorm>()));
+                if (termerica.TryFind("WeedLeaves", out ModItem item))
+                {
+                    notExpertRule.OnSuccess(ItemDropRule.Common(item.Type, 1, 6, 12));
+                }
+
+                options.Add(ModContent.ItemType<HerbalSupplement>());
             }
+            notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(options.Count / 3, 1, options.ToArray()));
+
             notExpertRule.OnSuccess(ItemDropRule.Common(ItemID.ArmorPolish, 10));
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SuwaHat>(), 15));
 
@@ -823,6 +855,36 @@ namespace AwfulGarbageMod.NPCs.Boss
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
+            if (slamEffect >= 0)
+            {
+                slamEffectTimer--;
+                if (slamEffectTimer < 0)
+                {
+                    slamEffect++;
+                    slamEffectTimer = 5;
+                    if (slamEffect > 2)
+                    {
+                        slamEffect = -1;
+                    }
+                }
+            }
+            if (slamEffect >= 0)
+            {
+                Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("AwfulGarbageMod/NPCs/Boss/TreeToadSlam2");
+
+                int frameHeight = texture.Height / 3;
+                int startY = frameHeight * slamEffect;
+
+                Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+
+                // Alternatively, you can skip defining frameHeight and startY and use this:
+                // Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
+
+                Vector2 origin = sourceRectangle.Size() / 2f;
+                Vector2 drawPos = slamPos - Main.screenPosition + new Vector2(0, -frameHeight / 2);
+                Main.spriteBatch.Draw(texture, drawPos, sourceRectangle, NPC.GetAlpha(drawColor), 0, origin, 1, spriteEffects, 0f);
+
+            }
             if (true)
             {
                 Vector2 drawOrigin = NPC.frame.Size() / 2;
@@ -834,6 +896,30 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
             }
             return true;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            if (slamEffect >= 0)
+            {
+                Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("AwfulGarbageMod/NPCs/Boss/TreeToadSlam");
+
+                int frameHeight = texture.Height / 3;
+                int startY = frameHeight * slamEffect;
+
+                Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+
+                // Alternatively, you can skip defining frameHeight and startY and use this:
+                // Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
+
+                Vector2 origin = sourceRectangle.Size() / 2f;
+                Vector2 drawPos = slamPos - Main.screenPosition + new Vector2(0, -frameHeight / 2);
+                Main.spriteBatch.Draw(texture, drawPos, sourceRectangle, NPC.GetAlpha(drawColor), 0, origin, 1, spriteEffects, 0f);
+
+            }
         }
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
@@ -882,13 +968,14 @@ namespace AwfulGarbageMod.NPCs.Boss
         private void fallStop()
         {
             SoundEngine.PlaySound(SoundID.Item10, NPC.Center);
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < 3; i++)
             {
                 float xv = Main.rand.NextFloat(-3, 3);
                 float yv = Main.rand.NextFloat(-2, -5);
                 int dust = Dust.NewDust(NPC.Bottom, 1, 1, DustID.Grass, xv, yv, 0, default(Color), 1f);
                 Main.dust[dust].scale = Main.rand.NextFloat(1, 2);
             }
+            SlamEffect();
 
             if (AI_State == (float)ActionState.Fall)
             {
@@ -1299,6 +1386,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                     AI_Timer = 0;
                     AI_State = (float)ActionState.RapidJump;
                     JumpCount = 0;
+                    SlamEffect();
+
                     if (Main.expertMode)
                     {
                         for (var i = 0; i < 4; i++)
@@ -1658,6 +1747,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                         Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(10, 0), Mod.Find<ModProjectile>("TreeToadOrb").Type, 0, 0);
                     }
+                    SlamEffect();
 
                     NPC.netUpdate = true;
                     AI_Timer = 0;

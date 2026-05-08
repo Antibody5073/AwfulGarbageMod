@@ -115,7 +115,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 			NPC.height = 88; // The height of the npc's hitbox (in pixels)
 			NPC.aiStyle = -1; // This npc has a completely unique AI, so we set this to -1. The default aiStyle 0 will face the player, which might conflict with custom AI code.
 			NPC.damage = 20; // The amount of damage that this npc deals
-			NPC.defense = 8; // The amount of defense that this npc has
+			NPC.defense = 14; // The amount of defense that this npc has
 			NPC.lifeMax = 6000; // The amount of health that this npc has
             NPC.HitSound = SoundID.NPCHit2; // The sound the NPC will make when being hit.
 			NPC.DeathSound = SoundID.NPCDeath1; // The sound the NPC will make when it dies.

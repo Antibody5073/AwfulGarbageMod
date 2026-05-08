@@ -26,7 +26,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee.Hardmode
 		public override void SetDefaults()
 		{
 			Item.damage = 79;
-			Item.DamageType = DamageClass.Melee;
+			Item.DamageType = DamageClass.MeleeNoSpeed;
 			Item.width = 60;
 			Item.height = 60;
 			Item.useTime = 24;
@@ -55,12 +55,11 @@ namespace AwfulGarbageMod.Items.Weapons.Melee.Hardmode
 
         public override void AddRecipes()
 		{
-            /*
             CreateRecipe()
                 .AddIngredient<CandesciteBar>(20)
                 .AddIngredient(ItemID.MoltenHamaxe)
                 .AddTile<CandescentCrucible>()
-                .Register();*/
+                .Register();
         }
 	}
 

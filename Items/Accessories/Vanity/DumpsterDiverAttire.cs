@@ -28,7 +28,6 @@ namespace AwfulGarbageMod.Items.Accessories.Vanity
                 EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/DumpsterDiverAttire_Body", EquipType.Body, this);
                 EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/DumpsterDiverAttire_Legs", EquipType.Legs, this);
                 EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/DumpsterDiverAttire_Back", EquipType.Back, this);
-                EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/DumpsterDiverAttire_Neck", EquipType.Neck, this);
             }
         }
 
@@ -98,7 +97,6 @@ namespace AwfulGarbageMod.Items.Accessories.Vanity
                 Player.legs = EquipLoader.GetEquipSlot(Mod, "DumpsterDiverAttire", EquipType.Legs);
                 Player.body = EquipLoader.GetEquipSlot(Mod, "DumpsterDiverAttire", EquipType.Body);
                 Player.head = EquipLoader.GetEquipSlot(Mod, "DumpsterDiverAttire", EquipType.Head);
-                Player.neck = EquipLoader.GetEquipSlot(Mod, "DumpsterDiverAttire", EquipType.Neck);
             }
         }
     }

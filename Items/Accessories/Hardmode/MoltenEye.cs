@@ -10,10 +10,10 @@ using AwfulGarbageMod;
 using AwfulGarbageMod.Global;
 using AwfulGarbageMod.Projectiles;
 
-namespace AwfulGarbageMod.Items.Accessories
+namespace AwfulGarbageMod.Items.Accessories.Hardmode
 {
 
-    public class OpposingViews : ModItem
+    public class MoltenEye : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -27,7 +27,7 @@ namespace AwfulGarbageMod.Items.Accessories
 		{
 			Item.width = 20;
 			Item.height = 20;
-            Item.value = 500000;
+            Item.value = 700000;
 
             Item.rare = ItemRarityID.Purple;
             Item.expert = true; // This makes sure that "Expert" displays in the tooltip and the item name color changes
@@ -36,13 +36,6 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateVanity(Player player)
         {
-            player.GetModPlayer<GlobalPlayer>().GlacialEye = true;
-
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<GlacialEyeProj>()] < 1)
-            {
-                var projectile = Projectile.NewProjectileDirect(Projectile.GetSource_NaturalSpawn(), player.Center, new Vector2(0, 0), ModContent.ProjectileType<GlacialEyeProj>(), 0, 0, Main.myPlayer);
-            }
-
             player.GetModPlayer<GlobalPlayer>().MoltenEye = true;
 
             if (player.ownedProjectileCounts[ModContent.ProjectileType<MoltenEyeProj>()] < 1)
@@ -53,30 +46,13 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.endurance = 1f - (0.92f * (1f - player.endurance));
-            player.GetModPlayer<GlobalPlayer>().GlacialEye = true;
-            player.GetModPlayer<GlobalPlayer>().GlacialEyeDmg += 32;
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<GlacialEyeProj>()] < 1)
-            {
-                var projectile = Projectile.NewProjectileDirect(Projectile.GetSource_NaturalSpawn(), player.Center, new Vector2(0, 0), ModContent.ProjectileType<GlacialEyeProj>(), 0, 0, Main.myPlayer);
-            }
-            player.GetDamage(DamageClass.Generic) += 0.08f;
+            player.GetDamage(DamageClass.Generic) += 0.1f;
             player.GetModPlayer<GlobalPlayer>().MoltenEye = true;
-            player.GetModPlayer<GlobalPlayer>().MoltenEyeDmg += 40;
+            player.GetModPlayer<GlobalPlayer>().MoltenEyeDmg += 33;
             if (player.ownedProjectileCounts[ModContent.ProjectileType<MoltenEyeProj>()] < 1)
             {
                 var projectile = Projectile.NewProjectileDirect(Projectile.GetSource_NaturalSpawn(), player.Center, new Vector2(0, 0), ModContent.ProjectileType<MoltenEyeProj>(), 0, 0, Main.myPlayer);
             }
-        }
-        public override void AddRecipes()
-        {
-            CreateRecipe()
-                .AddIngredient<GlacialEye>()
-                .AddIngredient<MoltenEye>()
-                .AddIngredient<Cryogem>(15)
-                .AddIngredient<Pyrogem>(15)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
         }
     }
 }

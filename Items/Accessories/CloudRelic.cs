@@ -35,6 +35,7 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<GlobalPlayer>().PercentArmorIgnoreSummon *= 0.8f;
+            player.GetModPlayer<GlobalPlayer>().MaxPercentArmorIgnoreSummon += 8;
             player.moveSpeed += 0.05f;
         }
 

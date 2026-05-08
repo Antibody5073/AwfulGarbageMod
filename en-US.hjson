@@ -6,8 +6,9 @@ Mods: {
 			FlailDamageClass.DisplayName: melee (flail) damage
 			MageRangedClass.DisplayName: ranged and magic damage
 			MageSummonClass.DisplayName: magic and summon damage
-			MeleeRangedClass.DisplayName: Melee Ranged Class
-			MageMeleeClass.DisplayName: Mage Melee Class
+			MeleeRangedClass.DisplayName: melee and ranged damage
+			MageMeleeClass.DisplayName: magic and melee damage
+			SentinelDamageClass.DisplayName: sentinel damage
 		}
 
 		Keybinds.ArmorSetAbility.DisplayName: Armor Set Ability
@@ -395,6 +396,56 @@ Mods: {
 			MothRayBuff: {
 				DisplayName: Moth Ray Buff
 				Description: Mods.AwfulGarbageMod.Buffs.MothRayBuff.Description
+			}
+
+			SnakeOilBuff: {
+				Description: Mods.AwfulGarbageMod.Buffs.SnakeOilBuff.Description
+				DisplayName: Snake Oil Buff
+			}
+
+			BloodMagnetBuff: {
+				DisplayName: Blood Power
+				Description: 12% increased damage
+			}
+
+			CoinBuff: {
+				DisplayName: Coin Power
+				Description: 25% increased movement speed
+			}
+
+			ManaStarBuff: {
+				DisplayName: Star Power
+				Description: 10% increased critical strike chance and 5% reduced mana usage
+			}
+
+			MagnosBlessingCooldown: {
+				DisplayName: Magnos Blessing Cooldown
+				Description: Repel effect is on cooldown
+			}
+
+			SparklingStormbrewBuff: {
+				Description: Better take damage fast
+				DisplayName: Sparkling Stormbrew
+			}
+
+			PlatinumShieldLuck: {
+				DisplayName: Platinum Shield Luck
+				Description: Mods.AwfulGarbageMod.Buffs.PlatinumShieldLuck.Description
+			}
+
+			WaterVeilBuff: {
+				DisplayName: Water Veil Buff
+				Description: Mods.AwfulGarbageMod.Buffs.WaterVeilBuff.Description
+			}
+
+			MidnightMinionBuff: {
+				DisplayName: Midnight Minion Buff
+				Description: Mods.AwfulGarbageMod.Buffs.MidnightMinionBuff.Description
+			}
+
+			ShadowstepCooldown: {
+				Description: Dodge chance isn't rising
+				DisplayName: Shadowstep Cooldown
 			}
 		}
 
@@ -824,6 +875,20 @@ Mods: {
 			GovernmentSpaceLaserGunProj.DisplayName: Government Space Laser Gun Proj
 			BlightdrasilDonutSpawner.DisplayName: Blightdrasil Donut Spawner
 			RottenChainforkProj.DisplayName: Rotten Chainfork Proj
+			SnakeOilMinion.DisplayName: Snake Oil Minion
+			EyeOfCthulhuProjLaser.DisplayName: Eye Of Cthulhu Proj Laser
+			CursedFlametongueProj.DisplayName: Cursed Flametongue Proj
+			CursedFlametongueFlame.DisplayName: Cursed Flametongue Flame
+			EyeOfCthulhuProjTeardrop.DisplayName: Eye Of Cthulhu Proj Teardrop
+			EyeOfCthulhuProjBloodshot.DisplayName: Eye Of Cthulhu Proj Bloodshot
+			ReflexiveProj.DisplayName: Reflexive Proj
+			BlightdrasilHeart2.DisplayName: Blightdrasil Heart2
+			BlightdrasilWarning2.DisplayName: Blightdrasil Warning2
+			IceShardFrigidiusAccelerate.DisplayName: Ice Shard Frigidius Accelerate
+			IceShardFrigidiusSpin.DisplayName: Ice Shard Frigidius Spin
+			MidnightMinion.DisplayName: Midnight Minion
+			GoreKnightMinionProjctile.DisplayName: Gore Knight Minion Projctile
+			GoreKnightMinion.DisplayName: Gore Knight Minion
 		}
 
 		Items: {
@@ -853,6 +918,7 @@ Mods: {
 				Tooltip:
 					'''
 					Summon damage penetrates 20% of enemy armor
+					Maximum of 8 armor penetration
 					5% increased movement speed
 					'''
 			}
@@ -1167,7 +1233,7 @@ Mods: {
 				Tooltip:
 					'''
 					Increases movement speed by 10%
-					Increases ranged crit chance by 10%
+					Increases ranged crit chance by 7%
 					'''
 			}
 
@@ -1580,7 +1646,7 @@ Mods: {
 
 			OrganicGreatsword: {
 				DisplayName: Organic Greatsword
-				Tooltip: Shoots leaves every other swing
+				Tooltip: Shoots leaves every third swing
 			}
 
 			SkysBane: {
@@ -1724,7 +1790,7 @@ Mods: {
 				Tooltip:
 					'''
 					Enemies struck by summons take 8% increased damage
-					1 summon tag damage
+					2 summon tag damage
 					'''
 			}
 
@@ -1866,7 +1932,7 @@ Mods: {
 				DisplayName: Phloem
 				Tooltip:
 					'''
-					Fire a spread of piercing leaves every fifth shot
+					Fire a volley of piercing leaves every fifth shot
 					Ignores 5 enemy armor
 					'''
 			}
@@ -2069,6 +2135,7 @@ Mods: {
 				Tooltip:
 					'''
 					Summon damage penetrates 30% of enemy armor
+					Maximum of 12 armor penetration
 					Each minion slot used reduces maximum HP by 30, but increases life 
 					regeneration by 0.5 hp/second
 					'''
@@ -2216,7 +2283,8 @@ Mods: {
 					'''
 					Increases summon damage by 10%
 					Increases whip range by 10%
-					Enemy armor is 25% less effective
+					Attacks penetrate through 25% of enemy armor
+					This has a maximum of 10 armor penetration
 					Slightly increases summon knockback
 					Reflects 100% of damage taken
 					'''
@@ -2320,7 +2388,8 @@ Mods: {
 				DisplayName: Strawberry Jam
 				Tooltip:
 					'''
-					Additionally regenerates 75 life over 15 seconds
+					Additionally regenerates 100 life over 20 seconds
+					Taking damage stops the life regeneration buff
 					Regenerated life is not affected by equipment that changes potion healing
 					'It's a bit chunky...'
 					'''
@@ -3511,7 +3580,7 @@ Mods: {
 				Tooltip:
 					'''
 					Must be used in the underworld
-					'Like a moth to a flame...'
+					'Hot moths in your area'
 					'''
 				DisplayName: Lava Lamp
 			}
@@ -3856,7 +3925,7 @@ Mods: {
 				Tooltip:
 					'''
 					Increases max mana by 40
-					6% increased ranged damage and critical strike chance
+					4% increased ranged damage and critical strike chance
 					'''
 			}
 
@@ -4312,7 +4381,7 @@ Mods: {
 					'''
 					Spun flails deal triple damage while retracting (Does not stack with downgrades)
 					8% increased melee damage and speed
-					Increases defense by 8 while spinning a flail at max range (Does not stack with downgrades)
+					Increases defense by 4 while spinning a flail at max range (Does not stack with downgrades)
 					Reflects 75% of contact damage
 					'''
 			}
@@ -4322,13 +4391,13 @@ Mods: {
 				Tooltip:
 					'''
 					6% increased melee speed
-					Increases defense by 7 while spinning a flail at max range (Does not stack with downgrades)
+					Increases defense by 3 while spinning a flail at max range (Does not stack with downgrades)
 					'''
 			}
 
 			FortifyingLink: {
 				DisplayName: Fortifying Link
-				Tooltip: Increases defense by 6 while spinning a flail at max range
+				Tooltip: Increases defense by 3 while spinning a flail at max range
 			}
 
 			SpikyCover: {
@@ -4644,6 +4713,7 @@ Mods: {
 					Taking damage will disable life regeneration for 8 seconds
 					15% increased damage while electrified
 					15% reduced damage taken while grounded
+					Provides immunity to fall damage
 					'''
 			}
 
@@ -4651,13 +4721,14 @@ Mods: {
 				DisplayName: Eclectic Amulet
 				Tooltip:
 					'''
-					Drains 10 life per second from the nearest enemy
+					Drains 5 life per second from the nearest enemy
 					When standing still, this effect is 3 times as strong
 					Every three seconds, striking an enemy will deal massively increased knockback
 					While under 33% HP, the strike will also cause a slimy explosion that deals 60 damage
 					Increases defense by 12%, minumum defense increase is 3
 					Taking damage will disable life regeneration for 8 seconds
 					Grants minor life regeneration
+					Provides immunity to fall damage
 					15% reduced damage taken
 					'''
 			}
@@ -4982,6 +5053,7 @@ Mods: {
 					Increases jump speed and movement speed by 24%
 					Provides extra mobility on ice
 					Grants the ability to swim, climb walls, and auto-jump
+					Increases fall resistance by 15 blocks
 					Increases maximum sentries by 1
 					Provides immunity to Chilled
 					'''
@@ -5124,12 +5196,14 @@ Mods: {
 				Tooltip:
 					'''
 					Allows flight, super fast running, and extra mobility on ice
-					24% increased movement speed and jump speed
+					24% increased jump speed
+					40% increased movement speed 
 					75% increased movement friction while grounded
 					50% increased max horizontal speed when not using any items
 					Provides the ability to walk on liquids
 					Provides lava resistance and temporary lava immunity
 					Grants the ability to swim, climb walls, and auto-jump
+					Increases fall resistance by 20 blocks
 					Increases maximum sentries by 1
 					Gain up to 20% damage and lose up to 20 defense based on your current speed
 					Caps out at 40 MPH
@@ -5138,12 +5212,16 @@ Mods: {
 			}
 
 			EbonwoodArtifact: {
-				DisplayName: Ebonwood Artifact
-				Tooltip: ""
+				DisplayName: Fae Artifact
+				Tooltip:
+					'''
+					An artifact that sealed away the evil sanctuary
+					You need a remnant of the powers of Blightdrasil to enter
+					'''
 			}
 
 			RootOfEvil: {
-				DisplayName: Root Of Evil
+				DisplayName: Root of Evil
 				Tooltip:
 					'''
 					Allows entry into the evil sanctuary
@@ -5182,6 +5260,509 @@ Mods: {
 			HeartOfBlight: {
 				Tooltip: It pulses of rot and blood
 				DisplayName: Heart of Blight
+			}
+
+			HerbalSupplement: {
+				DisplayName: Herbal Supplement
+				Tooltip:
+					'''
+					4% increased stupid crit chance
+					Increases life regeneration by 1 hp/sec but reduces defense by 3
+					'Works better than those autism-inducing vaccines!!!'
+					'''
+			}
+
+			SnakeOil: {
+				DisplayName: Snake Oil
+				Tooltip: ""
+				tooltipWithoutArgs:
+					'''
+					3% increased summon and stupid damage
+					Summons a Spirit Snake that deals {0} summon+stupid damage
+					Enemies hit will take 12% more damage from the next attack from a stupid weapon
+					'It cures everything! At least, that's what that random stranger said.'
+					'''
+			}
+
+			SatanicSymbol: {
+				Tooltip:
+					'''
+					Reduces damage taken by 10%
+					Increases maximum life by 50
+					Slightly increases luck
+					Increases length of invincibility after taking damage
+					'''
+				DisplayName: Satanic Symbol
+			}
+
+			DemonsLocket: {
+				Tooltip:
+					'''
+					Reduces damage taken by 10%
+					Increases maximum life by 25
+					Slightly increases luck
+					'''
+				DisplayName: Gehenna's Locket
+			}
+
+			SuspiciousLookingEyeUnreal: {
+				DisplayName: Unreal Eye
+				Tooltip:
+					'''
+					Summons Eye of Cthulhu
+					Not consumable
+					'''
+			}
+
+			Proboscis: {
+				DisplayName: Proboscis
+				Tooltip:
+					'''
+					Striking an enemy releases a heart that heals you when picked up
+					This effect has a cooldown of 15 seconds
+					Picking up a heart temporarily boosts damage by 12%
+					'''
+			}
+
+			LifeMagnet: {
+				DisplayName: Life Magnet
+				Tooltip:
+					'''
+					Increases the grab range of hearts by 10 tiles
+					Increases the speed at which hearts are attracted
+					Stacks with heartreach potion
+					'''
+			}
+
+			BloodMagnet: {
+				DisplayName: Blood Magnet
+				Tooltip:
+					'''
+					Striking an enemy releases a heart that heals you when picked up
+					This effect has a cooldown of 15 seconds
+					Increases the grab range of hearts by 10 tiles
+					Increases the speed at which hearts are attracted
+					Picking up a heart temporarily boosts damage by 12%
+					'''
+			}
+
+			MagnosBlessing: {
+				DisplayName: Magno's Blessing
+				Tooltip:
+					'''
+					When you take damage from an enemy or projectile, avoid damage and repel yourself away from the damage source for 1 second
+					Does NOT grant immunity frames
+					This effect has a cooldown of 20 seconds
+					Increases pickup range of hearts, mana stars, items, and coins
+					Striking an enemy releases a heart and a mana star, with a cooldown of 15 seconds
+					Striking an enemy will sometimes drop extra coins
+					Picking up a heart temporarily increases damage by 12%
+					Picking up a mana star temporarily increases critical strike chance by 10% and reduces mana usage by 5%
+					Picking up a coin temporarily increases movement speed by 25%
+					'You've repelled the opposing force. 2 VP awarded!'
+					'''
+			}
+
+			SparklingStormbrew: {
+				Tooltip:
+					'''
+					For the next hit taken, instead of taking damage, heal the damage you would have taken
+					This has a maximum healing of 150 health
+					Lose 5 HP/sec until you take damage
+					50% longer cooldown than most healing potions
+					'''
+				DisplayName: Sparkling Stormbrew
+				RestoreLifeText: Mods.AwfulGarbageMod.Items.SparklingStormbrew.RestoreLifeText
+			}
+
+			CursedFlametongue: {
+				Tooltip: Extends range of the blade by spitting cursed flames
+				DisplayName: Cursed Flametongue
+			}
+
+			SaltedTears: {
+				DisplayName: Salted Tears
+				Tooltip:
+					'''
+					Taking damage stores 20% of the damage taken as healing energy that boosts healing potion potency
+					Healing boost cannot exceed 50% of the potion's healing
+					Resets healing energy to 0 after drinking a healing potion
+					Increases damage by 10% while below 50% HP
+					'''
+			}
+
+			WoodShield: {
+				DisplayName: Wooden Shield
+				Tooltip: ""
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					'''
+			}
+
+			EnchantedShield: {
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					On shield break, stars fall from the heavens toward the cursor
+					'''
+				DisplayName: Enchanted Shield
+				Tooltip: ""
+			}
+
+			GoldShield: {
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					On shield break, nearby enemies take damage and drop more money
+					Range and duration scale with shield effect power
+					'Gleaming with wealth'
+					'''
+				DisplayName: Gold Shield
+				Tooltip: ""
+			}
+
+			PlatinumShield: {
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					On shield break, damage nearby enemies and gain luck
+					Range and duration scale with shield effect power
+					'Gleaming with fortune'
+					'''
+				DisplayName: Platinum Shield
+				Tooltip: ""
+			}
+
+			ReinforcedShield: {
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					Reduces damage taken by 5%
+					'''
+				DisplayName: Reinforced Shield
+				Tooltip: ""
+			}
+
+			StoneShield: {
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					Reduces movement speed by 25% while active
+					'''
+				DisplayName: Stone Shield
+				Tooltip: ""
+			}
+
+			DevAccessory3: {
+				DisplayName: Dev Accessory3
+				Tooltip: 900% faster shield cooldown
+			}
+
+			Nutshell: {
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					Reduces maximum life by 40
+					While active, using items will also launch acorns that restore 2 mana on hit
+					Ignores up to 10 enemy armor
+					Velocity scales with shield effect power
+					'In a nutshell...'
+					'''
+				DisplayName: Nutshell
+				Tooltip: ""
+			}
+
+			WaterVeil: {
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					Reduces maximum life by 40
+					While active, the following effects take place:
+					- take 5% less damage
+					- using weapons shoots water to the sides
+					- surrounds the user in a ring of water
+					Enemies within the ring take 25% more damage (this has a maximum of +5 bonus damage)
+					If enemies are in the ring, shoot water to the sides twice as fast
+					Ring radius scales with shield effect power
+					'I am made of 72% water, therefore I am fully water, 100%'
+					'''
+				DisplayName: Water Veil
+				Tooltip: ""
+			}
+
+			Microwave: {
+				Tooltip: ""
+				DisplayName: Microwave
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					While active, emit an aura that rapidly damages and ignites enemies
+					Shield takes self-damage as the aura burns enemies
+					Self-damage is slightly increased for each enemy within the radius
+					Radius scales with shield effect power
+					'I want one of those! What is that thing?'
+					'''
+			}
+
+			ArachnidAegis: {
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					On shield break, release a swarm of baby spiders
+					'''
+				DisplayName: Arachnid Aegis
+				Tooltip: ""
+			}
+
+			BubbleBarrier: {
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					While active, rapidly emit homing bubbles
+					'''
+				DisplayName: Bubble Barrier
+				Tooltip: ""
+			}
+
+			PalladiumShield: {
+				TooltipWithVar:
+					'''
+					Shield Durability: {0}
+					Shield Resilience: {1}
+					Shield Cooldown: {2}
+					On shield break, temporarily boosts regeneration
+					Duration scales with shield effect power
+					'''
+				DisplayName: Palladium Shield
+				Tooltip: ""
+			}
+
+			ReflexiveCharm: {
+				Tooltip: ""
+				DisplayName: Reflexive Charm
+				TooltipWithVar:
+					'''
+					Taking shield damage releases reflexive energy toward a nearby enemy, dealing {0} sentinel damage
+					This effect can be triggered by self-damage
+					Range and damage scales with shield damage taken
+					5% increased shield effect power
+					'''
+			}
+
+			PlantyShieldCoating: {
+				Tooltip:
+					'''
+					10% increased max shield durability
+					Regenerate 1 shields every 1.33 seconds
+					'''
+				DisplayName: Planty Shield Coating
+			}
+
+			TeardropShieldCoating: {
+				DisplayName: Teardrop Shield Coating
+				Tooltip:
+					'''
+					30% faster shield cooldown
+					40% reduced max shield durability
+					'''
+			}
+
+			VerdantStimulant: {
+				DisplayName: Verdant Stimulant
+				Tooltip:
+					'''
+					Reduces your max HP by 33% and adds it to your shield durability
+					8% increased sentinel damage and critical strike chance
+					'''
+			}
+
+			ForbiddenFruit: {
+				DisplayName: Forbidden Fruit
+				Tooltip:
+					'''
+					Restores 6 HP every second, separate from life regeneration
+					Life regeneration is disabled and dropped hearts have no effect on life
+					You can no longer lifesteal or consume healing potions
+					Potion sickness is paused while equipped
+					'''
+			}
+
+			BlightdrasilBag: {
+				DisplayName: Blightdrasil Bag
+				Tooltip: ""
+			}
+
+			ColdHeart: {
+				DisplayName: Cold Heart
+				Tooltip:
+					'''
+					Your maximum life is doubled
+					Your life cannot exceed 50% of your maximum life
+					[c/1FE600:Especially useful when paired with accessories that have effects occur under a certain life threshold.]
+					Due to how some mods would code their accessories, this accessory should be in a higher accessory slot than the accessories you want to take advantage of
+					'''
+			}
+
+			MidnightLeggings: {
+				Tooltip:
+					'''
+					17% increased critical strike chance
+					12% reduced mana usage
+					7% increased melee speed
+					Increases maximum minions by 1
+					'''
+				DisplayName: Midnight Leggings
+			}
+
+			MidnightHelmet: {
+				Tooltip:
+					'''
+					17% increased critical strike chance
+					10% increased ranged velocity
+					40 increased max mana
+					Increases maximum minions by 1
+					'''
+				DisplayName: Midnight Hood
+			}
+
+			MidnightBreastplate: {
+				Tooltip:
+					'''
+					17% increased critical strike chance
+					10% chance not to consume ammo
+					7% increased melee speed
+					Increases maximum minions and sentries by 1
+					'''
+				DisplayName: Midnight Robes
+			}
+
+			GoreKnightLeggings: {
+				Tooltip:
+					'''
+					40 incresed max life
+					15% increased damage
+					15% chance not to consume ammo
+					Increases maximum minions by 1
+					'''
+				DisplayName: Gore Knight Leggings
+			}
+
+			GoreKnightHelmet: {
+				Tooltip:
+					'''
+					40 incresed max life
+					15% increased damage
+					15% increased melee speed
+					Increases maximum number of minions by 1
+					'''
+				DisplayName: Gore Knight Helmet
+			}
+
+			GoreKnightBreastplate: {
+				Tooltip:
+					'''
+					60 incresed max life and mana
+					15% increased damage
+					15% reduced mana usage
+					25% increased movement speed and whip range
+					'''
+				DisplayName: Gore Knight Chainmail
+			}
+
+			GlassetteTape: {
+				Tooltip:
+					'''
+					10% increased defense
+					Every time you take damage, take additional damage equal to 10% of your maximum life
+					This damage is seperate from the hit damage and cannot be reduced or mitigated in any way
+					'''
+				DisplayName: Glassette Tape
+			}
+
+			AntediluvianArtifact: {
+				Tooltip:
+					'''
+					Defense is reduced to 0
+					For every point of defense lost, gain the following:
+					- 4 maximum life
+					- 1 additional life gained from healing potions, after all other modifiers
+					- 4 maximum mana
+					- 1 additional mana gained from mana potions, after all other modifiers
+					Gain an additional sentry slot for every 40 points of defense lost
+					'''
+				DisplayName: Antediluvian Artifact
+				TooltipWithVar: "[c/1FE600:Current boosts: +{0} max life and mana, +{1} health and mana gain from potions, +{2} maximum sentries]"
+			}
+
+			ShadowstepStalkers: {
+				Tooltip:
+					'''
+					Allows the player to run super fast, slightly faster than Lightning Boots
+					Gain +1% chance to dodge an attack every second, up to +60% dodge chance
+					After dodging an attack, dodge chance resets to 0 and prevents gaining dodge chance for 10 seconds
+					Provides the ability to dash and walk on water
+					Provides wall climbing abilities and fall damage immunity
+					25% increased movement friction
+					15% increased movement speed
+					'''
+				DisplayName: Shadowstep Stalkers
+				TooltipWithVar: "[c/1FE600:Current dodge chance: {0}%]"
+			}
+
+			DemonSoles: {
+				Tooltip:
+					'''
+					Allows the player to run super fast, slightly faster than Lightning Boots
+					Immunity to fall damage
+					25% increased movement friction
+					15% increased movement speed
+					'how do i get demon souls?'
+					'''
+				DisplayName: Demon Soles
+			}
+
+			AtaraxiaLotus: {
+				Tooltip:
+					'''
+					For every empty accessory slot, grants +4% damage, +4% critical strike chance, +4 defense, 
+					+0.5 HP/sec regeneration, +5% movement speed, +3% melee speed, +3% ranged velocity, and +40 max mana
+					If you have 3 or more empty accessory slots, grants immunity to knockback and increases length of invulnerability
+					If you have 5 or more empty accessory slots, grants +3 max minions
+					If you have 7 or more empty accessory slots, your helmet acts as if it was equipped twice
+					'Pure of Mod and Body'
+					'''
+				DisplayName: Ataraxia Lotus
+				TooltipWithVar:
+					'''
+					[c/1FE600:Current boosts: +{0}% damage, +{0}% critical strike chance, +{0} defense, +{3} HP/sec regeneration,]
+					[c/1FE600:+{1}% movement speed, +{2}% melee speed, +{2}% ranged velocity, +{4} max mana]
+					'''
+				TooltipEffect4: "[c/1FE600:Your helmet acts as if it was equipped twice]"
+				TooltipEffect3: "[c/1FE600:Increases maximum number of minions by 3]"
+				TooltipEffect2: "[c/1FE600:Immunity to knockback and longer length of invincibility]"
 			}
 		}
 
@@ -5305,8 +5886,38 @@ Mods: {
 
 			Blightdrasil: {
 				DisplayName: Blightdrasil
-				BossChecklistIntegration.SpawnInfo: Use a [i:AwfulGarbageMod/RootOfEvil] in the Corruption Sanctuary.
+				BossChecklistIntegration.SpawnInfo: Use a [i:AwfulGarbageMod/RootOfEvil] in the Evil Sanctuary. You need a [i:AwfulGarbageMod/EbonwoodArtifact] to enter.
 			}
+
+			Echelon.DisplayName: Echelon
+			Mosquito.DisplayName: Mosquito
+
+			Shieldmaster: {
+				DisplayName: Shieldmaster
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: It's difficult to walk around with all these people, especially if you're lugging around a large shield.
+					HateCrowded: Could you do something about the amount of people here?
+					LoveBiome: I love {BiomeName}.
+					LikeBiome: I like {BiomeName}.
+					DislikeBiome: I dislike {BiomeName}.
+					HateBiome: Shields can't protect from the pests of the {BiomeName}. I hate it here.
+					LoveNPC: I love {NPCName}.
+					LikeNPC: "{NPCName} often helps me test my shields, I appreciate their presence."
+					DislikeNPC: I dislike {NPCName}.
+					HateNPC: I hate {NPCName}.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+
+				Census.SpawnCondition: Have a sentinel shield equipped
+			}
+
+			BlightdrasilCore.DisplayName: Blightdrasil Core
 		}
 
 		Bestiary: {
@@ -5326,7 +5937,7 @@ Mods: {
 			CursedChandelier: A strange chandelier whose waterbending powers can make quick work of foes. However, it only attacks those that threaten it.
 			FrosshroomStalk: A strange growth of mushroom that radiates cold spores when struck. It's quite weak to axes.
 			SuspiciousLookingBush: A bush that contains some forest bats. May contain a pink surprise.
-			Blightdrasil: The heart of the Corruption. In the past, it had cared for the creatures of the Corruption before it was sealed away by a powerful fae goddess. No wonder everything here looks so hungry nowadays.
+			Blightdrasil: The heart of the Corruption and Crimson. In the past, it had cared for the creatures of the Corruption and Crimson before it was sealed away by a powerful fae goddess. No wonder everything here looks so hungry nowadays.
 		}
 
 		Dialogue: {
@@ -5496,6 +6107,184 @@ Mods: {
 					'''
 				DisplayName: Metamorphic
 			}
+
+			PrefixSturdy: {
+				DisplayName: Sturdy
+				AdditionalTooltip: +10% max durability
+			}
+
+			PrefixReinforced: {
+				DisplayName: Reinforced
+				AdditionalTooltip:
+					'''
+					+15% max durability
+					+2 defense
+					'''
+				NegativeTooltip: +10% cooldown time
+			}
+
+			PrefixWeaponized: {
+				DisplayName: Weaponized
+				NegativeTooltip:
+					'''
+					-1 defense
+					-5% max durability
+					+5% cooldown time
+					'''
+				AdditionalTooltip:
+					'''
+					+10% shield effect power
+					+7.5% damage
+					'''
+			}
+
+			PrefixUseless: {
+				DisplayName: Useless
+				NegativeTooltip:
+					'''
+					-2 defense
+					-20% max durability
+					+20% cooldown time
+					'''
+			}
+
+			PrefixPotent2: {
+				DisplayName: Potent
+				NegativeTooltip: +5% cooldown time
+				AdditionalTooltip: +10% shield effect power
+			}
+
+			PrefixIncorrigible: {
+				DisplayName: Incorrigible
+				NegativeTooltip: +20% cooldown time
+			}
+
+			PrefixDauntless: {
+				DisplayName: Dauntless
+				AdditionalTooltip:
+					'''
+					+20% max durability
+					+5 defense
+					'''
+			}
+
+			PrefixDamaged: {
+				DisplayName: Impractical
+				NegativeTooltip:
+					'''
+					-1 defense
+					-15% max durability
+					'''
+			}
+
+			PrefixBrittle: {
+				DisplayName: Brittle
+				NegativeTooltip: -30% max durability
+				AdditionalTooltip: -10% cooldown time
+			}
+
+			PrefixFlawless: {
+				AdditionalTooltip:
+					'''
+					+15% max durability
+					-10% cooldown time
+					+5% shield resilience
+					+5% shield effect power
+					'''
+				DisplayName: Flawless
+			}
+
+			PrefixFrail: {
+				AdditionalTooltip: -20% cooldown time
+				NegativeTooltip: -40% durability
+				DisplayName: Frail
+			}
+
+			PrefixImpenetrable: {
+				AdditionalTooltip:
+					'''
+					+35% shield durability
+					+12% shield resilience
+					'''
+				NegativeTooltip: +25% cooldown time
+				DisplayName: Impenetrable
+			}
+
+			PrefixProtecting: {
+				AdditionalTooltip: +8% shield resilience
+				DisplayName: Protecting
+			}
+
+			PrefixSolid: {
+				AdditionalTooltip:
+					'''
+					+12% max durability
+					+10% shield resilience
+					'''
+				DisplayName: Solid
+			}
+
+			PrefixSubpar: {
+				NegativeTooltip:
+					'''
+					-5% shield resilience
+					+10% cooldown time
+					'''
+				DisplayName: Subpar
+			}
+
+			PrefixDelicate: {
+				AdditionalTooltip:
+					'''
+					-15% cooldown time
+					+15% shield effect power
+					'''
+				NegativeTooltip:
+					'''
+					-2 defense
+					-50% max durability
+					-6% shield resilience
+					'''
+				DisplayName: Delicate
+			}
+
+			PrefixPassive: {
+				AdditionalTooltip: +6 defense
+				NegativeTooltip: -25% shield effect power
+				DisplayName: Passive
+			}
+
+			PrefixVengeful: {
+				AdditionalTooltip:
+					'''
+					-30% cooldown time
+					+5% shield effect power
+					'''
+				NegativeTooltip: -60% max durability
+				DisplayName: Volatile
+			}
+
+			PrefixBattered: {
+				NegativeTooltip:
+					'''
+					-30% max durability
+					-6% shield resilience
+					-15% shield effect power
+					'''
+				DisplayName: Battered
+			}
+
+			PrefixFortified: {
+				AdditionalTooltip:
+					'''
+					+3 defense
+					+30% max durability
+					-10% cooldown time
+					+5% shield resilience
+					'''
+				NegativeTooltip: -20% shield effect power
+				DisplayName: Fortified
+			}
 		}
 
 		DropConditions: {
@@ -5535,6 +6324,11 @@ Mods: {
 
 				[c/B841DC:Unreal Mode: Reduced damage reduction to 6%]
 				'''
+		}
+
+		UI: {
+			Durability: Shields: {0}
+			DurabilityResource: Mods.ShatteredRealm.UI.DurabilityResource
 		}
 	}
 }

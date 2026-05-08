@@ -51,12 +51,12 @@ public class GlobalLoot : GlobalNPC
         if (npc.type == NPCID.EyeofCthulhu)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ContactLens>(), 2, 1, 1));
+            npcLoot.Add(ItemDropRule.ByCondition(new UnrealCondition(), ModContent.ItemType<SaltedTears>(), 1, 1, 1));
         }
         if (npc.type == NPCID.KingSlime)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SlimyKnives>(), 2, 1, 1));
             npcLoot.Add(ItemDropRule.ByCondition(new UnrealCondition(), ModContent.ItemType<SlimyLocket>(), 1, 1, 1));
-
         }
         if (npc.type == NPCID.SkeletronHead)
         {
@@ -153,6 +153,7 @@ public class GlobalLoot : GlobalNPC
         if (npc.type == NPCID.Demon)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DemonClaw>(), 15, 1, 1));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DemonsLocket>(), 15, 1, 1));
         }
         if (npc.type == NPCID.JungleSlime)
         {

@@ -15,7 +15,7 @@ namespace AwfulGarbageMod.Buffs
 {
     public class CloudChainBuff : ModBuff
     {
-        public static readonly int TagDamage = 1;
+        public static readonly int TagDamage = 2;
 
         public override void SetStaticDefaults()
         {

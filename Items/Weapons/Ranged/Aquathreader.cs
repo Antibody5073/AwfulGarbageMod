@@ -86,9 +86,9 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             // DisplayName.SetDefault("Water Stream"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
         }
 
-        Vector2 centerPos;
-        float offsetPos = 0;
-        float offsetDistance = 45;
+            Vector2 centerPos;
+            float offsetPos = 0;
+            float offsetDistance = 45;
 
         public override void SetDefaults()
         {

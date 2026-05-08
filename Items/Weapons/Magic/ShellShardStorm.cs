@@ -1,3 +1,4 @@
+using Infernus.Items.Weapon.HardMode.Melee;
 using Microsoft.Xna.Framework;
 using Mono.Cecil;
 using System;
@@ -81,6 +82,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.friendly = true;
             Projectile.penetrate = Main.rand.Next(2) + 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
             Projectile.timeLeft = 180;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;

@@ -27,8 +27,8 @@ namespace AwfulGarbageMod.Items.Armor
 
 		public override void UpdateEquip(Player player) {
             player.statManaMax2 += 40;
-            player.GetDamage(DamageClass.Ranged) += 0.06f;
-            player.GetCritChance(DamageClass.Ranged) += 6f;
+            player.GetDamage(DamageClass.Ranged) += 0.04f;
+            player.GetCritChance(DamageClass.Ranged) += 4f;
         }
 
         // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.

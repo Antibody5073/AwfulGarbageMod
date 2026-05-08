@@ -37,7 +37,7 @@ namespace AwfulGarbageMod.Items.Placeable.Furniture
 
             CreateRecipe()
                 .AddIngredient(ItemID.AdamantiteForge)
-                //.AddIngredient<CandesciteBar>(2)
+                .AddIngredient<CandesciteBar>(2)
                 .AddIngredient<CandesciteOre>(30)
                 .AddIngredient<FrigidForge>()
                 .AddIngredient<TrashMelter>()

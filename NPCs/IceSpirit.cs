@@ -3,6 +3,7 @@ using AwfulGarbageMod.BossBars;
 using AwfulGarbageMod.Global;
 using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Armor;
 using AwfulGarbageMod.Items.Consumables; 
 using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items.Weapons.Magic;
@@ -119,6 +120,7 @@ namespace AwfulGarbageMod.NPCs
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FrostShard>(), 1, 2, 3));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpiritItem>(), 1, 4, 6));
+            npcLoot.Add(ItemDropRule.OneFromOptions(3, ModContent.ItemType<FrozenSpiritBreastplate>(), ModContent.ItemType<FrozenSpiritHelmet>(), ModContent.ItemType<FrozenSpiritLeggings>()));
             npcLoot.Add(ItemDropRule.OneFromOptions(3, ModContent.ItemType<SigilOfFrost>(), ModContent.ItemType<Items.Weapons.Magic.IceSpiritBeam>()));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

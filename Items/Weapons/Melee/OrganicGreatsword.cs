@@ -45,11 +45,11 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
 			counter++;
-			if (counter % 2 == 1)
+			if (counter % 3 == 1)
 			{
-				for (var i = -1; i < 2; i++)
+				for (var i = -2; i < 3; i++)
 				{
-					int proj = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(6*i)), type, (int)(damage * 0.5f), knockback / 2, player.whoAmI);
+					int proj = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(5*i)), type, (int)(damage * 0.5f), knockback / 2, player.whoAmI);
 
                 }
             }

@@ -23,7 +23,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 17;
+            Item.damage = 19;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 40;
             Item.height = 40;
@@ -195,11 +195,11 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                     arrowsShot = 8;
                     break;
             }
-            float dir = (-3 * (arrowsShot - 1)) / 2;
+            float dir = (-2.25f * (arrowsShot - 1)) / 2;
             for (var i = 0; i < arrowsShot; i++)
             {
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), owner.Center, new Vector2(Projectile.ai[0], 0).RotatedBy(MathHelper.ToRadians(dir) + Projectile.rotation), (int)Projectile.ai[1], Projectile.damage, Projectile.knockBack, Projectile.owner);
-                dir += 3;
+                dir += 2.25f;
 
             }
         }

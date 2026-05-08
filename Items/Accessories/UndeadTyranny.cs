@@ -54,6 +54,7 @@ namespace AwfulGarbageMod.Items.Accessories
             player.whipRangeMultiplier += 0.1f;
             player.GetKnockback(DamageClass.Summon).Base += 1f;
             player.GetModPlayer<GlobalPlayer>().PercentArmorIgnore *= 0.75f;
+            player.GetModPlayer<GlobalPlayer>().MaxPercentArmorIgnore += 10;
             player.thorns += 1f;
 
 

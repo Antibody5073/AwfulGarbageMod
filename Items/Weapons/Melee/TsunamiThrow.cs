@@ -19,7 +19,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 		public override void SetDefaults()
 		{
 			Item.damage = 17;
-			Item.DamageType = DamageClass.Melee;
+			Item.DamageType = DamageClass.MeleeNoSpeed;
 			Item.width = 60;
 			Item.height = 60;
 			Item.useTime = 30;

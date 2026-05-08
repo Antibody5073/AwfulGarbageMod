@@ -133,8 +133,8 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             {
                 // These two values are set to suit this projectile's sprite, but won't necessarily work for your own.
                 // You can change them if they don't!
-                Rectangle frame = new Rectangle(0, 0, 12, 26);
-                Vector2 origin = new Vector2(5, 8);
+                Rectangle frame = new Rectangle(0, 0, 18, 26);
+                Vector2 origin = new Vector2(9, 4);
                 float scale = 1;
 
                 // These statements determine what part of the spritesheet to draw for the current segment.

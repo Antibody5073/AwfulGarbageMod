@@ -50,12 +50,11 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             counter++;
             if (counter % 5 == 1)
             {
-                for (var i = 0; i < 2; i++)
-                {
-                    proj = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-6, 6))), Mod.Find<ModProjectile>("PhloemProj").Type, (int)(damage * 0.67), knockback / 2, player.whoAmI);
-                    proj = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-18, 18))), Mod.Find<ModProjectile>("PhloemProj").Type, (int)(damage * 0.67), knockback / 2, player.whoAmI);
-
-                }
+                Vector2 vel = velocity.SafeNormalize(Vector2.One) * 4;
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<PhloemProj>(), (int)(damage * 0.67), knockback / 2, player.whoAmI, vel.RotatedBy(MathHelper.ToRadians(-45)).X, vel.RotatedBy(MathHelper.ToRadians(-45)).Y);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<PhloemProj>(), (int)(damage * 0.67), knockback / 2, player.whoAmI, vel.RotatedBy(MathHelper.ToRadians(-15)).X, vel.RotatedBy(MathHelper.ToRadians(-15)).Y);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<PhloemProj>(), (int)(damage * 0.67), knockback / 2, player.whoAmI, vel.RotatedBy(MathHelper.ToRadians(15)).X, vel.RotatedBy(MathHelper.ToRadians(15)).Y);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<PhloemProj>(), (int)(damage * 0.67), knockback / 2, player.whoAmI, vel.RotatedBy(MathHelper.ToRadians(45)).X, vel.RotatedBy(MathHelper.ToRadians(45)).Y);
             }
             return false;
         }
@@ -88,10 +87,13 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Slimy Knife"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            Main.projFrames[Projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 3;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
+        readonly int[] frameOrder = { 0, 1, 2, 1 };
+        int frameIndex = 0;
+
         int StateTimer;
         public override bool PreDraw(ref Color lightColor)
         {
@@ -99,8 +101,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             SpriteEffects spriteEffects = SpriteEffects.None;
 
             // Getting texture of projectile
-            Texture2D texture = TextureAssets.Projectile[206].Value;
-
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
             // Calculating frameHeight and current Y pos dependence of frame
             // If texture without animation frameHeight is always texture.Height and startY is always 0
             int frameHeight = texture.Height / Main.projFrames[Projectile.type];
@@ -145,21 +146,33 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
         public override void AI()
         {
             StateTimer++;
-            Projectile.rotation = Projectile.velocity.ToRotation();
-
-            int dust = Dust.NewDust(Projectile.Center + new Vector2(-4, -4), 1, 1, DustID.Grass, 0f, 0f, 0, default(Color), 1f);
-            Main.dust[dust].scale = 1.35f;
-            Main.dust[dust].velocity *= 0f;
-            Main.dust[dust].noGravity = true;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.position += new Vector2(Projectile.ai[0], Projectile.ai[1]);
+            Projectile.ai[0] *= 0.94f;
+            Projectile.ai[1] *= 0.94f;
 
             if (StateTimer % 5 == 0)
             {
-                Projectile.frame++;
 
-                if (Projectile.frame >= Main.projFrames[Projectile.type])
+                frameIndex++;
+
+                if (frameIndex >= frameOrder.Length)
                 {
-                    Projectile.frame = 0;
+                    frameIndex = 0;
                 }
+                Projectile.frame = frameOrder[frameIndex];
+            }
+        }
+        public override void OnKill(int timeLeft)
+        {
+
+            for (int i = 0; i < 4; i++)
+            {
+
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.JungleGrass, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dust].scale = 1.35f;
+                Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
+                Main.dust[dust].noGravity = true;
             }
         }
     }

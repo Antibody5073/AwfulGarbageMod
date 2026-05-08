@@ -78,7 +78,6 @@ namespace AwfulGarbageMod.NPCs
             NPC.value = 5000f; // How many copper coins the NPC will drop when killed.
             NPC.knockBackResist = 0f;
             NPC.chaseable = false;
-            NPC.rarity = 2;
 
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -118,7 +117,11 @@ namespace AwfulGarbageMod.NPCs
         {
             if (spawnInfo.Player.ZoneSnow)
             {
-                return 0.4f;
+                if (NPC.AnyNPCs(NPC.type))
+                {
+                    return 0.06f;
+                }
+                return 0.6f;
             }
             return 0;
         }

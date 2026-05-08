@@ -25,7 +25,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 23;
+            Item.damage = 24;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 40;
             Item.height = 40;
@@ -198,7 +198,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                     }
                     break;
             }
-            float dir = (-2.5f * (arrowsShot - 1)) / 2;
+            float dir = (-1.5f * (arrowsShot - 1)) / 2;
             for (var i = 0; i < arrowsShot; i++)
             {
                 if (chargeLevel == 6 && (i == 5 || i == 6 || i == 7))
@@ -214,7 +214,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
                     Main.projectile[proj].CritChance = Projectile.CritChance;
                 }
 
-                dir += 2.5f;
+                dir += 1.5f;
 
             }
         }

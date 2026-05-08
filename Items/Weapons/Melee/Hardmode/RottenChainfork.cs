@@ -44,6 +44,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee.Hardmode
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<RottenChainforkProj>();
             Item.shootSpeed = 9f;
+            Item.attackSpeedOnlyAffectsWeaponAnimation = true;
         }
 
         public override bool CanUseItem(Player player)

@@ -44,7 +44,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             {
-                for (var i = 0; i < Main.rand.Next(1, 5); i++)
+                for (var i = 0; i < Main.rand.Next(1, 4); i++)
                 {
 					int proj = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(2)) * Main.rand.Next(80, 120) * 0.01f, Mod.Find<ModProjectile>("ScaleShardStormProj").Type, damage, knockback, player.whoAmI);
 
@@ -79,6 +79,8 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.friendly = true;
             Projectile.penetrate = Main.rand.Next(3) + 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
             Projectile.timeLeft = 180;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;

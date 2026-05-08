@@ -20,7 +20,7 @@ namespace AwfulGarbageMod.Items.Consumables
 
             Item.ResearchUnlockCount = 30;
         }
-
+        
         public override void SetDefaults()
         {
             Item.width = 20;
@@ -46,7 +46,7 @@ namespace AwfulGarbageMod.Items.Consumables
 
         public override void OnConsumeItem(Player player)
         {
-            player.AddBuff(ModContent.BuffType<StrawberryJamBuff>(), 60 * 15);
+            player.AddBuff(ModContent.BuffType<StrawberryJamBuff>(), 60 * 20);
 
         }
 

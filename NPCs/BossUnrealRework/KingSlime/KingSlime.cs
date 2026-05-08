@@ -101,6 +101,14 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
                 ChangeScale(entity, 1);
             }
         }
+        public override void OnSpawn(NPC npc, IEntitySource source)
+        {
+            if (DifficultyModes.Difficulty == 2)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 2.5f);
+                npc.life = npc.lifeMax;
+            }
+        }
         public override bool UnrealDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color lightColor)
         {
 
@@ -195,8 +203,8 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.KingSlime
             npc.position.X += npc.width / 2;
             npc.position.Y += npc.height;
             npc.scale = scale;
-            npc.width = (int)(98f * scale);
-            npc.height = (int)(92f * scale);
+            npc.width = (int)(78f * scale);
+            npc.height = (int)(90f * scale);
             npc.position.X -= npc.width / 2;
             npc.position.Y -= npc.height;
         }

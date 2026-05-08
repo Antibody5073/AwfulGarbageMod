@@ -15,7 +15,7 @@ using Terraria.GameContent.Personalities;
 using System.Collections.Generic;
 using AwfulGarbageMod;
 
-namespace ShatteredRealm.Content.Prefixes.Shield
+namespace AwfulGarbageMod.Items.Prefixes.Shield
 {
     // [AutoloadHead] and NPC.townNPC are extremely important and absolutely both necessary for any Town NPC to work at all.
     public class PrefixConjuring : ModPrefix

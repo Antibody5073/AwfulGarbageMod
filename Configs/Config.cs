@@ -15,6 +15,10 @@ namespace AwfulGarbageMod.Configs
 
         [DefaultValue(true)]
         [ReloadRequired]
+        public bool MinorProgressionChanges;
+
+        [DefaultValue(true)]
+        [ReloadRequired]
         public bool MagicArmorAdjust;
 
         [DefaultValue(true)]

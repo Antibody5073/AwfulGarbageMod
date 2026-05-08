@@ -42,7 +42,7 @@ namespace AwfulGarbageMod.Items.Accessories
             player.GetModPlayer<GlobalPlayer>().ChloroplastCore = true;
             player.GetModPlayer<GlobalPlayer>().SlimyLocket = true;
             player.GetModPlayer<GlobalPlayer>().ShockAbsorber = true;
-
+            player.noFallDmg = true;
         }
 
 

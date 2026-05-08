@@ -23,13 +23,13 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 40;
+			Item.damage = 35;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 40;
 			Item.height = 40;
-			Item.useTime = 25;
+			Item.useTime = 30;
 			Item.noMelee = true;
-			Item.useAnimation = 25;
+			Item.useAnimation = 30;
 			Item.useStyle = 5;
 			Item.knockBack = 2.5f;
 			Item.value = 10000;

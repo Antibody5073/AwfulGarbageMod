@@ -256,6 +256,10 @@ namespace AwfulGarbageMod.NPCs.Boss
             Main.maxRaining = 1f;
 
             NPC.lifeMax = NPC.lifeMax * ModContent.GetInstance<Config>().BossHealthMultiplier / 100;
+            if (DifficultyModes.Difficulty == 2)
+            {
+                NPC.lifeMax = (int)(NPC.lifeMax * 2.5f);
+            }
             NPC.life = NPC.lifeMax;
         }
 

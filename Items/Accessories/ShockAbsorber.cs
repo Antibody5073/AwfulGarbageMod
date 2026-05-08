@@ -44,6 +44,7 @@ namespace AwfulGarbageMod.Items.Accessories
                 player.GetDamage(DamageClass.Generic) += 0.15f;
             }
             player.GetModPlayer<GlobalPlayer>().ShockAbsorber = true;
+            player.noFallDmg = true;
         }
     }
 }

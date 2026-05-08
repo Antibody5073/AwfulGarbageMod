@@ -43,7 +43,7 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.accRunSpeed = 7.5f;
+            player.accRunSpeed = 7.25f;
             player.maxTurrets += 1;
 
             player.iceSkate = true;
@@ -53,11 +53,11 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
             player.accFlipper = true;
             player.autoJump = true;
 
-            player.moveSpeed += 0.24f;
+            player.moveSpeed += 0.4f;
             player.hasMagiluminescence = true;
             player.buffImmune[BuffID.Chilled] = true;
             player.GetModPlayer<GlobalPlayer>().PumpkinRocket = true;
-
+            player.extraFall += 20;
             player.fireWalk = true;
             player.waterWalk2 = true;
             player.lavaRose = true;

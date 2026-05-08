@@ -123,6 +123,15 @@ Config: {
 		Label: Hardmode Metal Rework
 		Tooltip: Reworks early hardmode metal progression (currently work-in-progress)
 	}
+
+	MinorProgressionChanges: {
+		Tooltip:
+			'''
+			Lightning Boots is now post-Eye of the Storm
+			Terra Blade is now post-Blightdrasil
+			'''
+		Label: Minor Progression Changes
+	}
 }
 
 ConfigClient: {

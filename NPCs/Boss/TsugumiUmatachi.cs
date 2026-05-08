@@ -121,7 +121,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.lifeMax = 21000; // The amount of health that this npc has
             NPC.HitSound = SoundID.NPCHit1; // The sound the NPC will make when being hit.
             NPC.DeathSound = SoundID.NPCDeath1; // The sound the NPC will make when it dies.
-            NPC.value = 50000f; // How many copper coins the NPC will drop when killed.
+            NPC.value = 300000f; // How many copper coins the NPC will drop when killed.
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.boss = true;
@@ -562,10 +562,21 @@ namespace AwfulGarbageMod.NPCs.Boss
                     }
                 }
                 SoundEngine.PlaySound(impactSound);
-                for (var j = -8; j < 9; j++)
+                if (Main.expertMode)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -3f).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<TsugumiSpinProj>(), damage, 0, Main.myPlayer, 2.5f);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -3f).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<TsugumiSpinProj>(), damage, 0, Main.myPlayer, -2.5f);
+                    for (var j = -8; j < 9; j++)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -3f).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<TsugumiSpinProj>(), damage, 0, Main.myPlayer, 2.5f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -3f).RotatedBy(MathHelper.ToRadians(j * 22.5f)), ModContent.ProjectileType<TsugumiSpinProj>(), damage, 0, Main.myPlayer, -2.5f);
+                    }
+                }
+                else
+                {
+                    for (var j = -4; j < 5; j++)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -3f).RotatedBy(MathHelper.ToRadians(j * 45)), ModContent.ProjectileType<TsugumiSpinProj>(), damage, 0, Main.myPlayer, 2.5f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -3f).RotatedBy(MathHelper.ToRadians(j * 45)), ModContent.ProjectileType<TsugumiSpinProj>(), damage, 0, Main.myPlayer, -2.5f);
+                    }
                 }
                 if (AI_Timer % 180 == 0)
                 {
@@ -640,7 +651,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                     }
                     else
                     {
-                        if (AI_Timer % 2 == 0)
+                        if (AI_Timer % 3 == 0)
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-6, -12)), ModContent.ProjectileType<TsugumiGravProj>(), damage, 0, Main.myPlayer);
                         }
@@ -727,16 +738,26 @@ namespace AwfulGarbageMod.NPCs.Boss
                         damage = 36;
                     }
                 }
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 0);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 45);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 90);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 135);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 180);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 225);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 270);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 315);
-
-
+                if (Main.expertMode)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 45);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 90);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 135);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 180);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 225);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 270);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 315);
+                }
+                else
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 60);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 120);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 180);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 240);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 300);
+                }
             }
         }
         private void Balls()
@@ -851,7 +872,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
                 else
                 {
-                    if (AI_Timer % 30 == 0)
+                    if (AI_Timer % 36 == 0)
                     {
                         float dir = Main.rand.NextFloat(135, 45);
                         for (int i = 0; i < 50; i++)
@@ -938,7 +959,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     targetArea = NPC.position;
                 }
-                if (AI_Timer % (Main.expertMode ? 6 : 8) == 0)
+                if (AI_Timer % (Main.expertMode ? 6 : 15) == 0)
                 {
                     SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/e_shot_01")
                     {
@@ -1083,9 +1104,19 @@ namespace AwfulGarbageMod.NPCs.Boss
                         damage = 36;
                     }
                 }
-                for (int i = 0; i < 8; i++)
+                if (Main.expertMode)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(NPC.Center.X, (int)NPC.Center.Y), Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 360 / 8 * i);
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(NPC.Center.X, (int)NPC.Center.Y), Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 360 / 8 * i);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(NPC.Center.X, (int)NPC.Center.Y), Vector2.Zero, ModContent.ProjectileType<TsugumiOrbitProj>(), damage, 0, Main.myPlayer, NPC.whoAmI, 360 / 6 * i);
+                    }
                 }
             }
         }
@@ -1130,7 +1161,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                             damage = 26;
                         }
                     }
-                    for (int i = 0; i < (Main.expertMode?12:10); i++)
+                    for (int i = 0; i < (Main.expertMode?12:6); i++)
                     {
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TsugumiOrbit2Proj>(), damage, 0, Main.myPlayer, dirrand + 360 / (Main.expertMode ? 12 : 10) * i, spinspd);
                     }
@@ -1218,7 +1249,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.position.Y = player.Center.Y - 480 - NPC.height / 2;
             }
 
-            if (AI_Timer % (Main.expertMode ? 6 : 8) == randthing)
+            if (AI_Timer % (Main.expertMode ? 6 : 9) == randthing)
             {
                 if (atkUseCounter % 4 == 1)
                 {

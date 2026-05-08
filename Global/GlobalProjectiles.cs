@@ -33,6 +33,8 @@ namespace AwfulGarbageMod.Global
         public override bool InstancePerEntity => true;
         public float VelocityMultiplier = 0;
         public bool alreadyHit = false;
+        public int MagnoTimer;
+        public Player MagnoPlayer;
         public static class Sets
         {
             public static bool[] IsScepterProjectile = ProjectileID.Sets.Factory.CreateBoolSet();
@@ -77,6 +79,31 @@ namespace AwfulGarbageMod.Global
                 if (ShouldUpdatePosition(projectile))
                 {
                     projectile.position += projectile.velocity * VelocityMultiplier;
+                }
+            }
+        }
+        public override void PostAI(Projectile projectile)
+        {
+            MagnoTimer -= 1;
+            if (MagnoTimer < 0)
+            {
+                MagnoPlayer = null;
+            }
+            if (MagnoTimer > 0 && MagnoPlayer != null)
+            {
+                float sqrDistanceToTarget = Vector2.DistanceSquared(MagnoPlayer.Center, projectile.Center);
+                float size = projectile.width;
+                if (projectile.height > projectile.width)
+                {
+                    size = projectile.height;
+                }
+                if (sqrDistanceToTarget < (size + 120) * (size + 120))
+                {
+                    MagnoPlayer.velocity += (MagnoPlayer.Center - projectile.Center).SafeNormalize(Vector2.One) * 0.4f;
+
+                    int dust = Dust.NewDust(MagnoPlayer.Center - new Vector2(1f, 1f), 1, 1, DustID.Electric, 0, 0, 100, default(Color));
+                    Main.dust[dust].velocity = (MagnoPlayer.Center - projectile.Center).SafeNormalize(Vector2.One) * -5f;
+                    Main.dust[dust].noGravity = true;
                 }
             }
         }

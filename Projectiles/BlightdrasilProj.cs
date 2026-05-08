@@ -228,9 +228,111 @@ namespace AwfulGarbageMod.Projectiles
             }
             else
             {
-                Projectile.Center = new Vector2(player.Center.X, Projectile.Center.Y);
+                if (Projectile.ai[0] == 1)
+                {
+                    Projectile.Center = new Vector2(player.Center.X, Projectile.Center.Y);
+                }
             }
 
+            if (StateTimer % 6 == 0)
+            {
+                SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
+                {
+                    Volume = 0.25f,
+                };
+                SoundEngine.PlaySound(impactSound, Projectile.Center);
+            }
+        }
+    }
+    public class BlightdrasilWarning2 : ModProjectile
+    {
+        public override void SetDefaults()
+        {
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.hostile = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 90;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            Projectile.frame = (int)Projectile.ai[0];
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White * Projectile.Opacity;
+        }
+
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Slimy Knife"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            Main.projFrames[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+        }
+        int bounces;
+        int StateTimer;
+        public override bool PreDraw(ref Color lightColor)
+        {
+            // SpriteEffects helps to flip texture horizontally and vertically
+            SpriteEffects spriteEffects = SpriteEffects.None;
+
+            // Getting texture of projectile
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture);
+
+            // Calculating frameHeight and current Y pos dependence of frame
+            // If texture without animation frameHeight is always texture.Height and startY is always 0
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int startY = frameHeight * Projectile.frame;
+
+            // Get this frame on texture
+            Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+
+            // Alternatively, you can skip defining frameHeight and startY and use this:
+            // Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
+
+            Vector2 origin = sourceRectangle.Size() / 2f;
+
+            // If image isn't centered or symmetrical you can specify origin of the sprite
+            // (0,0) for the upper-left corner
+            /*
+            float offsetX = 0;
+            origin.X = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Width - offsetX : offsetX);
+
+            float offsetY = 0;
+            origin.Y = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Height - offsetY : offsetY);
+            */
+
+            // Applying lighting and draw current frame
+            Color drawColor = Projectile.GetAlpha(lightColor);
+            Texture2D projectileTexture = texture;
+            Vector2 drawOrigin = origin;
+            spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Player player = Main.player[(int)Projectile.ai[1]];
+
+            for (int k = 0; k < Projectile.oldPos.Length && k < StateTimer; k++)
+            {
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(Projectile.width / 2, 0);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length / 2);
+                Main.spriteBatch.Draw(projectileTexture, drawPos, sourceRectangle, color, Projectile.oldRot[k], drawOrigin, Projectile.scale, spriteEffects, 0f);
+            }
+            Main.spriteBatch.Draw(texture,
+                Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
+                sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+
+            // It's important to return false, otherwise we also draw the original texture.
+            return false;
+        }
+
+        public override void AI()
+        {
+            Player player = Main.player[(int)Projectile.ai[1]];
+            StateTimer++;
             if (StateTimer % 6 == 0)
             {
                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/warning")
@@ -975,6 +1077,146 @@ namespace AwfulGarbageMod.Projectiles
             Projectile.rotation = 0;
 
             Projectile.velocity *= 0.97f;
+            if (StateTimer % 15 == 0)
+            {
+                Projectile.frame++;
+
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
+                {
+                    Projectile.frame = 0;
+                }
+            }
+        }
+    }
+    public class BlightdrasilHeart2 : ModProjectile
+    {
+        public override void SetDefaults()
+        {
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 60;
+            Projectile.ignoreWater = false;
+            Projectile.tileCollide = true;
+        }
+
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White * Projectile.Opacity;
+        }
+
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Slimy Knife"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            Main.projFrames[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+        }
+        int bounces;
+        int StateTimer;
+        public override bool PreDraw(ref Color lightColor)
+        {
+            // SpriteEffects helps to flip texture horizontally and vertically
+            SpriteEffects spriteEffects = SpriteEffects.None;
+
+
+            if (Projectile.timeLeft < 60)
+            {
+                Texture2D texture2 = ModContent.Request<Texture2D>("AwfulGarbageMod/Projectiles/BlightdrasilTele").Value;
+                DrawLaser(texture2, Projectile.Center, new Vector2(0, 1), 30, 800, lightColor, -1.57f, 1f, 2000f, Color.White, 0);
+                DrawLaser(texture2, Projectile.Center, new Vector2(0, -1), 30, 800, lightColor, -1.57f, 1f, 2000f, Color.White, 0);
+            }
+            // Getting texture of projectile
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture);
+
+
+            // Calculating frameHeight and current Y pos dependence of frame
+            // If texture without animation frameHeight is always texture.Height and startY is always 0
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int startY = frameHeight * Projectile.frame;
+
+            // Get this frame on texture
+            Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+
+            // Alternatively, you can skip defining frameHeight and startY and use this:
+            // Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
+
+            Vector2 origin = sourceRectangle.Size() / 2f;
+
+            // If image isn't centered or symmetrical you can specify origin of the sprite
+            // (0,0) for the upper-left corner
+            /*
+            float offsetX = 0;
+            origin.X = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Width - offsetX : offsetX);
+
+            float offsetY = 0;
+            origin.Y = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Height - offsetY : offsetY);
+            */
+
+            // Applying lighting and draw current frame
+            Color drawColor = Projectile.GetAlpha(lightColor);
+            Texture2D projectileTexture = texture;
+            Vector2 drawOrigin = origin;
+            spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            for (int k = 0; k < Projectile.oldPos.Length && k < StateTimer; k++)
+            {
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(Projectile.width / 2, Projectile.height / 2);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length / 2);
+                Main.spriteBatch.Draw(projectileTexture, drawPos, sourceRectangle, color, Projectile.oldRot[k], drawOrigin, Projectile.scale - k * 0.05f, spriteEffects, 0f);
+            }
+            Main.spriteBatch.Draw(texture,
+                Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
+                sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+
+            // It's important to return false, otherwise we also draw the original texture.
+            return false;
+        }
+        public void DrawLaser(Texture2D texture, Vector2 start, Vector2 unit, float step, float distance, Color lightColor, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default(Color), int transDist = 50)
+        {
+            float r = unit.ToRotation() + rotation;
+
+            Color drawColor = Projectile.GetAlpha(lightColor);
+
+            float amt = 0;
+            for (float max = 0; max <= distance; max += step)
+            {
+                amt += 1;
+            }
+            float current = 0;
+            // Draws the laser 'body'
+            float percent = 1 - ((Projectile.timeLeft) / 60f);
+            for (float i = transDist; i <= distance; i += step)
+            {
+                Color c = drawColor * ((float)(amt - current) / (float)amt) * percent;
+                var origin = start + i * unit;
+                Main.EntitySpriteDraw(texture, origin - Main.screenPosition,
+                    new Rectangle(0, 24, 28, 30), c, r,
+                    new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
+                current++;
+            }
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            SoundEngine.PlaySound(SoundID.NPCDeath12);
+
+            Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(0, 42), ModContent.ProjectileType<BlightdrasilDonutSpawner>(), 30, 0, -1, 1, 0);
+            Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(0, -42), ModContent.ProjectileType<BlightdrasilDonutSpawner>(), 30, 0, -1, 1, 0);
+        }
+
+        public override void AI()
+        {
+            StateTimer++;
+
+            Projectile.rotation = 0;
+            if (Main.npc[(int)Projectile.ai[0]].active)
+            {
+                Projectile.Center = Main.npc[(int)Projectile.ai[0]].Center;
+            }
             if (StateTimer % 15 == 0)
             {
                 Projectile.frame++;

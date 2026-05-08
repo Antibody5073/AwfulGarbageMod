@@ -10,8 +10,12 @@ using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.Items.Placeable.OresBars;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Melee;
+using AwfulGarbageMod.Items.Weapons.Melee.Hardmode;
 using AwfulGarbageMod.Items.Weapons.Ranged;
+using AwfulGarbageMod.Items.Weapons.Ranged.Hardmode;
 using AwfulGarbageMod.Items.Weapons.Summon;
+using AwfulGarbageMod.Items.Weapons.Summon.Hardmode;
+using AwfulGarbageMod.NPCs.BossUnrealRework.EyeOfCthulhu;
 using AwfulGarbageMod.Projectiles;
 using AwfulGarbageMod.Systems;
 using Microsoft.CodeAnalysis;
@@ -63,6 +67,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             Crimeras,
             CursedFireballBounce,
             IchorRain2,
+
+            PhaseTransition
         }
 
         // Our texture is 36x36 with 2 pixels of padding vertically, so 38 is the vertical spacing.
@@ -103,8 +109,10 @@ namespace AwfulGarbageMod.NPCs.Boss
         {
             // DisplayName.SetDefault("Flutter Slime"); // Automatic from localization files
             Main.npcFrameCount[NPC.type] = 1; // make sure to set this for your modnpcs.
-            // Specify the debuffs it is immune to
+                                              // Specify the debuffs it is immune to
 
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Poisoned] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Venom] = true;
         }
 
         public override void SetDefaults()
@@ -123,7 +131,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.boss = true;
             NPC.npcSlots = 100f;
             NPC.noTileCollide = true;
-
+            NPC.hide = false;
             if (!Main.dedServ)
             {
                 Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/EvilTreeTheme");
@@ -166,7 +174,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             // Do NOT misuse the ModifyNPCLoot and OnKill hooks: the former is only used for registering drops, the latter for everything else
 
             // Add the treasure bag using ItemDropRule.BossBag (automatically checks for expert mode)
-            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CandescenceBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BlightdrasilBag>()));
 
 
             // Trophies are spawned with 1/10 chance
@@ -181,9 +189,9 @@ namespace AwfulGarbageMod.NPCs.Boss
             // All our drops here are based on "not expert", meaning we use .OnSuccess() to add them into the rule, which then gets added
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
 
-            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<CandesciteBar>(), 1, 2, 3));
-            notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 1, ModContent.ItemType<LavaLance>()));
-            npcLoot.Add(ItemDropRule.ByCondition(new UnrealCondition(), ModContent.ItemType<CurseOfCandescence>(), 1, 1, 1));
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HeartOfBlight>(), 1));
+            notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 3, ModContent.ItemType<Toxichorp>(), ModContent.ItemType<CursedFlametongue>(), ModContent.ItemType<BlightedBranch>(), ModContent.ItemType<RottenChainfork>()));
+            npcLoot.Add(ItemDropRule.ByCondition(new UnrealCondition(), ModContent.ItemType<AntediluvianArtifact>(), 1, 1, 1));
 
             // Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode
             // Boss masks are spawned with 1/7 chance
@@ -237,7 +245,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
            
 
-            NPC.SetEventFlagCleared(ref DownedBossSystem.downedFireMoth, -1);
+            NPC.SetEventFlagCleared(ref DownedBossSystem.downedEvilTree, -1);
             NPC.globalEnemyBossInfo().killOrbitals = true;
 
 
@@ -260,7 +268,10 @@ namespace AwfulGarbageMod.NPCs.Boss
                 modifiers.SourceDamage *= 0.7f;
             }
         }
-
+        public override void DrawBehind(int index)
+        {
+            Main.instance.DrawCacheNPCsBehindNonSolidTiles.Add(index);
+        }
         public override void AI()
         {
             // The npc starts in the asleep state, waiting for a player to enter range
@@ -305,6 +316,39 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
 
                 AI_State = (float)ActionState.ShadowOrbGrav;
+            }
+            if (NPC.life < NPC.lifeMax * 3 / 10 && bossPhase == 2)
+            {
+                NPC.TargetClosest(true);
+                NPC.globalEnemyBossInfo().killOrbitals = true;
+
+                bossPhase = 3;
+                AI_Timer = -60;
+                SoundEngine.PlaySound(SoundID.Item107);
+
+                for (int i = 0; i < 60; i++) {
+                    Dust dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.CursedTorch);
+                    dust.velocity = Main.rand.NextVector2Circular(8, 8);
+                    dust.scale = Main.rand.NextFloat(0.5f, 2f);
+
+                    dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Ichor);
+                    dust.velocity = Main.rand.NextVector2Circular(8, 8);
+                    dust.scale = Main.rand.NextFloat(0.5f, 2f);
+                }
+                AI_State = (float)ActionState.PhaseTransition;
+                NPC.dontTakeDamage = true;
+                NPC.hide = true;
+
+
+                int type1 = ModContent.ProjectileType<BlightdrasilEaterSpawner>();
+                int type2 = ModContent.ProjectileType<BlightdrasilRottedFork>();
+                foreach (var item in Main.projectile)
+                {
+                    if (item.type == type1 || item.type == type2)
+                    {
+                        item.active = false;
+                    }
+                }
             }
 
             switch (AI_State)
@@ -362,6 +406,9 @@ namespace AwfulGarbageMod.NPCs.Boss
                     break;
                 case (float)ActionState.Crimeras:
                     Crimeras();
+                    break;
+                case (float)ActionState.PhaseTransition:
+                    PhaseTransition();
                     break;
             }
         }
@@ -446,7 +493,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     NPC npC = NPC.NewNPCDirect(NPC.GetSource_ReleaseEntity(), NPC.Bottom, 98);
                     npC.velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 14f;
-                    npC.lifeMax = 1200;
+                    npC.lifeMax = 900;
                     npC.life = npC.lifeMax;
                 }
             }
@@ -527,7 +574,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     NPC npC = NPC.NewNPCDirect(NPC.GetSource_ReleaseEntity(), NPC.Bottom, NPCID.Corruptor);
                     npC.velocity = Main.rand.NextVector2Circular(7, 7);
-                    npC.lifeMax = 500;
+                    npC.lifeMax = 400;
                     npC.life = npC.lifeMax;
                 }
             }
@@ -580,7 +627,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                     NPC npC = NPC.NewNPCDirect(NPC.GetSource_ReleaseEntity(), NPC.Bottom, NPCID.FloatyGross);
                     npC.velocity = Main.rand.NextVector2Circular(3, 2) + new Vector2(0, -4);
-                    npC.lifeMax = 850;
+                    npC.lifeMax = 600;
                     npC.life = npC.lifeMax;
                     npC.knockBackResist = 0;
                 }
@@ -696,7 +743,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     NPC npC = NPC.NewNPCDirect(NPC.GetSource_ReleaseEntity(), NPC.Bottom, 98);
                     npC.velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.ToRadians(atkUseCounter * 30)) * 14f;
-                    npC.lifeMax = 1200;
+                    npC.lifeMax = 900;
                     npC.life = npC.lifeMax;
                     atkUseCounter++;
                 }
@@ -755,7 +802,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     NPC npC = NPC.NewNPCDirect(NPC.GetSource_ReleaseEntity(), NPC.Center, NPCID.IchorSticker);
                     npC.velocity = Main.rand.NextVector2Circular(4, 4);
-                    npC.lifeMax = 400;
+                    npC.lifeMax = 300;
                     npC.life = npC.lifeMax;
                 }
             }
@@ -846,12 +893,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                     Volume = 0.5f,
                 };
                 SoundEngine.PlaySound(impactSound, NPC.Center);
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     Vector2 vel = Main.rand.NextVector2CircularEdge(5.5f * i + 2.75f, 5.5f * i + 2.75f);
                     for (int j = 0; j < 3; j++)
                     {
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, -64), vel.RotatedBy(MathHelper.TwoPi * j / 3), ModContent.ProjectileType<BlightdrasilRottedFork>(), 40, 0, -1, 600 + 75 * i, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, -64), vel.RotatedBy(MathHelper.TwoPi * j / 3), ModContent.ProjectileType<BlightdrasilRottedFork>(), 40, 0, -1, 600 + 100 * i, 0);
                     }
                 }
             }
@@ -893,7 +940,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             if (AI_Timer == 420)
             {
                 AI_State = (float)ActionState.Donuts2;
-                AI_Timer = -510;
+                AI_Timer = -540;
                 atkUseCounter = 0;
             }
         }
@@ -1053,7 +1100,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                     NPC npC = NPC.NewNPCDirect(NPC.GetSource_ReleaseEntity(), NPC.Bottom, NPCID.FloatyGross);
                     npC.velocity = Main.rand.NextVector2Circular(3, 2) + new Vector2(0, -4);
-                    npC.lifeMax = 1000;
+                    npC.lifeMax = 600;
                     npC.life = npC.lifeMax;
                     npC.knockBackResist = 0;
                 }
@@ -1063,6 +1110,38 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.LeafCircle;
                 AI_Timer = -60;
                 atkUseCounter = 0;
+            }
+        }
+        private void PhaseTransition()
+        {
+            Player player = Main.player[NPC.target];
+
+            AI_Timer += 1;
+            if (AI_Timer > 0)
+            {
+                if (AI_Timer < 150)
+                {
+                    if (AI_Timer % 30 == 0)
+                    {
+                        ActiveSound sound = SoundEngine.FindActiveSound(SoundID.Zombie53);
+                        if (sound != null)
+                        {
+                            sound.Stop();
+                        }
+                        SoundEngine.PlaySound(SoundID.Zombie53);
+                    }
+                }
+            }
+            if (AI_Timer == 150)
+            {
+                SoundEngine.PlaySound(SoundID.Zombie93);
+
+                NPC npc = NPC.NewNPCDirect(NPC.GetBossSpawnSource(NPC.target), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<BlightdrasilCore>(), NPC.whoAmI, NPC.whoAmI);
+                npc.realLife = NPC.whoAmI;
+                npc.velocity = new Vector2(0, -12);
+                npc.lifeMax = NPC.lifeMax;
+                npc.life = NPC.life;
+                NPC.Opacity = 0.5f;
             }
         }
     }

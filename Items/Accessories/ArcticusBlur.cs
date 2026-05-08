@@ -50,7 +50,7 @@ namespace AwfulGarbageMod.Items.Accessories
             player.jumpSpeedBoost += AGUtils.OnePerentJumpSpeed * 24;
             player.accFlipper = true;
             player.autoJump = true;
-
+            player.extraFall += 15;
             player.moveSpeed += 0.24f;
 
             player.buffImmune[BuffID.Chilled] = true;

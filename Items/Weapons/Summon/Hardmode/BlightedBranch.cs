@@ -28,7 +28,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon.Hardmode
         {
             // This method quickly sets the whip's properties.
             // Mouse over to see its parameters.
-            Item.DefaultToWhip(ModContent.ProjectileType<BlightedBranchProj>(), 30, 2.5f, 8f);
+            Item.DefaultToWhip(ModContent.ProjectileType<BlightedBranchProj>(), 35, 2.5f, 8f);
             Item.useTime = 30;
             Item.useAnimation = 30;
             Item.rare = ItemRarityID.Lime;
@@ -56,7 +56,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon.Hardmode
         {
             CreateRecipe()
                 .AddIngredient(ItemID.ChlorophyteBar, 20)
-                .AddIngredient(ItemID.SoulofNight, 12)
+                .AddIngredient<HeartOfBlight>()
                 .AddTile<ElementalSmeltery>()
                 .Register();
         }

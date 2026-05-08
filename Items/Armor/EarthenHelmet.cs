@@ -1,11 +1,14 @@
-﻿using AwfulGarbageMod.Global;
+﻿using AwfulGarbageMod.DamageClasses;
+using AwfulGarbageMod.Global;
 using AwfulGarbageMod.Projectiles;
+using Microsoft.VisualBasic.FileIO;
+using Microsoft.Xna.Framework;
+using System;
 using System.Transactions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using AwfulGarbageMod.DamageClasses;
+using static AssGen.Assets;
 
 namespace AwfulGarbageMod.Items.Armor
 {
@@ -40,7 +43,6 @@ namespace AwfulGarbageMod.Items.Armor
             player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.10f;
             player.GetModPlayer<GlobalPlayer>().ScepterMaxStatMult *= 0.9f;
             player.GetDamage(DamageClass.Magic) += 0.05f;
-
         }
 
         // IsArmorSet determines what armor pieces are needed for the setbonus to take effect
@@ -51,10 +53,18 @@ namespace AwfulGarbageMod.Items.Armor
         // UpdateArmorSet allows you to give set bonuses to the armor.
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "A Flint Core hovers over your head to fight for you, dealing " + AGUtils.ScaleDamage(11, player, ModContent.GetInstance<MageRangedClass>()) + " damage\nThe Flint Core scales with magic and ranged damage bonuses\nGrants an Earthen Shield that absorbs 20% of damage taken\nAfter the Earthen Shield absorbs 40 damage, it will break and go on cooldown for 30 seconds\nWhile the Earthen Shield is on cooldown, the Flint Core will attack faster\n'Shattered Realm? What's that?'"; // This is the setbonus tooltip
+            player.setBonus = "A Flint Core hovers over your head to fight for you, dealing " + AGUtils.ScaleDamage(11, player, ModContent.GetInstance<MageRangedClass>()) + " damage\nThe Flint Core scales with magic and ranged damage bonuses\nGrants an Earthen Shield with the following stats:\nShield Durability: " + (int)(40 * player.GetModPlayer<EarthenShield>().shieldDurabilityMult) + "\nShield Resilience: " + Math.Round(0.20f * 10000) / 100 + "%\nShield Cooldown: " + Math.Round(30 * 60 / player.GetModPlayer<EarthenShield>().shieldCooldownMult / 60f * 100) / 100 + " seconds\nEquipping any shield will override the Earthen Shield\nWhile shields are on cooldown, the Flint Core will attack faster\n'Shattered Realm? What's that?'"; // This is the setbonus tooltip
+            if (!player.GetModPlayer<EarthenShield>().shieldEquipped)
+            {
+                player.GetModPlayer<EarthenShield>().shieldMaxCooldown = 30 * 60;
+                player.GetModPlayer<EarthenShield>().shieldMaxDurability = (int)(40 * player.GetModPlayer<EarthenShield>().shieldDurabilityMult);
+                player.GetModPlayer<EarthenShield>().ShieldDR = 1 - 0.2f;
+                player.GetModPlayer<EarthenShield>().shieldType = Item;
+                player.GetModPlayer<EarthenShield>().shieldBreakColor = Color.DarkSlateGray;
+                player.GetModPlayer<EarthenShield>().overrideShieldBar = true;
+            }
             player.GetModPlayer<GlobalPlayer>().EarthenBonus = true;
-            player.GetModPlayer<EarthenShield>().shieldMaxCooldown = 30 * 60;
-            player.GetModPlayer<EarthenShield>().shieldMaxDurability = 40;
+
             if (player.ownedProjectileCounts[ModContent.ProjectileType<FlintCore>()] < 1)
             {
                 var projectile = Projectile.NewProjectileDirect(Projectile.GetSource_NaturalSpawn(), player.Center, new Vector2(0, 0), ModContent.ProjectileType<FlintCore>(), 0, 0, Main.myPlayer);

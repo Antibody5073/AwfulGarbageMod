@@ -35,7 +35,7 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			if (player.GetModPlayer<GlobalPlayer>().FortifyingLink < 6) { player.GetModPlayer<GlobalPlayer>().FortifyingLink = 6; }
+			if (player.GetModPlayer<GlobalPlayer>().FortifyingLink < 3) { player.GetModPlayer<GlobalPlayer>().FortifyingLink = 3; }
         }
     }
 }

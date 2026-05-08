@@ -26,15 +26,16 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using SubworldLibrary;
 using AwfulGarbageMod.Subworlds;
+using System;
 
 namespace AwfulGarbageMod.Global;
 public class ExampleGlobalNPC : GlobalNPC
 {
-
+    
     //Crit damage boosts
     public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
     {
-        Player player = Main.LocalPlayer;
+        Player player = Main.player[projectile.owner];
         //Ice Crystal Geode
         if (player.GetModPlayer<GlobalPlayer>().iceCrystalGeode && projectile.CountsAsClass(DamageClass.Melee))
         {
@@ -98,7 +99,26 @@ public class ExampleGlobalNPC : GlobalNPC
         };
 
     }
+    public override void PostAI(NPC npc)
+    {
+        if (MagnoTimer > 0 && MagnoPlayer != null)
+        {
+            float sqrDistanceToTarget = Vector2.DistanceSquared(MagnoPlayer.Center, npc.Center);
+            float size = npc.width;
+            if (npc.height > npc.width)
+            {
+                size = npc.height;
+            }
+            if (sqrDistanceToTarget < (size + 120) * (size + 120))
+            {
+                MagnoPlayer.velocity += (MagnoPlayer.Center - npc.Center).SafeNormalize(Vector2.One) * 0.4f;
 
+                int dust = Dust.NewDust(MagnoPlayer.Center - new Vector2(1f, 1f), 1, 1, DustID.Electric, 0, 0, 100, default(Color));
+                Main.dust[dust].velocity = (MagnoPlayer.Center - npc.Center).SafeNormalize(Vector2.One) * -5f;
+                Main.dust[dust].noGravity = true;
+            }
+        }
+    }
     public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers)
     {
 
@@ -173,6 +193,7 @@ public class ExampleGlobalNPC : GlobalNPC
             {
                 modifiers.FinalDamage *= 1.1f;
             }
+
         }
         base.ModifyIncomingHit(npc, ref modifiers);
     }
@@ -200,12 +221,18 @@ public class ExampleGlobalNPC : GlobalNPC
     public int BoneSkewerBleed;
     public int BoneSkewerTimer;
     public List<Vector2> stackableTag = [];
-
+    public int MagnoTimer;
+    public Player MagnoPlayer;
 
     public override void ResetEffects(NPC npc)
     {
         ExampleDebuff = false;
         BoneSkewerTimer -= 1;
+        MagnoTimer -= 1;
+        if (MagnoTimer < 0)
+        {
+            MagnoPlayer = null;
+        }
         if (BoneSkewerTimer < 1)
         {
             BoneSkewerBleed = 0;
@@ -415,6 +442,10 @@ public class ExampleGlobalNPC : GlobalNPC
                 Main.dust[dust].scale *= 1f;
                 
             }
+        }
+        if (MagnoTimer > 0)
+        {
+            drawColor = Color.Red;
         }
     }
 }

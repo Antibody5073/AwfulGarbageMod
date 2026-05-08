@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AwfulGarbageMod.Global;
+using AwfulGarbageMod.Tiles.Furniture;
 
 namespace AwfulGarbageMod.Items.Accessories.Hardmode
 {
@@ -77,7 +78,7 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
                  .AddIngredient<CrystalEmblem>()
                  .AddIngredient(ItemID.RoyalGel)
                  .AddIngredient(ItemID.VolatileGelatin)
-                 .AddTile(TileID.TinkerersWorkbench)
+                 .AddTile<ElementalSmeltery>()
                  .Register();
         }
 	}

@@ -33,7 +33,7 @@ namespace AwfulGarbageMod.Items.Ammo.Hardmode
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 15;
+            Projectile.localNPCHitCooldown = 20;
             Projectile.arrow = true;
         }
         Vector2 spawnPos;
@@ -111,7 +111,7 @@ namespace AwfulGarbageMod.Items.Ammo.Hardmode
                 num15 = 24f / num15;
                 num13 *= num15;
                 num14 *= num15;
-                int p = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), num12, y2, num13, num14, 221, Projectile.damage / 3, 0f, Projectile.owner);
+                int p = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), num12, y2, num13, num14, 221, Projectile.damage / 4, 0f, Projectile.owner);
                 Projectile proj = Main.projectile[p];
                 proj.usesLocalNPCImmunity = true;
                 proj.localNPCHitCooldown = 30;

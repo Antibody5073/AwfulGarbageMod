@@ -85,7 +85,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             Projectile.height = 8;
             Projectile.aiStyle = 1;
             Projectile.friendly = true;
-            Projectile.penetrate = 6;
+            Projectile.penetrate = 5;
             Projectile.timeLeft = 200;
             Projectile.light = 1f;
             Projectile.ignoreWater = false;

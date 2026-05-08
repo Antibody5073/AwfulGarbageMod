@@ -233,7 +233,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!Main.player[Projectile.owner].HasBuff(BuffID.ManaSickness))
+            if (!Main.player[Projectile.owner].HasBuff(BuffID.ManaSickness) && !Main.player[Projectile.owner].HasBuff(BuffID.MoonLeech))
             {
                 Main.player[Projectile.owner].Heal(1);
             }
