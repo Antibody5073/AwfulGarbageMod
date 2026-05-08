@@ -1036,7 +1036,7 @@ Mods: {
 				Tooltip:
 					'''
 					3 defense
-					Increases health healed by potions the lower your health, up to a max of 30% extra health below 15% health
+					Increases health healed by potions the lower your health, up to a max of 40% extra health below 15% health
 					'''
 			}
 
@@ -1100,8 +1100,8 @@ Mods: {
 				DisplayName: Obsidian Meat Shield
 				Tooltip:
 					'''
-					3 defense
-					Increases health healed by potions the lower your health, up to a max of 30% extra health below 15% health
+					4 defense
+					Increases health healed by potions the lower your health, up to a max of 40% extra health below 15% health
 					Grants immunity to knockback and fire blocks
 					Increases life regen
 					'''
@@ -1111,8 +1111,8 @@ Mods: {
 				DisplayName: Obsidian Shade Shield
 				Tooltip:
 					'''
-					4 defense
-					Increases defense the lower your health, up to a max of 15 defense below 30% health
+					3 defense
+					Increases defense the lower your health, up to a max of 12 defense below 30% health
 					Grants immunity to knockback and fire blocks
 					Increases life regeneration
 					'''
@@ -1136,7 +1136,7 @@ Mods: {
 				Tooltip:
 					'''
 					2 defense
-					Increases defense the lower your health, up to a max of 15 defense below 30% health
+					Increases defense the lower your health, up to a max of 12 defense below 30% health
 					'''
 			}
 
