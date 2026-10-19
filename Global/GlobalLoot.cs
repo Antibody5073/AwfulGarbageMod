@@ -110,6 +110,10 @@ public class GlobalLoot : GlobalNPC
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MechanicalScope>(), 2, 1, 1));
         }
+        if (npc.type == NPCID.HallowBoss)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Enlightenment>(), 2, 1, 1));
+        }
         if (npc.type == NPCID.WallofFlesh)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FleshyAmalgam>(), 2, 1, 1));
@@ -133,6 +137,14 @@ public class GlobalLoot : GlobalNPC
         if (npc.type == NPCID.GoblinArcher)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GoblinArcherTower>(), 11, 1, 1));
+        }
+        if (npc.type == NPCID.GoblinSorcerer)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ShadowflameStone>(), 11, 1, 1));
+        }
+        if (npc.type == NPCID.GoblinWarrior)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GoblinVambrace>(), 11, 1, 1));
         }
         if (npc.type == NPCID.Mothron)
         {

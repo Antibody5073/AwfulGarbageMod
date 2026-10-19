@@ -59,7 +59,11 @@ namespace AwfulGarbageMod.NPCs.Boss
             Idle,
             Right1,
             Right2,
-            Right3
+            Right3,
+            Attack1,
+            Attack2,
+            Attack3,
+            Attack4
 		}
 
 		// These are reference properties. One, for example, lets us write AI_State as if it's NPC.ai[0], essentially giving the index zero our own name.
@@ -76,6 +80,9 @@ namespace AwfulGarbageMod.NPCs.Boss
         int animCounter;
 		Vector2 targetArea;
 		Vector2 direction;
+        int atkAnimTimer = 0;
+        int atkAnimDuration = 0;
+        int atkAnimType = 0;
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -100,7 +107,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         public override void SetStaticDefaults() {
 			// DisplayName.SetDefault("Flutter Slime"); // Automatic from localization files
-			Main.npcFrameCount[NPC.type] = 7; // make sure to set this for your modnpcs.
+			Main.npcFrameCount[NPC.type] = 11; // make sure to set this for your modnpcs.
 
             NPCID.Sets.MPAllowedEnemies[Type] = true;
             NPCID.Sets.NoMultiplayerSmoothingByType[Type] = true;
@@ -203,14 +210,12 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))
             {
-                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 1, ModContent.ItemType<Backbone>(), ModContent.ItemType<BoneSkewer>(), ModContent.ItemType<ToothpickTome>(), ModContent.ItemType<SpineString>(), ModContent.ItemType<PileOfActualBones>(), ModContent.ItemType<Skeletoss>()));
-
+                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(3, 1, ModContent.ItemType<Backbone>(), ModContent.ItemType<BoneSkewer>(), ModContent.ItemType<ToothpickTome>(), ModContent.ItemType<SpineString>(), ModContent.ItemType<PileOfActualBones>(), ModContent.ItemType<BoneBadge>(), ModContent.ItemType<Necropotence>(), ModContent.ItemType<Skeletoss>()));
             }
             else
             {
-                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(1, 1, ModContent.ItemType<Backbone>(), ModContent.ItemType<BoneSkewer>(), ModContent.ItemType<ToothpickTome>(), ModContent.ItemType<SpineString>(), ModContent.ItemType<PileOfActualBones>()));
+                notExpertRule.OnSuccess(ItemDropRule.FewFromOptions(3, 1, ModContent.ItemType<Backbone>(), ModContent.ItemType<BoneSkewer>(), ModContent.ItemType<ToothpickTome>(), ModContent.ItemType<SpineString>(), ModContent.ItemType<PileOfActualBones>(), ModContent.ItemType<BoneBadge>(), ModContent.ItemType<Necropotence>()));
             }
-
 
             // Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode
             // Boss masks are spawned with 1/7 chance
@@ -333,7 +338,44 @@ namespace AwfulGarbageMod.NPCs.Boss
             // This makes the sprite flip horizontally in conjunction with the npc.direction.
             NPC.spriteDirection = 0;
 
-            if (NPC.velocity.X > 4.5)
+            if (atkAnimTimer < atkAnimDuration)
+            {
+                atkAnimTimer++;
+                if (atkAnimTimer > 10)
+                {
+                    if (atkAnimType == 0)
+                    {
+                        NPC.frame.Y = (int)Frame.Attack2 * frameHeight;
+                    }
+                    else
+                    {
+                        NPC.frame.Y = (int)Frame.Attack4 * frameHeight;
+                    }
+                }
+                else if (atkAnimTimer > 5)
+                {
+                    if (atkAnimType == 0)
+                    {
+                        NPC.frame.Y = (int)Frame.Attack1 * frameHeight;
+                    }
+                    else
+                    {
+                        NPC.frame.Y = (int)Frame.Attack3 * frameHeight;
+                    }
+                }
+                else
+                {
+                    if (atkAnimType == 0)
+                    {
+                        NPC.frame.Y = (int)Frame.Attack4 * frameHeight;
+                    }
+                    else
+                    {
+                        NPC.frame.Y = (int)Frame.Attack2 * frameHeight;
+                    }
+                }
+            }
+            else if (NPC.velocity.X > 4.5)
             {
                 NPC.frame.Y = (int)Frame.Right3 * frameHeight;
                 idleAnim = 0;
@@ -400,7 +442,20 @@ namespace AwfulGarbageMod.NPCs.Boss
                             break;
                     }
                 }
+
             }
+        }
+        public void AttackUp(int duration)
+        {
+            atkAnimTimer = 0;
+            atkAnimDuration = duration;
+            atkAnimType = 0;
+        }
+        public void AttackDown(int duration)
+        {
+            atkAnimTimer = 0;
+            atkAnimDuration = duration;
+            atkAnimType = 1;
         }
 
         public override void HitEffect(NPC.HitInfo hit)
@@ -453,11 +508,13 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     AI_State = (float)ActionState.ThrowBones;
                     AI_Timer = 600;
+                    AttackUp(600);
+
                 }
                 if (bossPhase == 2)
                 {
                     AI_State = (float)ActionState.CarcassCadaver;
-                    AI_Timer = 420;
+                    AI_Timer = 430;
                 }
                 if (bossPhase == 3)
                 {
@@ -523,6 +580,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.ThrowBones;
 				AI_Timer = 600;
                 NPC.netUpdate = true;
+                AttackUp(600);
             }
 
         }
@@ -568,7 +626,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.GravityBullets;
                 AI_Timer = 270;
 				BulletXvel = 15f;
-                NPC.netUpdate = true;
+                NPC.netUpdate = true; 
+                AttackUp(245);
             }
         }
 
@@ -592,6 +651,10 @@ namespace AwfulGarbageMod.NPCs.Boss
                 }
             }
             AI_Timer -= 1;
+            if (AI_Timer == 25)
+            {
+                AttackDown(100);
+            }
             if (AI_Timer == 0)
             {
                 AI_State = (float)ActionState.FindTarget;
@@ -604,9 +667,13 @@ namespace AwfulGarbageMod.NPCs.Boss
             float inertia = 12f;
             NPC.velocity = (NPC.velocity * (inertia - 1)) / inertia;
 
-
+            if (AI_Timer == 430)
+            {
+                AttackDown(300);
+            }
             if (AI_Timer == 420)
             {
+
                 SoundStyle impactSound = new SoundStyle($"{nameof(AwfulGarbageMod)}/Assets/Sound/e_shot_01")
                 {
                     Volume = 0.5f,
@@ -625,7 +692,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.PositionAbovePlayer2;
                 targetArea = Main.player[NPC.target].Center + new Vector2(0, -540);
                 AI_Timer = 180;
-                NPC.netUpdate = true;
+                NPC.netUpdate = true; 
             }
         }
 
@@ -650,6 +717,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 bulletDirection = 0;
                 AI_Timer = 450;
                 NPC.netUpdate = true;
+                AttackUp(450);
             }
 
         }
@@ -761,6 +829,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                             int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(j * 300, 0), new Vector2(0, -10), ModContent.ProjectileType<SeseBoneProj>(), 17, 0, -1, 1.8f);
                         }
                     }
+                    AttackUp(timer * 2);
                 }
                 if (AI_Timer % timer == timer / 2)
                 {
@@ -776,13 +845,15 @@ namespace AwfulGarbageMod.NPCs.Boss
                             int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(j * 300, 0), new Vector2(0, -10), ModContent.ProjectileType<SeseBoneProj>(), 17, 0, -1, -1.8f);
                         }
                     }
+
+                    AttackUp(timer * 2);
                 }
             }
             AI_Timer ++;
-            if (AI_Timer == timer * 3)
+            if (AI_Timer == timer * 2.5f)
             {
                 AI_State = (float)ActionState.CarcassCadaver;
-                AI_Timer = 420;
+                AI_Timer = 430;
                 NPC.netUpdate = true;
             }
         }

@@ -13,11 +13,13 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 	{
 		public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Sunshine Spear"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-			// Tooltip.SetDefault("Striking an enemy summons sunlight from above");
-		}
+            // DisplayName.SetDefault("Sunshine Spear"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            // Tooltip.SetDefault("Striking an enemy summons sunlight from above");
+            ItemID.Sets.Spears[Item.type] = true;
 
-		public override void SetDefaults()
+        }
+
+        public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.Spear);
 			Item.damage = 9;

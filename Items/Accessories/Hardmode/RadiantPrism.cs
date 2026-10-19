@@ -112,7 +112,7 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
             {
                 Projectile.alpha += 17;
             }
-            Projectile.rotation = dir;
+            Projectile.rotation = dir + MathHelper.Pi;
 
         }
         public override bool PreDraw(ref Color lightColor)

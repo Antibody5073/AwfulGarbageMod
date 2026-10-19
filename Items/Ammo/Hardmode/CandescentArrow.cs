@@ -87,7 +87,16 @@ namespace AwfulGarbageMod.Items.Ammo.Hardmode
         {
             Projectile.velocity *= 1.2f;
             spawnPos = Projectile.Center;
-            temp = 12;
+            int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(1.5f)) / 4, ModContent.ProjectileType<CandescentArrowProj2>(), (int)(Projectile.damage * 0.35f), Projectile.knockBack / 3, Projectile.owner, 16);
+            if (Main.player[Projectile.owner].magicQuiver)
+            {
+                Main.projectile[proj].extraUpdates += 4;
+            }
+            proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(1.5f)) / 4, ModContent.ProjectileType<CandescentArrowProj2>(), (int)(Projectile.damage * 0.35f), Projectile.knockBack / 3, Projectile.owner, 32);
+            if (Main.player[Projectile.owner].magicQuiver)
+            {
+                Main.projectile[proj].extraUpdates += 4;
+            }
         }
         public override void OnKill(int timeLeft)
         {
@@ -155,24 +164,6 @@ namespace AwfulGarbageMod.Items.Ammo.Hardmode
         {
             StateTimer++;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
-            temp--;
-            if (temp == 0 || temp == 4)
-            {
-                Vector2 projVel;
-                if (Projectile.velocity.Length() * (Projectile.extraUpdates + 1) < 20)
-                {
-                    projVel = Projectile.velocity * (Projectile.extraUpdates + 1)/4;
-                }
-                else
-                {
-                    projVel = Projectile.velocity.SafeNormalize(Vector2.Zero) * 5;
-                }
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, projVel.RotatedByRandom(MathHelper.ToRadians(1.5f)), ModContent.ProjectileType<CandescentArrowProj2>(), (int)(Projectile.damage * 0.35f), Projectile.knockBack / 3, Projectile.owner, 0);
-                if (Main.player[Projectile.owner].magicQuiver)
-                {
-                    Main.projectile[proj].extraUpdates += 4;
-                }
-            }
         }
     }
     public class CandescentArrowProj2 : ModProjectile
@@ -272,25 +263,36 @@ namespace AwfulGarbageMod.Items.Ammo.Hardmode
             }
         }
 
+        public override bool ShouldUpdatePosition()
+        {
+            return Projectile.ai[0] <= 0;
+        }
         public override void AI()
         {
-            StateTimer++;
-
-            Projectile.rotation = Projectile.velocity.ToRotation();
-
-            if (StateTimer % 12 == 0)
+            if (Projectile.ai[0] > 0)
             {
-                float turnAmt = Main.rand.NextFloat(-15, 15);
-                turn += turnAmt;
-                if (Math.Abs(turn) > 24)
-                {
-                    turn -= turnAmt;
-                    turnAmt *= -1f;
-                    turn += turnAmt;
-                }
-                Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(turnAmt));
+                Projectile.ai[0]--;
             }
+            else
+            {
+                Projectile.friendly = true;
+                StateTimer++;
 
+                Projectile.rotation = Projectile.velocity.ToRotation();
+
+                if (StateTimer % 12 == 0)
+                {
+                    float turnAmt = Main.rand.NextFloat(-15, 15);
+                    turn += turnAmt;
+                    if (Math.Abs(turn) > 24)
+                    {
+                        turn -= turnAmt;
+                        turnAmt *= -1f;
+                        turn += turnAmt;
+                    }
+                    Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(turnAmt));
+                }
+            }
         }
     }
 }

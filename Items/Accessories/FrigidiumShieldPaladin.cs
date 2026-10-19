@@ -30,7 +30,7 @@ namespace AwfulGarbageMod.Items.Accessories
 			Item.width = 20;
 			Item.height = 20;
             Item.value = 1500;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
             Item.lifeRegen = 2;
             Item.QuickWeightArmor(8);

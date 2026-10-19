@@ -92,8 +92,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee.Hardmode
         {
 
             Vector2 mouse = new Vector2(Main.mouseX + Main.screenPosition.X - player.Center.X, Main.mouseY + Main.screenPosition.Y - player.Center.Y);
-            if (player.direction == 1 && mouse.X < 0) { mouse.X = 0; }
-            if (player.direction == -1 && mouse.X > 0) { mouse.X = 0; }
+            player.ChangeDir((mouse.X > 0).ToDirectionInt());
+
             offsetCenter = mouse.SafeNormalize(Vector2.Zero) * Math.Clamp(mouse.Length() - 1, 0, 300);
             offsetFromPlayer = new Vector2(player.direction).RotatedBy((float)Math.PI * spd * currentDir * player.direction + MathHelper.ToRadians(Projectile.flailProjectile().spinOffset));
         }

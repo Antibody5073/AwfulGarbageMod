@@ -40,6 +40,7 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.EyeOfCthulhu
             TeardropRain,
             PhaseTransition,
             Flamethrower,
+            FlameCharge,
             LaserWall,
         }
 
@@ -164,6 +165,9 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.EyeOfCthulhu
                     break;
                 case (float)ActionState.Flamethrower:
                     Flamethrower();
+                    break;
+                case (float)ActionState.FlameCharge:
+                    FlameCharge();
                     break;
                 case (float)ActionState.LaserWall:
                     LaserWall();
@@ -606,6 +610,26 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.EyeOfCthulhu
                 }
             }
         }
+        private void FlameCharge()
+        {
+            EyeOfCthulhu boss = Main.npc[(int)NPC.ai[0]].GetGlobalNPC<EyeOfCthulhu>();
+            NPC bossnpc = Main.npc[(int)NPC.ai[0]];
+            Vector2 targetPos = bossnpc.Center;
+            Player target = Main.player[bossnpc.target];
+            NPC.velocity += new Vector2(0.25f, 0) * boss.atkDir; float turn = AGUtils.TurnTowards(90, NPC.Center + NPC.velocity, NPC.rotation, NPC.Center);
+            NPC.rotation += turn;
+
+
+            if (NPC.Center.X > target.Center.X + 1500)
+            {
+                NPC.Center = new Vector2(target.Center.X + 1500, NPC.Center.Y);
+            }
+            if (NPC.Center.X < target.Center.X - 1500)
+            {
+                NPC.Center = new Vector2(target.Center.X - 1500, NPC.Center.Y);
+            }
+        }
+        
         private void LaserWall()
         {
             EyeOfCthulhu boss = Main.npc[(int)NPC.ai[0]].GetGlobalNPC<EyeOfCthulhu>();

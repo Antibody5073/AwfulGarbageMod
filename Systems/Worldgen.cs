@@ -22,11 +22,13 @@ namespace AwfulGarbageMod.Systems
     {
         public static LocalizedText OreGenMessage { get; private set; }
         public static LocalizedText CandesciteGenMessage { get; private set; }
+        public static LocalizedText ReefGenMesage { get; private set; }
 
         public override void SetStaticDefaults()
         {
             OreGenMessage = Language.GetOrRegister(Mod.GetLocalizationKey($"WorldGen.{nameof(OreGenMessage)}"));
             CandesciteGenMessage = Language.GetOrRegister(Mod.GetLocalizationKey($"WorldGen.{nameof(CandesciteGenMessage)}"));
+            ReefGenMesage = Language.GetOrRegister(Mod.GetLocalizationKey($"WorldGen.{nameof(ReefGenMesage)}"));
         }
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
@@ -44,6 +46,11 @@ namespace AwfulGarbageMod.Systems
             if (surfaceStone != -1)
             {
                 tasks.Insert(surfaceStone + 1, new SurfaceStructureGen("Creating structures on the surface", 237.4298f, Mod));
+            }
+            int dirtToMudIndex = tasks.FindIndex(t => t.Name.Equals("Dirt To Mud"));
+            if (dirtToMudIndex != -1)
+            {
+                tasks.Insert(dirtToMudIndex + 1, new ReefGeneration("Underground Reefs", 237.4298f, Mod));
             }
         }
     }

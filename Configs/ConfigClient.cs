@@ -31,6 +31,9 @@ namespace AwfulGarbageMod.Configs
         [DefaultValue(true)] // This sets the configs default value.
         public bool ShouldGenerateFlint;
 
+        [DefaultValue(false)] // This sets the configs default value.
+        public bool ShouldGenerateReefs;
+
         [DefaultValue(true)] // This sets the configs default value.
         public bool ShouldGenerateHardmodeStructures;
 

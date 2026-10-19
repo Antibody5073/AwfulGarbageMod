@@ -19,7 +19,7 @@ namespace AwfulGarbageMod.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.DamageType = DamageClass.Default;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 0;
@@ -29,10 +29,11 @@ namespace AwfulGarbageMod.Projectiles
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
             Projectile.ArmorPenetration = 8;
-            Projectile.extraUpdates = 2;
+            Projectile.extraUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 15;
             Projectile.alpha = 255;
+            Projectile.ContinuouslyUpdateDamageStats = true;
         }
 
         public override void OnKill(int timeLeft)
@@ -61,14 +62,14 @@ namespace AwfulGarbageMod.Projectiles
                 Projectile.alpha = 0;
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
-            if (Projectile.timeLeft < 600)
+
+            if (Projectile.position.Y < Projectile.ai[1])
             {
-                Projectile.velocity.X *= 0.97f;
-                Projectile.velocity.Y += 0.05f;
-                if (Projectile.velocity.Y > 10)
-                {
-                    Projectile.velocity.Y = 10;
-                }
+                Projectile.tileCollide = false;
+            }
+            else
+            {
+                Projectile.tileCollide = true;
             }
         }
     }

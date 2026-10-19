@@ -34,6 +34,7 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<GlobalPlayer>().meteoriteGeode = true;
+            player.GetModPlayer<GlobalPlayer>().MeleeWeaponSize += 0.1f;
         }
         public override void AddRecipes()
         {

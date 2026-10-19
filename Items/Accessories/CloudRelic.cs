@@ -1,26 +1,23 @@
+using AwfulGarbageMod;
+using AwfulGarbageMod.Global;
 using Microsoft.Xna.Framework;
 using Mono.Cecil;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using AwfulGarbageMod;
-using AwfulGarbageMod.Global;
+using static Redemption;
 
 namespace AwfulGarbageMod.Items.Accessories
 {
 
     public class CloudRelic : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			// DisplayName.SetDefault("Cloud Relic"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-			// Tooltip.SetDefault("5% increased summon damage and movement speed");
-		}
-
-		public int counter;
+    {
+        public int counter;
 
 		public override void SetDefaults()
 		{
@@ -37,6 +34,7 @@ namespace AwfulGarbageMod.Items.Accessories
             player.GetModPlayer<GlobalPlayer>().PercentArmorIgnoreSummon *= 0.8f;
             player.GetModPlayer<GlobalPlayer>().MaxPercentArmorIgnoreSummon += 8;
             player.moveSpeed += 0.05f;
+
         }
 
         public override void AddRecipes()

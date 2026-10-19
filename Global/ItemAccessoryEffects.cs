@@ -1,6 +1,7 @@
 using AwfulGarbageMod.Buffs;
 using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.DamageClasses;
+using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.Items.Accessories.Hardmode;
 using AwfulGarbageMod.Items.Ammo;
 using AwfulGarbageMod.Items.Ammo.Hardmode;
@@ -37,9 +38,26 @@ namespace AwfulGarbageMod.Global
             ascentWhenFalling *= player.GetModPlayer<GlobalPlayer>().VerticalWingSpdMult;
 
         }
-
+        public override bool WingUpdate(int wings, Player player, bool inUse)
+        {
+            if (inUse) {
+                if (player.GetModPlayer<GlobalPlayer>().FeatherPendant > 0)
+                {
+                    if (player.GetModPlayer<GlobalPlayer>().FeatherPendantFlyTimer++ > 0 && player.GetModPlayer<GlobalPlayer>().FeatherPendantFlyTimer % 15 == 0)
+                    {
+                        Projectile proj = Projectile.NewProjectileDirect(player.GetSource_Accessory(ModContent.GetInstance<FeatherPendant>().Item), player.Center, Main.rand.NextVector2CircularEdge(2, 0.5f) + new Vector2(0, 3), ModContent.ProjectileType<FeatherPendantProj>(), player.GetModPlayer<GlobalPlayer>().FeatherPendant, 0, player.whoAmI);
+                        proj.originalDamage = proj.damage;
+                        proj.OriginalArmorPenetration += player.GetModPlayer<GlobalPlayer>().FeatherPendantArmorPen;
+                        proj.rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
+                    }
+                }
+            }
+            return false;
+        }
+        
         public override bool InstancePerEntity => true;
         int shotNumber;
+
         public override void GetHealMana(Item item, Player player, bool quickHeal, ref int healValue)
         {
             if (player.GetModPlayer<GlobalPlayer>().lightningRing == true && item.healMana > 0)
@@ -103,7 +121,7 @@ namespace AwfulGarbageMod.Global
                 }
             }
 
-            healValue += (int)MathHelper.Clamp(player.GetModPlayer<GlobalPlayer>().SaltedTearsEnergy, 0, healValue * 0.5f);
+            healValue += (int)MathHelper.Clamp(player.GetModPlayer<GlobalPlayer>().SaltedTearsEnergy, 0, healValue * 0.75f);
             healValue += player.GetModPlayer<GlobalPlayer>().AntediluvianPotionBoost;
             base.GetHealLife(item, player, quickHeal, ref healValue);
         }
@@ -111,10 +129,24 @@ namespace AwfulGarbageMod.Global
         {
             if (item.healLife > 0)
             {
-                player.GetModPlayer<GlobalPlayer>().SaltedTearsEnergy = 0;
-            }
+                int heal = item.healLife;
+                foreach (var a in item.Globals)
+                {
+                    a.GetHealLife(item, player, false, ref heal);
+                }
+                
 
+                if (player.GetModPlayer<GlobalPlayer>().necroPotence > 0)
+                {
+                    player.GetModPlayer<GlobalPlayer>().NecropotenceTimer = (int)MathHelper.Lerp(900, 300, (float)player.statLife / player.statLifeMax2);
+                    player.GetModPlayer<GlobalPlayer>().NecropotenceDamage = heal;
+                }
+
+                player.GetModPlayer<GlobalPlayer>().SaltedTearsEnergy = 0;
+                player.GetModPlayer<GlobalPlayer>().CursedCarapaceHealthLoss = 0;
+            }
         }
+
         public override bool CanUseItem(Item item, Player player)
         {
             if (player.GetModPlayer<GlobalPlayer>().ForbiddenFruit && item.healLife > 0)
@@ -150,6 +182,10 @@ namespace AwfulGarbageMod.Global
                 return false;
             }
             if (player.GetModPlayer<GlobalPlayer>().AncientGadgets && Main.rand.NextBool(5))
+            {
+                return false;
+            }
+            if (player.GetModPlayer<GlobalPlayer>().NightmareSash && Main.rand.NextBool(5))
             {
                 return false;
             }
@@ -406,5 +442,5 @@ namespace AwfulGarbageMod.Global
             return closestNPC;
         }
     }
-    
+
 }

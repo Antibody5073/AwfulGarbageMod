@@ -126,6 +126,114 @@ namespace AwfulGarbageMod.Projectiles
             }
         }
     }
+    public class SpiritReaperProjSlashAccelerate : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Shockwave"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 930;
+            Projectile.ignoreWater = false;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
+        }
+        int StateTimer = 0;
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float collisionPoint6 = 0f;
+            Vector2 vector3 = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(-1.5707963705062866) * Projectile.scale;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center - vector3 * 50f, Projectile.Center + vector3 * 50f, 16f * Projectile.scale, ref collisionPoint6))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            // SpriteEffects helps to flip texture horizontally and vertically
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            // Getting texture of projectile
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture);
+
+            // Calculating frameHeight and current Y pos dependence of frame
+            // If texture without animation frameHeight is always texture.Height and startY is always 0
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int startY = frameHeight * Projectile.frame;
+
+
+            Texture2D texture2 = ModContent.Request<Texture2D>("AwfulGarbageMod/Projectiles/EoTSLightningTele").Value;
+            DrawLaser(texture2, Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.Zero), 30, 800, lightColor, -1.57f, 1f, 2000f, Color.White, 0);
+
+            // Get this frame on texture
+            Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+
+            Vector2 origin = sourceRectangle.Size() / 2f;
+
+            Texture2D projectileTexture = TextureAssets.Projectile[Projectile.type].Value;
+            Vector2 drawOrigin = origin;
+            spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            for (int k = 0; k < Projectile.oldPos.Length && k < StateTimer; k++)
+            {
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(9f, 9f);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length / 2);
+                Main.spriteBatch.Draw(projectileTexture, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, spriteEffects, 0f);
+            }
+            return false;
+        }
+        public void DrawLaser(Texture2D texture, Vector2 start, Vector2 unit, float step, float distance, Color lightColor, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default(Color), int transDist = 50)
+        {
+            float r = unit.ToRotation() + rotation;
+
+            Color drawColor = Projectile.GetAlpha(lightColor);
+
+            float amt = 0;
+            for (float max = 0; max <= distance; max += step)
+            {
+                amt += 1;
+            }
+            float current = 0;
+            // Draws the laser 'body'
+            for (float i = transDist; i <= distance; i += step)
+            {
+                Color c = drawColor * ((float)(amt - current) / (float)amt);
+                var origin = start + i * unit;
+                Main.EntitySpriteDraw(texture, origin - Main.screenPosition,
+                    new Rectangle(0, 24, 28, 30), c, r,
+                    new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
+                current++;
+            }
+        }
+        public override void AI()
+        {
+            StateTimer++;
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            if (Projectile.timeLeft < 900)
+            {
+                Projectile.velocity += Projectile.velocity.SafeNormalize(Vector2.One) * 0.15f;
+            }
+
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
+
+    }
     public class SpiritReaperProjSlashSmall : ModProjectile
     {
         public override void SetStaticDefaults()
@@ -384,7 +492,7 @@ namespace AwfulGarbageMod.Projectiles
             Projectile.aiStyle = -1;
             Projectile.friendly = false;
             Projectile.hostile = true;
-            Projectile.timeLeft = 1100;
+            Projectile.timeLeft = 1400;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = false;
             Projectile.scale = 1.5f;
@@ -449,31 +557,52 @@ namespace AwfulGarbageMod.Projectiles
         }
         public override void AI()
         {
-            StateTimer++;
-
-            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Shadowflame, 0, 0, 0, default(Color), 1f);
-            Main.dust[dust].velocity *= 0;
-            Main.dust[dust].noGravity = true;
-            Player player = Main.player[Projectile.owner];
+            StateTimer++; 
             NPC owner = Main.npc[(int)Projectile.ai[0]];
-            StateTimer++;
-            Projectile.rotation += Main.rand.NextFloat(0.35f, 0.5f);
-            if (StateTimer % 20 == 0)
-            {
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ProjectileID.DeathSickle, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Main.projectile[proj].friendly = false;
-                Main.projectile[proj].hostile = true; 
-                Main.projectile[proj].DamageType = DamageClass.Default;
-            }
-            if (owner.active)
-            {
-                Vector2 direction = player.Center - Projectile.Center;
+            Player player = Main.player[Projectile.owner];
 
-                Projectile.velocity = direction * 0.025f + direction.SafeNormalize(Vector2.Zero) * 4;
+            if (Projectile.timeLeft > 300)
+            {
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Shadowflame, 0, 0, 0, default(Color), 1f);
+                Main.dust[dust].velocity *= 0;
+                Main.dust[dust].noGravity = true;
+                StateTimer++;
+                Projectile.rotation += Main.rand.NextFloat(0.35f, 0.5f);
+                if (StateTimer % 20 == 0)
+                {
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ProjectileID.DeathSickle, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Main.projectile[proj].friendly = false;
+                    Main.projectile[proj].hostile = true;
+                    Main.projectile[proj].DamageType = DamageClass.Default;
+                }
+
+                if (owner.active)
+                {
+                    Vector2 direction = player.Center - Projectile.Center;
+
+                    Projectile.velocity = direction * 0.025f + direction.SafeNormalize(Vector2.Zero) * 4;
+                }
+                else
+                {
+                    Projectile.Kill();
+                }
             }
             else
             {
-                Projectile.Kill();
+                if (owner.active)
+                {
+                    Vector2 direction = owner.Center - Projectile.Center;
+
+                    Projectile.velocity = Projectile.velocity * 0.9f + direction.SafeNormalize(Vector2.Zero) * (StateTimer / 100 - 11);
+                    if (Vector2.DistanceSquared(owner.Center, Projectile.Center) < 36 * 36)
+                    {
+                        Projectile.Kill();
+                    }
+                }
+                else
+                {
+                    Projectile.Kill();
+                }
             }
         }
 
@@ -566,6 +695,7 @@ namespace AwfulGarbageMod.Projectiles
         {
             StateTimer++;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
+
         }
     }
 }

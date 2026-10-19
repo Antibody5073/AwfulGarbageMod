@@ -47,14 +47,14 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
 			Item.width = 20;
 			Item.height = 20;
             Item.value = 1500;
-            Item.rare = ItemRarityID.Purple;
-            Item.expert = true;
+            Item.rare = ItemRarityID.Cyan;
             Item.accessory = true;
+            Item.defense = 12;
+            Item.lifeRegen = 2;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense += 12;
             player.GetArmorPenetration(DamageClass.Generic) += 10;
             if (player.GetModPlayer<GlobalPlayer>().OverflowingVenom < 1.1f)
             {
@@ -74,8 +74,8 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
 
             player.GetModPlayer<GlobalPlayer>().MeatShield += 0.3f;
             player.GetModPlayer<GlobalPlayer>().ScaledShadeShield += 12f;
-            player.GetModPlayer<GlobalPlayer>().necroPotence += 30;
-            player.GetModPlayer<GlobalPlayer>().necroPotencePercent += 110;
+            player.GetModPlayer<GlobalPlayer>().necroPotence += 1;
+            player.GetModPlayer<GlobalPlayer>().necroPotencePercent += 1;
             player.buffImmune[46] = true;
             player.buffImmune[33] = true;
             player.buffImmune[36] = true;

@@ -22,8 +22,10 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
 		public int counter;
 
 		public override void SetDefaults()
-		{
-			Item.width = 20;
+        {
+            Item.damage = 20;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 20;
 			Item.height = 20;
             Item.value = 7500;
             Item.rare = 6;
@@ -33,11 +35,14 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetCritChance(DamageClass.Ranged) += 6;
-            player.GetDamage(DamageClass.Ranged) *= 1.06f;
-            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.06f;
-            player.GetModPlayer<GlobalPlayer>().corruptedPendant = true;
-            player.GetModPlayer<GlobalPlayer>().crimsonPendant = true;
+            player.GetCritChance(DamageClass.Ranged) += 7;
+            player.GetDamage(DamageClass.Ranged) *= 1.07f;
+            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.07f;
+            player.GetModPlayer<GlobalPlayer>().FeatherPendant += Item.damage;
+            player.GetModPlayer<GlobalPlayer>().FeatherPendantArmorPen += 20;
+            player.GetModPlayer<GlobalPlayer>().FeatherPendantCursedFlame = true;
+            player.GetModPlayer<GlobalPlayer>().FeatherPendantIchor = true;
+
         }
 
         public override void AddRecipes()

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using AwfulGarbageMod.Systems;
 
 namespace AwfulGarbageMod.Projectiles
 {
@@ -30,7 +31,14 @@ namespace AwfulGarbageMod.Projectiles
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 2;
         }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
 
+            if (DifficultyModes.Difficulty == 2)
+            {
+                target.AddBuff(BuffID.Frozen, 90);
+            }
+        }
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -58,7 +66,6 @@ namespace AwfulGarbageMod.Projectiles
                     Projectile.velocity.Y = 10;
                 }
             }
-
             if (Vector2.Distance(Projectile.Center, Main.player[Main.myPlayer].Center) < 1000)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Frost, 0f, 0f, 0, default(Color), 1f);

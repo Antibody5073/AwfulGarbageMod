@@ -21,5 +21,8 @@
     <Reference Include="SubworldLibrary">
       <HintPath>..\ModAssemblies\SubworldLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="VitalityMod">
+      <HintPath>..\ModAssemblies\VitalityMod_v1.3.5.5.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

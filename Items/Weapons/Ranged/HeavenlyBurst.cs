@@ -1,13 +1,16 @@
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace AwfulGarbageMod.Items.Weapons.Ranged
@@ -45,7 +48,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(source, position, velocity, Mod.Find<ModProjectile>("HeavenlyBurstDummy").Type, damage, knockback, player.whoAmI, Item.shootSpeed, type);
+            int proj = Projectile.NewProjectile(source, position, Vector2.Zero, Mod.Find<ModProjectile>("HeavenlyBurstDummy").Type, damage, knockback, player.whoAmI, Item.shootSpeed, type);
             return false;
         }
 
@@ -103,10 +106,83 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Projectile.timeLeft = 3;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
-            Projectile.alpha = 255;
+            Projectile.alpha = 0;
         }
         int ChargeTime = 0;
         int chargeLevel = 0;
+        int visualTimer = 0;
+        
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture2 = ModContent.Request<Texture2D>("AwfulGarbageMod/Items/Weapons/Ranged/HeavenlyBurstArrow1").Value;
+
+            int arrowsShot = 0;
+            switch (chargeLevel)
+            {
+                case 1:
+                    arrowsShot = 1;
+                    break;
+                case 2:
+                    arrowsShot = 2;
+                    break;
+                case 3:
+                    arrowsShot = 3;
+                    break;
+                case 4:
+                    arrowsShot = 5;
+                    break;
+                case 5:
+                    arrowsShot = 8;
+                    break;
+            }
+            float dir = (-2.25f * (arrowsShot - 1)) / 2;
+
+            SpriteEffects spriteEffects = SpriteEffects.None;
+
+            // Getting texture of projectile
+            int frameHeight = texture2.Height;
+            int startY = frameHeight * Projectile.frame;
+
+            // Get this frame on texture
+            Rectangle sourceRectangle = new Rectangle(0, startY, texture2.Width, frameHeight);
+
+            // Alternatively, you can skip defining frameHeight and startY and use this:
+            // Rectangle sourceRectangle = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
+
+            Vector2 origin = sourceRectangle.Size() / 2f;
+
+            // If image isn't centered or symmetrical you can specify origin of the sprite
+            // (0,0) for the upper-left corner
+            /*
+            float offsetX = 0;
+            origin.X = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Width - offsetX : offsetX);
+
+            float offsetY = 0;
+            origin.Y = (float)(Projectile.spriteDirection == 1 ? sourceRectangle.Height - offsetY : offsetY);
+            */
+
+            // Applying lighting and draw current frame
+            Vector2 drawOrigin = origin;
+
+            visualTimer++;
+            for (var i = 0; i < arrowsShot; i++)
+            {
+                //spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                Main.EntitySpriteDraw(texture2,
+                    Projectile.Center - Main.screenPosition + new Vector2(64, 0).RotatedBy(Projectile.rotation + MathHelper.ToRadians(dir)),
+                    sourceRectangle, Color.White, Projectile.rotation + MathHelper.ToRadians(dir), origin, Projectile.scale, spriteEffects, 0);
+
+                if (visualTimer < 10)
+                {
+
+                    Main.EntitySpriteDraw(texture2,
+                        Projectile.Center - Main.screenPosition + new Vector2(64, 0).RotatedBy(Projectile.rotation + MathHelper.ToRadians(dir)),
+                        sourceRectangle, Color.White * ((10 - visualTimer) / 10f), Projectile.rotation + MathHelper.ToRadians(dir), origin, Projectile.scale * (1 + visualTimer / 10f), spriteEffects, 0);
+                }
+                dir += 2.25f;
+            }
+            return false;
+        }
 
         public override bool PreAI()
         {
@@ -117,7 +193,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             Player owner = Main.player[Projectile.owner];
 
             // Like other whips, this whip updates twice per frame (Projectile.extraUpdates = 1), so 120 is equal to 1 second.
-            Projectile.position = owner.Center;
+            Projectile.Center = owner.Center;
             if (!owner.channel)
             {
                 return true; // Let the vanilla whip AI run.
@@ -129,6 +205,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
             {
                 if (chargeLevel < 5)
                 {
+                    visualTimer = 0;
                     chargeLevel++;
                     if (chargeLevel == 5)
                     {

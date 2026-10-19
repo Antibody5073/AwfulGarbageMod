@@ -22,12 +22,16 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
 		public int counter;
 
 		public override void SetDefaults()
-		{
-			Item.width = 20;
+        {
+            Item.damage = 75;
+            Item.DamageType = DamageClass.Ranged;
+            Item.knockBack = 1;
+            Item.width = 20;
 			Item.height = 20;
             Item.value = 7500;
             Item.rare = 9;
             Item.accessory = true;
+            Item.defense = 2;
         }
 
 
@@ -40,18 +44,17 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
 
             player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.15f;
 
-            player.statDefense += 2;
-            player.GetModPlayer<GlobalPlayer>().BoneGloveDamage += 150;
-            player.GetModPlayer<GlobalPlayer>().necroPotence += 90;
-            player.boneGloveItem = Item;
+            player.GetModPlayer<GlobalPlayer>().NecroScope += Item.damage;
+            
 
             player.ammoCost75 = true;
 
-            player.GetModPlayer<GlobalPlayer>().mechanicalArm += 0.4f;
-            player.GetModPlayer<GlobalPlayer>().mechanicalScope += 0.4f;
-            player.GetModPlayer<GlobalPlayer>().mechanicalLens += 0.4f;
-
-            player.GetModPlayer<GlobalPlayer>().FleshyAmalgam = true;
+            if (!hideVisual)
+            {
+                player.GetModPlayer<GlobalPlayer>().mechanicalArm += 0.4f;
+                player.GetModPlayer<GlobalPlayer>().mechanicalScope += 0.4f;
+                player.GetModPlayer<GlobalPlayer>().mechanicalLens += 0.4f;
+            }
         }
 
         public override void AddRecipes()

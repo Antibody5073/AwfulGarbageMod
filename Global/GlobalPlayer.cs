@@ -4,12 +4,15 @@ using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.DamageClasses;
 using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Accessories.Hardmode;
 using AwfulGarbageMod.Items.Armor;
 using AwfulGarbageMod.Items.Consumables;
 using AwfulGarbageMod.Projectiles;
 using AwfulGarbageMod.Subworlds;
 using AwfulGarbageMod.Systems;
 using AwfulGarbageMod.Tiles.OresBars;
+using gunrightsmod.Content.GlobalItems;
+using gunrightsmod.Content.Items;
 using JetBrains.Annotations;
 using Microsoft.Build.Evaluation;
 using Microsoft.CodeAnalysis;
@@ -19,6 +22,7 @@ using Mono.Cecil;
 using rail;
 using Steamworks;
 using StramClasses;
+using StramClasses.Classes.Acolyte.Accessories;
 using SubworldLibrary;
 using System;
 using System.Collections.Generic;
@@ -81,6 +85,7 @@ namespace AwfulGarbageMod.Global
 
         public bool IgnoreScepterDmgPenalties = false;
         public bool DisabledUnrealBuffNerfs = false;
+        public bool AccursedElixir = false;
 
         //Accessory effects
         public bool spiderPendant = false;
@@ -91,7 +96,7 @@ namespace AwfulGarbageMod.Global
         public int HoneyOnDamaged = 0;
         public bool Bees = false;
         public int necroPotence = 0;
-        public int necroPotencePercent = 0;
+        public float necroPotencePercent = 0;
         public bool lightningRing = false;
         public float ScaledShadeShield = 0;
         public float MeatShield = 0;
@@ -173,6 +178,31 @@ namespace AwfulGarbageMod.Global
         public int ShadowstepTimer = 0;
         public bool Ataraxia = false;
         public int AtaraxiaBoost = 0;
+        public bool ShadowflameStone = false;
+        public bool ImprovedShadowflameStone = false;
+        public bool ShadowflameOnShieldBreak = false;
+        public bool ShadowflameMelee = false;
+        public int Enlightenment = 0;
+        public int EnlightenmentCooldown = 0;
+        public bool AccumulusChalice = false;
+        public int AccumulusChaliceTimer = 0;
+        public int FeatherPendant = 0;
+        public int FeatherPendantArmorPen = 0;
+        public bool FeatherPendantIchor = false;
+        public bool FeatherPendantCursedFlame = false;
+        public int FeatherPendantFlyTimer = 0;
+        public int NecropotenceTimer = 0;
+        public int NecropotenceDamage = 0;
+        public int BoneBracelet = 0;
+        public float BoneBraceletTimer = 0;
+        public bool NightmareSash = false;
+        public int NecroScope = 0;
+        public float NecroScopeTimer = 0;
+        public bool GashadokuroHeart;
+        public bool GashadokuroHeartPrevious;
+        public bool CursedCarapace = false;
+        public int CursedCarapaceHealthLoss;
+        public bool CursedToggle = false;
 
         public bool JunkGreaves = false;
 
@@ -202,10 +232,6 @@ namespace AwfulGarbageMod.Global
         public bool CobaltMelee = false;
         public int CobaltMeleeCooldown = 0;
         public int CobaltMeleeDefense = 0;
-        public bool PalladiumRanged = false;
-        public bool PalladiumMelee = false;
-        public bool PalladiumMagic = false;
-        public int PalladiumMagicCooldown = 30*60;
         public bool CandescentBonus = false;
         public bool AncientFlierBonus = false;
         public bool EarthenBonus = false;
@@ -226,6 +252,7 @@ namespace AwfulGarbageMod.Global
         public bool TitaniumVariety = false;
         public bool EquilibriumMinionBonus = false;
         public bool EquilibriumSentryBonus = false;
+        public bool CrabBonus = false;
 
 
         public bool FrigidHelmet = false;
@@ -238,6 +265,25 @@ namespace AwfulGarbageMod.Global
 
         public string ImportantHoveredTile = "";
 
+        public override void Load()
+        {
+            Terraria.On_Player.AddBuff_DetermineBuffTimeToAdd += ModifyBuffTime;
+        }
+
+        private static int ModifyBuffTime(On_Player.orig_AddBuff_DetermineBuffTimeToAdd orig, Player self, int type, int time1)
+        {
+            int buffTime = orig(self, type, time1);
+
+            if (!Main.debuff[type] && !BuffID.Sets.IsAFlaskBuff[type] && !Main.buffNoTimeDisplay[type] && time1 != 2)
+            {
+                if (self.GetModPlayer<GlobalPlayer>().GashadokuroHeart)
+                {
+                    return buffTime * 5 / 4;
+                }
+            }
+
+            return buffTime;
+        }
         public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
         {
             return [
@@ -276,7 +322,22 @@ namespace AwfulGarbageMod.Global
             }
             fishingLevel -= fishingLevelDecrease;
         }
+        
+        public override void OnExtraJumpStarted(ExtraJump jump, ref bool playSound)
+        {
+            FeatherPendantFlyTimer = 0;
+            if (FeatherPendant > 0)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Projectile proj = Projectile.NewProjectileDirect(Player.GetSource_Accessory(ModContent.GetInstance<FeatherPendant>().Item), Player.Center, Main.rand.NextVector2CircularEdge(2, 0.5f) + new Vector2(0, 3), ModContent.ProjectileType<FeatherPendantProj>(), FeatherPendant, 0, Player.whoAmI);
+                    proj.originalDamage = proj.damage;
+                    proj.OriginalArmorPenetration += FeatherPendantArmorPen;
+                    proj.rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
+                }
+            }
 
+        }
         public override void PreUpdate()
         {
             timer++;
@@ -310,6 +371,18 @@ namespace AwfulGarbageMod.Global
                     Main.dust[dust].scale = 2f;
                     Main.dust[dust].velocity *= 0;
                     Main.dust[dust].noGravity = true;
+                }
+            }
+
+            if (ShadowflameStone || ImprovedShadowflameStone)
+            {
+                for (var j = 0; j < 3; j++)
+                {
+                    int dust = Dust.NewDust(this.Player.Center + new Vector2(330, 0).RotatedBy(MathHelper.ToRadians((360 / 3) * j - OrbitalDir * 2f)), 0, 0, DustID.ShadowbeamStaff, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[dust].scale = 2f;
+                    Main.dust[dust].velocity *= 0;
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].alpha = 150;
                 }
             }
             
@@ -455,6 +528,63 @@ namespace AwfulGarbageMod.Global
                     }
                 }
             }
+
+            if (AccumulusChalice) {
+                if (AccumulusChaliceTimer > 0)
+                {
+                    AccumulusChaliceTimer--;
+                }
+                else
+                {
+
+                    Projectile proj = Projectile.NewProjectileDirect(Player.GetSource_Accessory(ModContent.GetInstance<AccumulusChalice>().Item), Player.Center, Main.rand.NextVector2CircularEdge(3, 3), ModContent.ProjectileType<AccumulusChaliceProj>(), 25, 0, Player.whoAmI);
+                    proj.originalDamage = proj.damage;
+                    AccumulusChaliceTimer = 26;
+                }
+            }
+            if (FeatherPendant > 0)
+            {
+                if (Player.justJumped)
+                {
+                    FeatherPendantFlyTimer = 0;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Projectile proj = Projectile.NewProjectileDirect(Player.GetSource_Accessory(ModContent.GetInstance<FeatherPendant>().Item), Player.Center, Main.rand.NextVector2CircularEdge(2, 0.5f) + new Vector2(0, 3), ModContent.ProjectileType<FeatherPendantProj>(), FeatherPendant, 0, Player.whoAmI);
+                        proj.originalDamage = proj.damage;
+                        proj.OriginalArmorPenetration += FeatherPendantArmorPen;
+                        proj.rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
+                    }
+                }
+            }
+            if (necroPotence > 0 && NecropotenceTimer > 0)
+            {
+                NecropotenceTimer--;
+                if (NecropotenceTimer % 12 == 0)
+                {
+
+                    Vector2 pointPoisition = new Vector2(Player.position.X + (float)Player.width * 0.5f + (float)(Main.rand.Next(201) * -Player.direction) + ((float)Main.mouseX + Main.screenPosition.X - Player.position.X), Player.MountedCenter.Y - 600f);
+                    pointPoisition.X = (pointPoisition.X + Player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
+                    pointPoisition.Y -= 100 * 1;
+                    float num90 = (float)Main.mouseX + Main.screenPosition.X - pointPoisition.X;
+                    float num101 = (float)Main.mouseY + Main.screenPosition.Y - pointPoisition.Y;
+                    float ai2 = num101 + pointPoisition.Y;
+                    if (num101 < 0f)
+                    {
+                        num101 *= -1f;
+                    }
+                    if (num101 < 20f)
+                    {
+                        num101 = 20f;
+                    }
+                    float num112 = (float)Math.Sqrt(num90 * num90 + num101 * num101);
+                    num112 = 15 / num112;
+                    num90 *= num112;
+                    num101 *= num112;
+                    Vector2 vector5 = new Vector2(num90, num101) / 2f;
+                    Projectile proj = Projectile.NewProjectileDirect(Player.GetSource_Accessory(ModContent.GetInstance<Necropotence>().Item), pointPoisition, vector5, ModContent.ProjectileType<NecropotenceProj>(), (int)(NecropotenceDamage * necroPotencePercent), 2, Player.whoAmI, 0f, ai2);
+                    proj.originalDamage = proj.damage;
+                }
+            }
             if (ForbiddenFruit)
             {
                 Player.AddBuff(BuffID.MoonLeech, 3);
@@ -484,7 +614,13 @@ namespace AwfulGarbageMod.Global
                     }
                 }
             }
+            if (AccursedElixir)
+            {
+                Player.manaRegenDelay = 30;
+            }
         }
+
+       
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
             if (UmbragelBonus)
@@ -536,14 +672,6 @@ namespace AwfulGarbageMod.Global
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            NPC closestNPC = FindClosestNPC(1500);
-            if (closestNPC == target)
-            {
-                if (PalladiumMelee && modifiers.DamageType == ModContent.GetInstance<FlailDamageClass>())
-                {
-                    modifiers.FinalDamage *= 1.15f;
-                }
-            }
             if (modifiers.DamageType.CountsAsClass(DamageClass.Magic))
             {
                 if (MoltenRose > 1)
@@ -661,8 +789,50 @@ namespace AwfulGarbageMod.Global
                     Item.NewItem(target.GetSource_ReleaseEntity(), target.position, target.Size, ItemID.Star);
                 }
             }
+            if (ShadowflameMelee && hit.DamageType.CountsAsClass(DamageClass.Melee))
+            {
+                target.AddBuff(BuffID.ShadowFlame, 240);
+            }
+            if (BoneBracelet > 0 && BoneBraceletTimer <= 0)
+            {
+                Vector2 ProjVel = new Vector2(0, Main.rand.NextFloat(-7, -4)).RotatedByRandom(MathHelper.ToRadians(13));
+                Projectile proj = Projectile.NewProjectileDirect(Player.GetSource_Accessory(ModContent.GetInstance<SkullSigil>().Item), target.Top + ProjVel * 2, ProjVel, ModContent.ProjectileType<BoneBraceletProj>(), BoneBracelet, 1, Player.whoAmI);
+                proj.originalDamage = proj.damage;
+                proj.OriginalArmorPenetration += 20;
+                BoneBraceletTimer += 5 + (10 / Player.GetTotalAttackSpeed(DamageClass.Melee));
+            }
+            if (NecroScope > 0 && NecroScopeTimer <= 0)
+            {
+                Vector2 ProjVel = new Vector2(0, Main.rand.NextFloat(-7, -4)).RotatedByRandom(MathHelper.ToRadians(13));
+                Projectile proj = Projectile.NewProjectileDirect(Player.GetSource_Accessory(ModContent.GetInstance<SkullSigil>().Item), target.Top + ProjVel * 2, ProjVel, ModContent.ProjectileType<BoneBraceletProj>(), BoneBracelet, 1, Player.whoAmI);
+                proj.originalDamage = proj.damage;
+                proj.OriginalArmorPenetration += 20;
+                proj.DamageType = DamageClass.Ranged;
+                NecroScopeTimer += 5 + (10 / rangedVelocity);
+            }
         }
-
+        public override void MeleeEffects(Item item, Rectangle hitbox)
+        {
+            if (ShadowflameMelee && item.DamageType.CountsAsClass<MeleeDamageClass>() && !item.noMelee && !item.noUseGraphic)
+            {
+                if (Main.rand.NextBool(5))
+                {
+                    Dust dust = Dust.NewDustDirect(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Shadowflame);
+                    dust.velocity *= 0.5f;
+                }
+            }
+        }
+        public override void EmitEnchantmentVisualsAt(Projectile projectile, Vector2 boxPosition, int boxWidth, int boxHeight)
+        {
+            if (ShadowflameMelee && (projectile.DamageType.CountsAsClass<MeleeDamageClass>() || ProjectileID.Sets.IsAWhip[projectile.type]) && !projectile.noEnchantments)
+            {
+                if (Main.rand.NextBool(10))
+                {
+                    Dust dust = Dust.NewDustDirect(boxPosition, boxWidth, boxHeight, DustID.Shadowflame);
+                    dust.velocity *= 0.5f;
+                }
+            }
+        }
         [JITWhenModsEnabled("StramClasses")]
         public static void WorthlessJunkStramClasses(NPC.HitInfo hit, Player player)
         {
@@ -741,7 +911,7 @@ namespace AwfulGarbageMod.Global
                 return;
             }
 
-            Player.AddBuff(ModContent.BuffType<ShadowstepCooldown>(), 600);
+            Player.AddBuff(ModContent.BuffType<ShadowstepCooldown>(), 900);
             ShadowstepChance = 0;
             ShadowstepTimer = 0;
             if (Main.netMode != NetmodeID.SinglePlayer)
@@ -823,7 +993,7 @@ namespace AwfulGarbageMod.Global
 
             //Necropotence
             if (necroPotence > 0)
-            {
+            {/*
                 for (int j = 0; j < Main.rand.Next(6, 9); j++)
                 {
                     Vector2 vel = new Vector2(Main.rand.NextFloat(4, 7), 0).RotatedByRandom(MathHelper.ToRadians(360));
@@ -840,7 +1010,7 @@ namespace AwfulGarbageMod.Global
                 {
                     Vector2 vel = Vector2.Normalize(closestNPC.Center - this.Player.Center) * Main.rand.NextFloat(6, 8);
                     Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, ModContent.ProjectileType<NecropotenceProj>(), AGUtils.ScaleDamage(necroPotence + (int)(info.SourceDamage * (necroPotencePercent / 100f)), Player, DamageClass.Summon), 2, Main.myPlayer);
-                }
+                }*/
             }
 
             if (HellShellSparks > 0)
@@ -854,7 +1024,18 @@ namespace AwfulGarbageMod.Global
                     Main.projectile[proj].localNPCHitCooldown = 20;
                 }
             }
+            if (NightmareSash)
+            {
 
+                Vector2 vel;
+                vel = new Vector2((float)Main.mouseX + Main.screenPosition.X - this.Player.Center.X, (float)Main.mouseY + Main.screenPosition.Y - this.Player.Center.Y);
+                vel.Normalize();
+                vel *= 7.5f;
+
+                Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, ModContent.ProjectileType<NightmareSashProj>(), 25, 1, Main.myPlayer);
+
+
+            }
             //Cactus Shell
             if (cactusShell > 0 && !this.Player.HasBuff(ModContent.BuffType<CactusShellCooldown>()))
             {
@@ -961,6 +1142,11 @@ namespace AwfulGarbageMod.Global
             {
                 Player.Heal(Player.statLifeMax2 / -10);
             }
+            if (CursedCarapace)
+            {
+                CursedCarapaceHealthLoss += info.Damage / 3;
+                CursedToggle = !CursedToggle;
+            }
             SaltedTearsEnergy += info.Damage * SaltedTears;
         }
 
@@ -979,20 +1165,6 @@ namespace AwfulGarbageMod.Global
 
                     Player.Hurt(PlayerDeathReason.ByCustomReason($"{Player.name} was too careless."), (int)(Player.statLifeMax2 * 0.1), 0, dodgeable: false, armorPenetration: 9999);
                     Player.AddBuff(ModContent.BuffType<ArmorAbilityCooldown>(), 12 * 60);
-                }
-                if (PalladiumMagic)
-                {
-                    if (PalladiumMagicCooldown < 1)
-                    {
-                        Player.Hurt(PlayerDeathReason.ByCustomReason($"{Player.name} was too careless."), 1, 0, dodgeable: false, armorPenetration: 9999);
-                        PalladiumMagicCooldown = 30 * 60;
-                    }
-                    else
-                    {
-                        Player.Hurt(PlayerDeathReason.ByCustomReason($"{Player.name} was too careless."), (int)(Player.statLifeMax2 * 0.1), 0, dodgeable: false, armorPenetration: 9999);
-                    }
-                    Player.Hurt(PlayerDeathReason.ByCustomReason($"{Player.name} was too careless."), (int)(Player.statLifeMax2 * 0.1), 0, dodgeable: false, armorPenetration: 9999);
-                    Player.AddBuff(ModContent.BuffType<ArmorAbilityCooldown>(), 8 * 60);
                 }
                 if (MeteoriteVisorBonus)
                 {
@@ -1146,7 +1318,7 @@ namespace AwfulGarbageMod.Global
                 {
                     accessorySlots++;
                 }
-
+                
                 for (int i = 3; i < accessorySlots; i++)
                 {
                     if (Player.armor[i].type == ItemID.None)
@@ -1154,6 +1326,16 @@ namespace AwfulGarbageMod.Global
                         AtaraxiaBoost++;
                     }
                 }
+                for (int i = 0; i < Player.GetModPlayer<ModAccessorySlotPlayer>().LoadedSlotCount; i++)
+                {
+                    ModAccessorySlot acc = LoaderManager.Get<AccessorySlotLoader>().Get(i, Player);
+                    
+                    if (acc.IsEnabled() && acc.FunctionalItem.type == ItemID.None)
+                    {
+                        AtaraxiaBoost++;
+                    }
+                }
+                //Player.GetModPlayer<ModAccessorySlotPlayer>().
 
                 Player.GetDamage(DamageClass.Generic) += AtaraxiaBoost * 0.03f;
                 Player.GetCritChance(DamageClass.Generic) += AtaraxiaBoost * 3f;
@@ -1218,32 +1400,6 @@ namespace AwfulGarbageMod.Global
             if (CobaltMelee)
             {
                 Player.statDefense += CobaltMeleeDefense;
-            }
-            if (PalladiumMelee)
-            {
-                NPC npc = FindClosestNPCAndDistance(500, out float distance);
-                if (npc != null)
-                {
-                    player.lifeRegen += (int)(12 * (1 - (distance / (500 * 500))));
-                    
-                    if (Main.rand.NextBool(3))
-                    {
-                        int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, DustID.HealingPlus, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default(Color));
-                        Main.dust[dust].velocity *= 1.2f;
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= Main.rand.NextFloat(0.5f, 1f);
-                    }
-                }
-            }
-            if (PalladiumMagicCooldown < 1 && PalladiumMagic)
-            {
-                if (Main.rand.NextBool(3))
-                {
-                    int dust = Dust.NewDust(player.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, DustID.HealingPlus, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default(Color));
-                    Main.dust[dust].velocity *= 1.2f;
-                    Main.dust[dust].noGravity = false;
-                    Main.dust[dust].scale *= Main.rand.NextFloat(0.5f, 1f);
-                }
             }
             if (FlailAtMaxLengthPrev)
             {
@@ -1353,7 +1509,41 @@ namespace AwfulGarbageMod.Global
                     Player.GetDamage(DamageClass.Generic) += 0.1f;
                 }
             }
+            if (CursedCarapace)
+            {
+                int originalMaxLife = Player.statLifeMax2;
+                Player.statLifeMax2 -= CursedCarapaceHealthLoss;
+                if (Player.statLifeMax2 < (int)(originalMaxLife * 0.3f))
+                {
+                    Player.statLifeMax2 = (int)(originalMaxLife * 0.3f);
+                }
+                if (CursedToggle)
+                {
+                    Player.AddBuff(BuffID.CursedInferno, 5);
+                    if (!Player.buffImmune[BuffID.CursedInferno] && timer % 12 == 0)
+                    {
+                        if (Player.statLifeMax2 > (int)(originalMaxLife * 0.3f))
+                        {
+                            CursedCarapaceHealthLoss++;
+                        }
+                    }
+                }
+                else 
+                {
+                    if (Player.lifeRegen > 0 && timer % 30 == 0)
+                    {
+                        {
+                            CursedCarapaceHealthLoss--;
+                            if (CursedCarapaceHealthLoss < 0)
+                            {
+                                CursedCarapaceHealthLoss = 0;
+                            }
+                        }
+                    }
+                }
+            }
         }
+        
         public override void PostUpdate()
         {
             if (ColdHeart)
@@ -1373,7 +1563,7 @@ namespace AwfulGarbageMod.Global
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
-            modifiers.SourceDamage *= (ModContent.GetInstance<Config>().EnemyDamageMultiplier / 100);
+            modifiers.SourceDamage *= (ModContent.GetInstance<Configs.Config>().EnemyDamageMultiplier / 100);
             if (DifficultyModes.Difficulty == 2)
             {
                 modifiers.SourceDamage *= 1.5f;
@@ -1407,6 +1597,8 @@ namespace AwfulGarbageMod.Global
             Main.instance.LoadProjectile(ProjectileID.TerraBeam); //Terra Blade
             Main.instance.LoadProjectile(ProjectileID.TitaniumStormShard); //Titanium Storm
             Main.instance.LoadProjectile(ProjectileID.BoneGloveProj); //Crossbone
+            Main.instance.LoadProjectile(932);
+
         }
 
         public override void ResetEffects()
@@ -1494,13 +1686,6 @@ namespace AwfulGarbageMod.Global
             {
                 CobaltMeleeDefense = 0;
             }
-            if (PalladiumMagic)
-            {
-                PalladiumMagicCooldown -= 1;
-            }
-            PalladiumRanged = false;
-            PalladiumMelee = false;
-            PalladiumMagic = false;
             frostSigil = false;
             holySigil = false;
             terraSigil = false;
@@ -1596,6 +1781,39 @@ namespace AwfulGarbageMod.Global
             ShadowstepDodge = false;
             Ataraxia = false;
             AtaraxiaBoost = 0;
+            ShadowflameStone = false;
+            ImprovedShadowflameStone = false;
+            ShadowflameMelee = false;
+            ShadowflameOnShieldBreak = false;
+            if (!Player.HasBuff(BuffID.PotionSickness))
+            {
+                AccursedElixir = false;
+            }
+            Enlightenment = 0;
+            if (EnlightenmentCooldown > 0)
+            {
+                EnlightenmentCooldown--;
+            }
+            AccumulusChalice = false;
+            FeatherPendant = 0;
+            FeatherPendantIchor = false;
+            FeatherPendantCursedFlame = false;
+            FeatherPendantArmorPen = 0;
+            BoneBracelet = 0;
+            if (BoneBraceletTimer > 0)
+            {
+                BoneBraceletTimer--;
+            }
+            NightmareSash = false;
+            NecroScope = 0;
+            if (NecroScopeTimer > 0)
+            {
+                NecroScopeTimer--;
+            }
+            GashadokuroHeartPrevious = GashadokuroHeart;
+            GashadokuroHeart = false;
+            CursedCarapace = false;
+            CrabBonus = false;
         }
         public override void ModifyLuck(ref float luck)
         {

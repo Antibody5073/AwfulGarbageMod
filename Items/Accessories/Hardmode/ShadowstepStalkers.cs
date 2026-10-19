@@ -63,13 +63,13 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
         }
 
         public override void AddRecipes()
-        {/*
+        {
             CreateRecipe()
                 .AddIngredient<DemonSoles>()
                 .AddIngredient(ItemID.MasterNinjaGear)
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
-            */
+            
         }
     }
 }

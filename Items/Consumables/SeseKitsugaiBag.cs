@@ -1,8 +1,10 @@
 ﻿using AwfulGarbageMod;
 using AwfulGarbageMod.Items.Accessories;
+using AwfulGarbageMod.Items.Accessories.Hardmode;
+using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Melee;
 using AwfulGarbageMod.Items.Weapons.Ranged;
-using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Rogue;
 using AwfulGarbageMod.Items.Weapons.Summon;
 using AwfulGarbageMod.NPCs.Boss;
 using Microsoft.Xna.Framework;
@@ -12,7 +14,6 @@ using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AwfulGarbageMod.Items.Weapons.Rogue;
 
 namespace AwfulGarbageMod.Items.Consumables
 {
@@ -46,14 +47,14 @@ namespace AwfulGarbageMod.Items.Consumables
             // We have to replicate the expert drops from MinionBossBody here
             if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))
             {
-                itemLoot.Add(ItemDropRule.FewFromOptions(2, 1, ModContent.ItemType<Backbone>(), ModContent.ItemType<BoneSkewer>(), ModContent.ItemType<ToothpickTome>(), ModContent.ItemType<SpineString>(), ModContent.ItemType<PileOfActualBones>(), ModContent.ItemType<Skeletoss>()));
+                itemLoot.Add(ItemDropRule.FewFromOptions(3, 1, ModContent.ItemType<Backbone>(), ModContent.ItemType<BoneSkewer>(), ModContent.ItemType<ToothpickTome>(), ModContent.ItemType<SpineString>(), ModContent.ItemType<PileOfActualBones>(), ModContent.ItemType<BoneBadge>(), ModContent.ItemType<Necropotence>(), ModContent.ItemType<Skeletoss>()));
             }
             else
             {
-                itemLoot.Add(ItemDropRule.FewFromOptions(2, 1, ModContent.ItemType<Backbone>(), ModContent.ItemType<BoneSkewer>(), ModContent.ItemType<ToothpickTome>(), ModContent.ItemType<SpineString>(), ModContent.ItemType<PileOfActualBones>()));
+                itemLoot.Add(ItemDropRule.FewFromOptions(3, 1, ModContent.ItemType<Backbone>(), ModContent.ItemType<BoneSkewer>(), ModContent.ItemType<ToothpickTome>(), ModContent.ItemType<SpineString>(), ModContent.ItemType<PileOfActualBones>(), ModContent.ItemType<BoneBadge>(), ModContent.ItemType<Necropotence>()));
             }
-            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<Necropotence>()));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<SeseKitsugai>()));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<GashadokuroHeart>()));
         }
 
         // Below is code for the visuals

@@ -20,6 +20,7 @@ namespace AwfulGarbageMod.Systems
         public static bool downedFrigidius = false;
         public static bool downedTsugumi = false;
         public static bool downedFireMoth = false;
+        public static bool downedIyozane = false;
         public static bool downedEvilTree = false;
         public static bool downedAwfulGarbage = false;
 
@@ -39,6 +40,7 @@ namespace AwfulGarbageMod.Systems
             downedFrigidius = false;
             downedTsugumi = false;
             downedFireMoth = false;
+            downedIyozane = false;
             downedEvilTree = false;
             downedAwfulGarbage = false;
             downedEvilFlowerMiniboss = false;
@@ -56,6 +58,7 @@ namespace AwfulGarbageMod.Systems
             downedFrigidius = false;
             downedTsugumi = false;
             downedFireMoth = false;
+            downedIyozane = false;
             downedEvilTree = false;
             downedAwfulGarbage = false;
             downedEvilFlowerMiniboss= false;
@@ -93,6 +96,10 @@ namespace AwfulGarbageMod.Systems
             {
                 tag["downedFireMoth"] = true;
             }
+            if (downedIyozane)
+            {
+                tag["downedIyozane"] = true;
+            }
             if (downedEvilTree)
             {
                 tag["downedEvilTree"] = true;
@@ -126,6 +133,7 @@ namespace AwfulGarbageMod.Systems
             downedFrigidius = tag.ContainsKey("downedFrigidius");
             downedTsugumi = tag.ContainsKey("downedTsugumi");
             downedFireMoth = tag.ContainsKey("downedFireMoth");
+            downedIyozane = tag.ContainsKey("downedIyozane");
             downedEvilTree = tag.ContainsKey("downedEvilTree");
             downedAwfulGarbage = tag.ContainsKey("downedAwfulGarbage");
             downedEvilFlowerMiniboss = tag.ContainsKey("downedEvilFlowerMiniboss");
@@ -153,6 +161,7 @@ namespace AwfulGarbageMod.Systems
             flags2[0] = downedCursedChandelier;
             flags2[1] = downedStarFighter;
             flags2[2] = downedEvilTree;
+            flags2[3] = downedIyozane;
             writer.Write(flags2);
             /*
 			Remember that Bytes/BitsByte only have up to 8 entries. If you have more than 8 flags you want to sync, use multiple BitsByte:
@@ -215,6 +224,7 @@ namespace AwfulGarbageMod.Systems
             downedCursedChandelier = flags2[0];
             downedStarFighter = flags2[1];
             downedEvilTree = flags2[2];
+            downedIyozane = flags2[3];
 
             // downedOtherBoss = flags[1];
 

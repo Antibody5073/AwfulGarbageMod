@@ -87,9 +87,23 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         }
 
 
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (Projectile.velocity.Y < 0)
+            {
+                if (Projectile.velocity.X != oldVelocity.X) Projectile.velocity.X = -oldVelocity.X;
+                if (Projectile.velocity.Y != oldVelocity.Y) Projectile.velocity.Y = -oldVelocity.Y;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
 
             int dust = Dust.NewDust(Projectile.Center - new Vector2(Projectile.width / 4, 0), 1, 1, DustID.BoneTorch, 0f, 0f, 0, default(Color), 1f);
             Main.dust[dust].scale = 1.25f;

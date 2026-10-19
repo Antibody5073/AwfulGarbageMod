@@ -136,7 +136,7 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
             {
                 Projectile.velocity.Y += 0.03f;
             }
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(225f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(270f);
         }
     }
 }

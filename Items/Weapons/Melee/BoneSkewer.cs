@@ -14,11 +14,13 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 	{
 		public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Bone Skewer"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-			// Tooltip.SetDefault("Inflicts a stacking bleed \n\"I'll be taking YOUR heads this time!\"");
-		}
+            // DisplayName.SetDefault("Bone Skewer"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            // Tooltip.SetDefault("Inflicts a stacking bleed \n\"I'll be taking YOUR heads this time!\"");
+            ItemID.Sets.Spears[Item.type] = true;
 
-		public override void SetDefaults()
+        }
+
+        public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.Spear);
 			Item.damage = 22;

@@ -342,7 +342,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             if (foundTarget)
             {
                 atkTimer++;
-                if (atkTimer % 25 == 0)
+                if (atkTimer % 33 == 0)
                 {
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + new Vector2(Main.rand.NextFloat(-10, 10), 0), new Vector2(0, 5), Mod.Find<ModProjectile>("CloudBangasaProj").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Main.projectile[proj].ArmorPenetration += 5;

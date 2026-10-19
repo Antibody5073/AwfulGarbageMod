@@ -65,7 +65,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             // This method quickly sets the whip's properties.
             Projectile.DefaultToWhip();
             // use these to change from the vanilla defaults
-            Projectile.WhipSettings.Segments = 38;
+            Projectile.WhipSettings.Segments = 15;
             // Projectile.WhipSettings.RangeMultiplier = 1f;
         }
 
@@ -143,15 +143,15 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             {
                 // These two values are set to suit this projectile's sprite, but won't necessarily work for your own.
                 // You can change them if they don't!
-                Rectangle frame = new Rectangle(0, 0, 10, 26);
-                Vector2 origin = new Vector2(5, 8);
+                Rectangle frame = new Rectangle(0, 0, 26, 28);
+                Vector2 origin = new Vector2(13, -8);
                 float scale = 1;
 
                 // These statements determine what part of the spritesheet to draw for the current segment.
                 // They can also be changed to suit your sprite.
                 if (i == list.Count - 2)
                 {
-                    frame.Y = 74;
+                    frame.Y = 76;
                     frame.Height = 18;
 
                     // For a more impactful look, this scales the tip of the whip up when fully extended, and down when curled up.
@@ -161,17 +161,17 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
                 }
                 else if (i > 10)
                 {
-                    frame.Y = 58;
+                    frame.Y = 60;
                     frame.Height = 16;
                 }
                 else if (i > 5)
                 {
-                    frame.Y = 42;
+                    frame.Y = 44;
                     frame.Height = 16;
                 }
                 else if (i > 0)
                 {
-                    frame.Y = 26;
+                    frame.Y = 28;
                     frame.Height = 16;
                 }
 

@@ -85,10 +85,6 @@ namespace AwfulGarbageMod.Global
             if (hasThisEmpowerment)
             {
                 HitEffect(projectile, target, hit, damageDone, player);
-                if (player.GetModPlayer<GlobalPlayer>().PalladiumRanged)
-                {
-                    player.AddBuff(BuffID.RapidHealing, 360);
-                }
             }
         }
         public virtual bool empowermentAvailable(Player player)

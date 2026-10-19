@@ -97,6 +97,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override int spinHitCooldown => 65;
         public override float RetractSpd => 0.15f;
         public override float MaxRetractSpd => 12f;
+        public override float flailHeadRotation => 180;
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             base.OnHitNPC(target, hit, damageDone);

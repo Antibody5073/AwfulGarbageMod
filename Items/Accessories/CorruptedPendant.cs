@@ -23,8 +23,10 @@ namespace AwfulGarbageMod.Items.Accessories
 		public int counter;
 
 		public override void SetDefaults()
-		{
-			Item.width = 20;
+        {
+            Item.damage = 9;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 20;
 			Item.height = 20;
             Item.value = 7500;
             Item.rare = 4;
@@ -34,24 +36,25 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetCritChance(DamageClass.Ranged) += 2;
-            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.15f;
-            player.GetModPlayer<GlobalPlayer>().corruptedPendant = true;
+            player.GetModPlayer<GlobalPlayer>().rangedVelocity += 0.20f;
+            player.GetModPlayer<GlobalPlayer>().FeatherPendant += Item.damage;
+            player.GetModPlayer<GlobalPlayer>().FeatherPendantArmorPen += 12;
+            player.GetModPlayer<GlobalPlayer>().FeatherPendantCursedFlame = true;
         }
 
         public override void AddRecipes()
 		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(Mod.Find<ModItem>("FeatherPendant").Type);
-            recipe.AddIngredient(ItemID.CorruptSeeds, 2);
-            recipe.AddIngredient(ItemID.DemoniteBar, 18);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-            Recipe recipe2 = CreateRecipe();
-            recipe2.AddIngredient(Mod.Find<ModItem>("FeatherPendant").Type);
-            recipe2.AddIngredient(ItemID.SoulofNight, 3);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.Register();
+            CreateRecipe()
+                .AddIngredient<FeatherPendant>()
+                .AddIngredient(ItemID.ShadowScale, 10)
+                .AddIngredient(ItemID.EbonstoneBlock, 30)
+                .AddTile(TileID.Anvils)
+                .Register();
+            CreateRecipe()
+                .AddIngredient<FeatherPendant>()
+                .AddIngredient(ItemID.SoulofNight, 3)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 	}
 }

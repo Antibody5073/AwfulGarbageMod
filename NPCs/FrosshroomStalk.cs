@@ -7,6 +7,7 @@ using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -115,7 +116,7 @@ namespace AwfulGarbageMod.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.ZoneSnow)
+            if (spawnInfo.Player.ZoneSnow && TileID.Sets.Ices[spawnInfo.SpawnTileType])
             {
                 if (NPC.AnyNPCs(NPC.type))
                 {

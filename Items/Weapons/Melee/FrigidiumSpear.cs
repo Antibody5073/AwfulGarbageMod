@@ -17,9 +17,11 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 	{
 		public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Ice Spirit Pike"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-			// Tooltip.SetDefault("Shoots a homing spirit every third use");
-		}
+            // DisplayName.SetDefault("Ice Spirit Pike"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            // Tooltip.SetDefault("Shoots a homing spirit every third use");
+            ItemID.Sets.Spears[Item.type] = true;
+
+        }
 
         public int counter;
 

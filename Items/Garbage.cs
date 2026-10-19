@@ -49,11 +49,11 @@ namespace AwfulGarbageMod.Items
             {
                 case 0:
                     resultType = ModContent.ItemType<FrigidiumOre>();  // Get this from the extractinator with a 1 in 3 chance.
-                    resultStack = Main.rand.Next(1, 2); // Add a chance to get more than one of ExampleOre from the extractinator.
+                    resultStack = Main.rand.Next(1, 5); // Add a chance to get more than one of ExampleOre from the extractinator.
                     break;
                 case 1:
                     resultType = ModContent.ItemType<CandesciteOre>();  // Get this from the extractinator with a 1 in 3 chance.
-                    resultStack = Main.rand.Next(1, 2); // Add a chance to get more than one of ExampleOre from the extractinator.
+                    resultStack = Main.rand.Next(1, 5); // Add a chance to get more than one of ExampleOre from the extractinator.
                     break;
                 case 2:
                     resultType = ItemID.SilverOre;  // Get this from the extractinator with a 1 in 3 chance.
@@ -119,7 +119,7 @@ namespace AwfulGarbageMod.Items
                     break;
                 case 12:
                     resultType = ItemID.StoneBlock;  // Get this from the extractinator with a 1 in 3 chance.
-                    resultStack = Main.rand.Next(4, 8); // Add a chance to get more than one of ExampleOre from the extractinator.
+                    resultStack = Main.rand.Next(12, 20); // Add a chance to get more than one of ExampleOre from the extractinator.
                     break;
                 case 13:
                     resultType = ItemID.GoldCoin;  // Get this from the extractinator with a 1 in 3 chance.

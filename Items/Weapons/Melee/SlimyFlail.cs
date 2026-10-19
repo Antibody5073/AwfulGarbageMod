@@ -87,6 +87,8 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 
             ProjectileID.Sets.HeldProjDoesNotUsePlayerGfxOffY[Type] = true;
+            Main.projFrames[Projectile.type] = 4;
+
         }
         public override float MaxSpinDistance => 70;
         public override float SpinSpd => 0.9f;
@@ -97,8 +99,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override int spinHitCooldown => 80;
         public override float RetractSpd => 0.05f;
         public override float MaxRetractSpd => 6f;
-        public override float flailHeadRotationRetract => 180;
-        public override float flailHeadRotation => 90;
+        public override float flailHeadRotation => 180;
 
         public override void Dusts()
         {
@@ -112,6 +113,13 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                 Main.dust[dust].noGravity = true;
             }
 
+            if (++Projectile.frameCounter >= 12)
+            {
+                Projectile.frameCounter = 0;
+                // Or more compactly Projectile.frame = ++Projectile.frame % Main.projFrames[Projectile.type];
+                if (++Projectile.frame >= Main.projFrames[Projectile.type])
+                    Projectile.frame = 0;
+            }
         }
     }
 }

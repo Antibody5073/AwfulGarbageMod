@@ -1564,16 +1564,19 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.globalEnemyBossInfo().OrbitDirection += spinSpd;
             NPC.globalEnemyBossInfo().OrbitDistance += (800 - NPC.globalEnemyBossInfo().OrbitDistance) / 45;
 
-            if (AI_Timer == 150)
+            if (AI_Timer == 30)
             {
-                NPC.globalEnemyBossInfo().orbitalsDealDamage = true;
                 AI_State = (float)ActionState.FinalAtk;
-                AI_Timer = 0;
+                AI_Timer = -1;
             }
         }
         private void FinalAtk()
         {
             AI_Timer++;
+            if (AI_Timer == 120)
+            {
+                NPC.globalEnemyBossInfo().orbitalsDealDamage = true;
+            }
             NPC.globalEnemyBossInfo().OrbitDirection += spinSpd;
             NPC.globalEnemyBossInfo().OrbitDistance += (800 - NPC.globalEnemyBossInfo().OrbitDistance) / 45;
             Player player = Main.player[NPC.target];

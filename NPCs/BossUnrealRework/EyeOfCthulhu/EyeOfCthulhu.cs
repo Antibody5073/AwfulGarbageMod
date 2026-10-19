@@ -54,6 +54,7 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.EyeOfCthulhu
             TeardropRain,
             PhaseTransition,
             Flamethrower,
+            FlameCharge,
             LaserWall,
         }
         // These are reference properties. One, for example, lets us write AI_State as if it's Npc.ai[0], essentially giving the index zero our own name.
@@ -127,7 +128,14 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.EyeOfCthulhu
                 }
             }
         }
-
+        public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
+        {
+            if (AI_State == (float)ActionState.FlameCharge && target.Bottom.Y < Npc.Center.Y)
+            {
+                return false;
+            }
+            return true;
+        }
 
         // Our AI here makes our NPC sit waiting for a player to enter range, jumps to attack, flutter mid-fall to stay afloat a little longer, then falls to the ground. Note that animation should happen in FindFrame
 
@@ -187,6 +195,9 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.EyeOfCthulhu
                     case (float)ActionState.Flamethrower:
                         Flamethrower();
                         break;
+                    case (float)ActionState.FlameCharge:
+                        FlameCharge();
+                        break;
                     case (float)ActionState.LaserWall:
                         LaserWall();
                         break;
@@ -228,6 +239,9 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.EyeOfCthulhu
                     break;
                 case (float)ActionState.Flamethrower:
                     AI_Timer = -90;
+                    break;
+                case (float)ActionState.FlameCharge:
+                    AI_Timer = 0;
                     break;
                 case (float)ActionState.LaserWall:
                     AI_Timer = -60;
@@ -615,7 +629,57 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.EyeOfCthulhu
                     Main.projectile[proj].friendly = false;
                 }
             }
-            if (AI_Timer == 420)
+            if (AI_Timer == 360)
+            {
+                if (player.Center.X > Npc.Center.X)
+                {
+                    Npc.velocity = new Vector2(-12, 5f);
+                    atkDir = 1;
+                }
+                else
+                {
+                    Npc.velocity = new Vector2(12, 5f);
+                    atkDir = -1;
+                }
+                SwitchAttack(ActionState.FlameCharge);
+                return;
+
+            }
+        }
+        private void FlameCharge()
+        {
+            AI_Timer++;
+            if (Math.Abs(Npc.velocity.X) < 15)
+            {
+                Npc.velocity.X += atkDir / 2;
+            }
+            if (Math.Sign(Npc.velocity.X) == Math.Sign(atkDir)) { Npc.velocity.Y = 0; }
+            if (AI_Timer % 5 == 0)
+            {
+                int proj = Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(0, 8), ProjectileID.Flames, 16, 0, Main.myPlayer);
+                Main.projectile[proj].hostile = true;
+                Main.projectile[proj].friendly = false;
+            }
+            if (AI_Timer % 6 == 0)
+            {
+
+                Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(1.5f, 6), ModContent.ProjectileType<EyeOfCthulhuProjFireball>(), 10, 0, Main.myPlayer);
+                Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(-1.5f, 6), ModContent.ProjectileType<EyeOfCthulhuProjFireball>(), 10, 0, Main.myPlayer);
+
+                Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(1.5f, 6.5f), ModContent.ProjectileType<EyeOfCthulhuProjFireball>(), 10, 0, Main.myPlayer);
+                Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(-1.5f, 6.5f), ModContent.ProjectileType<EyeOfCthulhuProjFireball>(), 10, 0, Main.myPlayer);
+
+                Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(1.5f, 7), ModContent.ProjectileType<EyeOfCthulhuProjFireball>(), 10, 0, Main.myPlayer);
+                Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(-1.5f, 7), ModContent.ProjectileType<EyeOfCthulhuProjFireball>(), 10, 0, Main.myPlayer);
+
+                Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(1.5f, 7.5f), ModContent.ProjectileType<EyeOfCthulhuProjFireball>(), 10, 0, Main.myPlayer);
+                Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(-1.5f, 7.5f), ModContent.ProjectileType<EyeOfCthulhuProjFireball>(), 10, 0, Main.myPlayer);
+
+                Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(1.5f, 8), ModContent.ProjectileType<EyeOfCthulhuProjFireball>(), 10, 0, Main.myPlayer);
+                Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Bottom, new Vector2(-1.5f, 8), ModContent.ProjectileType<EyeOfCthulhuProjFireball>(), 10, 0, Main.myPlayer);
+            }
+
+            if (AI_Timer == 120)
             {
                 SwitchAttack(ActionState.LaserWall);
                 return;
@@ -633,17 +697,17 @@ namespace AwfulGarbageMod.NPCs.BossUnrealRework.EyeOfCthulhu
 
                 Vector2 vel = (player.Center - Npc.Center).SafeNormalize(Vector2.One);
 
-                for (int i = -6; i < 7; i++)
+                for (int i = -9; i < 10; i++)
                 {
-                    Projectile proj = Projectile.NewProjectileDirect(Npc.GetSource_FromAI(), Npc.Center, vel.RotatedBy(MathHelper.ToRadians(i * 10)) * 3, ModContent.ProjectileType<EyeOfCthulhuProjBloodshot>(), 13, 0, Npc.target);
+                    Projectile proj = Projectile.NewProjectileDirect(Npc.GetSource_FromAI(), Npc.Center, vel.RotatedBy(MathHelper.ToRadians(i * 12)) * 3, ModContent.ProjectileType<EyeOfCthulhuProjBloodshot>(), 13, 0, Npc.target);
                 }
-                for (int i = -4; i < 4; i++)
+                for (int i = -7; i < 7; i++)
                 {
-                    Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Center, vel.RotatedBy(MathHelper.ToRadians(i * 10 + 5f)) * 2.4f, ModContent.ProjectileType<EyeOfCthulhuProjBloodshot>(), 13, 0, Npc.target);
+                    Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Center, vel.RotatedBy(MathHelper.ToRadians(i * 12 + 6f)) * 2.4f, ModContent.ProjectileType<EyeOfCthulhuProjBloodshot>(), 13, 0, Npc.target);
                 }
-                for (int i = -3; i < 4; i++)
+                for (int i = -5; i < 6; i++)
                 {
-                    Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Center, vel.RotatedBy(MathHelper.ToRadians(i * 10)) * 1.8f, ModContent.ProjectileType<EyeOfCthulhuProjBloodshot>(), 13, 0, Npc.target);
+                    Projectile.NewProjectile(Npc.GetSource_FromAI(), Npc.Center, vel.RotatedBy(MathHelper.ToRadians(i * 12)) * 1.8f, ModContent.ProjectileType<EyeOfCthulhuProjBloodshot>(), 13, 0, Npc.target);
                 }
                 if (AI_Timer% 240 == 0)
                 {

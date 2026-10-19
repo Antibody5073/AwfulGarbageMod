@@ -50,7 +50,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
 
 		public override void SetDefaults()
 		{
-            Item.damage = 11;
+            Item.damage = 9;
             Item.knockBack = 3f;
             Item.mana = 10; // mana cost
             Item.width = 32;
@@ -321,7 +321,7 @@ namespace AwfulGarbageMod.Items.Weapons.Summon
             if (foundTarget)
             {
                 atkTimer++;
-                if (atkTimer % 45 == 0)
+                if (atkTimer % 50 == 0)
                 {
                     int proj;
                     proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 5), Mod.Find<ModProjectile>("SatelliteParasolProj").Type, Projectile.damage, Projectile.knockBack, Projectile.owner);

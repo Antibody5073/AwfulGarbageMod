@@ -1,4 +1,5 @@
-using AwfulGarbageMod.Items.Consumables; using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Consumables; 
+using AwfulGarbageMod.Items.Consumables.BossSummon;
 using AwfulGarbageMod.NPCs.Boss;
 using AwfulGarbageMod.Systems;
 using Microsoft.Xna.Framework;
@@ -15,6 +16,7 @@ using System.IO;
 using Terraria.ModLoader.IO;
 using AwfulGarbageMod.Configs;
 using Terraria.IO;
+using gunrightsmod.Content.Items.Armor;
 
 namespace AwfulGarbageMod.Systems
 {
@@ -40,20 +42,22 @@ namespace AwfulGarbageMod.Systems
         {
             Main.NewText("Generated Ice Palace", Color.LightCyan);
 
+            Point16 dimensions = Generator.GetStructureDimensions("Assets/Structures/IcePalace", mod);
             int x;
             int y;
             int SnowMiddleY = GenVars.snowTop + (int)((float)(GenVars.snowBottom - GenVars.snowTop) / 3);
             for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY) * 6E-04); i++)
             {
                 x = WorldGen.genRand.Next(100, Main.maxTilesX);
-                y = SnowMiddleY;
+                y = SnowMiddleY + WorldGen.genRand.Next(-24, 24); 
 
                 Tile tile = Framing.GetTileSafely(x, y);
-                if (tile.HasTile && (tile.TileType == TileID.IceBlock || tile.TileType == TileID.SnowBlock))
+                if (tile.HasTile && (tile.TileType == TileID.IceBlock || tile.TileType == TileID.SnowBlock) && GenVars.structures.CanPlace(new Rectangle(x, y, dimensions.X, dimensions.Y)))
                 {
                     Generator.GenerateStructure("Assets/Structures/IcePalace", new Point16(x, y), mod);
                     IcePalacePosX = x + 54;
                     IcePalacePosY = y + 51;
+                    GenVars.structures.AddProtectedStructure(new Rectangle(x, y, dimensions.X, dimensions.Y));
                     break;
                 }
             }
@@ -63,7 +67,10 @@ namespace AwfulGarbageMod.Systems
         {
             Main.NewText("Generated a small pile of trash", Color.DarkSlateGray);
             TrashStructure = true;
+            Point16 dimensions = Generator.GetStructureDimensions("Assets/Structures/trash", mod);
 
+            int xoffset = -6;
+            int yoffset = -4;
             int x;
             int y;
             for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY) * 6E-04); i++)
@@ -77,9 +84,10 @@ namespace AwfulGarbageMod.Systems
                     y += 1;
                     tile = Framing.GetTileSafely(x, y);
                 }
-                if (tile.HasTile && (TileID.Sets.Grass[tile.TileType]) && Framing.GetTileSafely(x - 5, y + 3).HasTile && Framing.GetTileSafely(x + 5, y + 3).HasTile)
+                if (tile.HasTile && (TileID.Sets.Grass[tile.TileType]) && Framing.GetTileSafely(x - 5, y + 3).HasTile && Framing.GetTileSafely(x + 5, y + 3).HasTile && GenVars.structures.CanPlace(new Rectangle(x + xoffset, y + yoffset, dimensions.X, dimensions.Y)))
                 {
-                    Generator.GenerateStructure("Assets/Structures/trash", new Point16(x - 6, y - 4), mod);
+                    Generator.GenerateStructure("Assets/Structures/trash", new Point16(x + xoffset, y + yoffset), mod);
+                    GenVars.structures.AddProtectedStructure(new Rectangle(x + xoffset, y + yoffset, dimensions.X, dimensions.Y));
                     break;
                 }
             }
@@ -88,8 +96,10 @@ namespace AwfulGarbageMod.Systems
         {
             Main.NewText("Generated some ruins in the desert", Color.DarkOrange);
             SnakeCharmerStructure = true;
+            Point16 dimensions = Generator.GetStructureDimensions("Assets/Structures/snakecharmer", mod);
 
-
+            int xoffset = -8;
+            int yoffset = -14;
             int x;
             int y;
             for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY) * 6E-04); i++)
@@ -103,10 +113,66 @@ namespace AwfulGarbageMod.Systems
                     y += 1;
                     tile = Framing.GetTileSafely(x, y);
                 }
-                if (tile.HasTile && tile.TileType == TileID.Sand && Framing.GetTileSafely(x, y - 1).LiquidAmount == 0 && Framing.GetTileSafely(x + 10, y - 2).LiquidAmount == 0 && Framing.GetTileSafely(x - 10, y - 2).LiquidAmount == 0)
+                if (tile.HasTile && tile.TileType == TileID.Sand && Framing.GetTileSafely(x, y - 1).LiquidAmount == 0 && Framing.GetTileSafely(x + 10, y - 2).LiquidAmount == 0 && Framing.GetTileSafely(x - 10, y - 2).LiquidAmount == 0 && GenVars.structures.CanPlace(new Rectangle(x + xoffset, y + yoffset, dimensions.X, dimensions.Y)))
                 {
-                    Generator.GenerateStructure("Assets/Structures/snakecharmer", new Point16(x - 8, y - 14), mod);
+                    Generator.GenerateStructure("Assets/Structures/snakecharmer", new Point16(x + xoffset, y + yoffset), mod);
+                    GenVars.structures.AddProtectedStructure(new Rectangle(x + xoffset, y + yoffset, dimensions.X, dimensions.Y));
+
                     break;
+                }
+            }
+        }
+        public static void GenerateReefStructures(Mod mod)
+        {
+            Point16 dimensions = Generator.GetStructureDimensions("Assets/Structures/reefchest", mod);
+
+            int xoffset = -4;
+            int yoffset = -9;
+            int x;
+            int y;
+            List<Rectangle> noGenerateChests = new();
+
+            for (int i = 0; i < (int)((Main.maxTilesX * Main.maxTilesY) * 8E-04); i++)
+            {
+                x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+                y = WorldGen.genRand.Next((int)GenVars.rockLayer, GenVars.desertHiveLow);
+
+                int iterations = 0;
+                Tile tile = Framing.GetTileSafely(x, y);
+                
+                if (tile.HasTile || tile.WallType != WallID.ReefWall)
+                {
+                    continue;
+                }
+                while ((!tile.HasTile || tile.TileType == TileID.Coral || tile.TileType == TileID.BeachPiles) && tile.WallType == WallID.ReefWall)
+                {
+                    iterations++;
+                    y += 1;
+                    tile = Framing.GetTileSafely(x, y);
+                    if (iterations > 75)
+                    {
+                        break;
+                    }
+                }
+                if (iterations <= 75 && tile.HasTile && (tile.TileType == TileID.ReefBlock || tile.TileType == TileID.Coralstone) && GenVars.structures.CanPlace(new Rectangle(x + xoffset, y + yoffset, dimensions.X, dimensions.Y)))
+                {
+                    bool validPosition = true;
+                    foreach (var item in noGenerateChests)
+                    {
+                        if (x > item.X && x < item.X + item.Width &&
+                            y > item.Y && y < item.Y + item.Height)
+                        {
+                            validPosition = false;
+                            break;
+                        }
+                    }
+                    if (validPosition)
+                    {
+                        Generator.GenerateStructure("Assets/Structures/reefchest", new Point16(x + xoffset, y + yoffset), mod);
+                        GenVars.structures.AddProtectedStructure(new Rectangle(x + xoffset, y + yoffset, dimensions.X, dimensions.Y));
+                        noGenerateChests.Add(new Rectangle(x + xoffset - 40, y + yoffset - 40, 84, 89));
+
+                    }
                 }
             }
         }
@@ -237,6 +303,10 @@ namespace AwfulGarbageMod.Systems
             if (ModContent.GetInstance<ConfigClient>().ShouldGenerateSkyStructure)
             {
                 GenerateEotsStructure(Mod);
+            }
+            if (ModContent.GetInstance<ConfigClient>().ShouldGenerateReefs)
+            {
+                GenerateReefStructures(Mod);
             }
             /*
             SnowMiddleY = GenVars.snowTop + (int)((float)(GenVars.snowBottom - GenVars.snowTop) * 2 / 3);

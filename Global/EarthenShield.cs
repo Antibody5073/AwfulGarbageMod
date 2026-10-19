@@ -3,8 +3,10 @@ using AwfulGarbageMod.Buffs;
 using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.DamageClasses;
 using AwfulGarbageMod.Items;
+using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.Items.Armor;
 using AwfulGarbageMod.Items.Weapons.Magic;
+using AwfulGarbageMod.Items.Weapons.Melee.Hardmode;
 using AwfulGarbageMod.Projectiles;
 using AwfulGarbageMod.Systems;
 using AwfulGarbageMod.Tiles.OresBars;
@@ -488,6 +490,73 @@ namespace AwfulGarbageMod.Global
                     Player.AddBuff(BuffID.RapidHealing, AGUtils.ScaleShieldEffectPower(720, Player));
                     break;
             }
+            if (Player.GetModPlayer<GlobalPlayer>().ShadowflameOnShieldBreak)
+            {
+
+                distanceFromTarget = 330;
+
+                // This code is required either way, used for finding a target
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    NPC npc = Main.npc[i];
+
+                    if (npc.CanBeChasedBy())
+                    {
+                        float between = Vector2.Distance(npc.Center, this.Player.Center);
+                        bool inRange = between < distanceFromTarget;
+
+                        if (inRange)
+                        {
+                            npc.AddBuff(BuffID.ShadowFlame, AGUtils.ScaleShieldEffectPower(60 * 10, Player));
+                        }
+                    }
+                }
+            }
+            if (Player.GetModPlayer<GlobalPlayer>().CrabBonus)
+            {
+
+                NPC closestNPC = FindClosestNPC(300);
+
+                if (closestNPC != null)
+                {
+                    Vector2 vel = (closestNPC.Center - this.Player.Center).SafeNormalize(Vector2.One);
+                    Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), this.Player.Center, vel, ModContent.ProjectileType<CrabClaw>(), AGUtils.ScaleDamage(120, Player, ModContent.GetInstance<SentinelDamageClass>()), 20, Player.whoAmI);
+                }
+            }
+        }
+        public NPC FindClosestNPC(float maxDetectDistance)
+        {
+            NPC closestNPC = null;
+
+            // Using squared values in distance checks will let us skip square root calculations, drastically improving this method's speed.
+            float sqrMaxDetectDistance = maxDetectDistance * maxDetectDistance;
+
+            // Loop through all NPCs(max always 200)
+            for (int k = 0; k < Main.maxNPCs; k++)
+            {
+                NPC target = Main.npc[k];
+                // Check if NPC able to be targeted. It means that NPC is
+                // 1. active (alive)
+                // 2. chaseable (e.g. not a cultist archer)
+                // 3. max life bigger than 5 (e.g. not a critter)
+                // 4. can take damage (e.g. moonlord core after all it's parts are downed)
+                // 5. hostile (!friendly)
+                // 6. not immortal (e.g. not a target dummy)
+                if (target.CanBeChasedBy())
+                {
+                    // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
+                    float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, this.Player.Center);
+
+                    // Check if it is within the radius
+                    if (sqrDistanceToTarget < sqrMaxDetectDistance)
+                    {
+                        sqrMaxDetectDistance = sqrDistanceToTarget;
+                        closestNPC = target;
+                    }
+                }
+            }
+
+            return closestNPC;
         }
     }
 }

@@ -1,30 +1,43 @@
-using Microsoft.Xna.Framework;
-using Mono.Cecil;
-using System;
-using System.Diagnostics.Metrics;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
 using AwfulGarbageMod.Global;
 using AwfulGarbageMod.Items.Placeable.OresBars;
 using AwfulGarbageMod.Tiles.Furniture;
 using ExampleMod.Content;
+using Microsoft.Xna.Framework;
+using Mono.Cecil;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Metrics;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using static Redemption;
 
 namespace AwfulGarbageMod.Items.Accessories.Hardmode
 {
 
     public class BlazingTotem : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			// DisplayName.SetDefault("Necropotence"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-			// Tooltip.SetDefault("34 damage\n5 defense\nTaking damage causes you to release bone toothpicks\n\"Argh, fine! I'll hit you with this and turn you into a couple of cremated reliquaries!\"");
-		}
+    {
+        public static LocalizedText RedemptionEffect { get; private set; }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (ModLoader.TryGetMod("Redemption", out Mod mod))
+            {
+                Player player = Main.LocalPlayer;
+                TooltipLine tooltip = new TooltipLine(Mod, "RedemptionEffect", RedemptionEffect.Format());
+                tooltips.Add(tooltip);
+            }
+        }
 
-		public int counter;
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Contact Lens"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            // Tooltip.SetDefault("24% increased critical strike damage");
+            RedemptionEffect = this.GetLocalization(nameof(RedemptionEffect));
 
-		public override void SetDefaults()
+        }
+        public override void SetDefaults()
 		{
 			Item.width = 20;
 			Item.height = 20;
@@ -39,6 +52,11 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
         {
             player.maxTurrets += 1;
             player.GetDamage(DamageClass.Summon) += 0.1f;
+
+            if (ModLoader.TryGetMod("Redemption", out Mod mod))
+            {
+                IncreaseElementalDamage(player, ElementID.Fire, 0.08f, mod);
+            }
         }
         public override void AddRecipes()
         {

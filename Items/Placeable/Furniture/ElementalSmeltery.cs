@@ -27,6 +27,13 @@ namespace AwfulGarbageMod.Items.Placeable.Furniture
                 .AddIngredient<FrigidForge>()
                 .AddIngredient<TrashMelter>()
                 .Register();
+            
+            CreateRecipe()
+                .AddIngredient(ItemID.TitaniumForge)
+                .AddIngredient<CandescentCrucible>()
+                .AddIngredient<FrigidForge>()
+                .AddIngredient<TrashMelter>()
+                .Register();
 
             CreateRecipe()
                 .AddIngredient(ItemID.AdamantiteOre, 30)
@@ -36,7 +43,22 @@ namespace AwfulGarbageMod.Items.Placeable.Furniture
                 .Register();
 
             CreateRecipe()
+                .AddIngredient(ItemID.TitaniumOre, 30)
+                .AddIngredient<CandescentCrucible>()
+                .AddIngredient<FrigidForge>()
+                .AddIngredient<TrashMelter>()
+                .Register();
+
+            CreateRecipe()
                 .AddIngredient(ItemID.AdamantiteForge)
+                .AddIngredient<CandesciteBar>(2)
+                .AddIngredient<CandesciteOre>(30)
+                .AddIngredient<FrigidForge>()
+                .AddIngredient<TrashMelter>()
+                .Register();
+
+            CreateRecipe()
+                .AddIngredient(ItemID.TitaniumForge)
                 .AddIngredient<CandesciteBar>(2)
                 .AddIngredient<CandesciteOre>(30)
                 .AddIngredient<FrigidForge>()

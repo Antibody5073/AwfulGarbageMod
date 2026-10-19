@@ -93,7 +93,9 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override int spinHitCooldown => 40;
         public override float RetractSpd => 0.05f;
         public override float MaxRetractSpd => 12f;
-        
+        public override float flailHeadRotation => 180;
+
+
         public override void Dusts()
         {
             int dustRate = 2;

@@ -37,7 +37,7 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
             Player player = Main.LocalPlayer;
             TooltipLine tooltip;
             int boost = player.GetModPlayer<GlobalPlayer>().AtaraxiaBoost;
-            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(boost * 4, boost * 5, boost * 3, boost * 0.5f, boost * 40));
+            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(boost * 3, boost * 5, boost * 3, boost * 0.5f, boost * 40));
             tooltips.Add(tooltip);
 
             if (boost >= 3)

@@ -35,6 +35,7 @@ namespace AwfulGarbageMod.Global
         public bool alreadyHit = false;
         public int MagnoTimer;
         public Player MagnoPlayer;
+
         public static class Sets
         {
             public static bool[] IsScepterProjectile = ProjectileID.Sets.Factory.CreateBoolSet();
@@ -160,10 +161,13 @@ namespace AwfulGarbageMod.Global
             Player player = Main.player[projectile.owner];
 
             //Poison Pendant
-            if (projectile.DamageType == DamageClass.Ranged && player.GetModPlayer<GlobalPlayer>().spiderPendant == true && Main.rand.NextBool(15))
+            if (projectile.DamageType == DamageClass.Ranged && player.GetModPlayer<GlobalPlayer>().spiderPendant == true)
             {
-                target.AddBuff(BuffID.Poisoned, 600);
-
+                target.AddBuff(BuffID.Poisoned, 300);
+            }
+            if (projectile.DamageType == DamageClass.Ranged && player.GetModPlayer<GlobalPlayer>().NightmareSash == true)
+            {
+                target.AddBuff(ModContent.BuffType<NightmareRaze>(), 120);
             }
             //Corrupted Pendant
             if (projectile.DamageType == DamageClass.Ranged && player.GetModPlayer<GlobalPlayer>().corruptedPendant == true && hit.Crit && Main.rand.NextBool(5))
@@ -372,7 +376,7 @@ namespace AwfulGarbageMod.Global
             //Demon scythe nerf
             if (projectile.type == ProjectileID.DemonScythe && ModContent.GetInstance<Config>().DemonScytheNerf)
             {
-                if (!NPC.downedBoss3)
+                if (!NPC.downedBoss3 && !NPC.downedBoss2)
                 {
                     projectile.damage = (int)(projectile.damage * 0.50f);
                 }

@@ -35,6 +35,7 @@ namespace AwfulGarbageMod.Items.Accessories
         {
             player.statDefense += 2;
             player.GetModPlayer<GlobalPlayer>().iceCrystalGeode = true;
+            player.GetModPlayer<GlobalPlayer>().MeleeWeaponSize += 0.1f;
         }
         public override void AddRecipes()
         {

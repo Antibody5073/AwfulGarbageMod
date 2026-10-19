@@ -45,6 +45,7 @@ namespace AwfulGarbageMod.NPCs.Boss
             ScytheHover,
             ScytheThrow,
             ScytheChase,
+            PredictiveSlash,
             ScytheHover2,
             ScytheThrow2,
             SpiritSummon,
@@ -314,6 +315,9 @@ namespace AwfulGarbageMod.NPCs.Boss
                 case (float)ActionState.ScytheChase:
                     ScytheChase();
                     break;
+                case (float)ActionState.PredictiveSlash:
+                    PredictiveSlash();
+                    break;
                 case (float)ActionState.ScytheHover2:
                     ScytheHover();
                     break;
@@ -548,55 +552,123 @@ namespace AwfulGarbageMod.NPCs.Boss
             NPC.velocity = new Vector2(0, 0);
 
 
-            if (AI_Timer % 125 < 25)
+            if (AI_Timer >= 1100)
             {
-                NPC.alpha += 10;
-            }
-            else if (AI_Timer % 125 < 55)
-            {
-                if (AI_Timer % 125 == 25)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<SpiritReaperProjScytheChase>()] < 1)
                 {
-                    NPC.alpha = 255;
-                    if (Main.rand.NextBool())
+
+                    NPC.dontTakeDamage = false;
+                    AI_State = (float)ActionState.PredictiveSlash;
+                    AI_Timer = 0;
+                    atkUseCounter = 0;
+                    if (player.Center.X > NPC.Center.X)
                     {
-                        storedVel = player.velocity.SafeNormalize(Vector2.One);
+                        spinDirection = -1;
                     }
                     else
                     {
-                        storedVel = player.velocity.SafeNormalize(Vector2.One).RotatedByRandom(MathHelper.Pi);
+                        spinDirection = 1;
                     }
+                    Vector2 direction2 = player.Center - NPC.Center;
+                    targetArea = player.Center + direction2.SafeNormalize(Vector2.Zero) * -320;
+                    holdingScythe = true; 
                 }
-
-                float xv = Main.rand.NextFloat(-3, 3);
-                float yv = Main.rand.NextFloat(-2, -5);
-                int dust = Dust.NewDust(NPC.Center, 1, 1, DustID.DungeonSpirit, xv, yv, 0, default(Color), 1f);
-                Main.dust[dust].scale = Main.rand.NextFloat(1, 2);
-                NPC.velocity = Vector2.Zero;
-                NPC.Center = player.Center + storedVel * 360;
-                NPC.alpha -= 10;
             }
             else
             {
-                NPC.alpha = 0;
-                NPC.velocity = storedVel * -18;
-            }
-            if (AI_Timer == 1100)
-            {
-                NPC.dontTakeDamage = false;
-                AI_State = (float)ActionState.ScytheHover2;
-                AI_Timer = 0;
-                atkUseCounter = 0;
-                if (Main.rand.NextBool())
+
+                if (AI_Timer % 125 < 25)
                 {
-                    spinDirection = 1;
+                    NPC.alpha += 10;
+                }
+                else if (AI_Timer % 125 < 55)
+                {
+                    if (AI_Timer % 125 == 25)
+                    {
+                        NPC.alpha = 255;
+                        if (Main.rand.NextBool())
+                        {
+                            storedVel = player.velocity.SafeNormalize(Vector2.One);
+                        }
+                        else
+                        {
+                            storedVel = player.velocity.SafeNormalize(Vector2.One).RotatedByRandom(MathHelper.Pi);
+                        }
+                    }
+
+                    float xv = Main.rand.NextFloat(-3, 3);
+                    float yv = Main.rand.NextFloat(-2, -5);
+                    int dust = Dust.NewDust(NPC.Center, 1, 1, DustID.DungeonSpirit, xv, yv, 0, default(Color), 1f);
+                    Main.dust[dust].scale = Main.rand.NextFloat(1, 2);
+                    NPC.velocity = Vector2.Zero;
+                    NPC.Center = player.Center + storedVel * 360;
+                    NPC.alpha -= 10;
                 }
                 else
                 {
-                    spinDirection = -1;
+                    NPC.alpha = 0;
+                    NPC.velocity = storedVel * -18;
                 }
+            }
+        }
+        private void PredictiveSlash()
+        {
+            Player player = Main.player[NPC.target];
+
+            Vector2 direction = targetArea - NPC.Center;
+            NPC.velocity = direction * 0.02f;
+            NPC.velocity += player.velocity * 1 / 4;
+
+            AI_Timer += 1;
+            if (AI_Timer > 0)
+            {
                 Vector2 direction2 = player.Center - NPC.Center;
-                targetArea = player.Center + direction2.SafeNormalize(Vector2.Zero) * -320;
-                holdingScythe = true;
+                targetArea = player.Center + new Vector2(600 * spinDirection, -300);
+
+                Vector2 scythedir = player.Center - NPC.Center;
+                scytheDirection = scythedir.ToRotation();
+                if (AI_Timer > 60)
+                {
+                    if (AI_Timer % 30 < 20)
+                    {
+
+                        scytheDirection = scythedir.ToRotation() - MathHelper.ToRadians(30);
+                        scytheSmoothness = 3;
+                    }
+                    else
+                    {
+                        scytheDirection = scythedir.ToRotation() + MathHelper.ToRadians(90);
+                        scytheSmoothness = 8;
+                    }
+
+                    if (AI_Timer % 30 == 20)
+                    {
+                        if (atkUseCounter == 16)
+                        {
+                            AI_State = (float)ActionState.ScytheHover2;
+
+                            AI_Timer = 0;
+                            atkUseCounter = 0;
+                            if (Main.rand.NextBool())
+                            {
+                                spinDirection = 1;
+                            }
+                            else
+                            {
+                                spinDirection = -1;
+                            }
+                            Vector2 direction3 = player.Center - NPC.Center;
+                            targetArea = player.Center + direction3.SafeNormalize(Vector2.Zero) * -320;
+                            holdingScythe = true;
+                        }
+                        else
+                        {
+                            atkUseCounter++;
+                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<Projectiles.SpiritReaperProjSlashAccelerate>(), 40, 0, NPC.target);
+                            Main.projectile[proj].velocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.Zero) * 9f + Main.player[NPC.target].velocity / 2;
+                        }
+                    }
+                }
             }
         }
         private void SpiritSummon()

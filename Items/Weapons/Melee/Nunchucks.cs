@@ -93,9 +93,9 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void DoFlailPositioning(Player player, float spd, float currentDir, out Vector2 offsetFromPlayer)
         {
 
-            Vector2 mouse = new Vector2((float)Main.mouseX + Main.screenPosition.X - player.Center.X, (float)Main.mouseY + Main.screenPosition.Y - player.Center.Y);
-            if (player.direction == 1 && mouse.X < 0) { mouse.X = 0; }
-            if (player.direction == -1 && mouse.X > 0) { mouse.X = 0; }
+            Vector2 mouse = new Vector2((float)Main.mouseX + Main.screenPosition.X - player.Center.X, (float)Main.mouseY + Main.screenPosition.Y - player.Center.Y); 
+            player.ChangeDir((mouse.X > 0).ToDirectionInt());
+
             offsetCenter = mouse.SafeNormalize(Vector2.Zero) * 24;
             offsetFromPlayer = new Vector2(player.direction).RotatedBy((float)Math.PI * (spd) * (currentDir) * player.direction + MathHelper.ToRadians(Projectile.flailProjectile().spinOffset));
         }

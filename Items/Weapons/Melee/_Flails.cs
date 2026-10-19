@@ -291,7 +291,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                         {
                             Projectile.velocity *= 0.98f;
                             Projectile.velocity = Projectile.velocity.MoveTowards(unitVectorTowardsPlayer * maxRetractSpeed, retractAcceleration);
-                            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(-90 + flailHeadRotationRetract);
+                            Projectile.rotation = (player.Center - Projectile.Center).ToRotation() + MathHelper.ToRadians(-90 + flailHeadRotationRetract);
                             player.ChangeDir((player.Center.X < Projectile.Center.X).ToDirectionInt());
                         }
                         break;
@@ -323,7 +323,9 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
 
             // This is where Flower Pow launches projectiles. Decompile Terraria to view that code.
 
-            Projectile.direction = (Projectile.velocity.X > 0f).ToDirectionInt();
+            Projectile.direction = player.direction;
+
+            //Projectile.direction = (Projectile.velocity.X > 0f).ToDirectionInt();
             Projectile.spriteDirection = Projectile.direction;
             Projectile.ownerHitCheck = !canHitThroughWalls; // This prevents attempting to damage enemies without line of sight to the player. The custom Colliding code for spinning makes this necessary.
 

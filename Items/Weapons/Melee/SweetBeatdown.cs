@@ -67,8 +67,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Shockwave"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 7;
         }
 
         public override void SetDefaults()
@@ -83,14 +82,19 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Projectile.timeLeft = 150;
             Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
+            Projectile.stopsDealingDamageAfterPenetrateHits = true;
+
         }
         int StateTimer = 0;
+        bool spawnedProj = false;
 
-        public override void OnKill(int timeLeft)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            int dust;
+
             for (var i = 0; i < 32; i++)
             {
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Honey, 0f, 0f, 0, default(Color), 1f);
+                dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Honey, 0f, 0f, 0, default(Color), 1f);
                 Main.dust[dust].scale = 1.2f;
                 Main.dust[dust].velocity = new Vector2(2, 0).RotatedBy(MathHelper.ToRadians((360 / 32) * i));
                 Main.dust[dust].noGravity = true;
@@ -102,7 +106,26 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                 Main.projectile[proj].CritChance = Projectile.CritChance;
             }
         }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            int dust;
+            for (var i = 0; i < 32; i++)
+            {
+                dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Honey, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dust].scale = 1.2f;
+                Main.dust[dust].velocity = new Vector2(2, 0).RotatedBy(MathHelper.ToRadians((360 / 32) * i));
+                Main.dust[dust].noGravity = true;
 
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(Main.rand.NextFloat(4, 7), 0).RotatedByRandom(MathHelper.ToRadians(360)), Mod.Find<ModProjectile>("SweetBeatdownProj2").Type, Projectile.damage / 2, 0, Projectile.owner, 0);
+                Main.projectile[proj].CritChance = Projectile.CritChance;
+            }
+            Projectile.penetrate = -1;
+            Projectile.damage = 0;
+            return false;
+        }
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -140,12 +163,6 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             Texture2D projectileTexture = TextureAssets.Projectile[Projectile.type].Value;
             Vector2 drawOrigin = origin;
             spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            for (int k = 0; k < Projectile.oldPos.Length && k < StateTimer; k++)
-            {
-                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(8f, 8f);
-                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-                Main.spriteBatch.Draw(projectileTexture, drawPos, sourceRectangle, color, Projectile.oldRot[k], drawOrigin, Projectile.scale, spriteEffects, 0f);
-            }
             Main.EntitySpriteDraw(texture,
                 Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
                 sourceRectangle, drawColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
@@ -155,18 +172,49 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         }
         public override void AI()
         {
-            StateTimer++;
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
-            Projectile.velocity.Y += 0.05f;
-            if (Projectile.velocity.Y > 20f)
-            {
-                Projectile.velocity.Y = 20f;
-            }
-            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Honey, 0f, 0f, 0, default(Color), 1f);
-            Main.dust[dust].scale = 0.9f;
-            Main.dust[dust].velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(180)) / 2;
-            Main.dust[dust].noGravity = true;
 
+            int dust;
+            if (Projectile.penetrate == -1)
+            {
+                if (!spawnedProj)
+                {
+                    spawnedProj = true;
+                    Projectile.frame = 4;
+                    Projectile.frameCounter = 0;
+                    Projectile.rotation = 0;
+                }
+                Projectile.velocity = Vector2.Zero;
+                Projectile.timeLeft++;
+
+                if (++Projectile.frameCounter >= 8)
+                {
+                    Projectile.frameCounter = 0;
+                    // Or more compactly Projectile.frame = ++Projectile.frame % Main.projFrames[Projectile.type];
+                    if (++Projectile.frame >= 7)
+                        Projectile.Kill();
+                }
+            }
+            else
+            {
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+                Projectile.velocity.Y += 0.05f;
+                if (Projectile.velocity.Y > 20f)
+                {
+                    Projectile.velocity.Y = 20f;
+                }
+                dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Honey, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dust].scale = 0.9f;
+                Main.dust[dust].velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(180)) / 2;
+                Main.dust[dust].noGravity = true;
+
+                if (++Projectile.frameCounter >= 4)
+                {
+                    Projectile.frameCounter = 0;
+                    // Or more compactly Projectile.frame = ++Projectile.frame % Main.projFrames[Projectile.type];
+                    if (++Projectile.frame >= 4)
+                        Projectile.frame = 0;
+                }
+            }
         }
     }
     public class SweetBeatdownProj2 : ModProjectile
@@ -216,6 +264,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
             {
                 Projectile.velocity.Y = 16f;
             }
+
         }
     }
 }

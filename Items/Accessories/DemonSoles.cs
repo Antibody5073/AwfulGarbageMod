@@ -1,18 +1,19 @@
+using AwfulGarbageMod;
+using AwfulGarbageMod.Global;
+using AwfulGarbageMod.Items.Accessories.Hardmode;
+using AwfulGarbageMod.Items.Armor;
+using AwfulGarbageMod.Items.Placeable.OresBars;
 using Microsoft.Xna.Framework;
 using Mono.Cecil;
+using StramClasses;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
-using AwfulGarbageMod;
-using AwfulGarbageMod.Global;
-using StramClasses;
-using System.Collections.Generic;
 using Terraria.Localization;
-using AwfulGarbageMod.Items.Armor;
-using AwfulGarbageMod.Items.Placeable.OresBars;
+using Terraria.ModLoader;
 
 namespace AwfulGarbageMod.Items.Accessories
 {
@@ -51,6 +52,17 @@ namespace AwfulGarbageMod.Items.Accessories
         public override void AddRecipes()
         {
 
+            CreateRecipe()
+                .AddIngredient(ItemID.HellstoneBar, 10)
+                .AddIngredient(ItemID.ShadowScale, 10)
+                .AddTile(TileID.Hellforge)
+                .Register();
+
+            CreateRecipe()
+                .AddIngredient(ItemID.HellstoneBar, 10)
+                .AddIngredient(ItemID.TissueSample, 10)
+                .AddTile(TileID.Hellforge)
+                .Register();
         }
 	}
 }

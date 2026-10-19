@@ -25,10 +25,10 @@ namespace AwfulGarbageMod.Items.Accessories.Vanity
             if (Main.netMode != NetmodeID.Server)
             {
                 EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/BlueAya_Head", EquipType.Head, this);
+                EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/BlueAyaHalf_Head", EquipType.Head, name: "BlueAyaHalf");
+                EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/BlueAyaClose_Head", EquipType.Head, name: "BlueAyaClose");
                 EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/BlueAya_Body", EquipType.Body, this);
                 EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/BlueAya_Legs", EquipType.Legs, this);
-                //EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/BlueAya_Back", EquipType.Back, this);
-                //EquipLoader.AddEquipTexture(Mod, "AwfulGarbageMod/Items/Accessories/Vanity/BlueAya_Neck", EquipType.Neck, this);
             }
         }
 
@@ -40,13 +40,20 @@ namespace AwfulGarbageMod.Items.Accessories.Vanity
 
             int equipSlotHead = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
             ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            int equipSlotHeadHalf = EquipLoader.GetEquipSlot(Mod, "BlueAyaHalf", EquipType.Head);
+            ArmorIDs.Head.Sets.DrawHead[equipSlotHeadHalf] = false;
+            int equipSlotHeadClose = EquipLoader.GetEquipSlot(Mod, "BlueAyaClose", EquipType.Head);
+            ArmorIDs.Head.Sets.DrawHead[equipSlotHeadClose] = false;
 
             int equipSlotBody = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+            ArmorIDs.Body.Sets.DisableHandOnAndOffAccDraw[equipSlotBody] = true;
             ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
             ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
 
             int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
             ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
+            ArmorIDs.Legs.Sets.OverridesLegs[equipSlotLegs] = true;
+            ArmorIDs.Legs.Sets.IncompatibleWithFrogLeg[equipSlotLegs] = true;
         }
 
         public override void SetDefaults()
@@ -94,11 +101,20 @@ namespace AwfulGarbageMod.Items.Accessories.Vanity
         {
             if (vanityEquipped)
             {
-                //Player.back = EquipLoader.GetEquipSlot(Mod, "BlueAya", EquipType.Back);
                 Player.legs = EquipLoader.GetEquipSlot(Mod, "BlueAya", EquipType.Legs);
                 Player.body = EquipLoader.GetEquipSlot(Mod, "BlueAya", EquipType.Body);
-                Player.head = EquipLoader.GetEquipSlot(Mod, "BlueAya", EquipType.Head);
-                //Player.neck = EquipLoader.GetEquipSlot(Mod, "BlueAya", EquipType.Neck);
+                if (Player.eyeHelper.CurrentEyeFrame == 0)
+                {
+                    Player.head = EquipLoader.GetEquipSlot(Mod, "BlueAya", EquipType.Head);
+                }
+                else if (Player.eyeHelper.CurrentEyeFrame.ToString() == "EyeHalfClosed")
+                {
+                    Player.head = EquipLoader.GetEquipSlot(Mod, "BlueAyaHalf", EquipType.Head);
+                }
+                else
+                {
+                    Player.head = EquipLoader.GetEquipSlot(Mod, "BlueAyaClose", EquipType.Head);
+                }
             }
         }
     }

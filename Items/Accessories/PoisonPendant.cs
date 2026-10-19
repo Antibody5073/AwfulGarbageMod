@@ -34,9 +34,8 @@ namespace AwfulGarbageMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense += 1;
-            player.GetCritChance(DamageClass.Ranged) += 5;
-            player.GetArmorPenetration(DamageClass.Generic) += 5;
+            player.GetCritChance(DamageClass.Ranged) += 4;
+            player.GetArmorPenetration(DamageClass.Generic) += 4;
             player.GetModPlayer<GlobalPlayer>().spiderPendant = true;
             player.GetModPlayer<GlobalPlayer>().HoneyOnDamaged += 300;
             if (hideVisual)

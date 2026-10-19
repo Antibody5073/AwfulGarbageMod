@@ -211,53 +211,13 @@ namespace AwfulGarbageMod.ModIntegration
                 }
             }
 
-            //Add dungeon chest loot #1
-            itemNum = 0;
-
-            for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-            {
-                Chest chest = Main.chest[chestIndex];
-                int[] itemsToPlaceInChests4 = { ItemID.None, Mod.Find<ModItem>("BonePendant").Type, Mod.Find<ModItem>("BoneBadge").Type, Mod.Find<ModItem>("FractureKnife").Type };
-
-                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 2 * 36)
-                {
-                    if (ModLoader.TryGetMod("StramClasses", out Mod stramClasses))
-                    {
-                        if (itemsToPlaceInChests4[itemNum] == Mod.Find<ModItem>("FractureKnife").Type)
-                        {
-                            for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
-                            {
-                                if (chest.item[inventoryIndex].type == ItemID.None)
-                                {
-                                    chest.item[inventoryIndex].SetDefaults(Mod.Find<ModItem>("FractureKnife2").Type);
-                                    chest.item[inventoryIndex].stack = 1;
-                                    chest.item[inventoryIndex].Prefix(-1);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
-                    {
-                        if (chest.item[inventoryIndex].type == ItemID.None)
-                        {
-                            chest.item[inventoryIndex].SetDefaults(itemsToPlaceInChests4[itemNum]);
-                            chest.item[inventoryIndex].stack = 1;
-                            chest.item[inventoryIndex].Prefix(-1);
-                            itemNum = (itemNum + 1) % itemsToPlaceInChests4.Length;
-                            break;
-                        }
-                    }
-                }
-            }
-
             //Add dungeon chest loot #2
             itemNum = 0;
 
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                int[] itemsToPlaceInChests4 = { Mod.Find<ModItem>("SkullSigil").Type, Mod.Find<ModItem>("IronFist").Type, Mod.Find<ModItem>("SpikyThread").Type, ItemID.None };
+                int[] itemsToPlaceInChests4 = { Mod.Find<ModItem>("SkullSigil").Type, Mod.Find<ModItem>("SpikyThread").Type, Mod.Find<ModItem>("BonePendant").Type, Mod.Find<ModItem>("FractureKnife").Type };
 
                 if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 2 * 36)
                 {
@@ -322,7 +282,7 @@ namespace AwfulGarbageMod.ModIntegration
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                int[] itemsToPlaceInChests4 = { Mod.Find<ModItem>("CactusShell").Type, ModContent.ItemType<LifeMagnet>(), ItemID.None };
+                int[] itemsToPlaceInChests4 = { Mod.Find<ModItem>("CactusShell").Type, ModContent.ItemType<LifeMagnet>(), ModContent.ItemType<IronFist>()};
 
                 if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers2 && Main.tile[chest.x, chest.y].TileFrameX == 10 * 36)
                 {

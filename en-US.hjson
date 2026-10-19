@@ -447,6 +447,16 @@ Mods: {
 				Description: Dodge chance isn't rising
 				DisplayName: Shadowstep Cooldown
 			}
+
+			NightmareRaze: {
+				Description: Mods.AwfulGarbageMod.Buffs.NightmareRaze.Description
+				DisplayName: Nightmare Raze
+			}
+
+			SnowflakeStaffMinionBuff: {
+				Description: Mods.AwfulGarbageMod.Buffs.SnowflakeStaffMinionBuff.Description
+				DisplayName: Snowflake Staff Minion Buff
+			}
 		}
 
 		Projectiles: {
@@ -889,6 +899,33 @@ Mods: {
 			MidnightMinion.DisplayName: Midnight Minion
 			GoreKnightMinionProjctile.DisplayName: Gore Knight Minion Projctile
 			GoreKnightMinion.DisplayName: Gore Knight Minion
+			EnlightenmentProj.DisplayName: Enlightenment Proj
+			IyozaneProjWater.DisplayName: Iyozane Proj Water
+			AccumulusChaliceProj.DisplayName: Accumulus Chalice Proj
+			FeatherPendantProj.DisplayName: Feather Pendant Proj
+			EyeOfCthulhuProjFireball.DisplayName: Eye Of Cthulhu Proj Fireball
+			FunguerillaProj.DisplayName: Funguerilla Proj
+			FoliaggregateProj.DisplayName: Foliaggregate Proj
+			FoliaggregateProj2.DisplayName: Foliaggregate Proj2
+			SpiritReaperProjSlashAccelerate.DisplayName: Spirit Reaper Proj Slash Accelerate
+			BoneBraceletProj.DisplayName: Bone Bracelet Proj
+			NightmareSashProj.DisplayName: Nightmare Sash Proj
+			VerticalCursedOrb.DisplayName: Vertical Cursed Orb
+			VerticalCursedOrb2.DisplayName: Vertical Cursed Orb2
+			SprinklerHoldout.DisplayName: Sprinkler Holdout
+			CrabClaw.DisplayName: Crab Claw
+			FreezeRayProjPulse.DisplayName: Freeze Ray Proj Pulse
+			FreezeRayProj.DisplayName: Freeze Ray Proj
+			FrostMandibowProj.DisplayName: Frost Mandibow Proj
+			SnowflakeStaffProj.DisplayName: Snowflake Staff Proj
+			SnowflakeStaffMinion.DisplayName: Snowflake Staff Minion
+			GlacierAxeProj.DisplayName: Glacier Axe Proj
+			SnowfallPrism.DisplayName: Snowfall Prism
+			EmperorsScepterProj.DisplayName: Emperors Scepter Proj
+			EmperorsScepterHoldout.DisplayName: Emperors Scepter Holdout
+			ShadowstringProj.DisplayName: Shadowstring Proj
+			NightmareBoltProj.DisplayName: Nightmare Bolt Proj
+			NightmareBoltProj2.DisplayName: Nightmare Bolt Proj2
 		}
 
 		Items: {
@@ -941,9 +978,9 @@ Mods: {
 				DisplayName: Corrupted Pendant
 				Tooltip:
 					'''
-					15% increased ranged velocity
-					2% increased ranged crit chance
-					Ranged crits have a 20% chance to inflict cursed flame
+					20% increased ranged velocity
+					Release razor feathers when jumping or flying that ignore 12 enemy defense
+					Featers have a 33% chance to inflict cursed flame on critical strike
 					'''
 			}
 
@@ -951,9 +988,9 @@ Mods: {
 				DisplayName: Crimson Pendant
 				Tooltip:
 					'''
-					15% increased ranged velocity
-					2% increased ranged crit chance
-					Ranged crits have a 20% chance to inflict ichor
+					20% increased ranged velocity
+					Release razor feathers when jumping or flying that ignore 12 enemy defense
+					Feathers have a 33% chance to inflict ichor on critical strike
 					'''
 			}
 
@@ -973,7 +1010,9 @@ Mods: {
 				Tooltip:
 					'''
 					20% increased ranged velocity
-					3% increased ranged crit chance
+					Release razor feathers when jumping or flying that ignore 12 enemy defense
+					Stacking with upgrades adds feather damage and armor penetration, and critical
+					strike chance is equal to the feather pendant with the highest critical strike chance
 					'''
 			}
 
@@ -988,6 +1027,7 @@ Mods: {
 					'''
 					2 defense
 					Melee damage has a low chance to inflict Frostburn
+					10% increased sword size
 					'''
 			}
 
@@ -1047,6 +1087,7 @@ Mods: {
 					Melee damage summons a small meteor chunk from the sky
 					Meteors summoned by sword strikes deal 25% more damage
 					Has a two second cooldown
+					10% increased sword size
 					'''
 			}
 
@@ -1068,30 +1109,26 @@ Mods: {
 
 			NecroAegis: {
 				DisplayName: Necro Aegis
-				Tooltip: ""
-				TooltipWithVar:
+				Tooltip:
 					'''
-					79 damage
-					8 defense
 					Increases defense the lower your health, up to a max of 15 defense below 30% health
 					Increases health healed by potions the lower your health, up to a max of 30% extra health below 15% health
 					Grants immunity to knockback, most debuffs, and fire blocks
 					Increases life regeneration
-					Taking damage causes you to release powerful bone toothpicks, dealing {0} + {1}% summon damage
+					Drinking a healing potion causes bone toothpicks to rain from the sky towards the cursor
+					Base damage is equal to 60% of the amount healed, then modified by summon damage bonuses
+					Toothpick rain duration ranges from 5 seconds at full health to 15 seconds at no health
 					"You're a bad guy! The Pelvis of Justice, Sese, shall punish you!"
 					'''
 			}
 
 			Necropotence: {
 				DisplayName: Necropotence
-				Tooltip: ""
-				TooltipWithVar:
+				Tooltip:
 					'''
-					{0} + {1}% summon damage
-					3 defense
-					Taking damage causes you to release bone toothpicks
-					% damage is based on damage of incoming hit
-					Stacking with its' upgrades increases toothpick damage
+					Drinking a healing potion causes bone toothpicks to rain from the sky towards the cursor
+					Base damage is equal to 33% of the amount healed, then modified by summon damage bonuses
+					Toothpick rain duration ranges from 5 seconds at full health to 15 seconds at no health
 					"Argh, fine! I'll hit you with this and turn you into a couple of cremated reliquaries!"
 					'''
 			}
@@ -1122,9 +1159,8 @@ Mods: {
 				DisplayName: Poison Pendant
 				Tooltip:
 					'''
-					1 defense
-					5% increased ranged crit chance
-					Increases armor penetration by 5
+					4% increased ranged crit chance
+					Increases armor penetration by 4
 					Taking damage releases bees and douses the user in honey
 					Disable visibility to remove bees
 					Ranged weapons have a chance to inflict poison
@@ -1153,7 +1189,6 @@ Mods: {
 				DisplayName: Spider Pendant
 				Tooltip:
 					'''
-					1 defense
 					4% increased ranged crit chance
 					Ranged weapons have a chance to inflict poison
 					'''
@@ -2139,6 +2174,11 @@ Mods: {
 					Each minion slot used reduces maximum HP by 30, but increases life 
 					regeneration by 0.5 hp/second
 					'''
+				RedemptionEffect:
+					'''
+					Mod of Redemption: 10% increased [i:Redemption/Blood][c/CC4141:Blood] elemental damage
+					8% reduced [i:Redemption/Poison][c/4DF769:Poison] and [i:Redemption/Holy][c/FFED7C:Holy] elemental damage
+					'''
 			}
 
 			TreeToadMusicBox: {
@@ -2179,13 +2219,25 @@ Mods: {
 			}
 
 			SkullSigil: {
-				DisplayName: Bone Bracelet
-				Tooltip: Critical strikes deal 12 more damage
+				DisplayName: Fracture Ring
+				Tooltip:
+					'''
+					Striking an enemy releases a falling bone shard, with a short cooldown
+					Cooldown decreases as melee speed increases, starting at 1/4th of a second and approaches 1/12th of a second
+					Bone shards benefit from whip tag damage
+					'''
 			}
 
 			NecroHand: {
 				DisplayName: Necro Hand
-				Tooltip: ""
+				Tooltip:
+					'''
+					Effects of Bone Glove
+					Critical strkes deal 10 more damage
+					Drinking a healing potion causes bone toothpicks to rain from the sky towards the cursor
+					Base damage is equal to 33% of the amount healed, then modified by summon damage bonuses
+					Toothpick rain duration ranges from 5 seconds at full health to 15 seconds at no health
+					'''
 				TooltipWithVar:
 					'''
 					Increases defense by 2
@@ -2215,6 +2267,7 @@ Mods: {
 					'''
 					Throws three knives
 					Has a small chance to inflict frostburn
+					Ignores a large amount of enemy defense
 					'''
 			}
 
@@ -2223,6 +2276,7 @@ Mods: {
 					'''
 					Throws three knives
 					Has a small chance to inflict poison
+					Ignores a small amount of enemy defense
 					'''
 				DisplayName: Bag of Poisoned Knives
 			}
@@ -2232,6 +2286,7 @@ Mods: {
 					'''
 					Throws three knives
 					Has a small chance to inflict frostburn and poison
+					Ignores a decent amount of enemy defense
 					'''
 				DisplayName: Bag of Frozen Poisoned Knives
 			}
@@ -2510,8 +2565,11 @@ Mods: {
 					4 defense
 					4% increased melee damage and critical strike chance
 					4% increased melee speed
+					10% increased sword size
 					Grants immunity to Chilled
+					Melee weapons have a chance to inflict frostburn
 					'''
+				RedemptionEffect: Mod of Redemption: 8% increased [i:Redemption/Ice][c/B7FFFF:Ice] and [i:Redemption/Fire][c/F57E19:Fire] elemental resistance
 			}
 
 			ScepterCapacityPotion: {
@@ -2603,24 +2661,23 @@ Mods: {
 				DisplayName: Cursed Feather Pendant
 				Tooltip:
 					'''
-					6% increased ranged damage
-					6% increased ranged crit chance
-					6% increased ranged velocity
-					Ranged crits have a small chance to inflict cursed flane and ichor
+					7% increased ranged damage
+					7% increased ranged crit chance
+					7% increased ranged velocity
+					Release razor feathers when jumping or flying that ignore 20 enemy defense
+					Feathers have a 33% chance to inflict cursed flane and ichor on critical strike
 					'''
 			}
 
 			NecroGauntlet: {
 				DisplayName: Necro Gauntlet
-				Tooltip: ""
-				TooltipWithVar:
+				Tooltip:
 					'''
-					Increases defense by 2
 					16% increased melee and movement speed
-					8% increased melee damage
-					Using weapons launches crossbones
-					Taking damage releases bone toothpicks, dealing {0} + {1}% summon damage
-					Melee critical strikes deal 12 more damage
+					Striking an enemy releases a falling bone shard, with a short cooldown that decreases with more melee speed
+					Drinking a healing potion causes bone toothpicks to rain from the sky towards the cursor
+					Base damage is equal to 33% of the amount healed, then modified by summon damage bonuses
+					Toothpick rain duration ranges from 5 seconds at full health to 15 seconds at no health
 					'''
 			}
 
@@ -3636,18 +3693,15 @@ Mods: {
 			}
 
 			NecroScope: {
-				Tooltip: ""
-				DisplayName: Necro Scope
-				TooltipWithVar:
+				Tooltip:
 					'''
-					2 defense
 					10% increased ranged damage and critical strike chance
 					5% increased bullet damage
-					Using weapons shoots crossbones
-					Taking damage launches bone toothpicks, dealing {0} + {1}% summon damage
-					Enemies are less likely to target you
 					Increases view range for guns (Right click to zoom)
+					Enemies are less likely to target you
+					Striking an enemy releases a falling bone shard, with a short cooldown that decreases with more ranged velocity
 					'''
+				DisplayName: Necro Scope
 			}
 
 			MechanicalQuiver: {
@@ -3664,16 +3718,13 @@ Mods: {
 			AncientGadgets: {
 				Tooltip:
 					'''
-					2 defense
 					15% increased ranged damage and 10% increased ranged critical strike chance
 					15% increased ranged velocity
 					25% chance not to consume ammo
 					Enemies are much less likely to target you
-					Using weapons shoots crossbones
-					Taking damage launches bone toothpicks
 					Increases view range for guns (Right click to zoom)
-					Every third ranged weapon use is automatically aimed at the nearest enemy and gains 40% damage
-					Every third weapon use is guaranteed to be a critical strike
+					Every third ranged weapon use is automatically aimed at the nearest enemy and gains 40% damage, toggled with visibility
+					Striking an enemy releases a falling bone shard, with a short cooldown that decreases with more ranged velocity
 					'''
 				DisplayName: Advanced Exoskeleton
 			}
@@ -3785,7 +3836,6 @@ Mods: {
 				DisplayName: Shell of Vengeful Spirits
 				TooltipWithVar:
 					'''
-					12 defense
 					Absorbs 25% of damage done to players on your team when above 25% life
 					Puts a shell around the owner when below 50% life that reduces damage taken by 25%
 					Emit a venomous aura
@@ -3796,12 +3846,14 @@ Mods: {
 					Increases health healed by potions the lower your health, up to a max of 30% extra health below 15% health
 					Grants immunity to knockback, most debuffs, and fire blocks
 					Increases life regeneration
+					Drinking a healing potion causes bone toothpicks to rain from the sky towards the cursor
+					Base damage is equal to 100% of the amount healed, then modified by summon damage bonuses
+					Toothpick rain duration ranges from 5 seconds at full health to 15 seconds at no health
 					Reflects 75% of contact damage
 					Upon taking damage, the following effects will take place:
 					 - With a 2 second cooldown, releases three Cactus Spines toward the cursor, dealing {0} + {1}% ranged damage. Stacks with downgrades
 					 - Releases multiple sparks, dealing {2} + {3}% magic damage. Stacks with downgrades
 					 - Briefly inflicts Venom on nearby enemies. Stacks with downgrades
-					 - Releases multiple bone toothpicks, dealing {4} + {5}% summon damage. Stacks with downgrades
 					 - Causes stars to fall
 					 - Releases bees to chase enemies (Toggled with visibility)
 					 - Douses the user in honey
@@ -4009,6 +4061,11 @@ Mods: {
 					Ranged attacks have a 33% chance to restore mana equal to its' damage
 					This effect can only occur once every 1/5 of a second and has a max of 25 mana regenerated per projectile
 					'''
+				RedemptionEffect:
+					'''
+					Mod of Redemption: 5% increased [i:Redemption/Earth][c/A97D5D:Earth] elemental damage and resistance
+					10% reduced [i:Redemption/Nature][c/87CC00:Nature] elemental resistance
+					'''
 			}
 
 			IceElementalStaff: {
@@ -4083,6 +4140,12 @@ Mods: {
 					25% increased ranged velocity
 					10% increased melee speed
 					10% increased damage
+					'''
+				RedemptionEffect:
+					'''
+					Mod of Redemption: 15% increased [i:Redemption/Wind][c/FEBEF3:Wind] elemental damage
+					10% increased [i:Redemption/Earth][c/A97D5D:Earth] elemental resistance
+					10% reduced [i:Redemption/Ice][c/B7FFFF:Ice], [i:Redemption/Fire][c/F57E19:Fire], and [i:Redemption/Thunder][c/FFFFE0:Thunder] elemental resistance
 					'''
 			}
 
@@ -4468,9 +4531,9 @@ Mods: {
 					[c/B841DC:certain enemies get changes. Certain bosses have Unreal-exclusive drops. Certain buff potions have weakened effects.]
 					[c/D2ADAD:Absurdly Extra Mode: Do not play if you want a balanced experience. Everything is overtuned]
 					[c/D2ADAD:to be as unfair and unfun as possible. Expect unavoidable boss attacks, telefragging, and projectile spam.]
-					Currently only reworks the following bosses: King Slime, Tree Toad, Eye of the Storm
-					Duke Fishron has a WIP rework that is probably really stupid and unfair in its current state, I recommend turning Unreal mode off for it.
+					Currently only reworks the following bosses: Tree Toad, King Slime, Eye of Cthulhu, Eye of the Storm, Frigidius, Candescence, Blightdrasil
 					Currently does not rework any enemies.
+					Vitality Mod Cross-mod boss reworks: Anarchules Beetle, Mosquito Monarch
 					'''
 				DifficultyOff: All special difficulty modes turned off.
 				Unreal: Unreal Mode: Welcome to unreality.
@@ -4825,6 +4888,11 @@ Mods: {
 					+1 max sentries
 					10% increased summon damage
 					'''
+				RedemptionEffect:
+					'''
+					Mod of Redemption: 
+					8% increased [i:Redemption/Fire][c/F57E19:Fire] elemental damage
+					'''
 			}
 
 			CurseOfCandescence: {
@@ -5118,6 +5186,7 @@ Mods: {
 					Increases pickup range of mana stars
 					Restores mana when damaged
 					'''
+				RedemptionEffect: Mod of Redemption: 8% increased [i:Redemption/Cosmic][c/FEBEF3:Celestial] and [i:Redemption/Earth][c/A97D5D:Earth] elemental resistance
 			}
 
 			Wirespool: {
@@ -5320,7 +5389,7 @@ Mods: {
 					'''
 					Striking an enemy releases a heart that heals you when picked up
 					This effect has a cooldown of 15 seconds
-					Picking up a heart temporarily boosts damage by 12%
+					Picking up a heart grants a buff that boosts damage by 12% for 5 seconds
 					'''
 			}
 
@@ -5342,7 +5411,7 @@ Mods: {
 					This effect has a cooldown of 15 seconds
 					Increases the grab range of hearts by 10 tiles
 					Increases the speed at which hearts are attracted
-					Picking up a heart temporarily boosts damage by 12%
+					Picking up a heart grants a buff that boosts damage by 12% for 5 seconds
 					'''
 			}
 
@@ -5385,7 +5454,7 @@ Mods: {
 				Tooltip:
 					'''
 					Taking damage stores 20% of the damage taken as healing energy that boosts healing potion potency
-					Healing boost cannot exceed 50% of the potion's healing
+					Healing boost cannot exceed 75% of the potion's healing
 					Resets healing energy to 0 after drinking a healing potion
 					Increases damage by 10% while below 50% HP
 					'''
@@ -5578,6 +5647,12 @@ Mods: {
 					10% increased max shield durability
 					Regenerate 1 shields every 1.33 seconds
 					'''
+				RedemptionEffect:
+					'''
+					Mod of Redemption: 
+					12% increased [i:Redemption/Nature][c/87CC00:Nature] elemental resistance
+					12% reduced [i:Redemption/Fire][c/F57E19:Fire] elemental resistance
+					'''
 				DisplayName: Planty Shield Coating
 			}
 
@@ -5722,7 +5797,7 @@ Mods: {
 					'''
 					Allows the player to run super fast, slightly faster than Lightning Boots
 					Gain +1% chance to dodge an attack every second, up to +60% dodge chance
-					After dodging an attack, dodge chance resets to 0 and prevents gaining dodge chance for 10 seconds
+					After dodging an attack, dodge chance resets to 0 and prevents gaining dodge chance for 15 seconds
 					Provides the ability to dash and walk on water
 					Provides wall climbing abilities and fall damage immunity
 					25% increased movement friction
@@ -5747,7 +5822,7 @@ Mods: {
 			AtaraxiaLotus: {
 				Tooltip:
 					'''
-					For every empty accessory slot, grants +4% damage, +4% critical strike chance, +4 defense, 
+					For every empty accessory slot, grants +3% damage, +3% critical strike chance, +3 defense, 
 					+0.5 HP/sec regeneration, +5% movement speed, +3% melee speed, +3% ranged velocity, and +40 max mana
 					If you have 3 or more empty accessory slots, grants immunity to knockback and increases length of invulnerability
 					If you have 5 or more empty accessory slots, grants +3 max minions
@@ -5763,6 +5838,288 @@ Mods: {
 				TooltipEffect4: "[c/1FE600:Your helmet acts as if it was equipped twice]"
 				TooltipEffect3: "[c/1FE600:Increases maximum number of minions by 3]"
 				TooltipEffect2: "[c/1FE600:Immunity to knockback and longer length of invincibility]"
+			}
+
+			MeteoricManica: {
+				Tooltip:
+					'''
+					Increases melee speed by 30% while holding a melee weapon whose projectile attack speed does not scale with melee speed
+					Melee damage summons a small meteor chunk from the sky
+					Meteors summoned by sword strikes deal 25% more damage
+					Has a two second cooldown
+					10% increased sword size
+					Increases armor penetration by 5
+					'''
+				DisplayName: Meteoric Manica
+			}
+
+			GoblinVambrace: {
+				Tooltip: Increases melee speed by 30% while holding a melee weapon whose projectile attack speed does not scale with melee speed
+				DisplayName: Goblin Vambrace
+			}
+
+			ViciousVambrace: {
+				DisplayName: Vicious Vambrace
+				Tooltip:
+					'''
+					Increases melee knockback and melee weapons inflict shadowflame
+					15% increased melee damage and 12% increased melee speed
+					Enables auto swing for melee weapons
+					Increases the size of melee weapons
+					Emit an aura that strengthens shadowflame by 4x
+					'''
+			}
+
+			ShadowflameStone: {
+				DisplayName: Shadowflame Stone
+				Tooltip:
+					'''
+					Emit an aura that strengthens shadowflame by 4x
+					On shield break, enemies in the aura are inflicted with Shadowflame for 10 seconds
+					Duration scales with shield effect power
+					'''
+			}
+
+			AccursedElixir: {
+				Tooltip:
+					'''
+					Healing potency is increased by your current mana divided by 2
+					While under potion sickness, your mana cannot regenerate
+					Prevents usage of mana potions while in the inventory
+					'''
+				DisplayName: Accursed Elixir
+				RestoreLifeText: Mods.AwfulGarbageMod.Items.AccursedElixir.RestoreLifeText
+			}
+
+			Enlightenment: {
+				DisplayName: Enlightenment
+				Tooltip:
+					'''
+					Striking enemies with a melee attack will periodically summon ethereal lances from behind
+					8% increased melee damage and critical strike chance
+					'''
+			}
+
+			ViceAndVirtue: {
+				DisplayName: Vice & Virtue
+				Tooltip:
+					'''
+					Melee weapons inflict shadowflame and periodically summon ethereal lances from behind
+					15% increased melee damage and melee speed
+					Increases melee speed by 40% while holding a melee weapon whose projectile attack speed does not scale with melee speed
+					8% increased melee crit chance and 8 increased armor penetration
+					Enables auto swing for melee weapons
+					Increases the size of melee weapons by 15%
+					Emit an aura that strengthens shadowflame by 20x
+					Increases melee knockback 
+					'''
+			}
+
+			VirtuousVambrace: {
+				DisplayName: Virtuous Vambrace
+				Tooltip:
+					'''
+					Striking enemies with a melee attack will periodically summon ethereal lances from behind
+					Increases melee speed by 40% while holding a melee weapon whose projectile attack speed does not scale with melee speed
+					8% increased melee damage and critical strike chance
+					8% increased sword size
+					Increases armor penetration by 5
+					'''
+			}
+
+			AccumulusChalice: {
+				DisplayName: Accumulus Chalice
+				Tooltip:
+					'''
+					Periodically summon storm clouds that shoot short-range water bolts at nearby enemies
+					Storm clouds shoot instantaneous lightning while below 50% HP
+					'''
+			}
+
+			ExoticCrystalUnreal: {
+				Tooltip:
+					'''
+					Summons Frigidius at the frigid altar
+					Non-consumable
+					'''
+				DisplayName: Unreal Crystals
+			}
+
+			Funguerilla: {
+				Tooltip: releases spinning mushrooms on enemy hit
+				DisplayName: Funguerilla
+			}
+
+			Foliaggregate: {
+				DisplayName: Foliaggregate
+				Tooltip: Releases a spiraling vortex of leaves
+			}
+
+			NightmareSash: {
+				RedemptionEffect: Mods.AwfulGarbageMod.Items.NightmareSash.RedemptionEffect
+				DisplayName: Nightmare Sash
+				Tooltip:
+					'''
+					4% reduced damage taken
+					4% increased ranged damage and critical strike chance
+					Increases armor penetration by 4
+					20% increased movement speed and chance not to consume ammo
+					Ranged attacks inflict minor nightmare raze, dealing 10 damage per second
+					Taking damage douses the user in honey and releases a shadow bolt that deals 25 classless damage
+					'''
+			}
+
+			GashadokuroHeart: {
+				DisplayName: Gashadokuro Heart
+				Tooltip:
+					'''
+					Increases buff duration by 25%
+					Reduces the cooldown of healing potions by 25%
+					'''
+			}
+
+			InfestationAmalgamation: {
+				Tooltip:
+					'''
+					Summons Anarchules Beetle and Mushroom Monarch at the same time
+					Not consumable
+					'''
+				DisplayName: Infestation Amalgamation
+			}
+
+			CursedCarapace: {
+				DisplayName: Cursed Carapace
+				Tooltip:
+					'''
+					Grants immunity to knockback
+					When taking damage, you are inflicted with a stronger Cursed Inferno that slowly eats away at your maximum life 
+					Effect lasts until you take damage again
+					Increases maximum life by 300 and provides 4 HP/sec regeneration
+					Regenerate 2 maximum life per second while not inflicted with Cursed Inferno
+					'''
+			}
+
+			CrimsonLantern: {
+				DisplayName: Crimson Lantern
+				Tooltip:
+					'''
+					A lantern slowly follows you
+					While within the lantern's radius, 50% faster healing potion cooldown
+					While outside the lantern's radius, +15% critical strike chance and you are inflicted with a stronger Ichor that reduces defense by 60
+					Lantern radius scales with shield effect radius
+					'''
+			}
+
+			CrabChainmail: {
+				DisplayName: Crab Shellplate
+				Tooltip:
+					'''
+					7% increased sentinel damage
+					7% increased shield durability
+					'''
+			}
+
+			CrabHelmet: {
+				DisplayName: Crab Shellmet
+				Tooltip:
+					'''
+					10% increased shield durability
+					5% increased sentinel critical strike chance
+					'''
+			}
+
+			CrabLeggings: {
+				DisplayName: Crab Legs
+				Tooltip:
+					'''
+					7% faster shield cooldown
+					10% increased movement speed
+					'''
+			}
+
+			NeptuniumOre: {
+				Tooltip: "'A metal that almost feels like liquid'"
+				DisplayName: Neptunium
+			}
+
+			FreezeRay: {
+				Tooltip:
+					'''
+					Fires a medium range freeze ray
+					Releases a damaging pulse that inflicts frostburn at max range
+					'''
+				DisplayName: Freeze Ray
+			}
+
+			FrostMandibow: {
+				Tooltip:
+					'''
+					Fires two arrows at a time
+					Every third attack, swing two close-range mandibles
+					'''
+				DisplayName: Frost Mandibow
+			}
+
+			SnowflakeStaff: {
+				Tooltip: Snowflakes orbit the enemy and fire icicles
+				DisplayName: Snowflake Staff
+			}
+
+			GlacierAxe: {
+				Tooltip:
+					'''
+					Throw a returning axe
+					Ricochets to a nearby enemy
+					'''
+				DisplayName: Glacier Axe
+			}
+
+			SnowfallLeggings: {
+				Tooltip: 7% increased ranged damage
+				DisplayName: Snowfall Leggings
+			}
+
+			SnowfallHood: {
+				Tooltip: 10% increased ranged critical strike chance
+				DisplayName: Snowfall Hood
+			}
+
+			SnowfallCloak: {
+				Tooltip:
+					'''
+					20% increased movement speed
+					20% chance not to consume ammo
+					'''
+				DisplayName: Snowfall Cloak
+			}
+
+			ShadowSilkWings: {
+				Tooltip:
+					'''
+					Allows flight and slow fall
+					Increases movement friction
+					Effects of Black Belt
+					'''
+				DisplayName: Shadow Silk Wings
+			}
+
+			EmperorsScepter: {
+				Tooltip: Casts homing dark energy
+				DisplayName: Emperor's Scepter
+			}
+
+			Shadowstring: {
+				DisplayName: Shadowstring
+				Tooltip:
+					'''
+					Fires three shadow arrows in rapid succession
+					Shadow arrows burst into your arrow type after a short distance
+					'''
+			}
+
+			NightmareBolt: {
+				DisplayName: Nightmare Bolt
+				Tooltip: Fires a short-range splitting arrow
 			}
 		}
 
@@ -5889,7 +6246,7 @@ Mods: {
 				BossChecklistIntegration.SpawnInfo: Use a [i:AwfulGarbageMod/RootOfEvil] in the Evil Sanctuary. You need a [i:AwfulGarbageMod/EbonwoodArtifact] to enter.
 			}
 
-			Echelon.DisplayName: Echelon
+			Echelon.DisplayName: Echeyelon
 			Mosquito.DisplayName: Mosquito
 
 			Shieldmaster: {
@@ -5918,6 +6275,11 @@ Mods: {
 			}
 
 			BlightdrasilCore.DisplayName: Blightdrasil Core
+
+			FujiwaraNoIyozane: {
+				DisplayName: Fujiwara no Iyozane
+				BossChecklistIntegration.SpawnInfo: Use a [i:AwfulGarbageMod/RootOfEvil] in the Evil Sanctuary. You need a [i:AwfulGarbageMod/EbonwoodArtifact] to enter.
+			}
 		}
 
 		Bestiary: {
@@ -5967,11 +6329,14 @@ Mods: {
 			CirnoFumo.MouseItem: Mods.AwfulGarbageMod.Tiles.CirnoFumo.MouseItem
 			StormAnvil.MapEntry: Storm Anvil
 			EbonwoodArtifact.MouseItem: "[i:AwfulGarbageMod/RootOfEvil]"
+			NeptuniumOre.MapEntry: Neptunium Ore
 		}
 
 		WorldGen: {
 			OreGenMessage: More Shinies
+			ReefGenMessage: Filling the underground desert and snow biomes with ocean life
 			CandesciteGenMessage: Mods.AwfulGarbageMod.WorldGen.CandesciteGenMessage
+			ReefGenMesage: Mods.AwfulGarbageMod.WorldGen.ReefGenMesage
 		}
 
 		Biomes: {

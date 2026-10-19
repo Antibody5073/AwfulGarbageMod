@@ -193,7 +193,6 @@ namespace AwfulGarbageMod.Items.Weapons.Magic
                 }
                 Projectile.frame = frameOrder[frameIndex];
             }
-            Projectile.rotation += MathHelper.Pi;
 
         }
     }

@@ -1,5 +1,7 @@
 using AwfulGarbageMod.Configs;
+using AwfulGarbageMod.Global;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AwfulGarbageMod
@@ -12,6 +14,8 @@ namespace AwfulGarbageMod
         public override void Load()
         {
             Terraria.On_WorldGen.SmashAltar += On_WorldGen_SmashAltar;
+
+
         }
 
         private void On_WorldGen_SmashAltar(On_WorldGen.orig_SmashAltar orig, int i, int j)

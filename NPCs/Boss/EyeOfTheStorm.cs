@@ -73,11 +73,42 @@ namespace AwfulGarbageMod.NPCs.Boss
         // These are for our benefit and the numbers could easily be used directly in the code below, but this is how we keep code organized.
         private enum Frame
         {
-            Spin1,
-            Spin2,
-            Spin3,
-            Spin4,
-            Spin5
+            Idle1,
+            Idle2,
+            Idle3,
+            Idle4,
+            Attack1,
+            Attack2,
+            Attack3,
+            Attack4,
+            Tornado1,
+            Tornado2,
+            Tornado3,
+            Tornado4,
+            Tornado5,
+            Tornado6
+        }
+        private enum EyeFrame
+        {
+            Normal,
+            Attack,
+            Blink1,
+            Blink2,
+            Blink3
+        }
+        private enum FrameGroups
+        {
+            Idle,
+            Attack,
+            AttackContinuous,
+            Tornado
+        }
+        private enum EyeFrameGroups
+        {
+            Normal,
+            Attack,
+            Blink,
+            Unblink
         }
 
         // These are reference properties. One, for example, lets us write AI_State as if it's NPC.ai[0], essentially giving the index zero our own name.
@@ -100,6 +131,11 @@ namespace AwfulGarbageMod.NPCs.Boss
         Vector2 direction;
         Vector2 storedVel; 
         Vector2 storedPos;
+        int animation;
+        int eyeFrame;
+        int eyeFrameCounter;
+        int eyeAnimation;
+        Vector2 pupilOffset;
 
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -133,7 +169,7 @@ namespace AwfulGarbageMod.NPCs.Boss
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Flutter Slime"); // Automatic from localization files
-            Main.npcFrameCount[NPC.type] = 5; // make sure to set this for your modnpcs.
+            Main.npcFrameCount[NPC.type] = 14; // make sure to set this for your modnpcs.
 
             // Specify the debuffs it is immune to
             NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.OnFire] = true;
@@ -261,6 +297,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.lifeMax = (int)(NPC.lifeMax * 2.5f);
             }
             NPC.life = NPC.lifeMax;
+            SwitchAnimation(FrameGroups.Idle);
         }
 
         public override void OnKill()
@@ -335,6 +372,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (NPC.life < NPC.lifeMax * 4 / 5 && bossPhase == 1)
             {
+                SwitchAnimation(FrameGroups.Idle);
                 int wallDist = 600;
                 if (DifficultyModes.Difficulty == 2)
                 {
@@ -359,6 +397,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (NPC.life < NPC.lifeMax * 2 / 5 && bossPhase == 2)
             {
+                SwitchAnimation(FrameGroups.Idle);
                 int wallDist = 600;
                 if (DifficultyModes.Difficulty == 2)
                 {
@@ -391,7 +430,14 @@ namespace AwfulGarbageMod.NPCs.Boss
                 Main.player[NPC.target].position.X = wallX - 600 - (Main.player[NPC.target].Center.X - Main.player[NPC.target].position.X);
 
             }
-
+            if (AI_State == (float)ActionState.CloudAttack1 || AI_State == (float)ActionState.CloudAttack2 || AI_State == (float)ActionState.CloudAttack3)
+            {
+                pupilOffset = pupilOffset.RotatedBy(0.15f);
+            }
+            else
+            {
+                LookTowardsPlayer();
+            }
             switch (AI_State)
             {
                 case (float)ActionState.PhaseTransition:
@@ -466,18 +512,145 @@ namespace AwfulGarbageMod.NPCs.Boss
 
         // Here in FindFrame, we want to set the animation frame our npc will use depending on what it is doing.
         // We set npc.frame.Y to x * frameHeight where x is the xth frame in our spritesheet, counting from 0. For convenience, we have defined a enum above.
+        private void SwitchAnimation(FrameGroups anim)
+        {
+            switch (anim)
+            {
+                case FrameGroups.Idle:
+                    if (animation != (int)anim)
+                    {
+                        frameCounter = 0;
+                        frame = (int)Frame.Idle1;
+                        animation = (int)anim;
+                    }
+                    break;
+                case FrameGroups.Attack:
+                        frame = (int)Frame.Attack1;
+                        animation = (int)anim;
+                    break;
+                case FrameGroups.AttackContinuous:
+                    if (animation != (int)anim)
+                    {
+                        frameCounter = 0;
+                        frame = (int)Frame.Attack1;
+                        animation = (int)anim;
+                    }
+                    break;
+                case FrameGroups.Tornado:
+                    if (animation != (int)anim)
+                    {
+                        frameCounter = 0;
+                        frame = (int)Frame.Tornado1;
+                        animation = (int)anim;
+                    }
+                    break;
+            }
+        }
+        private void SwitchEyeAnimation(EyeFrameGroups anim)
+        {
+            switch (anim)
+            {
+                case EyeFrameGroups.Normal:
+                    if (eyeAnimation != (int)anim)
+                    {
+                        eyeFrameCounter = 0;
+                        eyeFrame = (int)EyeFrame.Normal;
+                        eyeAnimation = (int)anim;
+                    }
+                    break;
+                case EyeFrameGroups.Attack:
+                    eyeFrame = (int)EyeFrame.Attack;
+                    eyeAnimation = (int)anim;
+                    break;
+                case EyeFrameGroups.Blink:
+                    if (eyeAnimation != (int)anim)
+                    {
+                        eyeFrameCounter = 0;
+                        eyeFrame = (int)EyeFrame.Blink1;
+                        eyeAnimation = (int)anim;
+                    }
+                    break;
+                case EyeFrameGroups.Unblink:
+                    if (eyeAnimation != (int)anim)
+                    {
+                        eyeFrameCounter = 0;
+                        eyeFrame = (int)EyeFrame.Blink3;
+                        eyeAnimation = (int)anim;
+                    }
+                    break;
+            }
+        }
         public override void FindFrame(int frameHeight)
         {
             // This makes the sprite flip horizontally in conjunction with the npc.direction.
             NPC.spriteDirection = NPC.direction;
             frameCounter++;
-            if (frameCounter > 5)
+            if (frameCounter > 4)
             {
                 frameCounter = 0;
                 frame++;
-                if (frame >= Main.npcFrameCount[NPC.type])
+                switch (animation)
                 {
-                    frame = 0;
+                    case (int)FrameGroups.Idle:
+
+                        if (frame >= 4)
+                        {
+                            frame = 0;
+                        }
+                        break;
+                    case (int)FrameGroups.Attack:
+                        if (frame >= 8)
+                        {
+                            frame = 4;
+                            SwitchAnimation(FrameGroups.Idle);
+                        }
+                        break;
+                    case (int)FrameGroups.AttackContinuous:
+                        if (frame >= 8)
+                        {
+                            frame = 4;
+                        }
+                        break;
+                    case (int)FrameGroups.Tornado:
+                        if (frame >= 14)
+                        {
+                            frame = 8;
+                        }
+                        break;
+                }
+            }
+            eyeFrameCounter++;
+            if (eyeFrameCounter > 4)
+            {
+                eyeFrameCounter = 0;
+                switch (eyeAnimation)
+                {
+                    case (int)EyeFrameGroups.Normal:
+
+                            eyeFrame = 0;
+                        
+                        break;
+                    case (int)EyeFrameGroups.Attack:
+                        eyeFrame = 1;
+                         
+                        break;
+                    case (int)EyeFrameGroups.Blink:
+                        if (eyeFrame < 4)
+                        {
+                            eyeFrame++;
+                        }
+                        break;
+                    case (int)EyeFrameGroups.Unblink:
+                        if (eyeFrame > 2)
+                        {
+                            eyeFrame--;
+                        }
+                        else
+                        {
+                            SwitchEyeAnimation(EyeFrameGroups.Normal);
+
+                        }
+                        break;
                 }
             }
 
@@ -489,19 +662,56 @@ namespace AwfulGarbageMod.NPCs.Boss
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            Vector2 drawOrigin = NPC.frame.Size() / 2;
+            Vector2 drawPos;
+            Color color;
             if (true)
             {
-                Vector2 drawOrigin = NPC.frame.Size() / 2;
                 for (int k = 0; k < NPC.oldPos.Length; k++)
                 {
-                    Vector2 drawPos = NPC.oldPos[k] - screenPos + new Vector2(NPC.width / 2, NPC.height / 2) + new Vector2(0, NPC.gfxOffY); //.RotatedBy(NPC.rotation);
-                    Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+                    drawPos = NPC.oldPos[k] - screenPos + new Vector2(NPC.width / 2, NPC.height / 2) + new Vector2(0, NPC.gfxOffY); //.RotatedBy(NPC.rotation);
+                    color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 4);
                     spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos + new Vector2(0, -6), NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-           
-            return true;
+
+            drawPos = NPC.position - screenPos + new Vector2(NPC.width / 2, NPC.height / 2) + new Vector2(0, NPC.gfxOffY); //.RotatedBy(NPC.rotation);
+            color = NPC.GetAlpha(drawColor);
+            spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos + new Vector2(0, -6), NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
+
+            // It's important to return false, otherwise we also draw the original texture.
+
+
+            if (animation != (int)FrameGroups.Tornado)
+            {
+                Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("AwfulGarbageMod/NPCs/Boss/EyeOfTheStormEyeBackground");
+                int frameHeight = texture.Height / 5;
+                int startY = frameHeight * eyeFrame;
+                Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+                spriteBatch.Draw(texture, drawPos + new Vector2(0, -6), sourceRectangle, color, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
+
+                if (eyeFrame != (int)EyeFrame.Blink3)
+                {
+                    texture = (Texture2D)ModContent.Request<Texture2D>("AwfulGarbageMod/NPCs/Boss/EyeOfTheStormEyePupil");
+                    frameHeight = texture.Height;
+                    startY = frameHeight * 0;
+                    sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+                    spriteBatch.Draw(texture, drawPos + new Vector2(NPC.frame.Width / 2, NPC.frame.Height / 2 - 2) - new Vector2(texture.Width / 2, texture.Height / 2) + pupilOffset, sourceRectangle, color, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
+                }
+                texture = (Texture2D)ModContent.Request<Texture2D>("AwfulGarbageMod/NPCs/Boss/EyeOfTheStormEyeLash");
+                frameHeight = texture.Height / 5;
+                startY = frameHeight * eyeFrame;
+                sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
+                spriteBatch.Draw(texture, drawPos + new Vector2(0, -6), sourceRectangle, color, NPC.rotation, drawOrigin, NPC.scale, spriteEffects, 0f);
+            }
+            return false;
+        }
+
+        public void LookTowardsPlayer()
+        {
+            pupilOffset = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.One) * 4;
         }
         // Here, because we use custom AI (aiStyle not set to a suitable vanilla value), we should manually decide when Flutter Slime can fall through platforms
         public override bool? CanFallThroughPlatforms()
@@ -525,7 +735,15 @@ namespace AwfulGarbageMod.NPCs.Boss
                 if (AI_Timer == 84)
                 {
                     NPC.alpha = 255;
-
+                    if (bossPhase == 2)
+                    {
+                        SwitchAnimation(FrameGroups.AttackContinuous);
+                        SwitchEyeAnimation(EyeFrameGroups.Attack);
+                    }
+                    else
+                    {
+                        SwitchAnimation(FrameGroups.Idle);
+                    }
                     NPC.position = new Vector2(wallX - NPC.width / 2, Main.player[NPC.target].Center.Y - 400);
                 }
                 NPC.alpha -= 3;
@@ -629,6 +847,22 @@ namespace AwfulGarbageMod.NPCs.Boss
                     NPC.alpha = 255;
 
                     NPC.position = new Vector2(wallX - NPC.width / 2, Main.player[NPC.target].Center.Y - 400);
+                    if (Next_State == (float)ActionState.DifferentCloudAttack3)
+                    {
+                        SwitchAnimation(FrameGroups.Tornado);
+                    }
+                    else if (Next_State == (float)ActionState.WaterLightning2)
+                    {
+                        SwitchAnimation(FrameGroups.AttackContinuous);
+                        SwitchEyeAnimation(EyeFrameGroups.Attack);
+
+                    }
+                    else
+                    {
+                        SwitchAnimation(FrameGroups.Idle); 
+                        SwitchEyeAnimation(EyeFrameGroups.Unblink);
+
+                    }
                 }
                 NPC.alpha -= 3;
             }
@@ -742,6 +976,19 @@ namespace AwfulGarbageMod.NPCs.Boss
                     NPC.alpha = 255;
 
                     NPC.position = new Vector2(Main.player[NPC.target].Center.X - NPC.width / 2, Main.player[NPC.target].Center.Y - 400);
+
+                    if (Next_State == (float)ActionState.Dash1 || Next_State == (float)ActionState.DashAgain1 || Next_State == (float)ActionState.Dash3)
+                    {
+
+                        SwitchAnimation(FrameGroups.Tornado);
+
+                    }
+                    else
+                    {
+                        SwitchEyeAnimation(EyeFrameGroups.Unblink);
+
+                        SwitchAnimation(FrameGroups.Idle);
+                    }
                 }
                 NPC.alpha -= 3;
             }
@@ -755,6 +1002,7 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     if (Next_State == (float)ActionState.Dash1 || Next_State == (float)ActionState.DashAgain1)
                     {
+
                         AI_Timer = 375;
                     }
                     else if (Next_State == (float)ActionState.CloudAttack1)
@@ -838,6 +1086,7 @@ namespace AwfulGarbageMod.NPCs.Boss
 
             if (AI_Timer == 0)
             {
+                SwitchAnimation(FrameGroups.AttackContinuous);
                 NPC.netUpdate = true;
                 NPC.dontTakeDamage = false;
                 AI_State = (float)ActionState.Lightning3;
@@ -914,6 +1163,9 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.AimedLightning1;
                 AI_Timer = 0;
                 NPC.netUpdate = true;
+                SwitchEyeAnimation(EyeFrameGroups.Attack);
+
+                SwitchAnimation(FrameGroups.AttackContinuous);
             }
         }
 
@@ -990,7 +1242,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.Dash1;
                 AI_Timer = 170;
-                NPC.netUpdate = true;
+                NPC.netUpdate = true; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
 
@@ -1079,7 +1332,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.CloudAttack1;
                 AI_Timer = 170;
-                NPC.netUpdate = true;
+                NPC.netUpdate = true; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
 
@@ -1160,6 +1414,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 Next_State = (float)ActionState.DashAgain1;
                 AI_Timer = 170;
                 NPC.netUpdate = true;
+                SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
 
@@ -1240,7 +1496,9 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionCenter;
                 Next_State = (float)ActionState.SineWater1;
-                AI_Timer = 170;
+                AI_Timer = 170; 
+                SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
 
@@ -1315,7 +1573,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.Chase2;
-                AI_Timer = 170;
+                AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
 
@@ -1387,7 +1646,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 if (AI_Timer % 178 == 177)
                 {
                     storedPos = Main.player[NPC.target].Center - new Vector2(NPC.width / 2, NPC.height / 2) + Main.player[NPC.target].velocity * 51;
-                    
+                    SwitchEyeAnimation(EyeFrameGroups.Blink);
+
                 }
                 float xv = Main.rand.NextFloat(-3, 3);
                 float yv = Main.rand.NextFloat(-2, -5);
@@ -1404,7 +1664,9 @@ namespace AwfulGarbageMod.NPCs.Boss
                     if (AI_Timer % 178 == 126)
                     {
                         NPC.alpha = 255;
-                        NPC.position = storedPos;
+                        NPC.position = storedPos; 
+                        SwitchAnimation(FrameGroups.Tornado);
+
                     }
                     NPC.alpha -= 5;
                 }
@@ -1492,7 +1754,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.ChaseAgain2;
-                AI_Timer = 170;
+                AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
 
@@ -1549,7 +1812,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.CloudAttack2;
-                AI_Timer = 170;
+                AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
 
@@ -1633,7 +1897,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.ChaseAgainAgain2;
-                AI_Timer = 170;
+                AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
 
         }
@@ -1691,7 +1956,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionCenter;
                 Next_State = (float)ActionState.WaterLightning2;
-                AI_Timer = 170;
+                AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
    
@@ -1749,6 +2015,8 @@ namespace AwfulGarbageMod.NPCs.Boss
 
                 if (AI_Timer % 178 == 177)
                 {
+                    SwitchEyeAnimation(EyeFrameGroups.Blink);
+
                     if (DashPhase == 1)
                     {
                         DashPhase = 0;
@@ -1777,6 +2045,16 @@ namespace AwfulGarbageMod.NPCs.Boss
                         NPC.alpha = 255;
 
                         NPC.position = storedPos;
+                        if (DashPhase == 0)
+                        {
+                            SwitchEyeAnimation(EyeFrameGroups.Unblink);
+
+                            SwitchAnimation(FrameGroups.Idle);
+                        }
+                        else
+                        {
+                            SwitchAnimation(FrameGroups.Tornado);
+                        }
                     }
                     NPC.alpha -= 5;
                 }
@@ -1830,6 +2108,12 @@ namespace AwfulGarbageMod.NPCs.Boss
                 {
                     NPC.velocity = storedVel;
                     SoundEngine.PlaySound(SoundID.Item1, NPC.Center);
+                    if (DashPhase == 0)
+                    {
+                        SwitchAnimation(FrameGroups.AttackContinuous);
+                        SwitchEyeAnimation(EyeFrameGroups.Attack);
+
+                    }
                 }
                 else
                 {
@@ -1939,7 +2223,8 @@ namespace AwfulGarbageMod.NPCs.Boss
             {
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionLightning;
-                AI_Timer = 170;
+                AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
 
@@ -2068,7 +2353,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.CloudAttack3;
-                AI_Timer = 170;
+                AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
 
@@ -2213,7 +2499,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionToPlayer;
                 Next_State = (float)ActionState.Chase3;
-                AI_Timer = 170;
+                AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
         }
 
@@ -2289,14 +2576,16 @@ namespace AwfulGarbageMod.NPCs.Boss
                     NPC.velocity = new Vector2(0, 0);
                     AI_State = (float)ActionState.RepositionCenter;
                     Next_State = (float)ActionState.DifferentCloudAttack3;
-                    AI_Timer = 170;
+                    AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
                 }
                 else
                 {
                     NPC.velocity = new Vector2(0, 0);
                     AI_State = (float)ActionState.RepositionCenter;
                     Next_State = (float)ActionState.SineSnow3;
-                    AI_Timer = 170;
+                    AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
                 }
             }
         }
@@ -2322,7 +2611,8 @@ namespace AwfulGarbageMod.NPCs.Boss
                 NPC.velocity = new Vector2(0, 0);
                 AI_State = (float)ActionState.RepositionCenter;
                 Next_State = (float)ActionState.SineSnow3;
-                AI_Timer = 170;
+                AI_Timer = 170; SwitchEyeAnimation(EyeFrameGroups.Blink);
+
             }
             AI_Timer++;
 

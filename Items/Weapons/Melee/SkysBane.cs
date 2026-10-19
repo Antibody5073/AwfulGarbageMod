@@ -65,7 +65,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Shockwave"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            Main.projFrames[Projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -171,7 +171,7 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
                 Projectile.velocity = new Vector2(36, 0).RotatedBy(rotated);
             }
 
-            if (++Projectile.frameCounter >= 5)
+            if (++Projectile.frameCounter >= 4)
             {
                 Projectile.frameCounter = 0;
                 // Or more compactly Projectile.frame = ++Projectile.frame % Main.projFrames[Projectile.type];

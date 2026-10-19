@@ -2,6 +2,9 @@ using AwfulGarbageMod.Configs;
 using AwfulGarbageMod.Items;
 using AwfulGarbageMod.Items.Accessories;
 using AwfulGarbageMod.Items.Accessories.Hardmode;
+using AwfulGarbageMod.Items.Armor.Hardmode;
+using AwfulGarbageMod.Items.Consumables.BossSummon;
+using AwfulGarbageMod.Items.Placeable;
 using AwfulGarbageMod.Items.Placeable.OresBars;
 using AwfulGarbageMod.Items.Weapons.Magic;
 using AwfulGarbageMod.Items.Weapons.Melee;
@@ -20,9 +23,17 @@ using Infernus.Items.Weapon.Melee;
 using Infernus.Items.Weapon.Ranged;
 using Infernus.Items.Weapon.Summon;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using VitalityMod.Content.Items.Accessories.Combat.Defensive;
+using VitalityMod.Content.Items.Armor.Ranged.Antlion;
+using VitalityMod.Content.Items.Materials;
+using VitalityMod.Content.Items.Materials.Bars;
+using VitalityMod.Content.Items.Weapons.Ranged.Bows;
+using VitalityMod.Content.Items.Weapons.Summoner.Whips;
+using VitalityMod.Content.Projectiles.Magic.Tomes;
 
 
 namespace AwfulGarbageMod.Recipes
@@ -166,6 +177,16 @@ namespace AwfulGarbageMod.Recipes
                     {
                         recipe.DisableRecipe();
                     }
+                    if (recipe.HasTile(TileID.MythrilAnvil) && recipe.HasResult(ItemID.DemonWings))
+                    {
+                        recipe.RemoveTile(TileID.MythrilAnvil);
+                        recipe.AddTile<StormAnvil>();
+                    }
+                    if (recipe.HasTile(TileID.MythrilAnvil) && recipe.HasResult(ItemID.AngelWings))
+                    {
+                        recipe.RemoveTile(TileID.MythrilAnvil);
+                        recipe.AddTile<StormAnvil>();
+                    }
                 }
                 if (recipe.Mod == null && recipe.HasResult(ItemID.EndurancePotion) && recipe.createItem.stack == 1)
                 {
@@ -178,6 +199,10 @@ namespace AwfulGarbageMod.Recipes
                 if (ModLoader.TryGetMod("Infernus", out Mod infernus))
                 {
                     DoInfernusRecipe(recipe);
+                }
+                if (ModLoader.TryGetMod("VitalityMod", out Mod vitality))
+                {
+                    DoVitalityRecipe(recipe, vitality);
                 }
                 if (ModContent.GetInstance<Config>().MinorProgressionChanges)
                 {
@@ -194,6 +219,57 @@ namespace AwfulGarbageMod.Recipes
             }
         }
 
+        [JITWhenModsEnabled("VitalityMod")]
+        public static void DoVitalityRecipe(Recipe recipe, Mod mod)
+        {
+            if (recipe.Mod == null) { return; }
+            if (recipe.HasResult<FoggyLens>())
+            {
+                recipe.AddIngredient<CloudVapor>(15);
+            }
+            if (recipe.HasResult<InsectOnAStick>())
+            {
+                recipe.AddIngredient<LivingStick>(3);
+                recipe.RemoveIngredient(ItemID.Wood);
+            }
+            if (recipe.HasResult<EbonwoodArtifact>())
+            {
+                recipe.AddIngredient<AnarchyBar>(12);
+                recipe.AddIngredient<BloodSac>(12);
+            }
+            if (recipe.HasResult<Thundercrack>())
+            {
+                recipe.AddIngredient<ThunderStriker>();
+            }
+            if (recipe.HasResult<LightningBurst>())
+            {
+                recipe.AddIngredient<Whirlwind>();
+            }
+            if (recipe.HasResult<StormSpell>())
+            {
+                if (mod.TryFind("ThunderBolt", out ModItem item))
+                {
+                    recipe.AddIngredient(item.Type);
+                }
+            }
+            if (recipe.HasResult<AncientFlierHelmet>())
+            {
+                recipe.AddIngredient<AntlionHood>();
+                recipe.AddIngredient<AntlionHelmet>();
+            }
+            if (recipe.HasResult<AncientFlierBreastplate>())
+            {
+                recipe.AddIngredient<AntlionChestplate>();
+            }
+            if (recipe.HasResult<AncientFlierLeggings>())
+            {
+                recipe.AddIngredient<AntlionGreaves>();
+            }
+            if (recipe.HasResult<ShellOfVengefulSpirits>())
+            {
+                recipe.AddIngredient<TurtleAegis>();
+            }
+        }
 
         [JITWhenModsEnabled("Infernus")]
         public static void DoInfernusRecipe(Recipe recipe)

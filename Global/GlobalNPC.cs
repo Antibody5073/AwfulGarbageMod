@@ -27,6 +27,7 @@ using System.Reflection.Emit;
 using SubworldLibrary;
 using AwfulGarbageMod.Subworlds;
 using System;
+using AwfulGarbageMod.Items.Accessories.Hardmode;
 
 namespace AwfulGarbageMod.Global;
 public class ExampleGlobalNPC : GlobalNPC
@@ -61,6 +62,17 @@ public class ExampleGlobalNPC : GlobalNPC
             {
                 Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), npc.Top + new Vector2(0, -500), new Vector2(0, 10), Mod.Find<ModProjectile>("GeodeMeteor").Type, 52, 4, player.whoAmI);
                 player.AddBuff(ModContent.BuffType<MeteorGeodeCooldown>(), 2 * 60);
+            }
+        }
+        if (player.GetModPlayer<GlobalPlayer>().Enlightenment > 0 && projectile.CountsAsClass(DamageClass.Melee))
+        {
+
+            if (player.GetModPlayer<GlobalPlayer>().EnlightenmentCooldown <= 0)
+            {
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_NaturalSpawn(), player.Center + (player.Center - npc.Center).SafeNormalize(Vector2.One) * 1300, (npc.Center - player.Center).SafeNormalize(Vector2.One) * 15, ModContent.ProjectileType<EnlightenmentProj>(), player.GetModPlayer<GlobalPlayer>().Enlightenment, 4, player.whoAmI, 0,  Main.rand.NextFloat());
+
+                proj.originalDamage = player.GetModPlayer<GlobalPlayer>().Enlightenment;
+                player.GetModPlayer<GlobalPlayer>().EnlightenmentCooldown += 90;
             }
         }
 
@@ -402,6 +414,43 @@ public class ExampleGlobalNPC : GlobalNPC
                     if (damage < 30)
                     {
                         damage = 30;
+                    }
+                }
+            }
+        }
+        
+        if (target.GetModPlayer<GlobalPlayer>().ImprovedShadowflameStone)
+        {
+            // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
+            float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, npc.Center);
+
+            // Check if it is within the radius
+            if (sqrDistanceToTarget < 330 * 330)
+            {
+                if (npc.HasBuff(BuffID.ShadowFlame))
+                {
+                    npc.lifeRegen -= 570;
+                    if (damage < 100)
+                    {
+                        damage = 100;
+                    }
+                }
+            }
+        }
+        else if (target.GetModPlayer<GlobalPlayer>().ShadowflameStone)
+        {
+            // The DistanceSquared function returns a squared distance between 2 points, skipping relatively expensive square root calculations
+            float sqrDistanceToTarget = Vector2.DistanceSquared(target.Center, npc.Center);
+
+            // Check if it is within the radius
+            if (sqrDistanceToTarget < 330 * 330)
+            {
+                if (npc.HasBuff(BuffID.ShadowFlame))
+                {
+                    npc.lifeRegen -= 90;
+                    if (damage < 20)
+                    {
+                        damage = 20;
                     }
                 }
             }

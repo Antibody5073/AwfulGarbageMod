@@ -103,11 +103,18 @@ namespace AwfulGarbageMod.Items.Weapons.Melee
         public override int spinHitCooldown => 60;
         public override float RetractSpd => 0.2f;
         public override float MaxRetractSpd => 12f;
+        public override float flailHeadRotation => 180;
+
 
         float prevDir;
         public override void OnSpawn(IEntitySource source)
         {
             prevDir = MathHelper.ToRadians(Projectile.flailProjectile().spinOffset);
+        }
+        public override void WidthHeight()
+        {
+            Projectile.width = 42;
+            Projectile.height = 42;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

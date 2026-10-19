@@ -23,7 +23,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 17;
+			Item.damage = 19;
 			Item.DamageType = ModContent.GetInstance<KnifeDamageClass>();
 			Item.width = 60;
 			Item.height = 60;
@@ -40,6 +40,7 @@ namespace AwfulGarbageMod.Items.Weapons.Ranged
 			Item.autoReuse = true;
 			Item.shoot = Mod.Find<ModProjectile>("SlimyKnivesProj").Type;
             Item.shootSpeed = 14f;
+            Item.ArmorPenetration = 5;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

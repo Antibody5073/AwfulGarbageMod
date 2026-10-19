@@ -15,28 +15,12 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
 
     public class NecroScope : ModItem
     {
-        public static LocalizedText TooltipWithVar { get; private set; }
-
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Meat Shield"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            // Tooltip.SetDefault("2 defense\nIncreases health healed by potions the lower your health, up to a max of 30% extra health below 15% health");
-            TooltipWithVar = this.GetLocalization(nameof(TooltipWithVar));
-
-        }
-        public int counter;
-
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            Player player = Main.LocalPlayer;
-            TooltipLine tooltip;
-            tooltip = new TooltipLine(Mod, "tooltipWithVar", TooltipWithVar.Format(AGUtils.ScaleDamage(20, Main.LocalPlayer, DamageClass.Summon), AGUtils.ScaleDamage(45, Main.LocalPlayer, DamageClass.Summon)));
-            tooltips.Add(tooltip);
-        }
-
         public override void SetDefaults()
-		{
-			Item.width = 20;
+        {
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Ranged;
+            Item.knockBack = 1;
+            Item.width = 20;
 			Item.height = 20;
             Item.value = 7500;
             Item.rare = 6;
@@ -52,18 +36,15 @@ namespace AwfulGarbageMod.Items.Accessories.Hardmode
             player.scope = true;
             player.aggro -= 300;
 
-            player.statDefense += 2;
-            player.GetModPlayer<GlobalPlayer>().BoneGloveDamage += 40;
-            player.GetModPlayer<GlobalPlayer>().necroPotence += 20;
-            player.GetModPlayer<GlobalPlayer>().necroPotencePercent += 45;
-            player.boneGloveItem = Item;
+            player.GetModPlayer<GlobalPlayer>().NecroScope += Item.damage;
+
         }
 
         public override void AddRecipes()
         {
             CreateRecipe()
                 .AddIngredient(ItemID.ReconScope)
-                .AddIngredient<NecroHand>()
+                .AddIngredient<SkullSigil>()
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
         }

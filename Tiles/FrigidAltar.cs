@@ -51,12 +51,15 @@ namespace AwfulGarbageMod.Tiles
         public override bool RightClick(int i, int j)
         {
 			Player player = Main.LocalPlayer;
-			if (player.HasItem(ModContent.ItemType<ExoticCrystal>()) && !NPC.AnyNPCs(ModContent.NPCType<FrigidiusHead>()))
+			if ((player.HasItem(ModContent.ItemType<ExoticCrystal>()) || player.HasItem(ModContent.ItemType<ExoticCrystalUnreal>())) && !NPC.AnyNPCs(ModContent.NPCType<FrigidiusHead>()))
 			{
-				player.ConsumeItem(ModContent.ItemType<ExoticCrystal>());
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<NPCs.Boss.FrigidiusHead>());
-                SoundEngine.PlaySound(SoundID.Roar, player.position);
-                return true;
+				if (!player.HasItem(ModContent.ItemType<ExoticCrystalUnreal>()))
+				{
+					player.ConsumeItem(ModContent.ItemType<ExoticCrystal>());
+				}
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<NPCs.Boss.FrigidiusHead>());
+				SoundEngine.PlaySound(SoundID.Roar, player.position);
+				return true;
 			}
 			else
 			{

@@ -1,28 +1,42 @@
+using AwfulGarbageMod;
+using AwfulGarbageMod.Global;
+using AwfulGarbageMod.Items.Placeable.OresBars;
 using Microsoft.Xna.Framework;
 using Mono.Cecil;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using AwfulGarbageMod;
-using AwfulGarbageMod.Global;
-using AwfulGarbageMod.Items.Placeable.OresBars;
+using static Redemption;
 
 namespace AwfulGarbageMod.Items.Accessories
 {
     public class CelestitePlating : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			// DisplayName.SetDefault("Necro Aegis"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting player line.
-			// Tooltip.SetDefault("79 damage\n10 defense\nIncreases defense the lower your health, up to a max of 30 defense below 30% health\nIncreases health healed by potions the lower your health, up to a max of 30% extra health below 15% health\nGrants immunity to knockback, most debuffs, and fire blocks\nIncreases life regeneration\nTaking damage causes you to release powerful bone toothpicks");
-		}
+    {
+        public static LocalizedText RedemptionEffect { get; private set; }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (ModLoader.TryGetMod("Redemption", out Mod mod))
+            {
+                Player player = Main.LocalPlayer;
+                TooltipLine tooltip = new TooltipLine(Mod, "RedemptionEffect", RedemptionEffect.Format());
+                tooltips.Add(tooltip);
+            }
+        }
 
-		public int counter;
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Contact Lens"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+            // Tooltip.SetDefault("24% increased critical strike damage");
+            RedemptionEffect = this.GetLocalization(nameof(RedemptionEffect));
 
-		public override void SetDefaults()
+        }
+
+        public override void SetDefaults()
 		{
 			Item.width = 20;
 			Item.height = 20;
@@ -40,6 +54,11 @@ namespace AwfulGarbageMod.Items.Accessories
             player.GetDamage(DamageClass.Magic) += 0.04f;
             player.magicCuffs = true;
             player.manaMagnet = true;
+            if (ModLoader.TryGetMod("Redemption", out Mod mod))
+            {
+                IncreaseElementalResistance(player, ElementID.Celestial, 0.08f, mod);
+                IncreaseElementalResistance(player, ElementID.Earth, 0.08f, mod);
+            }
         }
 
 
